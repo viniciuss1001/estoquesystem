@@ -45,7 +45,7 @@ const LoginPage = () => {
 	const loading = form.formState.isSubmitting
 
 	return (
-		<div className='min-h-screen flex items-center justify-center px-4'>
+		<div className='min-h-screen flex items-center justify-center px-4 w-full'>
 			<Card className='w-full max-w-md shadow-xl rounded-sm'>
 				<CardHeader>
 					<CardTitle className='text-2xl text-center font-semibold '>

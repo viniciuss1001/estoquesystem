@@ -20,9 +20,9 @@ const MainLayoutDashboard = () => {
 	})
 
   return (
-	 <main className='w-full pl-6 pr-6 pb-6 pt-4 space-y-6'>
+	 <main className='w-full pl-6 pr-6 pb-6 pt-4 space-y-6 '>
 		<NavbarComponents />
-		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
+		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2'>
 			<InfoCard 
 			title='Total de Produtos'
 			total={`${isLoading ? "..." : data?.totalProducts}`}

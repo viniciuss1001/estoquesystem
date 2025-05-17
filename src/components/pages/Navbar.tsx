@@ -7,6 +7,9 @@ import { LogOut, Mail, Plus, User, UserLock, UserPlus } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { ModeThemeToggle } from '../shared/theme-toggle'
 import { SidebarTrigger } from '../ui/sidebar'
+import NotificationComponent from '../shared/notify'
+import CreateProductModal from '../shared/create-product-modal'
+import CreateSupplierModal from '../shared/create-supplier-modal'
 
 const NavbarComponents = () => {
 
@@ -20,20 +23,21 @@ const NavbarComponents = () => {
 				</Button>
 				<div className='w-full flex'>
 					<p className='flex text-center  font-medium'>
-						Bem-vindo, {session?.user.name}
+						<span className='hidden lg:flex'>
+							Bem-vindo, {" "}
+						</span>
+						 {session?.user.name}
 					</p>
 				</div>
 				<div className='flex ml-auto gap-2'>
-					<Button variant='ghost' className='flex p-2 cursor-pointer'>
-						<Plus />
-						Criar Produto
-					</Button>
-					<Button variant='ghost' className='flex p-2 cursor-pointer'>
-						<UserPlus />
-						Criar Fornecedor
-					</Button>
+					{/* create product */}
+					<CreateProductModal />
+					{/* create Supplier */}
+					<CreateSupplierModal />
 
 					<ModeThemeToggle />
+
+					<NotificationComponent />
 
 				</div>
 				<MenubarTrigger className='cursor-pointer pl-4'>

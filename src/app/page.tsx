@@ -5,7 +5,7 @@ import SidebarComponent from "@/components/pages/Sidebar";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen w-[300px, 1fr]  w-full">
       <SidebarComponent />
       <MainLayoutDashboard />
     </div>
