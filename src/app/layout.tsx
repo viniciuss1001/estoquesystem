@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Providers } from "@/providers/use-session";
 import { ThemeProvider } from "@/components/shared/theme-provider";
+import ReactQueryProvider from "@/providers/react-query-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,8 +41,10 @@ export default function RootLayout({
 
           <SidebarProvider>
             <Providers>
+              <ReactQueryProvider>
 
-              {children}
+                {children}
+              </ReactQueryProvider>
             </Providers>
             <Toaster richColors position="top-center" />
           </SidebarProvider>

@@ -90,7 +90,7 @@ model Supplier {
   name         String
   email        String
   contactPhone String
-  deliveryTime Int
+  deliveryTime DateTime
   description  String
   products     Product[]
   createdAt    DateTime  @default(now())

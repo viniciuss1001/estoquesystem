@@ -7133,18 +7133,8 @@ export namespace Prisma {
 
   export type AggregateSupplier = {
     _count: SupplierCountAggregateOutputType | null
-    _avg: SupplierAvgAggregateOutputType | null
-    _sum: SupplierSumAggregateOutputType | null
     _min: SupplierMinAggregateOutputType | null
     _max: SupplierMaxAggregateOutputType | null
-  }
-
-  export type SupplierAvgAggregateOutputType = {
-    deliveryTime: number | null
-  }
-
-  export type SupplierSumAggregateOutputType = {
-    deliveryTime: number | null
   }
 
   export type SupplierMinAggregateOutputType = {
@@ -7152,7 +7142,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     contactPhone: string | null
-    deliveryTime: number | null
+    deliveryTime: Date | null
     description: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7163,7 +7153,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     contactPhone: string | null
-    deliveryTime: number | null
+    deliveryTime: Date | null
     description: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7181,14 +7171,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type SupplierAvgAggregateInputType = {
-    deliveryTime?: true
-  }
-
-  export type SupplierSumAggregateInputType = {
-    deliveryTime?: true
-  }
 
   export type SupplierMinAggregateInputType = {
     id?: true
@@ -7262,18 +7244,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: SupplierAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: SupplierSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: SupplierMinAggregateInputType
@@ -7304,8 +7274,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SupplierCountAggregateInputType | true
-    _avg?: SupplierAvgAggregateInputType
-    _sum?: SupplierSumAggregateInputType
     _min?: SupplierMinAggregateInputType
     _max?: SupplierMaxAggregateInputType
   }
@@ -7315,13 +7283,11 @@ export namespace Prisma {
     name: string
     email: string
     contactPhone: string
-    deliveryTime: number
+    deliveryTime: Date
     description: string
     createdAt: Date
     updatedAt: Date
     _count: SupplierCountAggregateOutputType | null
-    _avg: SupplierAvgAggregateOutputType | null
-    _sum: SupplierSumAggregateOutputType | null
     _min: SupplierMinAggregateOutputType | null
     _max: SupplierMaxAggregateOutputType | null
   }
@@ -7404,7 +7370,7 @@ export namespace Prisma {
       name: string
       email: string
       contactPhone: string
-      deliveryTime: number
+      deliveryTime: Date
       description: string
       createdAt: Date
       updatedAt: Date
@@ -7836,7 +7802,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Supplier", 'String'>
     readonly email: FieldRef<"Supplier", 'String'>
     readonly contactPhone: FieldRef<"Supplier", 'String'>
-    readonly deliveryTime: FieldRef<"Supplier", 'Int'>
+    readonly deliveryTime: FieldRef<"Supplier", 'DateTime'>
     readonly description: FieldRef<"Supplier", 'String'>
     readonly createdAt: FieldRef<"Supplier", 'DateTime'>
     readonly updatedAt: FieldRef<"Supplier", 'DateTime'>
@@ -8865,7 +8831,7 @@ export namespace Prisma {
     name?: StringFilter<"Supplier"> | string
     email?: StringFilter<"Supplier"> | string
     contactPhone?: StringFilter<"Supplier"> | string
-    deliveryTime?: IntFilter<"Supplier"> | number
+    deliveryTime?: DateTimeFilter<"Supplier"> | Date | string
     description?: StringFilter<"Supplier"> | string
     createdAt?: DateTimeFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeFilter<"Supplier"> | Date | string
@@ -8892,7 +8858,7 @@ export namespace Prisma {
     name?: StringFilter<"Supplier"> | string
     email?: StringFilter<"Supplier"> | string
     contactPhone?: StringFilter<"Supplier"> | string
-    deliveryTime?: IntFilter<"Supplier"> | number
+    deliveryTime?: DateTimeFilter<"Supplier"> | Date | string
     description?: StringFilter<"Supplier"> | string
     createdAt?: DateTimeFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeFilter<"Supplier"> | Date | string
@@ -8909,10 +8875,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SupplierCountOrderByAggregateInput
-    _avg?: SupplierAvgOrderByAggregateInput
     _max?: SupplierMaxOrderByAggregateInput
     _min?: SupplierMinOrderByAggregateInput
-    _sum?: SupplierSumOrderByAggregateInput
   }
 
   export type SupplierScalarWhereWithAggregatesInput = {
@@ -8923,7 +8887,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Supplier"> | string
     email?: StringWithAggregatesFilter<"Supplier"> | string
     contactPhone?: StringWithAggregatesFilter<"Supplier"> | string
-    deliveryTime?: IntWithAggregatesFilter<"Supplier"> | number
+    deliveryTime?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
     description?: StringWithAggregatesFilter<"Supplier"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
@@ -9341,7 +9305,7 @@ export namespace Prisma {
     name: string
     email: string
     contactPhone: string
-    deliveryTime: number
+    deliveryTime: Date | string
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9353,7 +9317,7 @@ export namespace Prisma {
     name: string
     email: string
     contactPhone: string
-    deliveryTime: number
+    deliveryTime: Date | string
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9365,7 +9329,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     contactPhone?: StringFieldUpdateOperationsInput | string
-    deliveryTime?: IntFieldUpdateOperationsInput | number
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9377,7 +9341,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     contactPhone?: StringFieldUpdateOperationsInput | string
-    deliveryTime?: IntFieldUpdateOperationsInput | number
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9389,7 +9353,7 @@ export namespace Prisma {
     name: string
     email: string
     contactPhone: string
-    deliveryTime: number
+    deliveryTime: Date | string
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9400,7 +9364,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     contactPhone?: StringFieldUpdateOperationsInput | string
-    deliveryTime?: IntFieldUpdateOperationsInput | number
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9411,7 +9375,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     contactPhone?: StringFieldUpdateOperationsInput | string
-    deliveryTime?: IntFieldUpdateOperationsInput | number
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9886,10 +9850,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type SupplierAvgOrderByAggregateInput = {
-    deliveryTime?: SortOrder
-  }
-
   export type SupplierMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -9910,10 +9870,6 @@ export namespace Prisma {
     description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type SupplierSumOrderByAggregateInput = {
-    deliveryTime?: SortOrder
   }
 
   export type SupplierCreateNestedOneWithoutProductsInput = {
@@ -10398,7 +10354,7 @@ export namespace Prisma {
     name: string
     email: string
     contactPhone: string
-    deliveryTime: number
+    deliveryTime: Date | string
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10409,7 +10365,7 @@ export namespace Prisma {
     name: string
     email: string
     contactPhone: string
-    deliveryTime: number
+    deliveryTime: Date | string
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10464,7 +10420,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     contactPhone?: StringFieldUpdateOperationsInput | string
-    deliveryTime?: IntFieldUpdateOperationsInput | number
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10475,7 +10431,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     contactPhone?: StringFieldUpdateOperationsInput | string
-    deliveryTime?: IntFieldUpdateOperationsInput | number
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
