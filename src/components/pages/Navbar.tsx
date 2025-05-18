@@ -3,13 +3,13 @@ import { useSession } from 'next-auth/react'
 import { Menubar } from '@/components/ui/menubar'
 import { MenubarContent, MenubarMenu, MenubarTrigger } from '@radix-ui/react-menubar'
 import { Button } from '../ui/button'
-import { LogOut, Mail, Plus, User, UserLock, UserPlus } from 'lucide-react'
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
+import { CarFront, LogOut, Mail, User, UserLock } from 'lucide-react'
 import { ModeThemeToggle } from '../shared/theme-toggle'
 import { SidebarTrigger } from '../ui/sidebar'
 import NotificationComponent from '../shared/notify'
 import CreateProductModal from '../shared/create-product-modal'
 import CreateSupplierModal from '../shared/create-supplier-modal'
+import { Card, CardContent, CardFooter } from '../ui/card'
 
 const NavbarComponents = () => {
 
@@ -43,27 +43,27 @@ const NavbarComponents = () => {
 				<MenubarTrigger className='cursor-pointer pl-4'>
 					<User />
 				</MenubarTrigger>
-				<MenubarContent className=''>
-					<Card>
+				<MenubarContent className='z-10'>
+					<Card className=''>
 						<CardContent>
-							<Button variant='ghost' className='flex disabled justify-start pt-2 w-full'>
+							<div className='flex disabled justify-start gap-2 mt-2 p-2 w-full'>
 								<User className='size-5' />
-								<span className='text-xs'>
+								<span className='text-sm flex ml-2'>
 									{session?.user.name}
 								</span>
-							</Button>
-							<Button variant='ghost' className='flex disabled justify-start  pt-2 w-full'>
+							</div>
+							<div className='flex disabled justify-start gap-2 mt-2 p-2 w-full'>
 								<Mail className='size-5' />
-								<span className='text-xs'>
+								<span className='text-sm flex ml-2'>
 									{session?.user.email}
 								</span>
-							</Button>
-							<Button variant='ghost' className='flex disabled justify-start  pt-2 w-full'>
+							</div>
+							<div className='flex disabled justify-start gap-2 mt-4 p-3 w-full bg-blue-900 rounded-md'>
 								<UserLock className='size-5' />
-								<span className='text-xs'>
+								<span className='text-sm flex ml-2'>
 									{session?.user.office}
 								</span>
-							</Button>
+							</div>
 						</CardContent>
 						<CardFooter>
 							<Button variant='ghost' className='flex text-red-500  pt-2 cursor-pointer w-full'>

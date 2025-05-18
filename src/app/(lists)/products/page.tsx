@@ -19,7 +19,6 @@ interface Product {
   }
 }
 
-
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
@@ -29,7 +28,6 @@ const ProductsPage = () => {
       .get("/product")
       .then((response) => {
         setProducts(response.data ?? [])
-        console.log(response)
       })
       .catch(() => {
         toast.error("Erro ao carregar os fornecedores.")
