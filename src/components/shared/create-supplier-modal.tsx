@@ -61,7 +61,7 @@ const CreateSupplierModal = () => {
 
 		} catch (error) {
 			toast.error("Erro ao criar fornecedor.")
-
+			console.log(error)
 		}
 	}
 

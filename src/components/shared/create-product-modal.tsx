@@ -1,18 +1,17 @@
 "use client"
 
+import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
-import axios from "axios"
+import { Loader2, Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Button } from "../ui/button"
-import { Loader2, Plus } from "lucide-react"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
-import { Select, SelectContent, SelectTrigger, SelectValue } from "../ui/select"
-import { SelectItem } from "@radix-ui/react-select"
 
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
@@ -23,7 +22,10 @@ const formSchema = z.object({
 })
 
 const CreateProductModal = () => {
+
 	const [open, setOpen] = useState(false)
+
+	const router = useRouter()
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -32,34 +34,38 @@ const CreateProductModal = () => {
 			sku: '',
 			quantity: 0,
 			price: 0,
-			category: ''
+			category: ""
 		}
 	})
 
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
 		try {
-			await axios.post("/api/product", data)
+			await api.post("/product", data)
 			toast.success("Produto criado com sucesso!")
+			router.refresh()
 
 			form.reset()
 			setOpen(false)
 
 		} catch (error) {
 			toast.error("Erro ao criar produto.")
+			console.log(error)
 		}
 	}
 
 	const categorys = ['Alimento', 'Recepção', "Limpeza", "Suítes", "Escritório"]
 
+
+
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
+		<Dialog open={open} onOpenChange={setOpen} >
 			<DialogTrigger asChild>
 				<Button variant='ghost' className='flex p-2 cursor-pointer'>
 					<Plus />
 					Criar Produto
 				</Button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent forceMount>
 				<DialogHeader>
 					<DialogTitle>
 						Adicionar novo Produto
@@ -118,29 +124,24 @@ const CreateProductModal = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Categoria</FormLabel>
-									<Select onValueChange={field.onChange} defaultValue={field.value}>
-										<FormControl>
-											<SelectTrigger className="cursor-pointer">
-												<SelectValue placeholder="Selecione a categoria" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent >
-											{categorys.map((cat) => (
-												<SelectItem key={cat} value={cat}
-												className="flex items-center justify-start p-2 cursor-pointer"
-												>
-													{cat}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
+									<select
+										{...field}
+										className="w-full border border-gray-300 rounded-md p-2"
+									>
+										<option value="" className="bg-background">Selecione uma categoria</option>
+										{categorys.map((cat) => (
+											<option key={cat} value={cat} className="bg-background">
+												{cat}
+											</option>
+										))}
+									</select>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 						<DialogFooter>
 							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
-								{form.formState.isSubmitting ? <Loader2 className="animate-spin"/> : 'Salvar'}
+								{form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
 							</Button>
 						</DialogFooter>
 					</form>

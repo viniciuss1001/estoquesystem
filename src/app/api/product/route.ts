@@ -1,26 +1,29 @@
+import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma"
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
 	try {
-		const token = req.headers.get("authorization")?.replace("Bearer ", "")
-		if(!token){
-			return NextResponse.json({error: "Não autorizado"}, {status: 401})
+		const session = await getServerSession(authOptions);
+
+		if (!session || session.user.office !== "ADMIN") {
+			return new Response("Unauthorized", { status: 401 });
 		}
 
-		const {name, sku, quantity, price, category} = await req.json()
+		const body = await req.json();
 
 		const product = await prisma.product.create({
 			data: {
-				name, 
-				sku, 
-				quantity: Number(quantity),
-				price: Number(price),
-				category
-			}
-		})
+				name: body.name,
+				sku: body.sku,
+				price: body.price,
+				quantity: body.quantity,
+				category: body.category || null,
+			},
+		});
 
-		return NextResponse.json(product)
+		return Response.json(product, { status: 201 });
 
 	} catch (error) {
 		console.error(error)
@@ -31,11 +34,11 @@ export async function POST(req: NextRequest) {
 export async function GET() {
 	try {
 		const products = await prisma.product.findMany({
-			orderBy: {createdAt: "desc"}
+			orderBy: { createdAt: "desc" }
 		})
 
 		return NextResponse.json(products)
 	} catch (error) {
-		
+
 	}
 }
