@@ -43,8 +43,8 @@ const CreateProductModal = () => {
 			await api.post("/product", data)
 			toast.success("Produto criado com sucesso!")
 			router.refresh()
-
 			form.reset()
+			
 			setOpen(false)
 
 		} catch (error) {

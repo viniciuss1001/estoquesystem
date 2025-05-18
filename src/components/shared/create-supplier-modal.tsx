@@ -1,7 +1,6 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -11,15 +10,18 @@ import { Button } from "../ui/button"
 import { Loader2, UserPlus } from "lucide-react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import api from "@/lib/axios"
+import { Checkbox } from "../ui/checkbox"
+import { useRouter } from "next/navigation"
+
 
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
 	email: z.string().email().min(1, "Email é obrigatório."),
 	contactPhone: z.string().min(8, "O telefone é obrigatório."),
-	deliveryTime: z.string().min(1, "Informe o prazo de entraga."),
+	deliveryTime: z.coerce.date(),
 	description: z.string().optional(),
-	productId: z.string().min(1, "Selecione um produto")
+	products: z.array(z.string()).min(1, "Selecione pelo menos um produto"),
 })
 
 const CreateSupplierModal = () => {
@@ -32,17 +34,19 @@ const CreateSupplierModal = () => {
 			name: '',
 			email: '',
 			contactPhone: '',
-			deliveryTime: '',
+			deliveryTime: new Date(),
 			description: '',
-			productId: '',
+			products: [],
 		}
 	})
+
+	const router = useRouter()
 
 	//load products
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
-				const response = await axios.get("/api/product")
+				const response = await api.get("/product")
 				setProducts(response.data)
 
 			} catch (error) {
@@ -56,9 +60,12 @@ const CreateSupplierModal = () => {
 
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
 		try {
-			await axios.post("/api/supplier", data)
+			await api.post("/supplier", data)
 			toast.success("Fonecedor criado com sucesso!")
-
+			router.refresh()
+			form.reset()
+			
+			setOpen(false)
 		} catch (error) {
 			toast.error("Erro ao criar fornecedor.")
 			console.log(error)
@@ -115,13 +122,27 @@ const CreateSupplierModal = () => {
 						<FormField
 							control={form.control}
 							name="deliveryTime"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Prazo de entrega</FormLabel>
-									<FormControl><Input {...field} placeholder="Ex: 5 dias úteis" /></FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
+							render={({ field }) => {
+								
+								const formattedDate = field.value ? field.value.toISOString().substring(0, 10) : "";
+
+								return (
+									<FormItem>
+										<FormLabel>Prazo de entrega</FormLabel>
+										<FormControl>
+											<Input
+												type="date"
+												value={formattedDate}
+												onChange={(e) => {
+													const date = e.target.value ? new Date(e.target.value) : null;
+													field.onChange(date);
+												}}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								);
+							}}
 						/>
 						<FormField
 							control={form.control}
@@ -134,28 +155,44 @@ const CreateSupplierModal = () => {
 								</FormItem>
 							)}
 						/>
+
 						<FormField
 							control={form.control}
-							name="productId"
-							render={({ field }) => (
+							name="products"
+							render={() => (
 								<FormItem>
-									<FormLabel>Produto Comercializado</FormLabel>
-									<Select onValueChange={field.onChange} defaultValue={field.value}>
-										<FormControl>
-											<SelectTrigger className="cursor-pointer">
-												<SelectValue placeholder="Selecione um produto" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{products.map((product) => (
-												<SelectItem key={product.id} value={product.id}
-												className="flex items-center justify-start p-2 cursor-pointer"
-												>
-													{product.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
+									<FormLabel>Produtos Comercializados</FormLabel>
+									<div className="grid gap-2">
+										{products.map((product) => (
+											<FormField
+												key={product.id}
+												control={form.control}
+												name="products"
+												render={({ field }) => {
+													return (
+														<FormItem
+															key={product.id}
+															className="flex flex-row items-start space-x-2 space-y-0"
+														>
+															<FormControl>
+																<Checkbox
+																	checked={field.value?.includes(product.id)}
+																	onCheckedChange={(checked) => {
+																		if (checked) {
+																			field.onChange([...field.value, product.id])
+																		} else {
+																			field.onChange(field.value?.filter((id: string) => id !== product.id))
+																		}
+																	}}
+																/>
+															</FormControl>
+															<FormLabel className="font-normal">{product.name}</FormLabel>
+														</FormItem>
+													)
+												}}
+											/>
+										))}
+									</div>
 									<FormMessage />
 								</FormItem>
 							)}
