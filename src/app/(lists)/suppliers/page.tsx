@@ -27,7 +27,7 @@ const SupplierPage = () => {
 			.catch(() => {
 				toast.error("Erro ao carregar os fornecedores.")
 			})
-	})
+	},[])
 
 	return (
 		<div className="p-6">
