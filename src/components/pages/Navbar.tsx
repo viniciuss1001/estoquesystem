@@ -7,7 +7,7 @@ import { CarFront, LogOut, Mail, User, UserLock } from 'lucide-react'
 import { ModeThemeToggle } from '../shared/theme-toggle'
 import { SidebarTrigger } from '../ui/sidebar'
 import NotificationComponent from '../shared/notify'
-import CreateProductModal from '../shared/create-product-modal'
+import CreateProductModal from './product/create-product-modal'
 import CreateSupplierModal from '../shared/create-supplier-modal'
 import { Card, CardContent, CardFooter } from '../ui/card'
 

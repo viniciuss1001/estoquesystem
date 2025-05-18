@@ -1,5 +1,5 @@
 "use client"
-import EditProductModal from "@/components/shared/product-edit-modal"
+import EditProductModal from "@/components/pages/product/product-edit-modal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"

@@ -13,7 +13,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../../ui/dialog"
 import AlertDialogDeleteProduct from "./alert-dialog-delete-product"
 
 
