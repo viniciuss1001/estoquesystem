@@ -55,3 +55,17 @@ export async function POST(req: Request) {
     return new NextResponse("Erro ao criar fornecedor", { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    const suppliers = await prisma.supplier.findMany({
+      orderBy: {createdAt: "desc"}
+    })
+
+    return NextResponse.json({suppliers})
+
+  } catch (error) {
+    console.error('Erro ao buscar fornecedores:', error);
+    return new NextResponse('Erro ao buscar fornecedores', { status: 500 })
+  }
+}
