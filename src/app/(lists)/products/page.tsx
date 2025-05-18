@@ -1,6 +1,9 @@
 "use client"
+import EditProductModal from "@/components/shared/product-edit-modal"
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
@@ -51,6 +54,8 @@ const ProductsPage = () => {
             <TableHead>Categoria</TableHead>
             <TableHead>Fornecedor</TableHead>
             <TableHead>Criado em</TableHead>
+            <TableHead>Ações</TableHead>
+            <TableHead>Detalhes</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -68,11 +73,21 @@ const ProductsPage = () => {
               <TableRow key={product.id} className="">
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.sku}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
+                <TableCell className="flex justify-center ">{product.quantity}</TableCell>
                 <TableCell>R$ {product.price.toFixed(2)}</TableCell>
                 <TableCell>{product.category ?? "-"}</TableCell>
                 <TableCell>{product.supplier?.name ?? "-"}</TableCell>
                 <TableCell>{new Date(product.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell >
+                  <EditProductModal 
+                  productId={product.id}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Link href={`/products/${product.id}`}>
+                  Detalhes
+                  </Link>
+                </TableCell>
               </TableRow>
             ))
           )}

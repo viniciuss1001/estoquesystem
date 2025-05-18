@@ -1,4 +1,6 @@
+import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
@@ -18,8 +20,11 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
 
 	try {
-		const token = req.headers.get("authorization")?.replace("Bearer ", "")
-		if (!token) return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
+		const session = await getServerSession(authOptions);
+
+		if (!session || session.user.office !== "ADMIN") {
+			return new Response("Unauthorized", { status: 401 });
+		}
 
 		const body = await req.json()
 
@@ -44,8 +49,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
 	try {
-		const token = req.headers.get("authorization")?.replace("Bearer ", "")
-		if (!token) return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
+		const session = await getServerSession(authOptions);
+
+		if (!session || session.user.office !== "ADMIN") {
+			return new Response("Unauthorized", { status: 401 });
+		}
 
 		await prisma.product.delete({ where: { id: params.id } })
 

@@ -12,6 +12,8 @@ import { Button } from "../ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
+import { categorys } from "@/types/cetegories"
+
 
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
@@ -20,6 +22,7 @@ const formSchema = z.object({
 	price: z.coerce.number().min(0),
 	category: z.string().min(1, "Categoria é obrigatória.")
 })
+
 
 const CreateProductModal = () => {
 
@@ -52,9 +55,6 @@ const CreateProductModal = () => {
 			console.log(error)
 		}
 	}
-
-	const categorys = ['Alimento', 'Recepção', "Limpeza", "Suítes", "Escritório"]
-
 
 
 	return (

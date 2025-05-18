@@ -1,0 +1,1 @@
+export const categorys = ['Alimento', 'Recepção', "Limpeza", "Suítes", "Escritório"]
