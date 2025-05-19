@@ -45,10 +45,10 @@ const CreateProductModal = () => {
 		try {
 			await api.post("/product", data)
 			toast.success("Produto criado com sucesso!")
-			router.refresh()
 			form.reset()
 			
 			setOpen(false)
+			router.refresh()
 
 		} catch (error) {
 			toast.error("Erro ao criar produto.")

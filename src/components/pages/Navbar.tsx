@@ -23,9 +23,9 @@ const NavbarComponents = () => {
 					<SidebarTrigger className='size-6 pr-4 cursor-pointer w-7 h-7' />
 				</Button>
 				<div className='w-full flex'>
-					<p className='flex text-center  font-medium'>
+					<p className='flex text-center gap-2 font-medium'>
 						<span className='hidden lg:flex'>
-							Bem-vindo, {" "}
+							Bem-vindo, 
 						</span>
 						 {session?.user.name}
 					</p>

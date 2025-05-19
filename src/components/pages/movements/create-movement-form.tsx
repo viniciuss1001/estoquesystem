@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2, Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -19,7 +20,7 @@ const movementSchema = z.object({
 	type: z.enum(["IN", "OUT", "TRANSFER"], {
 		required_error: "Tipo de movimentação é obrigatório.",
 	}),
-	quantity: z.number().min(1, "Quantidade deve ser maior que 0."),
+	quantity: z.coerce.number().min(1, "Quantidade deve ser maior que 0.").positive(),
 	notes: z.string().optional(),
 	origin: z.string().optional(),
 	destination: z.string().optional(),
@@ -51,6 +52,9 @@ interface Product {
 }
 
 const CreateMovementForm = () => {
+	const [open, setOpen] = useState(false)
+	const [products, setProducts] = useState<Product[]>([])
+	const router = useRouter()
 
 	const form = useForm<MovementFormType>({
 		resolver: zodResolver(movementSchema),
@@ -64,7 +68,6 @@ const CreateMovementForm = () => {
 		}
 	})
 
-	const [products, setProducts] = useState<Product[]>([])
 
 	const watchType = form.watch("type")
 
@@ -78,14 +81,18 @@ const CreateMovementForm = () => {
 		try {
 			await api.post("/movements", data)
 			toast.success("Movimentação registrada com sucesso.")
+			router.refresh()
 			form.reset()
+
+			setOpen(false)
+			
 		} catch (error) {
 			toast.error("Erro ao registrar movimentação.")
 		}
 	}
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger>
 				<Button variant='default' className='flex p-2 cursor-pointer'>
 					<Plus />
@@ -94,7 +101,10 @@ const CreateMovementForm = () => {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					Adicionar nova Movimentação
+					<DialogTitle>
+
+						Adicionar nova Movimentação
+					</DialogTitle>
 				</DialogHeader>
 
 				<Form {...form}>

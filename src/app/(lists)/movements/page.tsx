@@ -1,8 +1,10 @@
 "use client"
 
 import CreateMovementForm from '@/components/pages/movements/create-movement-form'
+import EditMovementModal from '@/components/pages/movements/edit-movement-modal'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import api from '@/lib/axios'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -28,7 +30,7 @@ const MovementsPage = () => {
     api.get("/movements")
       .then((response) => {
         setMovements(response.data.movements)
-        console.log(response.data.movements)
+      
       })
       .catch((error) => {
         toast.error("Erro ao carregar movimentações.")
@@ -67,22 +69,30 @@ const MovementsPage = () => {
               </TableCell>
             </TableRow>
           ) : (
-            movements.map((m) => (
-              <TableRow key={m.id}>
-                <TableCell>{m.product?.name ?? "-"}</TableCell>
+            movements.map((movement) => (
+              <TableRow key={movement.id}>
+                <TableCell>{movement.product?.name ?? "-"}</TableCell>
                 <TableCell>
-                  {m.type === "IN"
+                  {movement.type === "IN"
                     ? "Entrada"
-                    : m.type === "OUT"
+                    : movement.type === "OUT"
                       ? "Saída"
                       : "Transferência"}
                 </TableCell>
-                <TableCell>{m.quantity}</TableCell>
-                <TableCell>{m.origin || "-"}</TableCell>
-                <TableCell>{m.destination || "-"}</TableCell>
-                <TableCell>{m.notes || "-"}</TableCell>
+                <TableCell>{movement.quantity}</TableCell>
+                <TableCell>{movement.origin || "-"}</TableCell>
+                <TableCell>{movement.destination || "-"}</TableCell>
+                <TableCell>{movement.notes || "-"}</TableCell>
                 <TableCell>
-                  {new Date(m.createdAt).toLocaleDateString()}
+                  {new Date(movement.createdAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  <EditMovementModal movementId={movement.id} />
+                </TableCell>
+                <TableCell>
+                  <Link href={`/movements/${movement.id}`}>
+                    Detalhes
+                  </Link>
                 </TableCell>
               </TableRow>
             ))

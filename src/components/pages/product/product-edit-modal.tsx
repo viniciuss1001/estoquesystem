@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
@@ -13,7 +12,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../../ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
 
 
@@ -30,7 +29,7 @@ interface EditProductModalProps {
 	productId: string
 }
 
-const EditProductModal = ({productId}: EditProductModalProps) => {
+const EditProductModal = ({ productId }: EditProductModalProps) => {
 
 	const router = useRouter()
 	const [loading, setLoading] = useState(true)
@@ -88,7 +87,7 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 			setLoading(false)
 			console.log(error)
 		}
-		
+
 	}
 
 	if (loading) {
@@ -103,12 +102,12 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 		<div className="p-6 max-w-2xl mx-auto">
 			<Dialog >
 				<DialogTrigger className="p-0 m-0 cursor-pointer">
-					<Pencil className="size-4"/>
+					<Pencil className="size-4" />
 				</DialogTrigger>
 				<DialogContent >
 					<DialogHeader className="flex justify-start items-center gap-3">
 
-						<CardTitle>Detalhes do Produto</CardTitle>
+						<DialogTitle>Detalhes do Produto</DialogTitle>
 					</DialogHeader>
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -181,9 +180,9 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 							/>
 
 							<div className="flex items-center justify-between pt-4 gap-2">
-								<AlertDialogDelete 
-								type="Produto"
-								onDelete={onDelete}
+								<AlertDialogDelete
+									type="Produto"
+									onDelete={onDelete}
 								/>
 								<Button type="submit" className="cursor-pointer flex rounded-sm w-2/4">
 									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
