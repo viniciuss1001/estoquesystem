@@ -1,11 +1,10 @@
-"use client"
-
+import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
 import { CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
-import { categorys } from "@/types/cetegories"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -13,25 +12,21 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../../ui/dialog"
-import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
-
 
 const formSchema = z.object({
-	name: z.string().min(1, "Nome obrigatório."),
-	price: z.coerce.number().nonnegative("Preço inválido"),
-	quantity: z.coerce.number().int().nonnegative("Quantidade inválida"),
-	category: z.string().optional(),
+	name: z.string().min(1, "Nome do fornecedor é obrigatório."),
+	email: z.string().email().min(1, "Email é obrigatório."),
+	contactPhone: z.string().min(8, "O telefone é obrigatório."),
+	description: z.string().optional()
 })
 
 type FormValues = z.infer<typeof formSchema>
 
-interface EditProductModalProps {
-	productId: string
+interface EditSupplierModalProps {
+	supplierId: string
 }
 
-const EditProductModal = ({productId}: EditProductModalProps) => {
-
+const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 	const router = useRouter()
 	const [loading, setLoading] = useState(true)
 
@@ -39,25 +34,25 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: "",
-			price: 0,
-			quantity: 0,
-			category: ""
+			email: "",
+			contactPhone: "",
+			description: ""
 		}
 	})
 
 	useEffect(() => {
-		api.get(`/product/${productId}`)
+		api.get(`/supplier/${supplierId}`)
 			.then((response) => {
-				const product = response.data
+				const supplier = response.data
 				form.reset({
-					name: product.name,
-					price: product.price,
-					quantity: product.quantity,
-					category: product.category ?? "",
+					name: supplier.name,
+					email: supplier.email,
+					contactPhone: supplier.contactPhone,
+					description: supplier.description
 				})
 			})
 			.catch(() => {
-				toast.error("Erro ao buscar produto.")
+				toast.error("Erro ao buscar fornecedor.")
 			})
 			.finally(() => {
 				setLoading(false)
@@ -66,29 +61,29 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 
 	const onSubmit = async (data: FormValues) => {
 		try {
-			await api.patch(`/product/${productId}`, data)
-			toast.success("Produto atualizado com sucesso!")
+			await api.put(`/supplier/${supplierId}`)
+			toast.success("Fornecedor atualizado com sucesso!")
+
 
 		} catch (error) {
-			toast.error("Erro ao atualizar produto.")
+			toast.error("Erro ao atualizar fornecedor.")
 		}
 	}
-
 	const onDelete = async () => {
 		try {
 			setLoading(true)
-			await api.delete(`/product/${productId}`)
+			await api.delete(`/supplier/${supplierId}`)
 			setLoading(false)
 
-			toast.success("Produto deletado com sucesso.")
+			toast.success("Fornecedor deletado com sucesso.")
 			router.refresh()
 
 		} catch (error) {
-			toast.error("Erro ao deletar produto.")
+			toast.error("Erro ao deletar fornecedor.")
 			setLoading(false)
 			console.log(error)
 		}
-		
+
 	}
 
 	if (loading) {
@@ -101,22 +96,23 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 
 	return (
 		<div className="p-6 max-w-2xl mx-auto">
-			<Dialog >
+			<Dialog>
 				<DialogTrigger className="p-0 m-0 cursor-pointer">
-					<Pencil className="size-4"/>
+					<Pencil className="size-4" />
 				</DialogTrigger>
 				<DialogContent >
 					<DialogHeader className="flex justify-start items-center gap-3">
 
-						<CardTitle>Detalhes do Produto</CardTitle>
+						<CardTitle>Detalhes do Fornecedor</CardTitle>
 					</DialogHeader>
-					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+
+					<Form {...form} >
+						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<FormField
 								control={form.control}
 								name="name"
 								render={({ field }) => (
-									<FormItem>
+									<FormItem className="mb-4">
 										<FormLabel>Nome</FormLabel>
 										<FormControl>
 											<Input {...field} />
@@ -126,15 +122,15 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 								)}
 							/>
 
-							<div className="grid grid-cols-2 gap-4">
+							<div className="grid grid-cols-2 gap-4 mt-4">
 								<FormField
 									control={form.control}
-									name="price"
+									name="email"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Preço</FormLabel>
+											<FormLabel>Email</FormLabel>
 											<FormControl>
-												<Input type="number" {...field} />
+												<Input  {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -143,37 +139,27 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 
 								<FormField
 									control={form.control}
-									name="quantity"
+									name="contactPhone"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Quantidade</FormLabel>
+											<FormLabel>Telefone</FormLabel>
 											<FormControl>
-												<Input type="number" {...field} />
+												<Input  {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
 									)}
 								/>
 							</div>
-
 							<FormField
+
 								control={form.control}
-								name="category"
+								name="description"
 								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Categoria</FormLabel>
+									<FormItem className="mt-4">
+										<FormLabel>Descrição</FormLabel>
 										<FormControl>
-											<select
-												{...field}
-												className="w-full border border-gray-300 rounded-md p-2"
-											>
-												<option value="" className="bg-background">Selecione uma categoria</option>
-												{categorys.map((cat) => (
-													<option key={cat} value={cat} className="bg-background">
-														{cat}
-													</option>
-												))}
-											</select>
+											<Input  {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -181,15 +167,18 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 							/>
 
 							<div className="flex items-center justify-between pt-4 gap-2">
-								<AlertDialogDelete 
-								type="Produto"
-								onDelete={onDelete}
-								/>
-								<Button type="submit" className="cursor-pointer flex rounded-sm w-2/4">
+								<AlertDialogDelete
+									type="Fornecedor"
+									onDelete={onDelete} />
+								<Button
+									type="submit"
+									className="cursor-pointer flex rounded-sm w-2/4">
 									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
 								</Button>
 							</div>
+
 						</form>
+
 					</Form>
 				</DialogContent>
 			</Dialog>
@@ -197,4 +186,4 @@ const EditProductModal = ({productId}: EditProductModalProps) => {
 	)
 }
 
-export default EditProductModal
+export default EditSupplierModal

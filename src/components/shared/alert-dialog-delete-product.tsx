@@ -1,21 +1,22 @@
 "use client"
 
 import { Trash2 } from "lucide-react"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog"
-import { Button } from "../../ui/button"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog"
+import { Button } from "../ui/button"
 
 interface AlertDialogDeleteProductProps {
 	onDelete: () => void
+	type?: string
 }
 
 
-const AlertDialogDeleteProduct = ({onDelete}: AlertDialogDeleteProductProps) => {
+const AlertDialogDelete = ({onDelete, type}: AlertDialogDeleteProductProps) => {
 
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger>
 				<Button type="button" variant="destructive" className="cursor-pointer">
-					Excluir produto
+					Excluir {type}
 				</Button>
 			</AlertDialogTrigger>
 
@@ -42,4 +43,4 @@ const AlertDialogDeleteProduct = ({onDelete}: AlertDialogDeleteProductProps) => 
 	)
 }
 
-export default AlertDialogDeleteProduct
+export default AlertDialogDelete

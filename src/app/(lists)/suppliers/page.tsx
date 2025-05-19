@@ -1,8 +1,10 @@
 "use client"
 
+import EditSupplierModal from "@/components/pages/supplier/edit-supplier-modal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
@@ -27,7 +29,7 @@ const SupplierPage = () => {
 			.catch(() => {
 				toast.error("Erro ao carregar os fornecedores.")
 			})
-	},[])
+	}, [])
 
 	return (
 		<div className="p-6">
@@ -42,6 +44,7 @@ const SupplierPage = () => {
 						<TableHead>Prazo de Entrega</TableHead>
 						<TableHead>Descrição</TableHead>
 						<TableHead>Ações</TableHead>
+						<TableHead>Detalhes</TableHead>
 					</TableRow>
 				</TableHeader>
 
@@ -64,13 +67,12 @@ const SupplierPage = () => {
 							</TableCell>
 							<TableCell>{supplier.description || "-"}</TableCell>
 							<TableCell>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => alert(`Editar fornecedor ${supplier.name}`)}
-								>
-									Editar
-								</Button>
+								<EditSupplierModal supplierId={supplier.id} />
+							</TableCell>
+							<TableCell>
+								<Link href={`/suppliers/${supplier.id}`}>
+									Detalhes
+								</Link>
 							</TableCell>
 						</TableRow>
 					))}
