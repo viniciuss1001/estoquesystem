@@ -88,7 +88,7 @@ const ProductPage = () => {
 				<span className="font-bold ">
 					Categoria: {" "}
 				</span>
-				<div className="pl-3 pr-3 pt-1 pb-1  mr-3 flex rounded-sm bg-blue-800 text-sm">
+				<div className="pl-3 pr-3 pt-1 pb-1 text-white mr-3 flex rounded-sm bg-blue-800 text-sm">
 					{product?.category}
 				</div>
 			</div>
