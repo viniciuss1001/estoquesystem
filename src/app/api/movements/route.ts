@@ -67,3 +67,26 @@ export async function POST(req: NextRequest) {
 		return new NextResponse("Erro interno do servidor", { status: 500 })
 	}
 }
+export async function GET() {
+	const session = await getServerSession(authOptions)
+
+	if (!session) {
+		return new NextResponse("Não autorizado", { status: 401 });
+	}
+
+	try {
+
+		const movements = await prisma.stockMovement.findMany({
+			orderBy: {createdAt: "desc"},
+			include: {
+				product: true
+			}
+		})
+
+		return NextResponse.json({movements})
+
+	} catch (error) {
+		console.error("Erro ao buscar movimentações.", error);
+		return new NextResponse("Erro interno do servidor", { status: 500 });
+	}
+}

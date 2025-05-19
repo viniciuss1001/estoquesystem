@@ -1,12 +1,14 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2, Plus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -83,69 +85,112 @@ const CreateMovementForm = () => {
 	}
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-				<FormField
-					control={form.control}
-					name="productId"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Produto</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
-								<FormControl>
-									<SelectTrigger>
-										<SelectValue placeholder="Selecione o produto" />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									{products.map(product => (
-										<SelectItem key={product.id} value={product.id}>
-											{product.name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+		<Dialog>
+			<DialogTrigger>
+				<Button variant='default' className='flex p-2 cursor-pointer'>
+					<Plus />
+					Criar Movimentação
+				</Button>
+			</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					Adicionar nova Movimentação
+				</DialogHeader>
 
-				{/* type */}
-				<FormField
-					control={form.control}
-					name="type"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Tipo de movimentação</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
-								<FormControl>
-									<SelectTrigger>
-										<SelectValue placeholder="Selecione o tipo" />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									<SelectItem value="IN">Entrada</SelectItem>
-									<SelectItem value="OUT">Saída</SelectItem>
-									<SelectItem value="TRANSFER">
-										Movimentação
-									</SelectItem>
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+						<div className="flex gap-2 justify-between">
+							<FormField
+								control={form.control}
+								name="productId"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Produto</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value} >
+											<FormControl className="w-full">
+												<SelectTrigger className="w-full">
+													<SelectValue placeholder="Selecione o produto" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{products.map(product => (
+													<SelectItem key={product.id} value={product.id}>
+														{product.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
-				{watchType === "TRANSFER" && (
-					<>
+							{/* type */}
+							<FormField
+								control={form.control}
+								name="type"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Tipo de movimentação</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o tipo" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="IN">Entrada</SelectItem>
+												<SelectItem value="OUT">Saída</SelectItem>
+												<SelectItem value="TRANSFER">
+													Movimentação
+												</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+
+						{watchType === "TRANSFER" && (
+							<>
+								<FormField
+									control={form.control}
+									name="origin"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Origem</FormLabel>
+											<FormControl>
+												<Input placeholder="Origem" {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="destination"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Destino</FormLabel>
+											<FormControl>
+												<Input placeholder="Destino" {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</>
+						)}
+
 						<FormField
 							control={form.control}
-							name="origin"
+							name="quantity"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Origem</FormLabel>
+									<FormLabel>Quantidade</FormLabel>
 									<FormControl>
-										<Input placeholder="Origem" {...field} />
+										<Input type="number" placeholder="Quantidade" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -156,64 +201,39 @@ const CreateMovementForm = () => {
 							name="destination"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Destino</FormLabel>
+									<FormLabel>Destino (opcional)</FormLabel>
 									<FormControl>
-										<Input placeholder="Destino" {...field} />
+										<Input placeholder="Ex: Recepção, Almoxarifado" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
-					</>
-				)}
 
-				<FormField
-					control={form.control}
-					name="quantity"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Quantidade</FormLabel>
-							<FormControl>
-								<Input type="number" placeholder="Quantidade" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="destination"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Destino (opcional)</FormLabel>
-							<FormControl>
-								<Input placeholder="Ex: Recepção, Almoxarifado" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name="notes"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Observações</FormLabel>
-							<FormControl>
-								<Textarea placeholder="Alguma observação?" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+						<FormField
+							control={form.control}
+							name="notes"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Observações</FormLabel>
+									<FormControl>
+										<Textarea placeholder="Alguma observação?" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
 
-				<Button type="submit">
-					Criar Movimentação
-				</Button>
-			</form>
-		</Form>
+						<DialogFooter>
+							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
+								{form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
+							</Button>
+						</DialogFooter>
+					</form>
+				</Form>
+			</DialogContent>
+		</Dialog>
 	)
 }
 
