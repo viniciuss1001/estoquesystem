@@ -1,5 +1,10 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
@@ -9,12 +14,30 @@ import { z } from "zod"
 
 const movementSchema = z.object({
 	productId: z.string().min(1, "Produto é obrigatório."),
-	type: z.enum(["IN", "OUT"], {
-		required_error: "Selecione um tipo de movimentação"
+	type: z.enum(["IN", "OUT", "TRANSFER"], {
+		required_error: "Tipo de movimentação é obrigatório.",
 	}),
-	quantity: z.coerce.number().positive("Quantidade deve ser maior que 0."),
+	quantity: z.number().min(1, "Quantidade deve ser maior que 0."),
+	notes: z.string().optional(),
+	origin: z.string().optional(),
 	destination: z.string().optional(),
-	notes: z.string().optional()
+}).superRefine((data, ctx) => {
+	if (data.type === "TRANSFER") {
+		if (!data.origin) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: "Origem é obrigatória em transferências.",
+				path: ["origin"],
+			});
+		}
+		if (!data.destination) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: "Destino é obrigatório em transferências.",
+				path: ["destination"],
+			});
+		}
+	}
 })
 
 type MovementFormType = z.infer<typeof movementSchema>
@@ -33,21 +56,164 @@ const CreateMovementForm = () => {
 			productId: "",
 			type: "IN",
 			quantity: 1,
+			origin: "",
 			destination: "",
-			notes: ""
+			notes: "",
 		}
 	})
 
-	const [products, setProducts] = useState<Product []>([])
+	const [products, setProducts] = useState<Product[]>([])
 
-	 useEffect(() => {
-    api.get("/product")
-      .then(res => setProducts(res.data))
-      .catch(() => toast.error("Erro ao carregar os produtos"))
-  }, [])
+	const watchType = form.watch("type")
+
+	useEffect(() => {
+		api.get("/product")
+			.then(res => setProducts(res.data))
+			.catch(() => toast.error("Erro ao carregar os produtos"))
+	}, [])
+
+	const onSubmit = async (data: MovementFormType) => {
+		try {
+			await api.post("/movements", data)
+			toast.success("Movimentação registrada com sucesso.")
+			form.reset()
+		} catch (error) {
+			toast.error("Erro ao registrar movimentação.")
+		}
+	}
 
 	return (
-		<div>CreateMovementForm</div>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				<FormField
+					control={form.control}
+					name="productId"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Produto</FormLabel>
+							<Select onValueChange={field.onChange} value={field.value}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder="Selecione o produto" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{products.map(product => (
+										<SelectItem key={product.id} value={product.id}>
+											{product.name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* type */}
+				<FormField
+					control={form.control}
+					name="type"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Tipo de movimentação</FormLabel>
+							<Select onValueChange={field.onChange} value={field.value}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder="Selecione o tipo" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectItem value="IN">Entrada</SelectItem>
+									<SelectItem value="OUT">Saída</SelectItem>
+									<SelectItem value="TRANSFER">
+										Movimentação
+									</SelectItem>
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{watchType === "TRANSFER" && (
+					<>
+						<FormField
+							control={form.control}
+							name="origin"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Origem</FormLabel>
+									<FormControl>
+										<Input placeholder="Origem" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="destination"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Destino</FormLabel>
+									<FormControl>
+										<Input placeholder="Destino" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</>
+				)}
+
+				<FormField
+					control={form.control}
+					name="quantity"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Quantidade</FormLabel>
+							<FormControl>
+								<Input type="number" placeholder="Quantidade" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="destination"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Destino (opcional)</FormLabel>
+							<FormControl>
+								<Input placeholder="Ex: Recepção, Almoxarifado" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="notes"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Observações</FormLabel>
+							<FormControl>
+								<Textarea placeholder="Alguma observação?" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+
+				<Button type="submit">
+					Criar Movimentação
+				</Button>
+			</form>
+		</Form>
 	)
 }
 
