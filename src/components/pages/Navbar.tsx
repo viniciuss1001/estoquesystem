@@ -3,13 +3,14 @@ import { useSession } from 'next-auth/react'
 import { Menubar } from '@/components/ui/menubar'
 import { MenubarContent, MenubarMenu, MenubarTrigger } from '@radix-ui/react-menubar'
 import { Button } from '../ui/button'
-import { LogOut, Mail, User, UserLock } from 'lucide-react'
+import { Mail, User, UserLock } from 'lucide-react'
 import { ModeThemeToggle } from '../shared/theme-toggle'
 import { SidebarTrigger } from '../ui/sidebar'
 import NotificationComponent from '../shared/notify'
 import CreateProductModal from './product/create-product-modal'
 import CreateSupplierModal from '@/components/pages/supplier/create-supplier-modal'
 import { Card, CardContent, CardFooter } from '../ui/card'
+import { LogoutButton } from '../shared/logout-button'
 
 const NavbarComponents = () => {
 
@@ -66,10 +67,7 @@ const NavbarComponents = () => {
 							</div>
 						</CardContent>
 						<CardFooter>
-							<Button variant='ghost' className='flex text-red-500  pt-2 cursor-pointer w-full'>
-								<LogOut />
-								Sair
-							</Button>
+							<LogoutButton />
 						</CardFooter>
 					</Card>
 				</MenubarContent>
