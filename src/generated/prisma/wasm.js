@@ -20,11 +20,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
+ * Prisma Client JS version: 6.8.1
  * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
+  client: "6.8.1",
   engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
 }
 
@@ -169,11 +169,12 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.StockMovementScalarFieldEnum = {
   id: 'id',
+  productId: 'productId',
   type: 'type',
   quantity: 'quantity',
-  originId: 'originId',
-  destinationId: 'destinationId',
-  productId: 'productId',
+  origin: 'origin',
+  destination: 'destination',
+  notes: 'notes',
   createdAt: 'createdAt'
 };
 
@@ -208,9 +209,9 @@ exports.Office = exports.$Enums.Office = {
 };
 
 exports.MovementType = exports.$Enums.MovementType = {
-  ENTRADA: 'ENTRADA',
-  SAIDA: 'SAIDA',
-  TRANSFERENCIA: 'TRANSFERENCIA'
+  IN: 'IN',
+  OUT: 'OUT',
+  TRANSFER: 'TRANSFER'
 };
 
 exports.Prisma.ModelName = {
