@@ -1,5 +1,6 @@
 "use client"
 
+import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -88,6 +89,7 @@ const EditMovementModal = ({ movementId }: EditMovementModalProps) => {
 			setLoading(false)
 
 			toast.success("Movimentação deletada com sucesso.")
+			router.push("/movements")
 			router.refresh()
 
 		} catch (error) {
@@ -204,9 +206,15 @@ const EditMovementModal = ({ movementId }: EditMovementModalProps) => {
 								)}
 							/>
 
-							<Button type="submit" className="w-full">
-								Salvar alterações
-							</Button>
+							<div className="flex items-center justify-between pt-4 gap-2">
+								<AlertDialogDelete
+									type="Movimentação"
+									onDelete={onDelete}
+								/>
+								<Button type="submit" className="cursor-pointer flex rounded-sm w-2/4">
+									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+								</Button>
+								</div>
 						</form>
 					</Form>
 				</DialogContent>

@@ -92,3 +92,25 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		return NextResponse.json({ error: "Erro ao atualizar Movimentação" }, { status: 500 })
 	}
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+
+	try {
+		const session = await getServerSession(authOptions);
+
+		if (!session || session.user.office !== "ADMIN") {
+			return new Response("Unauthorized", { status: 401 });
+		}
+
+		await prisma.stockMovement.delete({
+			where: {id: params.id}
+		})
+
+		return NextResponse.json({ mensagem: "Produto deletado com sucesso" })
+		
+	} catch (error) {
+		console.error(error)
+		return NextResponse.json({ error: "Erro ao deletar movimentação." }, { status: 500 })
+	}
+	
+}
