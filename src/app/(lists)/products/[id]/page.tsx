@@ -119,7 +119,7 @@ const ProductPage = () => {
 						Criado em: {" "}
 					</span>
 					<span >
-						{product?.createdAt}
+						{new Date(product?.createdAt ?? '').toLocaleDateString()}
 					</span>
 				</div>
 				<div>
@@ -127,7 +127,7 @@ const ProductPage = () => {
 						Alterado em: {" "}
 					</span>
 					<span >
-						{product?.updatedAt}
+						{new Date(product?.updatedAt ?? '').toLocaleDateString()}
 					</span>
 				</div>
 			</div>

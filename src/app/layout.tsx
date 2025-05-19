@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -7,15 +7,11 @@ import { Providers } from "@/providers/use-session";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import ReactQueryProvider from "@/providers/react-query-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const roboto = Roboto({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
 
 export const metadata: Metadata = {
   title: "EstoqueSystem",
@@ -30,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={roboto.className}
       >
         <ThemeProvider
           attribute="class"

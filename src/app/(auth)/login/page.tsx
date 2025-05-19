@@ -36,7 +36,7 @@ const LoginPage = () => {
 
 		if (res?.ok) {
 			toast.success("Login bem sucedido!")
-			router.push("/")
+			router.push("/dashboard")
 		} else {
 			alert("Credenciais inválidas")
 		}
