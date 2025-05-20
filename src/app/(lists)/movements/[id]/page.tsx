@@ -96,6 +96,27 @@ const MovementPage = () => {
           </span>
         </div>
       </div>
+      <h3 className="mt-4 p-2 w-full border rounded-md">
+				<span className="font-bold">
+					Quantidade:
+				</span>
+				{" "}{movement?.quantity} unidade(s).
+			</h3>
+      <h3 className="mt-4 p-2 w-full border rounded-md">
+				<span className="font-bold">
+					Anotações:
+				</span>
+				{" "}{movement?.notes} unidade(s).
+			</h3>
+      <div className="mt-4 p-2 w-full border rounded-md">
+					<span className="font-bold m-1">
+						Criado em: {" "}
+					</span>
+					<span >
+						{new Date(movement?.createdAt ?? '').toLocaleDateString()}
+					</span>
+				</div>
+
     </div>
   )
 }
