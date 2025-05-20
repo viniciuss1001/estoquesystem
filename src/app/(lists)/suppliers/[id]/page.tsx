@@ -82,11 +82,11 @@ const SupplierPage = () => {
         </div>
         <div>
           <span className="font-bold  m-1">
-					Telefone: {" "}
-				</span>
-				<span >
-					{supplier?.contactPhone}
-				</span>
+            Telefone: {" "}
+          </span>
+          <span >
+            {supplier?.contactPhone}
+          </span>
         </div>
       </div>
       <div className="flex gap-2 mt-4">
@@ -98,11 +98,11 @@ const SupplierPage = () => {
         </div>
       </div>
       <h3 className="mt-4 ">
-				<span className="font-bold">
-					Descrição:
-				</span>
-				{" "} {supplier?.description}
-			</h3>
+        <span className="font-bold">
+          Descrição:
+        </span>
+        {" "} {supplier?.description}
+      </h3>
     </div>
   )
 }
