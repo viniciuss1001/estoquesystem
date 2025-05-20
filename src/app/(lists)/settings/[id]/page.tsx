@@ -53,6 +53,7 @@ const SettingsPage = () => {
           </span>
           <span >
             {session?.user.office}
+            {}
           </span>
         </div>
         <EditUserModal userId={session?.user.id ?? ""}/>

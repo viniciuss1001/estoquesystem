@@ -1,18 +1,23 @@
-import React from 'react'
+"use client"
 import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
 import { Home, Package, RefreshCw, Settings, Truck, Users } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
-const navItems = [
-	{ label: "Dashboard", icon: Home, href: "/dashboard" },
-	{ label: "Produtos", icon: Package, href: "/products" },
-	{ label: "Movimentações", icon: RefreshCw, href: "/movements" },
-	{ label: "Fornecedores", icon: Truck, href: "/suppliers" },
-	{ label: "Usuários", icon: Users, href: "/users" },
-	{ label: "Configurações", icon: Settings, href: "/settings" },
-]
 
 const SidebarComponent = () => {
+	const { data: session } = useSession()
+
+	const userId = session?.user.id
+
+	const navItems = [
+		{ label: "Dashboard", icon: Home, href: "/dashboard" },
+		{ label: "Produtos", icon: Package, href: "/products" },
+		{ label: "Movimentações", icon: RefreshCw, href: "/movements" },
+		{ label: "Fornecedores", icon: Truck, href: "/suppliers" },
+		{ label: "Usuários", icon: Users, href: "/users" },
+		{ label: "Configurações", icon: Settings, href: `/settings/${userId}` },
+	]
 	return (
 		<Sidebar className='flex items-center gap-4 mt-3'>
 			<SidebarHeader className='h-15 pt-6'>

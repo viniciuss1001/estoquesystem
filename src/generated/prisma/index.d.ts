@@ -5041,9 +5041,9 @@ export namespace Prisma {
     emailVerified: Date | null
     password: string
     office: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone: string | null
+    department: string | null
+    description: string | null
     image: string | null
     createdAt: Date
     updatedAt: Date
@@ -5151,9 +5151,9 @@ export namespace Prisma {
       emailVerified: Date | null
       password: string
       office: $Enums.Office
-      phone: string
-      department: string
-      description: string
+      phone: string | null
+      department: string | null
+      description: string | null
       image: string | null
       createdAt: Date
       updatedAt: Date
@@ -8744,9 +8744,9 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     password?: StringFilter<"User"> | string
     office?: EnumOfficeFilter<"User"> | $Enums.Office
-    phone?: StringFilter<"User"> | string
-    department?: StringFilter<"User"> | string
-    description?: StringFilter<"User"> | string
+    phone?: StringNullableFilter<"User"> | string | null
+    department?: StringNullableFilter<"User"> | string | null
+    description?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -8761,9 +8761,9 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     password?: SortOrder
     office?: SortOrder
-    phone?: SortOrder
-    department?: SortOrder
-    description?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8781,9 +8781,9 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     password?: StringFilter<"User"> | string
     office?: EnumOfficeFilter<"User"> | $Enums.Office
-    phone?: StringFilter<"User"> | string
-    department?: StringFilter<"User"> | string
-    description?: StringFilter<"User"> | string
+    phone?: StringNullableFilter<"User"> | string | null
+    department?: StringNullableFilter<"User"> | string | null
+    description?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -8798,9 +8798,9 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     password?: SortOrder
     office?: SortOrder
-    phone?: SortOrder
-    department?: SortOrder
-    description?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8819,9 +8819,9 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     password?: StringWithAggregatesFilter<"User"> | string
     office?: EnumOfficeWithAggregatesFilter<"User"> | $Enums.Office
-    phone?: StringWithAggregatesFilter<"User"> | string
-    department?: StringWithAggregatesFilter<"User"> | string
-    description?: StringWithAggregatesFilter<"User"> | string
+    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    department?: StringNullableWithAggregatesFilter<"User"> | string | null
+    description?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -9222,9 +9222,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9239,9 +9239,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9256,9 +9256,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9273,9 +9273,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9290,9 +9290,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9305,9 +9305,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9320,9 +9320,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10592,9 +10592,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10608,9 +10608,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10640,9 +10640,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10656,9 +10656,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10672,9 +10672,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10688,9 +10688,9 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     password: string
     office?: $Enums.Office
-    phone: string
-    department: string
-    description: string
+    phone?: string | null
+    department?: string | null
+    description?: string | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10720,9 +10720,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10736,9 +10736,9 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     office?: EnumOfficeFieldUpdateOperationsInput | $Enums.Office
-    phone?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

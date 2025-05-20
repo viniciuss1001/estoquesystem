@@ -4,12 +4,56 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
 	try {
 		const session = await getServerSession(authOptions)
 
 		if (!session?.user) {
-			return NextResponse.json({ error: "Acesso não autorizado." }, {status: 401})
+			return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 })
+		}
+
+		const userIdFromSession = session.user.id
+		const userOffice = session.user.office
+		const userIdToFetch = params.id
+
+		// Só permite o próprio usuário ou um admin acessar os dados
+		if (userIdFromSession !== userIdToFetch && userOffice !== "ADMIN") {
+			return NextResponse.json({ error: "Acesso negado." }, { status: 403 })
+		}
+
+		const user = await prisma.user.findUnique({
+			where: { id: userIdToFetch },
+			select: {
+				id: true,
+				name: true,
+				email: true,
+				office: true,
+				phone: true,
+				department: true,
+				description: true,
+				image: true,
+				createdAt: true,
+				updatedAt: true,
+			},
+		})
+
+		if (!user) {
+			return NextResponse.json({ error: "Usuário não encontrado." }, { status: 404 })
+		}
+
+		return NextResponse.json({ user })
+	} catch (error) {
+		console.error("[GET USER ERROR]", error)
+		return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 })
+	}
+}
+
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+	try {
+		const session = await getServerSession(authOptions)
+
+		if (!session?.user) {
+			return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 })
 		}
 
 		const userIdFromSession = session.user.id
@@ -22,7 +66,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 		const body = await req.json()
 
-		const { name, email, password, office } = body
+		const { name, email, password, office, phone, department, description } = body
 
 		//if change password
 		let passwordHash
@@ -36,12 +80,15 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		const dataToUpdate: any = {
 			name,
 			email,
-			...(passwordHash && { password: passwordHash })
+			...(passwordHash && { password: passwordHash }),
+			phone,
+			department,
+			description
 		}
 
 		//only admin to change office
 		if (userOffice === "ADMIN" && office) {
-			dataToUpdate.office = office.toUppercase() === "ADMIN" ? "ADMIN" : "GESTOR"
+			dataToUpdate.office = office.toUpperCase() === "ADMIN" ? "ADMIN" : "GESTOR"
 		}
 
 		const updatedUser = await prisma.user.update({
