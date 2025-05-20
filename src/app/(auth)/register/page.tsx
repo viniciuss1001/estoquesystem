@@ -17,7 +17,10 @@ const formSchema = z.object({
 	password: z.string().min(6, "Mínino de 6 caracteres."),
 	office: z.enum(["ADMIN", "Gestor"], {
 		required_error: "Selecione o cargo."
-	})
+	}).optional(),
+	phone: z.string().min(8, "Telegone é obigatório"),
+	department: z.string().min(1, "Departamento é obrigatório."),
+	description: z.string().optional()
 })
 
 type RegisterFormValues = z.infer<typeof formSchema>
@@ -31,6 +34,9 @@ const RegisterPage = () => {
 			email: "",
 			password: "",
 			office: "Gestor",
+			phone: "",
+			department: "",
+			description: ""
 		}
 	})
 
@@ -55,13 +61,14 @@ const RegisterPage = () => {
 
 		} catch (error) {
 			toast.error("Erro ao criar conta.")
+			console.log(error)
 		}
 	}
 	const loading = form.formState.isSubmitting
 
 	return (
-		<div className="max-w-md mx-auto mt-10 p-6 rounded-xl">
-			<Card>
+		<div className="min-h-screen flex items-center justify-center px-4 w-full">
+			<Card className='w-full max-w-md shadow-xl rounded-sm'>
 				<CardHeader>
 					<CardTitle className="text-2xl text-center font-semibold">
 						Crie sua conta e aproveite!
@@ -100,6 +107,32 @@ const RegisterPage = () => {
 									</FormItem>
 								)}
 							/>
+							<FormField
+								control={form.control}
+								name="phone"
+								render={({ field }) => (
+									<FormItem className="mt-4">
+										<FormLabel>Telefone</FormLabel>
+										<FormControl>
+											<Input type="text" placeholder="(00) 0000-0000" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="department"
+								render={({ field }) => (
+									<FormItem className="mt-4">
+										<FormLabel>Departamento</FormLabel>
+										<FormControl>
+											<Input type="text" placeholder="Seu Departamento" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
 							<FormField
 								control={form.control}
@@ -114,8 +147,8 @@ const RegisterPage = () => {
 									</FormItem>
 								)}
 							/>
-
-							<FormField
+							
+							{/* <FormField
 								control={form.control}
 								name="office"
 								render={({ field }) => (
@@ -130,7 +163,7 @@ const RegisterPage = () => {
 										<FormMessage />
 									</FormItem>
 								)}
-							/>
+							/> */}
 
 							<Button type="submit" variant='default'
 								disabled={loading}

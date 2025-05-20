@@ -4,7 +4,7 @@ import { hashPassword } from "@/lib/auth"
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { name, email, password, office } = body
+  const { name, email, password, office, phone, department, description } = body
 
   if (!email || !password) {
     return NextResponse.json({ erro: "Email e senha são obrigatórios." }, { status: 400 })
@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
       email,
       password: senhaHash,
       office: office === "ADMIN" ? "ADMIN" : "GESTOR",
+      phone, 
+      department, 
+      description
     },
   })
 
