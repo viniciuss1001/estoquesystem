@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📦 Sistema de Gerenciamento de Estoque
 
-## Getting Started
+Este é um sistema completo de gerenciamento de estoque, desenvolvido com **Next.js**, **Prisma**, **PostgreSQL**, **React Query**, **TailwindCSS**, **shadcn/ui** e **NextAuth**. Ele permite o controle de produtos, movimentações de estoque, usuários e dashboards com gráficos históricos.
 
-First, run the development server:
+---
+
+## ✨ Funcionalidades
+
+- Autenticação com JWT via NextAuth
+- Gerenciamento de usuários (admin e gestor)
+- Cadastro, edição e remoção de produtos
+- Movimentações de estoque (entrada, saída, transferência)
+- Histórico de movimentações
+- Dashboards com indicadores e gráficos interativos
+- Interface moderna e responsiva com shadcn/ui
+
+---
+
+## 🧰 Tecnologias Utilizadas
+
+- **Next.js 14 (App Router)**
+- **TypeScript**
+- **TailwindCSS + shadcn/ui**
+- **Prisma ORM**
+- **PostgreSQL**
+- **NextAuth**
+- **Zod + React Hook Form**
+- **Axios + React Query**
+- **Recharts (gráficos)**
+
+---
+
+## 🚀 Instalação
+
+1. **Clone o repositório**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/viniciuss1001/estoquesys.git
+cd nome-do-repo
+```
+ 2. **Instale as Dependências**
+  ``` bash
+  pnpm install
+  ```
+
+3. **Configure o banco de Dados**
+```.env 
+DATABASE_URL="postgresql://user:password@localhost:5432/estoque"
+NEXTAUTH_SECRET="sua-chave-secreta"
+NEXTAUTH_URL="http://localhost:3000"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. **Execute as Migrations**
+```bash
+pnpm prisma migrate dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Dashboard
+**O dashboard exibe:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Total de produtos
+- Total de movimentações
+- Produtos com baixo estoque
+- Entregas próximas
+- Gráficos históricos (movimentações e produtos por mês)
