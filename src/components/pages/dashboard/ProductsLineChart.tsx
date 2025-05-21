@@ -10,7 +10,7 @@ const ProductsLineChart = () => {
   const { data, isLoading } = useProductsHistory()
 
   return (
-    <Card className="w-full">
+    <Card className="w-1/4 sm:w-full">
       <CardHeader>
         <CardTitle>Histórico de Produtos </CardTitle>
       </CardHeader>

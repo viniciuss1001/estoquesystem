@@ -7,6 +7,8 @@ import {
 } from "recharts"
 import api from "@/lib/axios"
 import { toast } from "sonner"
+import MainLayoutDashboard from "../Main"
+import SidebarComponent from "../Sidebar"
 
 interface DashboardData {
   totalProducts: number
@@ -59,30 +61,6 @@ export default function DashboardGraph() {
         </ResponsiveContainer>
       </div>
 
-      
-      <div className="bg-background rounded shadow p-4">
-        <h2 className="text-xl font-semibold mb-4">Movimentações ao longo do tempo (exemplo)</h2>
-        
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart
-            data={[
-              { date: "2025-05-01", movements: 5 },
-              { date: "2025-05-02", movements: 8 },
-              { date: "2025-05-03", movements: 6 },
-              { date: "2025-05-04", movements: 10 },
-              { date: "2025-05-05", movements: 7 },
-            ]}
-            margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-          >
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-            <Line type="monotone" dataKey="movements" stroke="#3b82f6" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
     </div>
   )
 }

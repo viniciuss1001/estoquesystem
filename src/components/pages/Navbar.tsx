@@ -7,10 +7,9 @@ import { Mail, User, UserLock } from 'lucide-react'
 import { ModeThemeToggle } from '../shared/theme-toggle'
 import { SidebarTrigger } from '../ui/sidebar'
 import NotificationComponent from '../shared/notify'
-import CreateProductModal from './product/create-product-modal'
-import CreateSupplierModal from '@/components/pages/supplier/create-supplier-modal'
 import { Card, CardContent, CardFooter } from '../ui/card'
 import { LogoutButton } from '../shared/logout-button'
+import CreatorGenericModal from '../shared/More-creator-modal'
 
 const NavbarComponents = () => {
 
@@ -31,10 +30,7 @@ const NavbarComponents = () => {
 					</p>
 				</div>
 				<div className='flex ml-auto gap-2'>
-					{/* create product */}
-					<CreateProductModal />
-					{/* create Supplier */}
-					<CreateSupplierModal />
+					<CreatorGenericModal />
 
 					<ModeThemeToggle />
 

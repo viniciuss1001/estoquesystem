@@ -10,7 +10,7 @@ const MovementsLineChart = () => {
   const { data, isLoading } = useMovementsHistory()
 
   return (
-    <Card className="w-full">
+    <Card className="w-1/4 sm:w-full">
       <CardHeader>
         <CardTitle>Histórico de Movimentações (últimos 6 meses)</CardTitle>
       </CardHeader>

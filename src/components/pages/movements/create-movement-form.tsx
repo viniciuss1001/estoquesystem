@@ -94,7 +94,7 @@ const CreateMovementForm = () => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger>
-				<Button variant='default' className='flex p-2 cursor-pointer'>
+				<Button variant='ghost' className='flex p-2 cursor-pointer'>
 					<Plus />
 					Criar Movimentação
 				</Button>
