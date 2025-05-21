@@ -6,6 +6,7 @@ import {useQuery} from '@tanstack/react-query'
 import { AlertTriangle, Clock, Loader, RefreshCw, TrendingUp } from 'lucide-react'
 import InfoCard from './InfoCard'
 import NavbarComponents from './Navbar'
+import DashboardGraph from './dashboard/graphics'
 
 const MainLayoutDashboard = () => {
 
@@ -51,6 +52,7 @@ const MainLayoutDashboard = () => {
 			iconClassname='text-yellow-700'
 			/>
 		</div>
+		<DashboardGraph />
 	 </main>
   )
 }
