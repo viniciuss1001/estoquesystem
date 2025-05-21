@@ -7,6 +7,8 @@ import { AlertTriangle, Clock, Loader, RefreshCw, TrendingUp } from 'lucide-reac
 import InfoCard from './InfoCard'
 import NavbarComponents from './Navbar'
 import DashboardGraph from './dashboard/graphics'
+import MovementsLineChart from './dashboard/MovementLineChart'
+import ProductsLineChart from './dashboard/ProductsLineChart'
 
 const MainLayoutDashboard = () => {
 
@@ -53,6 +55,8 @@ const MainLayoutDashboard = () => {
 			/>
 		</div>
 		<DashboardGraph />
+		<MovementsLineChart />
+		<ProductsLineChart />
 	 </main>
   )
 }

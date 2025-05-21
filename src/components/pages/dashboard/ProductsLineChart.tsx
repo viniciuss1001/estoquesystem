@@ -1,0 +1,38 @@
+// src/components/charts/MovementsLineChart.tsx
+"use client"
+
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Loader2 } from "lucide-react"
+import { useProductsHistory } from "@/hooks/useProductHistory"
+
+const ProductsLineChart = () => {
+  const { data, isLoading } = useProductsHistory()
+
+  return (
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Histórico de Produtos </CardTitle>
+      </CardHeader>
+      <CardContent className="h-64">
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full">
+            <Loader2 className="animate-spin" />
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="count" stroke="#2563eb" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
+
+export default ProductsLineChart
