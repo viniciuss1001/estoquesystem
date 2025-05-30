@@ -55,10 +55,11 @@ const MainLayoutDashboard = () => {
 				/>
 			</div>
 			<DashboardGraph />
-			<div className='w-full bg-blue-50 p-1 gap-2 flex flex-wrap'>
+			<div className='w-full  p-1 gap-2 flex flex-wrap'>
 				<MovementsLineChart />
 				<ProductsLineChart />
 			</div>
+			
 		</main>
 	)
 }
