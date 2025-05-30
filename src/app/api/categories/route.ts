@@ -1,0 +1,50 @@
+import { logAction } from "@/lib/audit";
+import { authOptions } from "@/lib/authOptions";
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(req: NextRequest) {
+	try {
+		const session = await getServerSession(authOptions);
+
+		if (!session || session.user.office !== "ADMIN") {
+			return new Response("Unauthorized", { status: 401 });
+		}
+
+		const body = await req.json()
+
+		const category = await prisma.category.create({
+			data: {
+				name: body.name
+			}
+		})
+		await logAction({
+			userId: session.user.id,
+			action: "create",
+			entity: "category",
+			entityId: category.id,
+			description: `Categoria criada: ${category.name}`
+		})
+
+		return NextResponse.json(category, { status: 201 })
+
+	} catch (error) {
+		console.error(error)
+		return NextResponse.json({ error: "Erro ao criar categoria" }, { status: 500 })
+	}
+
+}
+
+export async function GET() {
+	try {
+		const categories = await prisma.category.findMany({
+			orderBy: {name: "desc"}
+		})
+
+		return NextResponse.json(categories)
+
+	} catch (error) {
+		return NextResponse.json({ error: "Erro ao buscar categorias" }, { status: 500 })
+	}
+}

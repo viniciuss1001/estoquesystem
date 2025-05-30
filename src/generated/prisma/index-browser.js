@@ -126,10 +126,10 @@ exports.Prisma.ProductScalarFieldEnum = {
   sku: 'sku',
   quantity: 'quantity',
   price: 'price',
-  category: 'category',
   supplierId: 'supplierId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -202,6 +202,13 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -234,7 +241,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   StockMovement: 'StockMovement',
   Supplier: 'Supplier',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  Category: 'Category'
 };
 
 /**

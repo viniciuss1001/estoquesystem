@@ -13,7 +13,6 @@ const AuditLogs = () => {
     queryKey: ["audit-log"],
     queryFn: async () => {
       const res = await fetch("/api/audit-log");
-      console.log(res)
       return res.json();
     },
   });
