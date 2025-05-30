@@ -1,3 +1,4 @@
+import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -38,6 +39,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 				category: body.category,
 			}
 		})
+		await logAction({
+			userId: session.user.id,
+			action: "update",
+			entity: "product",
+			entityId: product.id,
+			description: `Produto alterado: ${product.name}`
+		})
 
 		return NextResponse.json(product)
 
@@ -56,6 +64,13 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 		}
 
 		await prisma.product.delete({ where: { id: params.id } })
+		await logAction({
+			userId: session.user.id,
+			action: "delete",
+			entity: "product",
+			entityId: params.id,
+			description: `Produto Deletado: ${params.id}`
+		})
 
 		return NextResponse.json({ mensagem: "Produto deletado com sucesso" })
 	} catch (error) {

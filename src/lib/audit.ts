@@ -22,7 +22,7 @@ export async function logAction({
 			},
 		})
 	}
-	catch(erro) {
+	catch (erro) {
 		console.log("Erro ao registrar auditoria ", erro)
 	}
 }
