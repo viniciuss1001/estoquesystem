@@ -72,6 +72,7 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 
 		return new NextResponse(null, { status: 204 })
 	} catch (error) {
-
+		console.error(error)
+		return NextResponse.json({ error: "Erro ao deletar categoria" }, { status: 500 })
 	}
 }
