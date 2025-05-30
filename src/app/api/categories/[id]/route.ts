@@ -64,7 +64,7 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 		})
 		await logAction({
 			userId: session.user.id,
-			action: "update",
+			action: "delete",
 			entity: "category",
 			entityId: params.id,
 			description: `Categoria deletada: ${params.id}}`
