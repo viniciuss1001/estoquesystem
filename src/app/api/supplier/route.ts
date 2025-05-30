@@ -1,3 +1,4 @@
+import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -48,6 +49,14 @@ export async function POST(req: Request) {
         },
       });
     }
+
+    await logAction({
+      userId: session.user.id,
+      action: "create",
+      entity: "supplier",
+      entityId: supplier.id,
+      description: `Fornecedor criado: ${supplier.name}`
+    })
 
     return NextResponse.json({ message: "Fornecedor criado com sucesso", supplier });
   } catch (error) {

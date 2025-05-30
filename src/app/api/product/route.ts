@@ -1,3 +1,4 @@
+import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma"
 import { getServerSession } from "next-auth";
@@ -22,6 +23,14 @@ export async function POST(req: NextRequest) {
 				category: body.category || null,
 			},
 		});
+
+		await logAction({
+			userId: session.user.id,
+			action: "create",
+			entity: "product",
+			entityId: product.id,
+			description: `Produto criado: ${product.name}`
+		})
 
 		return Response.json(product, { status: 201 });
 

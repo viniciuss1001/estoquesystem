@@ -1,3 +1,4 @@
+import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -59,6 +60,14 @@ export async function POST(req: NextRequest) {
 			});
 		}
 
+		await logAction({
+			userId: session?.user.id,
+			action: "create",
+			entity: "movement",
+			entityId: movement.id,
+			description: `Movimentação criada: ${type} de ${quantity} unidades`,
+		})
+
 		return NextResponse.json({ message: "Movimentação registrada com sucesso", movement })
 
 
@@ -77,13 +86,13 @@ export async function GET() {
 	try {
 
 		const movements = await prisma.stockMovement.findMany({
-			orderBy: {createdAt: "desc"},
+			orderBy: { createdAt: "desc" },
 			include: {
 				product: true
 			}
 		})
 
-		return NextResponse.json({movements})
+		return NextResponse.json({ movements })
 
 	} catch (error) {
 		console.error("Erro ao buscar movimentações.", error);
