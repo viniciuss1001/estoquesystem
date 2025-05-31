@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { categorys } from "@/types/cetegories"
+import { useQuery } from "@tanstack/react-query"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 const formSchema = z.object({
@@ -41,12 +42,20 @@ const CreateProductModal = () => {
 		}
 	})
 
+	const { data: categories = [], isLoading } = useQuery({
+		queryKey: ["categories"],
+		queryFn: async () => {
+			const response = await api.get("/categories")
+			return response.data
+		}
+	})
+
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
 		try {
 			await api.post("/product", data)
 			toast.success("Produto criado com sucesso!")
 			form.reset()
-			
+
 			setOpen(false)
 			router.refresh()
 
@@ -124,21 +133,29 @@ const CreateProductModal = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Categoria</FormLabel>
-									<select
-										{...field}
-										className="w-full border border-gray-300 rounded-md p-2"
+									<Select
+										onValueChange={field.onChange}
+										value={field.value}
+										disabled={isLoading}
 									>
-										<option value="" className="bg-background">Selecione uma categoria</option>
-										{categorys.map((cat) => (
-											<option key={cat} value={cat} className="bg-background">
-												{cat}
-											</option>
-										))}
-									</select>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Selecione uma categoria" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{categories.map((cat: { id: string; name: string }) => (
+												<SelectItem key={cat.id} value={cat.name}>
+													{cat.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
+
 						<DialogFooter>
 							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
 								{form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}

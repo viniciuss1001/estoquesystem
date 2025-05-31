@@ -4,10 +4,12 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest, context: { params: { id: string } }) {
+
+	const { id } = context.params
 
 	const product = await prisma.product.findUnique({
-		where: { id: params.id }
+		where: { id }
 	})
 
 	if (!product) {
@@ -18,9 +20,10 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
 
 	try {
+		const { id } = context.params
 		const session = await getServerSession(authOptions);
 
 		if (!session || session.user.office !== "ADMIN") {
@@ -30,7 +33,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		const body = await req.json()
 
 		const product = await prisma.product.update({
-			where: { id: params.id },
+			where: { id },
 			data: {
 				name: body.name,
 				sku: body.sku,
@@ -39,13 +42,17 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 				category: body.category,
 			}
 		})
-		await logAction({
-			userId: session.user.id,
-			action: "update",
-			entity: "product",
-			entityId: product.id,
-			description: `Produto alterado: ${product.name}`
-		})
+		try {
+			await logAction({
+				userId: session.user.id,
+				action: "update",
+				entity: "product",
+				entityId: product.id,
+				description: `Produto alterado: ${product.name}`
+			})
+		} catch (error) {
+			return NextResponse.json({ error: "Erro ao criar o log de alteração do produto." })
+		}
 
 		return NextResponse.json(product)
 
@@ -55,22 +62,28 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 	}
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
 	try {
+		const { id } = context.params
 		const session = await getServerSession(authOptions);
 
 		if (!session || session.user.office !== "ADMIN") {
 			return new Response("Unauthorized", { status: 401 });
 		}
 
-		await prisma.product.delete({ where: { id: params.id } })
-		await logAction({
-			userId: session.user.id,
-			action: "delete",
-			entity: "product",
-			entityId: params.id,
-			description: `Produto Deletado: ${params.id}`
-		})
+		await prisma.product.delete({ where: { id } })
+
+		try {
+			await logAction({
+				userId: session.user.id,
+				action: "delete",
+				entity: "product",
+				entityId: id,
+				description: `Produto Deletado: ${id}`
+			})
+		} catch (error) {
+			return NextResponse.json({ error: "Erro ao criar o log de deleção do produto." })
+		}
 
 		return NextResponse.json({ mensagem: "Produto deletado com sucesso" })
 	} catch (error) {

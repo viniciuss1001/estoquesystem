@@ -20,7 +20,11 @@ export async function POST(req: NextRequest) {
 				sku: body.sku,
 				price: body.price,
 				quantity: body.quantity,
-				category: body.category || null,
+				category: {
+					connect: {
+						name: body.category
+					},
+				},
 			},
 		});
 
