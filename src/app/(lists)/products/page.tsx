@@ -13,7 +13,12 @@ interface Product {
   sku: string
   quantity: string
   price: number
-  category?: string
+  category?:{
+    id: string
+    name: string
+    createdAt: string
+    updatedAt: string
+  }
   createdAt: string
   updatedAt: string
   supplier: {
@@ -75,7 +80,8 @@ const ProductsPage = () => {
                 <TableCell>{product.sku}</TableCell>
                 <TableCell className="flex justify-center ">{product.quantity}</TableCell>
                 <TableCell>R$ {product.price.toFixed(2)}</TableCell>
-                <TableCell>{product.category ?? "-"}</TableCell>
+                <TableCell>{product.category?.name ?? "-"}</TableCell>
+
                 <TableCell>{product.supplier?.name ?? "-"}</TableCell>
                 <TableCell>{new Date(product.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell >

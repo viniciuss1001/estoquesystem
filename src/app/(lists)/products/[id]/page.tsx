@@ -13,17 +13,22 @@ import { toast } from "sonner"
 
 interface Product {
 	id: string
-	name: string
-	sku: string
-	quantity: number
-	price: number
-	category?: string
-	createdAt: string
-	updatedAt: string
-	supplier: {
-		id: string
-		name: string
-	}
+  name: string
+  sku: string
+  quantity: string
+  price: number
+  category?:{
+    id: string
+    name: string
+    createdAt: string
+    updatedAt: string
+  }
+  createdAt: string
+  updatedAt: string
+  supplier: {
+    id: string
+    name: string
+  }
 }
 
 const ProductPage = () => {
@@ -81,7 +86,7 @@ const ProductPage = () => {
 					<h2 className="text-lg font-medium mb-2">Informações do Produto</h2>
 					<div className="space-y-2 text-sm text-gray-700 dark:text-white">
 						<p><span className="font-semibold">SKU:</span> {product.sku}</p>
-						<p><span className="font-semibold">Categoria:</span> {product.category ?? "Não definida"}</p>
+						<p><span className="font-semibold">Categoria:</span> {product.category?.name ?? "Não definida"}</p>
 						<p><span className="font-semibold">Quantidade em estoque:</span> {product.quantity} unidade(s)</p>
 						<p><span className="font-semibold">Preço:</span> R$ {product.price.toFixed(2)}</p>
 						<p><span className="font-semibold">Fornecedor:</span> {product.supplier?.name ?? "Não informado"}</p>
