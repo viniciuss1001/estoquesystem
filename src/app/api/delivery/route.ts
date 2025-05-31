@@ -35,6 +35,8 @@ export async function POST(req: NextRequest) {
 			description: `Entrega criada para o produto ${body.productId} com quantidade ${body.quantity}`
 		})
 
+		return NextResponse.json(delivery, {status: 201})
+
 
 	} catch (error) {
 		console.error(error)
