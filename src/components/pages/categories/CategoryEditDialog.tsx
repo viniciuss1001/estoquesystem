@@ -52,7 +52,7 @@ const CategoryEditDialog = ({ category }: CategoryEditDialogProps) => {
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger className="p-0 m-0 cursor-pointer">
+			<DialogTrigger className="cursor-pointer flex items-center justify-center bg-sidebar-accent rounded-sm p-2">
 				<Pencil className="size-4" />
 			</DialogTrigger>
 

@@ -14,6 +14,7 @@ import api from "@/lib/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import CategoryEditDialog from "./CategoryEditDialog";
+import { Trash2 } from "lucide-react";
 
 const CategoryList = () => {
   const queryClient = useQueryClient();
@@ -64,7 +65,7 @@ const CategoryList = () => {
               categories.map((category: any) => (
                 <TableRow key={category.id}>
                   <TableCell>{category.name}</TableCell>
-                  <TableCell className="text-right space-x-2">
+                  <TableCell className="text-right space-x-2 flex ml-auto gap-2 justify-end items-end">
                     
                     <CategoryEditDialog category={category} />
 
@@ -73,7 +74,9 @@ const CategoryList = () => {
                       variant="destructive"
                       size="sm"
                       onClick={() => deleteMutation.mutate(category.id)}
+                      className="flex gap-2 cursor-pointer"
                     >
+                      <Trash2 className="size-4"/>
                       Excluir
                     </Button>
                   </TableCell>

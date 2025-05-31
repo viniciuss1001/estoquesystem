@@ -19,13 +19,18 @@ export async function POST(req: NextRequest) {
 				name: body.name
 			}
 		})
-		await logAction({
-			userId: session.user.id,
-			action: "create",
-			entity: "category",
-			entityId: category.id,
-			description: `Categoria criada: ${category.name}`
-		})
+		try {
+			await logAction({
+				userId: session.user.id,
+				action: "create",
+				entity: "category",
+				entityId: category.id,
+				description: `Categoria criada: ${category.name}`
+			});
+		} catch (logError) {
+			console.error("Erro ao registrar log:", logError);
+		}
+
 
 		return NextResponse.json(category, { status: 201 })
 
@@ -39,7 +44,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
 	try {
 		const categories = await prisma.category.findMany({
-			orderBy: {name: "desc"}
+			orderBy: { name: "desc" }
 		})
 
 		return NextResponse.json(categories)

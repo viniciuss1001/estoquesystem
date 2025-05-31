@@ -1,6 +1,6 @@
 "use client"
 import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
-import { Home, Package, RefreshCw, Settings, Timer, Truck, Users } from 'lucide-react'
+import { Home, List, Package, RefreshCw, Settings, Timer, Truck, Users } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
@@ -16,7 +16,8 @@ const SidebarComponent = () => {
 		{ label: "Movimentações", icon: RefreshCw, href: "/movements" },
 		{ label: "Fornecedores", icon: Truck, href: "/suppliers" },
 		{ label: "Usuários", icon: Users, href: "/users" },
-		{label: "Histórico", icon:Timer, href: "/audit-log"},
+		{ label: "Histórico", icon: Timer, href: "/audit-log" },
+		{label: "Categorias", icon: List, href: "/categories" },
 		{ label: "Configurações", icon: Settings, href: `/settings/${userId}` },
 	]
 	return (

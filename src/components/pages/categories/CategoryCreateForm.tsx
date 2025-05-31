@@ -6,9 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
-import { Loader2 } from "lucide-react"
-import { useState } from "react"
+import api from "@/lib/axios"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -22,7 +20,6 @@ type FormValues = z.infer<typeof formSchema>
 
 const CategoryCreateForm = () => {
 
-	const [name, setName] = useState<string>("")
 	const queryClient = useQueryClient()
 
 	const form = useForm<FormValues>({
@@ -34,16 +31,17 @@ const CategoryCreateForm = () => {
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: async (values: FormValues) => {
-			const response = await axios.post("/categories", values);
-			return response.data;
+			const response = await api.post("/categories", values);
+			return response;
 		},
 		onSuccess: () => {
 			toast.success("Categoria criada com sucesso");
-			setName("");
 			queryClient.invalidateQueries({ queryKey: ["categories"] })
+			form.reset()
 		},
-		onError: () => {
+		onError: (error) => {
 			toast.error("Erro ao criar categoria")
+			console.log(error)
 		}
 	})
 
