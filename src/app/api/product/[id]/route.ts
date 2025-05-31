@@ -9,7 +9,11 @@ export async function GET(_: NextRequest, context: { params: { id: string } }) {
 	const { id } = context.params
 
 	const product = await prisma.product.findUnique({
-		where: { id }
+		where: { id },
+		include: {
+			category: true,
+			supplier: true
+		}
 	})
 
 	if (!product) {

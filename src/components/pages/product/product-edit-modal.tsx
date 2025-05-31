@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
-import { categorys } from "@/types/cetegories"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -14,6 +13,8 @@ import { toast } from "sonner"
 import { z } from "zod"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
+import { useQuery } from "@tanstack/react-query"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 const formSchema = z.object({
@@ -52,16 +53,25 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 					name: product.name,
 					price: product.price,
 					quantity: product.quantity,
-					category: product.category ?? "",
+					category: product.category?.id ?? "",
 				})
 			})
-			.catch(() => {
+			.catch((err) => {
 				toast.error("Erro ao buscar produto.")
+				console.log(err)
 			})
 			.finally(() => {
 				setLoading(false)
 			})
-	}, [])
+	}, [productId])
+
+	const { data: categories = [], isLoading } = useQuery({
+		queryKey: ["categories"],
+		queryFn: async () => {
+			const response = await api.get("/categories")
+			return response.data
+		}
+	})
 
 	const onSubmit = async (data: FormValues) => {
 		try {
@@ -161,19 +171,24 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Categoria</FormLabel>
-										<FormControl>
-											<select
-												{...field}
-												className="w-full border border-gray-300 rounded-md p-2"
-											>
-												<option value="" className="bg-background">Selecione uma categoria</option>
-												{categorys.map((cat) => (
-													<option key={cat} value={cat} className="bg-background">
-														{cat}
-													</option>
+										<Select
+											onValueChange={field.onChange}
+											value={field.value}
+											disabled={isLoading}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione uma categoria" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{categories.map((cat: { id: string; name: string }) => (
+													<SelectItem key={cat.id} value={cat.id}>
+														{cat.name}
+													</SelectItem>
 												))}
-											</select>
-										</FormControl>
+											</SelectContent>
+										</Select>
 										<FormMessage />
 									</FormItem>
 								)}
