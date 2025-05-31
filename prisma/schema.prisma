@@ -21,6 +21,7 @@ model Product {
   stockMovements StockMovement[]
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     String?
+  delivery       Delivery[]
 }
 
 model Account {
@@ -92,15 +93,16 @@ enum MovementType {
 }
 
 model Supplier {
-  id           String    @id @default(uuid())
+  id           String     @id @default(uuid())
   name         String
   email        String
   contactPhone String
   deliveryTime DateTime
   description  String
   products     Product[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  delivery     Delivery[]
 }
 
 model AuditLog {
@@ -124,4 +126,16 @@ model Category {
 
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Delivery {
+  id         String   @id @default(uuid())
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplierId String
+  quantity   Int
+  expectedAt DateTime
+  createdAr  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

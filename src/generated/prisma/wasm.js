@@ -209,6 +209,16 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DeliveryScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  supplierId: 'supplierId',
+  quantity: 'quantity',
+  expectedAt: 'expectedAt',
+  createdAr: 'createdAr',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -242,7 +252,8 @@ exports.Prisma.ModelName = {
   StockMovement: 'StockMovement',
   Supplier: 'Supplier',
   AuditLog: 'AuditLog',
-  Category: 'Category'
+  Category: 'Category',
+  Delivery: 'Delivery'
 };
 
 /**
