@@ -137,7 +137,7 @@ model Delivery {
   quantity   Int
   expectedAt DateTime
   status     DeliveryStatus @default(PENDING)
-  createdAr  DateTime       @default(now())
+  createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
 }
 

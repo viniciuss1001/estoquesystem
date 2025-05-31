@@ -4,6 +4,7 @@ import { PlusCircle } from 'lucide-react'
 import CreateProductModal from '../pages/product/create-product-modal'
 import CreateMovementForm from '../pages/movements/create-movement-form'
 import CreateSupplierModal from '../pages/supplier/create-supplier-modal'
+import CreateDeliveryForm from '../pages/delivery/CreateDeliveryForm'
 
 const CreatorGenericModal = () => {
   return (
@@ -13,6 +14,7 @@ const CreatorGenericModal = () => {
 		</DropdownMenuTrigger>
 		<DropdownMenuContent className='flex flex-col gap-2 w-full justify-start items-start'>
 			<CreateProductModal />
+			<CreateDeliveryForm />
 			<CreateMovementForm />
 			<CreateSupplierModal />
 		</DropdownMenuContent>

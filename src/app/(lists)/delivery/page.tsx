@@ -28,81 +28,84 @@ interface Delivery {
 const DeliveryPage = () => {
 
 	const [deliveries, setDeliveries] = useState<Delivery[]>([])
-  const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true)
 
-  const fetchDeliveries = async () => {
-    try {
-      const res = await api.get("/delivery")
-      setDeliveries(res.data)
-    } catch {
-      toast.error("Erro ao carregar entregas.")
-    } finally {
-      setLoading(false)
-    }
-  }
+	const fetchDeliveries = async () => {
+		try {
+			const res = await api.get("/delivery")
+			setDeliveries(res.data)
+		} catch {
+			toast.error("Erro ao carregar entregas.")
+		} finally {
+			setLoading(false)
+		}
+	}
 
-  const handleDelete = async (id: string) => {
-    try {
-      await api.delete(`/delivery/${id}`)
-      toast.success("Entrega excluída com sucesso!")
-      setDeliveries((prev) => prev.filter((d) => d.id !== id))
-    } catch {
-      toast.error("Erro ao excluir entrega.")
-    }
-  }
+	const handleDelete = async (id: string) => {
+		try {
+			await api.delete(`/delivery/${id}`)
+			toast.success("Entrega excluída com sucesso!")
+			setDeliveries((prev) => prev.filter((d) => d.id !== id))
+		} catch {
+			toast.error("Erro ao excluir entrega.")
+		}
+	}
 
-  useEffect(() => {
-    fetchDeliveries()
-  }, [])
+	useEffect(() => {
+		fetchDeliveries()
+	}, [])
 
-  if (loading) return <div className='flex items-center justify-center w-full h-full'><Loader2 className='animate-spin'/></div>
-  if (deliveries.length === 0) return <p>Nenhuma entrega cadastrada.</p>
+	if (loading) return <div className='flex items-center justify-center w-full h-full'><Loader2 className='animate-spin' /></div>
 
-return (
-	<div>
-		<div className="flex justify-between items-center mb-4">
-			<h2 className="text-2xl font-bold">Entregas</h2>
-			{/* <DeliveryFormModal /> */}
+
+	return (
+		<div className='p-6 '>
+			<div className="flex justify-between items-center mb-4">
+				<h2 className="text-2xl font-bold">Entregas</h2>
+				
+			</div>
+
+			{deliveries.length === 0 ? (<p>Nenhuma entrega cadastrada.</p>) : (
+
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Produto</TableHead>
+							<TableHead>Fornecedor</TableHead>
+							<TableHead>Quantidade</TableHead>
+							<TableHead>Data prevista</TableHead>
+							<TableHead className="text-right">Ações</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{deliveries.map((delivery) => (
+							<TableRow key={delivery.id}>
+								<TableCell>{delivery.product.name}</TableCell>
+								<TableCell>{delivery.supplier.name}</TableCell>
+								<TableCell>{delivery.quantity}</TableCell>
+								<TableCell>{format(new Date(delivery.expectedAt), "dd/MM/yyyy")}</TableCell>
+								<TableCell className="flex justify-end gap-2">
+									<EditDeliveryModal delivery={{
+										id: delivery.id,
+										quantity: delivery.quantity,
+										productId: delivery.product.id,
+										supplierId: delivery.supplier.id,
+										expectedAt: new Date(delivery.expectedAt),
+									}} />
+									<Button variant="destructive" size="icon" onClick={() => handleDelete(delivery.id)}
+										className='text-red-500 flex gap-2'
+									>
+										<Trash className="w-4 h-4" />
+										Deletar
+									</Button>
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			)}
 		</div>
-
-		<Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Produto</TableHead>
-            <TableHead>Fornecedor</TableHead>
-            <TableHead>Quantidade</TableHead>
-            <TableHead>Data prevista</TableHead>
-            <TableHead className="text-right">Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {deliveries.map((delivery) => (
-            <TableRow key={delivery.id}>
-              <TableCell>{delivery.product.name}</TableCell>
-              <TableCell>{delivery.supplier.name}</TableCell>
-              <TableCell>{delivery.quantity}</TableCell>
-              <TableCell>{format(new Date(delivery.expectedAt), "dd/MM/yyyy")}</TableCell>
-              <TableCell className="flex justify-end gap-2">
-                <EditDeliveryModal delivery={{
-                  id: delivery.id,
-                  quantity: delivery.quantity,
-                  productId: delivery.product.id,
-                  supplierId: delivery.supplier.id,
-                  expectedAt: new Date(delivery.expectedAt),
-                }} />
-                <Button variant="destructive" size="icon" onClick={() => handleDelete(delivery.id)}
-						className='text-red-500 flex gap-2'
-						>
-                  <Trash className="w-4 h-4" />
-						Deletar
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-	</div>
-)
+	)
 }
 
 export default DeliveryPage

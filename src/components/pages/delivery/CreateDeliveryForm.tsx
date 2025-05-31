@@ -12,9 +12,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { CalendarIcon, Plus } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, useFormContext } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+
 
 const formSchema = z.object({
 	productId: z.string().min(1, "Produto obrigatório"),
@@ -24,23 +25,23 @@ const formSchema = z.object({
 })
 
 interface Product {
-  id: string
-  name: string
-  sku: string
-  quantity: string
-  price: number
-  category?:{
-    id: string
-    name: string
-    createdAt: string
-    updatedAt: string
-  }
-  createdAt: string
-  updatedAt: string
-  supplier: {
-    id: string
-    name: string
-  }
+	id: string
+	name: string
+	sku: string
+	quantity: string
+	price: number
+	category?: {
+		id: string
+		name: string
+		createdAt: string
+		updatedAt: string
+	}
+	createdAt: string
+	updatedAt: string
+	supplier: {
+		id: string
+		name: string
+	}
 }
 interface Supplier {
 	id: string,
@@ -57,7 +58,7 @@ type FormValues = z.infer<typeof formSchema>
 const CreateDeliveryForm = () => {
 	const [open, setOpen] = useState(false)
 	const [products, setProducts] = useState<Product[]>([])
-const [suppliers, setSuppliers] = useState<Supplier[]>([])
+	const [suppliers, setSuppliers] = useState<Supplier[]>([])
 
 
 	const form = useForm<FormValues>({
@@ -73,7 +74,7 @@ const [suppliers, setSuppliers] = useState<Supplier[]>([])
 			Promise.all([api.get("/product"), api.get("/supplier")])
 				.then(([productsRes, suppliersRes]) => {
 					setProducts(productsRes.data)
-					setSuppliers(suppliersRes.data)
+					setSuppliers(suppliersRes.data.suppliers)
 				})
 				.catch(() => toast.error("Erro ao carregar produtos ou fornecedores."))
 		}
@@ -96,7 +97,9 @@ const [suppliers, setSuppliers] = useState<Supplier[]>([])
 		<div>
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger asChild>
-					<Button>
+					<Button className="size-full cursor-pointer"
+						variant='ghost'
+					>
 						<Plus className="size-4" />
 						Criar Entrega
 					</Button>
@@ -112,7 +115,7 @@ const [suppliers, setSuppliers] = useState<Supplier[]>([])
 								control={form.control}
 								name="productId"
 								render={({ field }) => (
-									<FormItem>
+									<FormItem className="w-full mt-4">
 										<FormLabel>Produto</FormLabel>
 										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
@@ -137,7 +140,7 @@ const [suppliers, setSuppliers] = useState<Supplier[]>([])
 								control={form.control}
 								name="supplierId"
 								render={({ field }) => (
-									<FormItem>
+									<FormItem className="w-full mt-4">
 										<FormLabel>Fornecedor</FormLabel>
 										<Select onValueChange={field.onChange} defaultValue={field.value}>
 											<FormControl>
@@ -162,7 +165,7 @@ const [suppliers, setSuppliers] = useState<Supplier[]>([])
 								control={form.control}
 								name="quantity"
 								render={({ field }) => (
-									<FormItem>
+									<FormItem className="mt-4">
 										<FormLabel>Quantidade</FormLabel>
 										<FormControl>
 											<Input type="number" {...field} />
@@ -175,35 +178,29 @@ const [suppliers, setSuppliers] = useState<Supplier[]>([])
 							<FormField
 								control={form.control}
 								name="expectedAt"
-								render={({ field }) => (
-									<FormItem className="flex flex-col">
-										<FormLabel>Data prevista</FormLabel>
-										<Popover>
-											<PopoverTrigger asChild>
-												<FormControl>
-													<Button
-														variant="outline"
-														className="w-full justify-start text-left font-normal"
-													>
-														<CalendarIcon className="mr-2 h-4 w-4" />
-														{field.value ? format(field.value, "dd/MM/yyyy") : "Selecione uma data"}
-													</Button>
-												</FormControl>
-											</PopoverTrigger>
-											<PopoverContent className="w-auto p-0">
-												<Calendar
-													mode="single"
-													selected={field.value}
-													onSelect={(date) => field.onChange(date)}
-													initialFocus
+								render={({ field }) => {
+									const formattedDate = field.value ? field.value.toISOString().substring(0, 10) : "";
+
+									return (
+										<FormItem className="mt-4">
+											<FormLabel>Prazo de entrega</FormLabel>
+											<FormControl>
+												<Input
+												className="w-full flex gap-4"
+													type="date"
+													value={formattedDate}
+													onChange={(e) => {
+														const date = e.target.value ? new Date(e.target.value) : null;
+														field.onChange(date);
+													}}
 												/>
-											</PopoverContent>
-										</Popover>
-										<FormMessage />
-									</FormItem>
-								)}
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									);
+								}}
 							/>
-							<DialogFooter>
+							<DialogFooter className="flex mt-4">
 								<Button type="submit" className="w-full cursor-pointer p-2">
 									Criar entrega
 								</Button>
