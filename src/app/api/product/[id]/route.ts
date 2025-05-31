@@ -43,7 +43,9 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 				sku: body.sku,
 				quantity: Number(body.quantity),
 				price: Number(body.price),
-				category: body.category,
+				category: body.category
+					? { connect: { id: body.category } }
+					: undefined,
 			}
 		})
 		try {
