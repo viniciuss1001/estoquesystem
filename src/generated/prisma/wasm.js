@@ -215,6 +215,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   supplierId: 'supplierId',
   quantity: 'quantity',
   expectedAt: 'expectedAt',
+  status: 'status',
   createdAr: 'createdAr',
   updatedAt: 'updatedAt'
 };
@@ -242,6 +243,13 @@ exports.MovementType = exports.$Enums.MovementType = {
   IN: 'IN',
   OUT: 'OUT',
   TRANSFER: 'TRANSFER'
+};
+
+exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED',
+  LATE: 'LATE'
 };
 
 exports.Prisma.ModelName = {

@@ -129,13 +129,21 @@ model Category {
 }
 
 model Delivery {
-  id         String   @id @default(uuid())
-  product    Product  @relation(fields: [productId], references: [id])
+  id         String         @id @default(uuid())
+  product    Product        @relation(fields: [productId], references: [id])
   productId  String
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplier   Supplier       @relation(fields: [supplierId], references: [id])
   supplierId String
   quantity   Int
   expectedAt DateTime
-  createdAr  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  status     DeliveryStatus @default(PENDING)
+  createdAr  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+enum DeliveryStatus {
+  PENDING
+  COMPLETED
+  CANCELED
+  LATE
 }
