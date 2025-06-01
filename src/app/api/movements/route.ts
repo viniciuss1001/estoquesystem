@@ -14,50 +14,54 @@ export async function POST(req: NextRequest) {
 
 		const body = await req.json()
 
-		const { productId, type, quantity, origin, destination, notes } = body
+		const { productId, type, quantity, originWarehouseId, destinationWarehouseId, notes,
+			status = "PENDING"
+		} = body
 
 		if (!productId || !type || !quantity || quantity <= 0) {
 			return new NextResponse("Dados inválidos", { status: 400 })
 		}
 
-		let movement
-
-		if (type === "TRANSFER") {
-			if (!origin || !destination) {
-				return new NextResponse("Origem e destino são obrigatórios para transferências.", { status: 400 });
+		let movement = await prisma.stockMovement.create({
+			data: {
+				productId,
+				type,
+				quantity,
+				originWarehouseId,
+				destinationWarehouseId,
+				notes,
+				status,
 			}
+		})
 
-			movement = await prisma.stockMovement.create({
-				data: {
-					productId,
-					type,
-					quantity,
-					origin,
-					destination,
-					notes,
-				},
-			});
-
-			// Transferências não alteram o saldo total
-		} else {
-			movement = await prisma.stockMovement.create({
-				data: {
-					productId,
-					type,
-					quantity,
-					destination,
-					notes,
-				},
-			});
-
+		// LOGIC
+		if (type === "IN" && status === "COMPLETED") {
 			await prisma.product.update({
 				where: { id: productId },
 				data: {
 					quantity: {
-						[type === "IN" ? "increment" : "decrement"]: quantity,
-					},
-				},
-			});
+						increment: quantity
+					}
+				}
+			})
+		}
+
+		if (type === "OUT" && status === "COMPLETED") {
+			await prisma.product.update({
+				where: { id: productId },
+				data: {
+					quantity: { decrement: quantity }
+				}
+			})
+		}
+
+		if (type === "TRANSFER" && status === "COMPLETED") {
+			await prisma.product.update({
+				where: { id: productId },
+				data: {
+					quantity: { decrement: quantity }
+				}
+			})
 		}
 
 		await logAction({

@@ -22,6 +22,8 @@ model Product {
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     String?
   delivery       Delivery[]
+
+  warehouseProduct WarehouseProduct[]
 }
 
 model Account {
@@ -83,6 +85,19 @@ model WareHouse {
 
   stockMovementsOrigin      StockMovement[] @relation("OriginWarehouse")
   stockMovementsDestination StockMovement[] @relation("DestinationWarehouse")
+
+  warehouseProduct WarehouseProduct[]
+}
+
+model WarehouseProduct {
+  warehouseId String
+  productId   String
+  quantity    Int    @default(0)
+
+  warehouse WareHouse @relation(fields: [warehouseId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+
+  @@id([warehouseId, productId])
 }
 
 model StockMovement {

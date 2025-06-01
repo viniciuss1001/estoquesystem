@@ -178,6 +178,12 @@ exports.Prisma.WareHouseScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.WarehouseProductScalarFieldEnum = {
+  warehouseId: 'warehouseId',
+  productId: 'productId',
+  quantity: 'quantity'
+};
+
 exports.Prisma.StockMovementScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
@@ -273,6 +279,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   User: 'User',
   WareHouse: 'WareHouse',
+  WarehouseProduct: 'WarehouseProduct',
   StockMovement: 'StockMovement',
   Supplier: 'Supplier',
   AuditLog: 'AuditLog',

@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		const { id } = params
 		const body = await req.json()
 
-		const { type, quantity, origin, destination, notes } = body
+		const { type, quantity, originWarehouseId, destinationWarehouseId, notes, status } = body
 
 		if (!type || !quantity || quantity <= 0) {
 			return new NextResponse("Dados inválidos", { status: 400 })
@@ -52,6 +52,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 					quantity: { decrement: existingMovement.quantity }
 				}
 			})
+
 		} else if (existingMovement.type === "OUT") {
 			await prisma.product.update({
 				where: { id: productId },
@@ -61,17 +62,76 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 			})
 		}
 
-		//aplly new movement
+		//if TRANSFER is COMPLETED, 
+		if (
+			existingMovement.type === "TRANSFER" &&
+			existingMovement.status === "COMPLETED" &&
+			existingMovement.destinationWarehouseId
+		) {
+			await prisma.warehouseProduct.updateMany({
+				where: {
+					productId,
+					warehouseId: existingMovement.destinationWarehouseId
+				},
+				data: {
+					quantity: { decrement: existingMovement.quantity }
+				}
+			})
+		}
+		// aplly new transfer
 		if (type === "IN") {
 			await prisma.product.update({
 				where: { id: productId },
-				data: { quantity: { increment: quantity } },
-			});
+				data: {
+					quantity: { increment: quantity }
+				}
+			})
+
 		} else if (type === "OUT") {
 			await prisma.product.update({
 				where: { id: productId },
-				data: { quantity: { decrement: quantity } },
-			});
+				data: {
+					quantity: { decrement: quantity }
+				}
+			})
+		}
+
+		// if TRANSFER and COMPLETED => aplly
+		if (type === "TRANSFER" && status === "COMPLETED" && destinationWarehouseId) {
+			//for exists register
+
+			await prisma.warehouseProduct.upsert({
+				where: {
+					warehouseId_productId: {
+						warehouseId: destinationWarehouseId,
+						productId
+					}
+				},
+				update: {
+					quantity: {
+						increment: quantity
+					}
+				},
+				create: {
+					warehouseId: destinationWarehouseId,
+					productId,
+					quantity
+				}
+			})
+
+		}
+
+		// if TRANSFER decrement origin - immediatly
+		if (type === "TRANSFER" && originWarehouseId) {
+			await prisma.warehouseProduct.updateMany({
+				where: {
+					productId,
+					warehouseId: originWarehouseId,
+				},
+				data: {
+					quantity: { decrement: quantity },
+				},
+			})
 		}
 
 		//update movement
@@ -80,20 +140,23 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 			data: {
 				type,
 				quantity,
-				origin,
-				destination,
-				notes
+				originWarehouseId,
+				destinationWarehouseId,
+				notes,
+				status,
 			}
 		})
+
 		await logAction({
 			userId: session.user.id,
 			action: "update",
 			entity: "movement",
 			entityId: updatedMovement.id,
-			description: `Movimentação alterada: ${updatedMovement.id}`
-		})
+			description: `Movimentação alterada: ${updatedMovement.id}`,
+		});
 
-		return NextResponse.json({ updatedMovement });
+		return NextResponse.json({ updatedMovement })
+
 
 	} catch (error) {
 		console.error(error)
