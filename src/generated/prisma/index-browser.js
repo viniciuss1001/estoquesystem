@@ -216,7 +216,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   quantity: 'quantity',
   expectedAt: 'expectedAt',
   status: 'status',
-  createdAr: 'createdAr',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 

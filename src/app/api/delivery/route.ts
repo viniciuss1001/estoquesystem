@@ -47,7 +47,11 @@ export async function POST(req: NextRequest) {
 export async function GET() {
 	try {
 		const deliveries = await prisma.delivery.findMany({
-			orderBy: {createdAr: "desc"}
+			orderBy: {createdAt: "desc"},
+			include: {
+				product: true,
+				supplier: true
+			}
 		})
 
 		return NextResponse.json(deliveries)

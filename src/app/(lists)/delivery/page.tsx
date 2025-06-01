@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import api from '@/lib/axios'
 import { format } from 'date-fns'
 import { Loader2, Trash } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -32,8 +33,8 @@ const DeliveryPage = () => {
 
 	const fetchDeliveries = async () => {
 		try {
-			const res = await api.get("/delivery")
-			setDeliveries(res.data)
+			const response = await api.get("/delivery")
+			setDeliveries(response.data)
 		} catch {
 			toast.error("Erro ao carregar entregas.")
 		} finally {
@@ -62,11 +63,11 @@ const DeliveryPage = () => {
 		<div className='p-6 '>
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-2xl font-bold">Entregas</h2>
-				
+
 			</div>
 
-			{deliveries.length === 0 ? (<p>Nenhuma entrega cadastrada.</p>) : (
 
+			{deliveries.length === 0 ? (<p>Nenhuma entrega cadastrada.</p>) : (
 				<Table>
 					<TableHeader>
 						<TableRow>
@@ -75,6 +76,7 @@ const DeliveryPage = () => {
 							<TableHead>Quantidade</TableHead>
 							<TableHead>Data prevista</TableHead>
 							<TableHead className="text-right">Ações</TableHead>
+							<TableHead>Detalhes</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -84,20 +86,21 @@ const DeliveryPage = () => {
 								<TableCell>{delivery.supplier.name}</TableCell>
 								<TableCell>{delivery.quantity}</TableCell>
 								<TableCell>{format(new Date(delivery.expectedAt), "dd/MM/yyyy")}</TableCell>
-								<TableCell className="flex justify-end gap-2">
-									<EditDeliveryModal delivery={{
-										id: delivery.id,
-										quantity: delivery.quantity,
-										productId: delivery.product.id,
-										supplierId: delivery.supplier.id,
-										expectedAt: new Date(delivery.expectedAt),
-									}} />
-									<Button variant="destructive" size="icon" onClick={() => handleDelete(delivery.id)}
-										className='text-red-500 flex gap-2'
+								<TableCell className="flex items-center justify-end gap-2">
+									<EditDeliveryModal
+										deliveryId={delivery.id}
+									/>
+									<Button variant="destructive" onClick={() => handleDelete(delivery.id)}
+										className='cursor-pointer flex gap-2'
 									>
 										<Trash className="w-4 h-4" />
 										Deletar
 									</Button>
+								</TableCell>
+								<TableCell>
+									<Link href={`/delivery/${delivery.id}`}>
+									Detalhes
+									</Link>
 								</TableCell>
 							</TableRow>
 						))}

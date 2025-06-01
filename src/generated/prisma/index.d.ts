@@ -10931,7 +10931,7 @@ export namespace Prisma {
     quantity: number | null
     expectedAt: Date | null
     status: $Enums.DeliveryStatus | null
-    createdAr: Date | null
+    createdAt: Date | null
     updatedAt: Date | null
   }
 
@@ -10942,7 +10942,7 @@ export namespace Prisma {
     quantity: number | null
     expectedAt: Date | null
     status: $Enums.DeliveryStatus | null
-    createdAr: Date | null
+    createdAt: Date | null
     updatedAt: Date | null
   }
 
@@ -10953,7 +10953,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: number
     status: number
-    createdAr: number
+    createdAt: number
     updatedAt: number
     _all: number
   }
@@ -10974,7 +10974,7 @@ export namespace Prisma {
     quantity?: true
     expectedAt?: true
     status?: true
-    createdAr?: true
+    createdAt?: true
     updatedAt?: true
   }
 
@@ -10985,7 +10985,7 @@ export namespace Prisma {
     quantity?: true
     expectedAt?: true
     status?: true
-    createdAr?: true
+    createdAt?: true
     updatedAt?: true
   }
 
@@ -10996,7 +10996,7 @@ export namespace Prisma {
     quantity?: true
     expectedAt?: true
     status?: true
-    createdAr?: true
+    createdAt?: true
     updatedAt?: true
     _all?: true
   }
@@ -11094,7 +11094,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date
     status: $Enums.DeliveryStatus
-    createdAr: Date
+    createdAt: Date
     updatedAt: Date
     _count: DeliveryCountAggregateOutputType | null
     _avg: DeliveryAvgAggregateOutputType | null
@@ -11124,7 +11124,7 @@ export namespace Prisma {
     quantity?: boolean
     expectedAt?: boolean
     status?: boolean
-    createdAr?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
@@ -11137,7 +11137,7 @@ export namespace Prisma {
     quantity?: boolean
     expectedAt?: boolean
     status?: boolean
-    createdAr?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
@@ -11150,7 +11150,7 @@ export namespace Prisma {
     quantity?: boolean
     expectedAt?: boolean
     status?: boolean
-    createdAr?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
@@ -11163,11 +11163,11 @@ export namespace Prisma {
     quantity?: boolean
     expectedAt?: boolean
     status?: boolean
-    createdAr?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "supplierId" | "quantity" | "expectedAt" | "status" | "createdAr" | "updatedAt", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "supplierId" | "quantity" | "expectedAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
   export type DeliveryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
@@ -11194,7 +11194,7 @@ export namespace Prisma {
       quantity: number
       expectedAt: Date
       status: $Enums.DeliveryStatus
-      createdAr: Date
+      createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["delivery"]>
     composites: {}
@@ -11627,7 +11627,7 @@ export namespace Prisma {
     readonly quantity: FieldRef<"Delivery", 'Int'>
     readonly expectedAt: FieldRef<"Delivery", 'DateTime'>
     readonly status: FieldRef<"Delivery", 'DeliveryStatus'>
-    readonly createdAr: FieldRef<"Delivery", 'DateTime'>
+    readonly createdAt: FieldRef<"Delivery", 'DateTime'>
     readonly updatedAt: FieldRef<"Delivery", 'DateTime'>
   }
     
@@ -12177,7 +12177,7 @@ export namespace Prisma {
     quantity: 'quantity',
     expectedAt: 'expectedAt',
     status: 'status',
-    createdAr: 'createdAr',
+    createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
@@ -12912,7 +12912,7 @@ export namespace Prisma {
     quantity?: IntFilter<"Delivery"> | number
     expectedAt?: DateTimeFilter<"Delivery"> | Date | string
     status?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
-    createdAr?: DateTimeFilter<"Delivery"> | Date | string
+    createdAt?: DateTimeFilter<"Delivery"> | Date | string
     updatedAt?: DateTimeFilter<"Delivery"> | Date | string
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
@@ -12925,7 +12925,7 @@ export namespace Prisma {
     quantity?: SortOrder
     expectedAt?: SortOrder
     status?: SortOrder
-    createdAr?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
     product?: ProductOrderByWithRelationInput
     supplier?: SupplierOrderByWithRelationInput
@@ -12941,7 +12941,7 @@ export namespace Prisma {
     quantity?: IntFilter<"Delivery"> | number
     expectedAt?: DateTimeFilter<"Delivery"> | Date | string
     status?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
-    createdAr?: DateTimeFilter<"Delivery"> | Date | string
+    createdAt?: DateTimeFilter<"Delivery"> | Date | string
     updatedAt?: DateTimeFilter<"Delivery"> | Date | string
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
@@ -12954,7 +12954,7 @@ export namespace Prisma {
     quantity?: SortOrder
     expectedAt?: SortOrder
     status?: SortOrder
-    createdAr?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: DeliveryCountOrderByAggregateInput
     _avg?: DeliveryAvgOrderByAggregateInput
@@ -12973,7 +12973,7 @@ export namespace Prisma {
     quantity?: IntWithAggregatesFilter<"Delivery"> | number
     expectedAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
     status?: EnumDeliveryStatusWithAggregatesFilter<"Delivery"> | $Enums.DeliveryStatus
-    createdAr?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
   }
 
@@ -13631,7 +13631,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutDeliveryInput
     supplier: SupplierCreateNestedOneWithoutDeliveryInput
@@ -13644,7 +13644,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -13653,7 +13653,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutDeliveryNestedInput
     supplier?: SupplierUpdateOneRequiredWithoutDeliveryNestedInput
@@ -13666,7 +13666,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13677,7 +13677,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -13686,7 +13686,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13697,7 +13697,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14304,7 +14304,7 @@ export namespace Prisma {
     quantity?: SortOrder
     expectedAt?: SortOrder
     status?: SortOrder
-    createdAr?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -14319,7 +14319,7 @@ export namespace Prisma {
     quantity?: SortOrder
     expectedAt?: SortOrder
     status?: SortOrder
-    createdAr?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -14330,7 +14330,7 @@ export namespace Prisma {
     quantity?: SortOrder
     expectedAt?: SortOrder
     status?: SortOrder
-    createdAr?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -15157,7 +15157,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     supplier: SupplierCreateNestedOneWithoutDeliveryInput
   }
@@ -15168,7 +15168,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -15298,7 +15298,7 @@ export namespace Prisma {
     quantity?: IntFilter<"Delivery"> | number
     expectedAt?: DateTimeFilter<"Delivery"> | Date | string
     status?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
-    createdAr?: DateTimeFilter<"Delivery"> | Date | string
+    createdAt?: DateTimeFilter<"Delivery"> | Date | string
     updatedAt?: DateTimeFilter<"Delivery"> | Date | string
   }
 
@@ -15759,7 +15759,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutDeliveryInput
   }
@@ -15770,7 +15770,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -16115,7 +16115,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -16154,7 +16154,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutDeliveryNestedInput
   }
@@ -16165,7 +16165,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16175,7 +16175,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16316,7 +16316,7 @@ export namespace Prisma {
     quantity: number
     expectedAt: Date | string
     status?: $Enums.DeliveryStatus
-    createdAr?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -16362,7 +16362,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutDeliveryNestedInput
   }
@@ -16373,7 +16373,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16383,7 +16383,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
-    createdAr?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

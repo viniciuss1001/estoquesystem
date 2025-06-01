@@ -1,41 +1,35 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover"
-import { CalendarIcon, Pencil } from "lucide-react"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
 import api from "@/lib/axios"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Pencil } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   productId: z.string().min(1, "Produto obrigatório"),
@@ -47,16 +41,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 interface EditDeliveryModalProps {
-  delivery: {
-    id: string
-    productId: string
-    supplierId: string
-    quantity: number
-    expectedAt: Date
-  }
+  deliveryId: string
 }
 
-export default function EditDeliveryModal({ delivery }: EditDeliveryModalProps) {
+export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps) {
   const [open, setOpen] = useState(false)
   const [products, setProducts] = useState<any[]>([])
   const [suppliers, setSuppliers] = useState<any[]>([])
@@ -64,10 +52,10 @@ export default function EditDeliveryModal({ delivery }: EditDeliveryModalProps) 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      productId: delivery.productId,
-      supplierId: delivery.supplierId,
-      quantity: delivery.quantity,
-      expectedAt: new Date(delivery.expectedAt),
+      productId: "",
+      supplierId: "",
+      quantity: 0,
+      expectedAt: new Date(),
     },
   })
 
@@ -75,18 +63,40 @@ export default function EditDeliveryModal({ delivery }: EditDeliveryModalProps) 
     if (open) {
       Promise.all([api.get("/product"), api.get("/supplier")])
         .then(([productsRes, suppliersRes]) => {
-          setProducts(productsRes.data)
-          setSuppliers(suppliersRes.data)
+          setProducts(productsRes.data.products || productsRes.data)
+          setSuppliers(suppliersRes.data.suppliers || suppliersRes.data)
         })
-        .catch(() => toast.error("Erro ao carregar produtos ou fornecedores."))
+        .catch(() => toast.error("Erro ao carregar produtos ou fornecedores."));
     }
   }, [open])
 
+  useEffect(() => {
+    if (!open) return;
+
+    api
+      .get(`/delivery/${deliveryId}`)
+      .then((response) => {
+        const delivery = response.data;
+        form.reset({
+          productId: delivery.product.id,
+          supplierId: delivery.supplier.id,
+          quantity: delivery.quantity,
+          expectedAt: new Date(delivery.expectedAt),
+        });
+      })
+      .catch(() => {
+        toast.error("Erro ao buscar entrega.");
+        setOpen(false);
+      });
+  }, [open, deliveryId, form])
+
+
   const onSubmit = async (data: FormValues) => {
     try {
-      await api.patch(`/delivery/${delivery.id}`, data)
+      await api.patch(`/delivery/${deliveryId}`, data)
       toast.success("Entrega atualizada com sucesso!")
       setOpen(false)
+
     } catch {
       toast.error("Erro ao atualizar entrega")
     }
@@ -95,11 +105,16 @@ export default function EditDeliveryModal({ delivery }: EditDeliveryModalProps) 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon"
+        className="cursor-pointer"
+        >
           <Pencil className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogTitle>
+          Editar Entrega
+        </DialogTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -166,36 +181,31 @@ export default function EditDeliveryModal({ delivery }: EditDeliveryModalProps) 
               )}
             />
 
+
             <FormField
               control={form.control}
               name="expectedAt"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Data prevista</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start text-left font-normal"
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {field.value ? format(field.value, "dd/MM/yyyy") : "Selecione uma data"}
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        initialFocus
+              render={({ field }) => {
+                const formattedDate = field.value ? field.value.toISOString().substring(0, 10) : "";
+
+                return (
+                  <FormItem className="mt-4">
+                    <FormLabel>Prazo de entrega</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full flex gap-4"
+                        type="date"
+                        value={formattedDate}
+                        onChange={(e) => {
+                          const date = e.target.value ? new Date(e.target.value) : null;
+                          field.onChange(date);
+                        }}
                       />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
 
             <Button type="submit" className="w-full">
