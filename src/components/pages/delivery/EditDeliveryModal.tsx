@@ -233,7 +233,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-pointer">
               Atualizar entrega
             </Button>
           </form>

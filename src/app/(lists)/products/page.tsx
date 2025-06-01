@@ -78,11 +78,11 @@ const ProductsPage = () => {
               <TableRow key={product.id} className="">
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.sku}</TableCell>
-                <TableCell className="flex justify-center ">{product.quantity}</TableCell>
+                <TableCell >{product.quantity}</TableCell>
                 <TableCell>R$ {product.price.toFixed(2)}</TableCell>
                 <TableCell>{product.category?.name ?? "-"}</TableCell>
 
-                <TableCell>{product.supplier?.name ?? "-"}</TableCell>
+                <TableCell>{product.supplier?.name ?? "Não informado"}</TableCell>
                 <TableCell>{new Date(product.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell >
                   <EditProductModal 

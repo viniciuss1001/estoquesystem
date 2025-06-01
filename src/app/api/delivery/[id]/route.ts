@@ -41,17 +41,59 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 
 	try {
 		const body = await req.json()
+		const { quantity, expectedAt, status, productId, supplierId } = body
+
+		const existingDelivery = await prisma.delivery.findUnique({
+			where: { id },
+			include: {
+				product: true
+			}
+		})
 
 		const updatedDelivery = await prisma.delivery.update({
 			where: { id },
 			data: {
-				quantity: body.quantity,
-				expectedAt: new Date(body.expectedAt),
-				product: body.productId ? { connect: { id: body.productId } } : undefined,
-				supplier: body.supplierId ? { connect: { id: body.supplierId } } : undefined,
-				status: body.status
+				quantity,
+				expectedAt: new Date(expectedAt),
+				status,
+				product: productId ? { connect: { id: productId } } : undefined,
+				supplier: supplierId ? { connect: { id: supplierId } } : undefined,
 			},
 		})
+
+		// stock adjust
+		const wasCompleted = existingDelivery?.status === "COMPLETED"
+		const isNowCompleted = status === "COMPLETED"
+
+		// verify if product is the same
+		const sameProduct = existingDelivery?.productId === productId
+
+		if(productId && quantity && sameProduct){
+			// other -> completed => increment
+			if(!wasCompleted && isNowCompleted){
+				await prisma.product.update({
+					where: {id: productId},
+					data: {
+						quantity: {
+							increment: body.quantity
+						}
+					}
+				})
+			}
+
+			// completed -> other => decrement
+			if(wasCompleted && !isNowCompleted){
+				await prisma.product.update({
+					where: {id: productId},
+					data: {
+						quantity: {
+							decrement: body.quantity
+						}
+					}
+				})
+			}
+		}
+
 
 		await logAction({
 			userId: session.user.id,
