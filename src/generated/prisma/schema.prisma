@@ -77,11 +77,12 @@ enum Office {
 }
 
 model WareHouse {
-  id        String   @id @default(uuid())
-  name      String
-  location  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  location    String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   stockMovementsOrigin      StockMovement[] @relation("OriginWarehouse")
   stockMovementsDestination StockMovement[] @relation("DestinationWarehouse")

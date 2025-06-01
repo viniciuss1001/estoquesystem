@@ -6771,6 +6771,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     location: string | null
+    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6779,6 +6780,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     location: string | null
+    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6787,6 +6789,7 @@ export namespace Prisma {
     id: number
     name: number
     location: number
+    description: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6797,6 +6800,7 @@ export namespace Prisma {
     id?: true
     name?: true
     location?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6805,6 +6809,7 @@ export namespace Prisma {
     id?: true
     name?: true
     location?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6813,6 +6818,7 @@ export namespace Prisma {
     id?: true
     name?: true
     location?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6894,6 +6900,7 @@ export namespace Prisma {
     id: string
     name: string
     location: string | null
+    description: string | null
     createdAt: Date
     updatedAt: Date
     _count: WareHouseCountAggregateOutputType | null
@@ -6919,6 +6926,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     location?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     stockMovementsOrigin?: boolean | WareHouse$stockMovementsOriginArgs<ExtArgs>
@@ -6931,6 +6939,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     location?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["wareHouse"]>
@@ -6939,6 +6948,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     location?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["wareHouse"]>
@@ -6947,11 +6957,12 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     location?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type WareHouseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "location" | "createdAt" | "updatedAt", ExtArgs["result"]["wareHouse"]>
+  export type WareHouseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "location" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["wareHouse"]>
   export type WareHouseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stockMovementsOrigin?: boolean | WareHouse$stockMovementsOriginArgs<ExtArgs>
     stockMovementsDestination?: boolean | WareHouse$stockMovementsDestinationArgs<ExtArgs>
@@ -6972,6 +6983,7 @@ export namespace Prisma {
       id: string
       name: string
       location: string | null
+      description: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["wareHouse"]>
@@ -7403,6 +7415,7 @@ export namespace Prisma {
     readonly id: FieldRef<"WareHouse", 'String'>
     readonly name: FieldRef<"WareHouse", 'String'>
     readonly location: FieldRef<"WareHouse", 'String'>
+    readonly description: FieldRef<"WareHouse", 'String'>
     readonly createdAt: FieldRef<"WareHouse", 'DateTime'>
     readonly updatedAt: FieldRef<"WareHouse", 'DateTime'>
   }
@@ -14671,6 +14684,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     location: 'location',
+    description: 'description',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -15235,6 +15249,7 @@ export namespace Prisma {
     id?: StringFilter<"WareHouse"> | string
     name?: StringFilter<"WareHouse"> | string
     location?: StringNullableFilter<"WareHouse"> | string | null
+    description?: StringNullableFilter<"WareHouse"> | string | null
     createdAt?: DateTimeFilter<"WareHouse"> | Date | string
     updatedAt?: DateTimeFilter<"WareHouse"> | Date | string
     stockMovementsOrigin?: StockMovementListRelationFilter
@@ -15246,6 +15261,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     location?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     stockMovementsOrigin?: StockMovementOrderByRelationAggregateInput
@@ -15260,6 +15276,7 @@ export namespace Prisma {
     NOT?: WareHouseWhereInput | WareHouseWhereInput[]
     name?: StringFilter<"WareHouse"> | string
     location?: StringNullableFilter<"WareHouse"> | string | null
+    description?: StringNullableFilter<"WareHouse"> | string | null
     createdAt?: DateTimeFilter<"WareHouse"> | Date | string
     updatedAt?: DateTimeFilter<"WareHouse"> | Date | string
     stockMovementsOrigin?: StockMovementListRelationFilter
@@ -15271,6 +15288,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     location?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: WareHouseCountOrderByAggregateInput
@@ -15285,6 +15303,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"WareHouse"> | string
     name?: StringWithAggregatesFilter<"WareHouse"> | string
     location?: StringNullableWithAggregatesFilter<"WareHouse"> | string | null
+    description?: StringNullableWithAggregatesFilter<"WareHouse"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"WareHouse"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"WareHouse"> | Date | string
   }
@@ -16060,6 +16079,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsOrigin?: StockMovementCreateNestedManyWithoutOriginWareHouseInput
@@ -16071,6 +16091,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsOrigin?: StockMovementUncheckedCreateNestedManyWithoutOriginWareHouseInput
@@ -16082,6 +16103,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsOrigin?: StockMovementUpdateManyWithoutOriginWareHouseNestedInput
@@ -16093,6 +16115,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsOrigin?: StockMovementUncheckedUpdateManyWithoutOriginWareHouseNestedInput
@@ -16104,6 +16127,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16112,6 +16136,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16120,6 +16145,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16963,6 +16989,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16971,6 +16998,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16979,6 +17007,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     location?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19004,6 +19033,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsOrigin?: StockMovementCreateNestedManyWithoutOriginWareHouseInput
@@ -19014,6 +19044,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsOrigin?: StockMovementUncheckedCreateNestedManyWithoutOriginWareHouseInput
@@ -19073,6 +19104,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsOrigin?: StockMovementUpdateManyWithoutOriginWareHouseNestedInput
@@ -19083,6 +19115,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsOrigin?: StockMovementUncheckedUpdateManyWithoutOriginWareHouseNestedInput
@@ -19165,6 +19198,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsDestination?: StockMovementCreateNestedManyWithoutDestinationWarehouseInput
@@ -19175,6 +19209,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsDestination?: StockMovementUncheckedCreateNestedManyWithoutDestinationWarehouseInput
@@ -19190,6 +19225,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsOrigin?: StockMovementCreateNestedManyWithoutOriginWareHouseInput
@@ -19200,6 +19236,7 @@ export namespace Prisma {
     id?: string
     name: string
     location?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     stockMovementsOrigin?: StockMovementUncheckedCreateNestedManyWithoutOriginWareHouseInput
@@ -19265,6 +19302,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsDestination?: StockMovementUpdateManyWithoutDestinationWarehouseNestedInput
@@ -19275,6 +19313,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsDestination?: StockMovementUncheckedUpdateManyWithoutDestinationWarehouseNestedInput
@@ -19296,6 +19335,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsOrigin?: StockMovementUpdateManyWithoutOriginWareHouseNestedInput
@@ -19306,6 +19346,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stockMovementsOrigin?: StockMovementUncheckedUpdateManyWithoutOriginWareHouseNestedInput

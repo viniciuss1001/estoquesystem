@@ -174,6 +174,7 @@ exports.Prisma.WareHouseScalarFieldEnum = {
   id: 'id',
   name: 'name',
   location: 'location',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

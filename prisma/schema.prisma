@@ -77,11 +77,12 @@ enum Office {
 }
 
 model WareHouse {
-  id        String   @id @default(uuid())
-  name      String
-  location  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  location    String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   stockMovementsOrigin      StockMovement[] @relation("OriginWarehouse")
   stockMovementsDestination StockMovement[] @relation("DestinationWarehouse")
@@ -91,11 +92,12 @@ model WareHouse {
 
 model WarehouseProduct {
   warehouseId String
-  productId String
-  quantity Int @default(0)
+  productId   String
+  quantity    Int    @default(0)
 
   warehouse WareHouse @relation(fields: [warehouseId], references: [id])
-  product     Product   @relation(fields: [productId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+
   @@id([warehouseId, productId])
 }
 

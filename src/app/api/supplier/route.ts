@@ -58,7 +58,8 @@ export async function POST(req: Request) {
       description: `Fornecedor criado: ${supplier.name}`
     })
 
-    return NextResponse.json({ message: "Fornecedor criado com sucesso", supplier });
+    return NextResponse.json({ message: "Fornecedor criado com sucesso", supplier })
+    
   } catch (error) {
     console.error("Erro ao criar fornecedor:", error);
     return new NextResponse("Erro ao criar fornecedor", { status: 500 });
