@@ -13,22 +13,22 @@ import { toast } from "sonner"
 
 interface Product {
 	id: string
-  name: string
-  sku: string
-  quantity: string
-  price: number
-  category?:{
-    id: string
-    name: string
-    createdAt: string
-    updatedAt: string
-  }
-  createdAt: string
-  updatedAt: string
-  supplier: {
-    id: string
-    name: string
-  }
+	name: string
+	sku: string
+	quantity: string
+	price: number
+	category?: {
+		id: string
+		name: string
+		createdAt: string
+		updatedAt: string
+	}
+	createdAt: string
+	updatedAt: string
+	supplier: {
+		id: string
+		name: string
+	}
 }
 
 const ProductPage = () => {
@@ -67,7 +67,7 @@ const ProductPage = () => {
 
 	return (
 		<div className="p-6 max-w-full">
-			
+
 			<div className="mb-2 flex p-2">
 				<Breadcrumb>
 					<BreadcrumbList>
@@ -80,7 +80,7 @@ const ProductPage = () => {
 				</Breadcrumb>
 			</div>
 
-			
+
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div className="border rounded-xl p-4 shadow-sm bg-background">
 					<h2 className="text-lg font-medium mb-2">Informações do Produto</h2>
@@ -102,7 +102,7 @@ const ProductPage = () => {
 				</div>
 			</div>
 
-			
+
 			<h2 className="text-2xl p-4">Movimentações do produto:</h2>
 			<ProductMovementsComponent productId={product.id} />
 		</div>
