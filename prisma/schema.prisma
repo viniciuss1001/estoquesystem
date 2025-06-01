@@ -74,22 +74,42 @@ enum Office {
   GESTOR
 }
 
+model WareHouse {
+  id        String   @id @default(uuid())
+  name      String
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stockMovementsOrigin      StockMovement[] @relation("OriginWarehouse")
+  stockMovementsDestination StockMovement[] @relation("DestinationWarehouse")
+}
+
 model StockMovement {
-  id          String       @id @default(uuid())
-  product     Product      @relation(fields: [productId], references: [id])
-  productId   String
-  type        MovementType
-  quantity    Int
-  origin      String?
-  destination String?
-  notes       String?
-  createdAt   DateTime     @default(now())
+  id                     String         @id @default(uuid())
+  product                Product        @relation(fields: [productId], references: [id])
+  productId              String
+  type                   MovementType
+  quantity               Int
+  originWarehouseId      String?
+  destinationWarehouseId String?
+  originWareHouse        WareHouse?     @relation("OriginWarehouse", fields: [originWarehouseId], references: [id])
+  destinationWarehouse   WareHouse?     @relation("DestinationWarehouse", fields: [destinationWarehouseId], references: [id])
+  notes                  String?
+  status                 MovementStatus @default(PENDING)
+  createdAt              DateTime       @default(now())
 }
 
 enum MovementType {
   IN
   OUT
   TRANSFER
+}
+
+enum MovementStatus {
+  PENDING
+  COMPLETED
+  CANCELED
 }
 
 model Supplier {

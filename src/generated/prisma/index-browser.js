@@ -170,14 +170,23 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.WareHouseScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  location: 'location',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.StockMovementScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   type: 'type',
   quantity: 'quantity',
-  origin: 'origin',
-  destination: 'destination',
+  originWarehouseId: 'originWarehouseId',
+  destinationWarehouseId: 'destinationWarehouseId',
   notes: 'notes',
+  status: 'status',
   createdAt: 'createdAt'
 };
 
@@ -245,6 +254,12 @@ exports.MovementType = exports.$Enums.MovementType = {
   TRANSFER: 'TRANSFER'
 };
 
+exports.MovementStatus = exports.$Enums.MovementStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED'
+};
+
 exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
@@ -257,6 +272,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
+  WareHouse: 'WareHouse',
   StockMovement: 'StockMovement',
   Supplier: 'Supplier',
   AuditLog: 'AuditLog',
