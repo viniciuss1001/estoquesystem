@@ -36,6 +36,7 @@ const formSchema = z.object({
   supplierId: z.string().min(1, "Fornecedor obrigatório"),
   quantity: z.coerce.number().int().positive("Quantidade inválida"),
   expectedAt: z.date({ required_error: "Data obrigatória" }),
+  status: z.enum(["PENDING", "COMPLETED", "CANCELED", "LATE"])
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -106,7 +107,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon"
-        className="cursor-pointer"
+          className="cursor-pointer"
         >
           <Pencil className="w-4 h-4" />
         </Button>
@@ -206,6 +207,30 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                   </FormItem>
                 );
               }}
+            />
+
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Status</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="PENDING">Pendente</SelectItem>
+                      <SelectItem value="COMPLETED">Concluída</SelectItem>
+                      <SelectItem value="LATE">Em atraso</SelectItem>
+                      <SelectItem value="CANCELED">Cancelada</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <Button type="submit" className="w-full">

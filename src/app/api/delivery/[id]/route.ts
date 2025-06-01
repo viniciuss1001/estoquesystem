@@ -49,6 +49,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 				expectedAt: new Date(body.expectedAt),
 				product: body.productId ? { connect: { id: body.productId } } : undefined,
 				supplier: body.supplierId ? { connect: { id: body.supplierId } } : undefined,
+				status: body.status
 			},
 		})
 

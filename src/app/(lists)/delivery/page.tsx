@@ -1,5 +1,6 @@
 "use client"
 
+import DeliveryStatusBadge from '@/components/pages/delivery/DeliveryStatusBadge'
 import EditDeliveryModal from '@/components/pages/delivery/EditDeliveryModal'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -22,7 +23,7 @@ interface Delivery {
 		name: string
 	}
 	expectedAt: string
-	status: "PENDING" | "COMPLETED" | "CANCELLED"
+	status: "PENDING" | "COMPLETED" | "CANCELED" | "LATE"
 }
 
 
@@ -75,6 +76,7 @@ const DeliveryPage = () => {
 							<TableHead>Fornecedor</TableHead>
 							<TableHead>Quantidade</TableHead>
 							<TableHead>Data prevista</TableHead>
+							<TableHead>Estado</TableHead>
 							<TableHead className="text-right">Ações</TableHead>
 							<TableHead>Detalhes</TableHead>
 						</TableRow>
@@ -86,6 +88,9 @@ const DeliveryPage = () => {
 								<TableCell>{delivery.supplier.name}</TableCell>
 								<TableCell>{delivery.quantity}</TableCell>
 								<TableCell>{format(new Date(delivery.expectedAt), "dd/MM/yyyy")}</TableCell>
+								<TableCell>
+									<DeliveryStatusBadge status={delivery.status}/>
+								</TableCell>
 								<TableCell className="flex items-center justify-end gap-2">
 									<EditDeliveryModal
 										deliveryId={delivery.id}
