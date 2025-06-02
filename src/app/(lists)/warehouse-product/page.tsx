@@ -1,5 +1,7 @@
 "use client"
 
+import CreateWarehouseProductModal from "@/components/pages/warehouse-product/CreateWarehouseProductModal"
+import EditWarehouseProductModal from "@/components/pages/warehouse-product/EditWarehouseProductModal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
@@ -64,7 +66,7 @@ const WarehouseProductsPage = () => {
 	 <div className="p-6">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-2xl font-bold">Produtos por Armazém</h2>
-				{/* <CreateWarehouseProductModal onCreated={fetchWarehouseProducts} /> */}
+				<CreateWarehouseProductModal onCreated={fetchWarehouseProducts} />
 			</div>
 
 			{warehouseProducts.length === 0 ? (
@@ -86,10 +88,12 @@ const WarehouseProductsPage = () => {
 								<TableCell>{wp.warehouse.name}</TableCell>
 								<TableCell>{wp.quantity}</TableCell>
 								<TableCell className="flex items-center justify-end gap-2">
-									{/* <EditWarehouseProductModal
-										warehouseProduct={wp}
+									<EditWarehouseProductModal
+										productId={wp.productId}
+										currentQuantity={wp.quantity}
+										warehouseId={wp.warehouseId}
 										onUpdated={fetchWarehouseProducts}
-									/> */}
+									/>
 									<Button
 										variant="destructive"
 										onClick={() => handleDelete(wp.warehouseId, wp.productId)}
