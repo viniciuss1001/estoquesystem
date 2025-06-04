@@ -7,7 +7,7 @@ import { toast } from "sonner"
 import { z } from "zod"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Loader2, UserPlus } from "lucide-react"
+import { Loader2, Plus } from "lucide-react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
@@ -76,7 +76,7 @@ const CreateSupplierModal = () => {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger>
 				<Button variant='ghost' className='flex p-2 cursor-pointer'>
-					<UserPlus />
+					<Plus className="size-4"/>
 					Criar Fornecedor
 				</Button>
 			</DialogTrigger>

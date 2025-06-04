@@ -1,6 +1,6 @@
 "use client"
 import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
-import { Home, icons, List, Package, Package2, RefreshCw, Settings, Timer, Truck, Users } from 'lucide-react'
+import { Archive, Home, icons, List, Package, Package2, RefreshCw, Settings, Timer, Truck, Users, Warehouse } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
@@ -13,12 +13,14 @@ const SidebarComponent = () => {
 	const navItems = [
 		{ label: "Dashboard", icon: Home, href: "/dashboard" },
 		{ label: "Produtos", icon: Package, href: "/products" },
-		{ label: "Movimentações", icon: RefreshCw, href: "/movements" },
 		{ label: "Fornecedores", icon: Truck, href: "/suppliers" },
+		{label: "Armazéns", icon: Warehouse, href: "/warehouse"},
 		{ label: "Entregas", icon: Package2, href: "/delivery" },
-		{ label: "Usuários", icon: Users, href: "/users" },
-		{ label: "Histórico", icon: Timer, href: "/audit-log" },
+		{ label: "Movimentações", icon: RefreshCw, href: "/movements" },
+		{label: "Produtos e Armazém", icon: Archive, href: "/warehouse-product"},
 		{ label: "Categorias", icon: List, href: "/categories" },
+		{ label: "Histórico", icon: Timer, href: "/audit-log" },
+		{ label: "Usuários", icon: Users, href: "/users" },
 		{ label: "Configurações", icon: Settings, href: `/settings/${userId}` },
 	]
 	return (

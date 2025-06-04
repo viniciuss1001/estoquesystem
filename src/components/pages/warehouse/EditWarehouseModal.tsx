@@ -28,6 +28,7 @@ import {
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),
 	location: z.string().optional(),
+	description: z.string().optional()
 })
 
 type FormData = z.infer<typeof schema>
@@ -37,6 +38,7 @@ interface EditWarehouseModalProps {
 		id: string
 		name: string
 		location?: string | null
+		description?: string
 	}
 	onUpdated?: () => void
 }
@@ -50,13 +52,14 @@ export default function EditWarehouseModal({ warehouse, onUpdated }: EditWarehou
 		defaultValues: {
 			name: warehouse.name,
 			location: warehouse.location ?? "",
+			description: warehouse.description ?? ""
 		},
 	})
 
 	const onSubmit = async (data: FormData) => {
 		setLoading(true)
 		try {
-			await api.put(`/warehouse/${warehouse.id}`, data)
+			await api.patch(`/warehouse/${warehouse.id}`, data)
 			toast.success("Armazém atualizado com sucesso!")
 			setOpen(false)
 			onUpdated?.()
@@ -70,7 +73,7 @@ export default function EditWarehouseModal({ warehouse, onUpdated }: EditWarehou
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline" size="icon">
+				<Button variant="outline" size="icon" className="cursor-pointer">
 					<Pencil className="w-4 h-4" />
 				</Button>
 			</DialogTrigger>
@@ -101,6 +104,19 @@ export default function EditWarehouseModal({ warehouse, onUpdated }: EditWarehou
 									<FormLabel>Localização</FormLabel>
 									<FormControl>
 										<Input placeholder="Localização (opcional)" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Descrição</FormLabel>
+									<FormControl>
+										<Input placeholder="Descrição (opcional)" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

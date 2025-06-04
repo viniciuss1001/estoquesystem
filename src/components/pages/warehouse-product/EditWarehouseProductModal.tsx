@@ -29,7 +29,7 @@ interface EditWarehouseProductModalProps {
 const EditWarehouseProductModal = ({ warehouseId, productId, currentQuantity, onUpdated }: EditWarehouseProductModalProps) => {
 
 	const [open, setOpen] = useState(false)
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(false)
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
@@ -40,7 +40,8 @@ const EditWarehouseProductModal = ({ warehouseId, productId, currentQuantity, on
 
 	const onSubmit = async (data: FormData) => {
 		try {
-			api.patch(`/warehouse-products/${warehouseId}/${productId}`, data)
+			setLoading(true)
+			api.patch(`/warehouse-product/${warehouseId}/${productId}`, data)
 			toast.success("Quantidade atualizada com sucesso!")
 			onUpdated()
 
@@ -59,7 +60,7 @@ const EditWarehouseProductModal = ({ warehouseId, productId, currentQuantity, on
 				if (o) form.reset({ quantity: currentQuantity })
 			}}>
 				<DialogTrigger asChild>
-					<Button size="sm" variant="outline" className="flex gap-1 items-center">
+					<Button size="sm" variant="ghost" className="flex gap-1 items-center cursor-pointer">
 						<Pencil className="w-4 h-4" />
 						Editar
 					</Button>
@@ -84,13 +85,13 @@ const EditWarehouseProductModal = ({ warehouseId, productId, currentQuantity, on
 									</FormItem>
 								)}
 							/>
+							<DialogFooter>
+								<Button type="submit" disabled={loading}>
+									{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
+								</Button>
+							</DialogFooter>
 						</form>
 					</Form>
-					<DialogFooter>
-						<Button type="submit" disabled={loading}>
-							{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
-						</Button>
-					</DialogFooter>
 				</DialogContent>
 
 			</Dialog>

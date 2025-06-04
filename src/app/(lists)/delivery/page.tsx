@@ -1,5 +1,6 @@
 "use client"
 
+import CreateDeliveryForm from '@/components/pages/delivery/CreateDeliveryForm'
 import DeliveryStatusBadge from '@/components/pages/delivery/DeliveryStatusBadge'
 import EditDeliveryModal from '@/components/pages/delivery/EditDeliveryModal'
 import { Button } from '@/components/ui/button'
@@ -64,7 +65,7 @@ const DeliveryPage = () => {
 		<div className='p-6 '>
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-2xl font-bold">Entregas</h2>
-
+				<CreateDeliveryForm />
 			</div>
 
 

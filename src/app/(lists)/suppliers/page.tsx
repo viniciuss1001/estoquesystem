@@ -1,5 +1,6 @@
 "use client"
 
+import CreateSupplierModal from "@/components/pages/supplier/create-supplier-modal"
 import EditSupplierModal from "@/components/pages/supplier/edit-supplier-modal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -33,7 +34,10 @@ const SupplierPage = () => {
 
 	return (
 		<div className="p-6">
+			<div className="flex justify-between items-center mb-4">
 			<h2 className="text-2xl font-bold mb-6">Lista de Fornecedores</h2>
+			<CreateSupplierModal />
+			</div>
 
 			<Table>
 				<TableHeader>

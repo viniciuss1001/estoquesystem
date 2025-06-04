@@ -17,7 +17,7 @@ import { z } from "zod"
 const formSchema = z.object({
 	productId: z.string().nonempty("Produto obrigatório"),
 	warehouseId: z.string().nonempty("Armazém obrigatório"),
-	quantity: z.coerce.number().int().positive("Quantidade deve ser positiva")
+	quantity: z.coerce.number().int().positive("Quantidade deve ser positiva"),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -47,6 +47,8 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			productId: "",
+			warehouseId: "",
 			quantity: 1
 		}
 	})
@@ -54,22 +56,25 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 	const fetchOptions = async () => {
 		try {
 			const [productsRes, warehousesRes] = await Promise.all([
-				api.get("/products"),
-				api.get("/warehouses"),
+				api.get("/product"),
+				api.get("/warehouse"),
 			])
 
 			setProducts(productsRes.data)
 
 			setWarehouses(warehousesRes.data)
+			setLoading(false)
 
 		} catch (error) {
 			toast.error("Erro ao carregar produtos ou armazéns")
+			setLoading(false)
 		}
 	}
 
 	const onSubmit = async (data: FormData) => {
 		try {
-			await api.post("/warehouse-products", data)
+			console.log("dados enviados:", data)
+			await api.post("/warehouse-product", data)
 			toast.success("Produto vinculado ao armazém com sucesso.")
 			form.reset()
 			setOpen(false)
@@ -111,20 +116,20 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Produto</FormLabel>
-										<FormControl>
-											<Select onValueChange={field.onChange} value={field.value}>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
 												<SelectTrigger>
 													<SelectValue placeholder="Selecione o produto" />
 												</SelectTrigger>
-												<SelectContent>
-													{products.map((product) => (
-														<SelectItem key={product.id} value={product.id}>
-															{product.name}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-										</FormControl>
+											</FormControl>
+											<SelectContent>
+												{products.map((product) => (
+													<SelectItem key={product.id} value={product.id}>
+														{product.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -137,20 +142,20 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Armazém</FormLabel>
-										<FormControl>
-											<Select onValueChange={field.onChange} value={field.value}>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
 												<SelectTrigger>
 													<SelectValue placeholder="Selecione o armazém" />
 												</SelectTrigger>
-												<SelectContent>
-													{warehouses.map((w) => (
-														<SelectItem key={w.id} value={w.id}>
-															{w.name}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-										</FormControl>
+											</FormControl>
+											<SelectContent>
+												{warehouses.map((w) => (
+													<SelectItem key={w.id} value={w.id}>
+														{w.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -170,6 +175,7 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 									</FormItem>
 								)}
 							/>
+							
 
 							<DialogFooter>
 								<Button type="submit" disabled={loading}>

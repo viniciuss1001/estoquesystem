@@ -1,5 +1,7 @@
 "use client"
 
+import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseModal"
+import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
@@ -12,6 +14,7 @@ interface Warehouse {
 	id: string
 	name: string
 	location?: string | null
+  description: string
 }
 
 const WarehousePage = () => {
@@ -52,7 +55,7 @@ const WarehousePage = () => {
 		 <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Armazéns</h2>
-        {/* <CreateWarehouseModal onCreated={fetchWarehouses} /> */}
+        <CreateWarehouseModal onCreated={fetchWarehouses} />
       </div>
 
       {warehouses.length === 0 ? (
@@ -63,6 +66,7 @@ const WarehousePage = () => {
             <TableRow>
               <TableHead>Nome</TableHead>
               <TableHead>Localização</TableHead>
+              <TableHead>Descrição</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
@@ -71,8 +75,9 @@ const WarehousePage = () => {
               <TableRow key={w.id}>
                 <TableCell>{w.name}</TableCell>
                 <TableCell>{w.location || "-"}</TableCell>
+                <TableCell>{w.description}</TableCell>
                 <TableCell className="flex gap-2 justify-end">
-                  {/* <EditWarehouseModal warehouse={w} onUpdated={fetchWarehouses} /> */}
+                  <EditWarehouseModal warehouse={w} onUpdated={fetchWarehouses} />
                   <Button
                     variant="destructive"
                     onClick={() => handleDelete(w.id)}

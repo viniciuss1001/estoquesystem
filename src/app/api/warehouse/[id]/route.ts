@@ -12,7 +12,10 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 		}
 
 		const warehouse = await prisma.wareHouse.findUnique({
-			where: { id: params.id }
+			where: { id: params.id },
+			include: {
+				
+			}
 		})
 
 		if (!warehouse) {

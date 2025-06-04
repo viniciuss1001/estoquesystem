@@ -31,7 +31,7 @@ const WarehouseProductsPage = () => {
 
 	const fetchWarehouseProducts = async () => {
 		try {
-			const response = await api.get("/warehouse-products")
+			const response = await api.get("/warehouse-product")
 			setWarehouseProducts(response.data)
 			setLoading(false)
 
@@ -43,7 +43,7 @@ const WarehouseProductsPage = () => {
 
 	const handleDelete = async (warehouseId: string, productId: string) => {
 		 try {
-			await api.delete(`/warehouse-products/${warehouseId}/${productId}`)
+			await api.delete(`/warehouse-product/${warehouseId}/${productId}`)
 			toast.success("Produto removido do armazém com sucesso!")
 
 			setWarehouseProducts(prev =>

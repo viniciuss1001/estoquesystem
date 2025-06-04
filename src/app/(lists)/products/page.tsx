@@ -1,4 +1,5 @@
 "use client"
+import CreateProductModal from "@/components/pages/product/create-product-modal"
 import EditProductModal from "@/components/pages/product/product-edit-modal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -13,7 +14,7 @@ interface Product {
   sku: string
   quantity: string
   price: number
-  category?:{
+  category?: {
     id: string
     name: string
     createdAt: string
@@ -47,7 +48,10 @@ const ProductsPage = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Lista de Produtos</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold mb-6">Lista de Produtos</h2>
+        <CreateProductModal />
+      </div>
 
       <Table>
         <TableHeader>
@@ -85,13 +89,13 @@ const ProductsPage = () => {
                 <TableCell>{product.supplier?.name ?? "Não informado"}</TableCell>
                 <TableCell>{new Date(product.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell >
-                  <EditProductModal 
-                  productId={product.id}
+                  <EditProductModal
+                    productId={product.id}
                   />
                 </TableCell>
                 <TableCell>
                   <Link href={`/products/${product.id}`}>
-                  Detalhes
+                    Detalhes
                   </Link>
                 </TableCell>
               </TableRow>

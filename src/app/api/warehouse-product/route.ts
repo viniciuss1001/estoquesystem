@@ -13,9 +13,9 @@ export async function POST(req: NextRequest) {
 
 		const body = await req.json()
 
-		const { warehouseId, productId, quantity } = body
+		const { warehouseId, productId, quantity, } = body
 
-		if (!warehouseId || productId) {
+		if (!warehouseId || !productId) {
 			return new NextResponse("warehouseId e productId são obrigatórios", { status: 400 })
 		}
 
@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
 			data: {
 				warehouseId,
 				productId,
-				quantity: quantity ?? 0
+				quantity: quantity ?? 0,
+				
 			}
 		})
 

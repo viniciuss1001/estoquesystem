@@ -21,6 +21,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),
 	location: z.string().optional(),
+	description: z.string().optional()
 })
 
 type FormData = z.infer<typeof schema>
@@ -31,7 +32,7 @@ export default function CreateWarehouseModal({ onCreated }: { onCreated?: () => 
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(schema),
-		defaultValues: { name: "", location: "" },
+		defaultValues: { name: "", location: "", description: "" },
 	})
 
 	const onSubmit = async (data: FormData) => {
@@ -51,7 +52,9 @@ export default function CreateWarehouseModal({ onCreated }: { onCreated?: () => 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button><Plus className="w-4 h-4 mr-2" />Novo Armazém</Button>
+				<Button variant='ghost' className="cursor-pointer">
+					<Plus className="w-4 h-4 mr-2" />Novo Armazém
+				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
@@ -78,6 +81,19 @@ export default function CreateWarehouseModal({ onCreated }: { onCreated?: () => 
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Localização</FormLabel>
+									<FormControl>
+										<Input placeholder="Localização (opcional)" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Descrição</FormLabel>
 									<FormControl>
 										<Input placeholder="Localização (opcional)" {...field} />
 									</FormControl>
