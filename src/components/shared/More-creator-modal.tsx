@@ -9,7 +9,7 @@ import CreateDeliveryForm from '../pages/delivery/CreateDeliveryForm'
 const CreatorGenericModal = () => {
   return (
 	 <DropdownMenu>
-		<DropdownMenuTrigger className='max-w-2/3 rounded-md flex items-center justify-center gap-2 pl-4 pr-4 ml-2 mr-2 p-2 cursor-pointer bg-sidebar-accent'>
+		<DropdownMenuTrigger className='max-w-2/3 rounded-md flex items-center justify-center gap-2 pl-4 pr-4 ml-2 mr-2 p-2 cursor-pointer '>
 				<PlusCircle className='size-5'/>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent className='flex flex-col gap-2 w-full justify-start items-start'>
