@@ -16,7 +16,7 @@ import api from "@/lib/axios"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -27,7 +27,8 @@ const formSchema = z.object({
   originWarehouseId: z.string().min(1),
   destinationWarehouseId: z.string().min(1),
   quantity: z.coerce.number().min(1),
-  notes: z.string().optional()
+  notes: z.string().optional(),
+  status: z.enum(["PENDING", "COMPLETED", "CANCELED"]),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -59,9 +60,12 @@ const EditTransferModal = ({ movementId }: Props) => {
       originWarehouseId: "",
       destinationWarehouseId: "",
       quantity: 0,
-      notes: ""
+      notes: "",
+      status: "PENDING"
     }
   })
+
+  const { control } = form
 
   useEffect(() => {
     if (!open) return
@@ -80,7 +84,8 @@ const EditTransferModal = ({ movementId }: Props) => {
           originWarehouseId: m.originWareHouse?.id || "",
           destinationWarehouseId: m.destinationWarehouse?.id || "",
           quantity: m.quantity,
-          notes: m.notes || ""
+          notes: m.notes || "",
+          status: m.status || "PENDING"
         })
         setWarehouses(warehousesRes.data)
         setProducts(productsRes.data)
@@ -195,6 +200,29 @@ const EditTransferModal = ({ movementId }: Props) => {
                         </SelectContent>
                       </Select>
                     </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione o status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="PENDING">Pendente</SelectItem>
+                          <SelectItem value="COMPLETED">Concluído</SelectItem>
+                          <SelectItem value="CANCELED">Cancelado</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
