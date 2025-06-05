@@ -92,7 +92,9 @@ export async function GET() {
 		const movements = await prisma.stockMovement.findMany({
 			orderBy: { createdAt: "desc" },
 			include: {
-				product: true
+				product: true,
+				originWareHouse: true,
+				destinationWarehouse: true
 			}
 		})
 

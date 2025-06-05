@@ -2,8 +2,21 @@
 
 import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
@@ -21,64 +34,94 @@ const formSchema = z.object({
 		required_error: "Tipo de movimentação é obrigatório.",
 	}),
 	quantity: z.coerce.number().min(1, "Quantidade deve ser maior que 0."),
+	originWarehouseId: z.string().optional(),
+	destinationWarehouseId: z.string().optional(),
 	notes: z.string().optional(),
-	origin: z.string().optional(),
-	destination: z.string().optional(),
+	status: z.enum(["PENDING", "COMPLETED", "CANCELED"])
 })
 
 type FormValues = z.infer<typeof formSchema>
 
-interface EditMovementModalProps {
+interface EditTransferMovementModalProps {
 	movementId: string
 }
 
-const EditMovementModal = ({ movementId }: EditMovementModalProps) => {
+interface Warehouse {
+	id: string
+	name: string
+}
 
+const EditTransferMovementModal = ({ movementId }: EditTransferMovementModalProps) => {
 	const router = useRouter()
 	const [loading, setLoading] = useState(true)
-
+	const [warehouses, setWarehouses] = useState<Warehouse[]>([])
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			type: "IN",
-			quantity: 0,
-			notes: "",
-			origin: "",
-			destination: ""
-		}
+			quantity: 1,
+			originWarehouseId: "",
+			destinationWarehouseId: "",
+			status: "PENDING",
+			notes: ""
+		},
 	})
-	const { handleSubmit, control, watch } = form
-	const type = watch("type")
+
+
+
+	const { handleSubmit, control, reset } = form
+
+	const watchType = form.watch("type")
+
 
 	useEffect(() => {
-		api.get(`/movements/${movementId}`)
-			.then((response) => {
-				const movement = response.data
-				form.reset({
+		const fetchData = async () => {
+			try {
+				const [movementRes, warehousesRes] = await Promise.all([
+					api.get(`/movements/${movementId}`),
+					api.get(`/warehouse`),
+				])
+				console.log(warehousesRes.data)
+				const movement = movementRes.data
+				if (movement.type !== "TRANSFER") {
+					toast.error("Essa movimentação não é do tipo transferência.")
+					return
+				}
+
+				setWarehouses(warehousesRes.data)
+				reset({
 					type: movement.type,
 					quantity: movement.quantity,
-					origin: movement.origin,
-					destination: movement.destination,
+					originWarehouseId: movement.originWarehouseId,
+					destinationWarehouseId: movement.destinationWarehouseId,
+					status: movement.status,
 					notes: movement.notes
+
 				})
-
-			})
-			.catch(() => {
-				toast.error("Erro ao buscar movimentação.")
-			})
-			.finally(() => {
+			} catch {
+				toast.error("Erro ao carregar dados.")
+			} finally {
 				setLoading(false)
-			})
+			}
+		}
 
-	}, [])
+		fetchData()
+	}, [movementId, reset])
 
 	const onSubmit = async (data: FormValues) => {
 		try {
-			await api.patch(`/movements/${movementId}`, data)
-			toast.success("Movimentação atualizada com sucesso.")
-		} catch (error) {
-			toast.error("Erro ao atualizar movimentação.")
+			setLoading(true)
+			await api.patch(`/movements/${movementId}`, {
+				...data,
+				type: "TRANSFER",
+			})
+			toast.success("Transferência atualizada com sucesso.")
+			router.refresh()
+		} catch {
+			toast.error("Erro ao atualizar transferência.")
+		} finally {
+			setLoading(false)
 		}
 	}
 
@@ -86,111 +129,137 @@ const EditMovementModal = ({ movementId }: EditMovementModalProps) => {
 		try {
 			setLoading(true)
 			await api.delete(`/movements/${movementId}`)
-			setLoading(false)
-
-			toast.success("Movimentação deletada com sucesso.")
+			toast.success("Transferência deletada com sucesso.")
 			router.push("/movements")
 			router.refresh()
-
-		} catch (error) {
-			toast.error("Erro ao deletar movimentação.")
+		} catch {
+			toast.error("Erro ao deletar transferência.")
+		} finally {
 			setLoading(false)
-			console.log(error)
 		}
-
 	}
 
 	if (loading) {
 		return (
-			<div className="w-full h-full">
-				<Loader2 className="animate-spin" />
+			<div className="flex justify-center items-center p-6">
+				<Loader2 className="animate-spin size-5" />
 			</div>
 		)
 	}
 
 	return (
-		<div className="p-6 max-w-2xl mx-auto">
+		<div className="p-4">
 			<Dialog>
 				<DialogTrigger className="p-0 m-0 cursor-pointer">
 					<Pencil className="size-4" />
 				</DialogTrigger>
-				<DialogContent >
-					<DialogHeader className="flex justify-start items-center gap-3">
-						<DialogTitle>Detalhes da Movimentação</DialogTitle>
-						
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Editar Transferência</DialogTitle>
 					</DialogHeader>
-
 
 					<Form {...form}>
 						<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 							<FormField
-								control={control}
+								control={form.control}
 								name="type"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Tipo</FormLabel>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<FormLabel>Tipo de movimentação</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
 												<SelectTrigger>
-													<SelectValue placeholder="Selecione" />
+													<SelectValue placeholder="Selecione o tipo" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
 												<SelectItem value="IN">Entrada</SelectItem>
 												<SelectItem value="OUT">Saída</SelectItem>
-												<SelectItem value="TRANSFER">Transferência</SelectItem>
+												<SelectItem value="TRANSFER">
+													Movimentação
+												</SelectItem>
 											</SelectContent>
 										</Select>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
+						
+
+							{watchType === "TRANSFER" && (
+							<>
+								<FormField
+									control={form.control}
+									name="originWarehouseId"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Origem</FormLabel>
+											<Select onValueChange={field.onChange} value={field.value} >
+												<FormControl className="w-full">
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Selecione o Armazém de Origem" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{warehouses.map(warehouse => (
+														<SelectItem key={warehouse.id} value={warehouse.id}>
+															{warehouse.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="destinationWarehouseId"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Destino</FormLabel>
+											<Select onValueChange={field.onChange} value={field.value} >
+												<FormControl className="w-full">
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Selecione o Armazém de Destino" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{warehouses.map(warehouse => (
+														<SelectItem key={warehouse.id} value={warehouse.id}>
+															{warehouse.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</>
+						)}
 
 							<FormField
-								control={control}
-								name="quantity"
+								name="status"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Quantidade</FormLabel>
-										<FormControl>
-											<Input type="number" {...field} />
-										</FormControl>
+										<FormLabel>Status</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o status" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="PENDING">Pendente</SelectItem>
+												<SelectItem value="COMPLETED">Concluída</SelectItem>
+												<SelectItem value="CANCELED">Cancelada</SelectItem>
+											</SelectContent>
+										</Select>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
-
-							{type === "TRANSFER" && (
-								<>
-									<FormField
-										control={control}
-										name="origin"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Origem</FormLabel>
-												<FormControl>
-													<Input placeholder="Ex: Estoque Central" {...field} />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={control}
-										name="destination"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Destino</FormLabel>
-												<FormControl>
-													<Input placeholder="Ex: Loja 1" {...field} />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</>
-							)}
 
 							<FormField
 								control={control}
@@ -206,15 +275,15 @@ const EditMovementModal = ({ movementId }: EditMovementModalProps) => {
 								)}
 							/>
 
-							<div className="flex items-center justify-between pt-4 gap-2">
+							<div className="flex items-center justify-between gap-2 pt-2">
 								<AlertDialogDelete
-									type="Movimentação"
+									type="Transferência"
 									onDelete={onDelete}
 								/>
-								<Button type="submit" className="cursor-pointer flex rounded-sm w-2/4">
-									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+								<Button type="submit" disabled={loading} className="w-1/2">
+									{loading ? <Loader2 className="animate-spin size-4" /> : "Salvar"}
 								</Button>
-								</div>
+							</div>
 						</form>
 					</Form>
 				</DialogContent>
@@ -223,4 +292,4 @@ const EditMovementModal = ({ movementId }: EditMovementModalProps) => {
 	)
 }
 
-export default EditMovementModal
+export default EditTransferMovementModal

@@ -6,7 +6,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
 	const movement = await prisma.stockMovement.findUnique({
-		where: { id: params.id }
+		where: { id: params.id },
+		include: {
+			originWareHouse: true,
+			destinationWarehouse: true,
+			product: true
+		}
+		
 	})
 
 	if (!movement) {

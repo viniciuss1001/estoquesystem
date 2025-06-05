@@ -73,7 +73,6 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 
 	const onSubmit = async (data: FormData) => {
 		try {
-			console.log("dados enviados:", data)
 			await api.post("/warehouse-product", data)
 			toast.success("Produto vinculado ao armazém com sucesso.")
 			form.reset()

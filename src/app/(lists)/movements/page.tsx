@@ -12,15 +12,22 @@ interface Movement {
   id: string
   type: "IN" | "OUT" | "TRANSFER"
   quantity: number
-  origin: string | null
-  destination: string | null
   notes: string | null
   createdAt: string
   product: {
     id: string
     name: string
   }
+  originWareHouse: {
+    id: string
+    name: string
+  } | null
+  destinationWarehouse: {
+    id: string
+    name: string
+  } | null
 }
+
 
 
 const MovementsPage = () => {
@@ -80,8 +87,8 @@ const MovementsPage = () => {
                       : "Transferência"}
                 </TableCell>
                 <TableCell>{movement.quantity}</TableCell>
-                <TableCell>{movement.origin || "-"}</TableCell>
-                <TableCell>{movement.destination || "-"}</TableCell>
+                <TableCell>{movement.originWareHouse?.name || "-"}</TableCell>
+                <TableCell>{movement.destinationWarehouse?.name || "-"}</TableCell>
                 <TableCell>{movement.notes || "-"}</TableCell>
                 <TableCell>
                   {new Date(movement.createdAt).toLocaleDateString()}

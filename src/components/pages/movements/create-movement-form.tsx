@@ -20,24 +20,44 @@ const movementSchema = z.object({
 	type: z.enum(["IN", "OUT", "TRANSFER"], {
 		required_error: "Tipo de movimentação é obrigatório.",
 	}),
-	quantity: z.coerce.number().min(1, "Quantidade deve ser maior que 0.").positive(),
+	quantity: z.coerce.number().min(0),
+	// quantity: z.coerce.number().min(0).refine((val, ctx) => {
+	// 	if (ctx.parent.status !== "CANCELED" && val <= 0) {
+	// 		return false
+	// 	}
+	// 	return true
+	// }, { message: "Quantidade deve ser maior que 0 (exceto se cancelada)." }),
+	originWarehouseId: z.string().optional(),
+	destinationWarehouseId: z.string().optional(),
 	notes: z.string().optional(),
-	origin: z.string().optional(),
-	destination: z.string().optional(),
+	status: z.enum(["PENDING", "COMPLETED", "CANCELED"])
 }).superRefine((data, ctx) => {
 	if (data.type === "TRANSFER") {
-		if (!data.origin) {
+		if (!data.originWarehouseId) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				message: "Origem é obrigatória em transferências.",
-				path: ["origin"],
+				path: ["originWarehouseId"],
 			});
 		}
-		if (!data.destination) {
+
+		if (!data.destinationWarehouseId) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				message: "Destino é obrigatório em transferências.",
-				path: ["destination"],
+				path: ["destinationWarehouseId"],
+			});
+		}
+
+		if (
+			data.originWarehouseId &&
+			data.destinationWarehouseId &&
+			data.originWarehouseId === data.destinationWarehouseId
+		) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: "Origem e destino não podem ser iguais.",
+				path: ["destinationWarehouseId"],
 			});
 		}
 	}
@@ -51,20 +71,29 @@ interface Product {
 
 }
 
+interface Warehouse {
+	id: string
+	name: string
+	location?: string | null
+	description: string
+}
+
 const CreateMovementForm = () => {
 	const [open, setOpen] = useState(false)
 	const [products, setProducts] = useState<Product[]>([])
+	const [warehouses, setWarehouses] = useState<Warehouse[]>([])
 	const router = useRouter()
 
 	const form = useForm<MovementFormType>({
-		resolver: zodResolver(movementSchema),
+		resolver: zodResolver(movementSchema) as any,
 		defaultValues: {
 			productId: "",
 			type: "IN",
 			quantity: 1,
-			origin: "",
-			destination: "",
+			originWarehouseId: "",
+			destinationWarehouseId: "",
 			notes: "",
+			status: "PENDING"
 		}
 	})
 
@@ -73,9 +102,30 @@ const CreateMovementForm = () => {
 
 	useEffect(() => {
 		api.get("/product")
-			.then(res => setProducts(res.data))
+			.then((res) => {
+				setProducts(res.data)
+				// console.log(res.data)
+			})
 			.catch(() => toast.error("Erro ao carregar os produtos"))
 	}, [])
+
+	useEffect(() => {
+		api.get("/warehouse")
+			.then((res) => {
+				setWarehouses(res.data)
+				// console.log(res.data)
+			})
+
+			.catch(() => toast.error("Falha ao carregar locais de armazenamento"))
+
+	}, [])
+
+	useEffect(() => {
+		if (watchType !== "TRANSFER") {
+			form.setValue("originWarehouseId", "")
+			form.setValue("destinationWarehouseId", "")
+		}
+	})
 
 	const onSubmit = async (data: MovementFormType) => {
 		try {
@@ -85,7 +135,7 @@ const CreateMovementForm = () => {
 			form.reset()
 
 			setOpen(false)
-			
+
 		} catch (error) {
 			toast.error("Erro ao registrar movimentação.")
 		}
@@ -166,32 +216,77 @@ const CreateMovementForm = () => {
 							<>
 								<FormField
 									control={form.control}
-									name="origin"
+									name="originWarehouseId"
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Origem</FormLabel>
-											<FormControl>
-												<Input placeholder="Origem" {...field} />
-											</FormControl>
+											<Select onValueChange={field.onChange} value={field.value} >
+												<FormControl className="w-full">
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Selecione o Armazém de Origem" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{warehouses.map(warehouse => (
+														<SelectItem key={warehouse.id} value={warehouse.id}>
+															{warehouse.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
 											<FormMessage />
 										</FormItem>
 									)}
 								/>
 								<FormField
 									control={form.control}
-									name="destination"
+									name="destinationWarehouseId"
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Destino</FormLabel>
-											<FormControl>
-												<Input placeholder="Destino" {...field} />
-											</FormControl>
+											<Select onValueChange={field.onChange} value={field.value} >
+												<FormControl className="w-full">
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Selecione o Armazém de Destino" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{warehouses.map(warehouse => (
+														<SelectItem key={warehouse.id} value={warehouse.id}>
+															{warehouse.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
 											<FormMessage />
 										</FormItem>
 									)}
 								/>
 							</>
 						)}
+
+						<FormField
+							name="status"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Status</FormLabel>
+									<Select onValueChange={field.onChange} value={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Selecione o status" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value="PENDING">Pendente</SelectItem>
+											<SelectItem value="COMPLETED">Concluída</SelectItem>
+											<SelectItem value="CANCELED">Cancelada</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 
 						<FormField
 							control={form.control}
@@ -201,19 +296,6 @@ const CreateMovementForm = () => {
 									<FormLabel>Quantidade</FormLabel>
 									<FormControl>
 										<Input type="number" placeholder="Quantidade" {...field} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="destination"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Destino (opcional)</FormLabel>
-									<FormControl>
-										<Input placeholder="Ex: Recepção, Almoxarifado" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
