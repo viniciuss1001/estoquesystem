@@ -12,10 +12,12 @@ const roboto = Roboto({
 });
 
 
-
 export const metadata: Metadata = {
-  title: "EstoqueSystem",
+  title: "Stockly",
   description: "Gerenciamento de Estoque",
+  icons: {
+    icon: "/logo2.ico"
+  }
 };
 
 export default function RootLayout({

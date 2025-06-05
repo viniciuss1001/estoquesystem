@@ -2,9 +2,8 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+
 
 const AuditLogs = () => {
 
@@ -41,10 +40,8 @@ const AuditLogs = () => {
     return <Badge variant={variant} className="uppercase">{action}</Badge>;
   }
 
-
-
   return (
-    <div className="p-6">
+    <div className="p-6 space-y-6">
       <h2 className="text-2xl font-bold mb-6">
         Histórico de Ações
       </h2>

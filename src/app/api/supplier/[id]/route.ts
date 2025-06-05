@@ -14,7 +14,14 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 
 		const supplier = await prisma.supplier.findUnique({
 			where: { id: params.id },
-			include: { products: true }
+			include: {
+				products: {
+					include: {
+						category: true,
+						
+					}
+				}
+			}
 		})
 
 		if (!supplier) {

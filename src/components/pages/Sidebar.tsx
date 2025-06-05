@@ -2,7 +2,9 @@
 import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
 import { Archive, Home, icons, List, Package, Package2, RefreshCw, Settings, Timer, Truck, Users, Warehouse } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
+import logo from '../../../public/logo-rbg.png'
 
 
 const SidebarComponent = () => {
@@ -24,11 +26,11 @@ const SidebarComponent = () => {
 		{ label: "Configurações", icon: Settings, href: `/settings/${userId}` },
 	]
 	return (
-		<Sidebar className='flex items-center gap-4 mt-3'>
-			<SidebarHeader className='h-15 pt-6'>
-				<h2>
-					EstoqueSystem
-				</h2>
+		<Sidebar className='flex items-center gap-4 '>
+			<SidebarHeader className='h-auto p-6 flex items-start justify-center '>
+				<Link href='/'>
+				<Image src={logo} alt='Stockly' width={128} height={64} className='bg-none'/>
+				</Link>
 			</SidebarHeader>
 			<SidebarContent className='space-y-2 pl-3 '>
 				{navItems.map((item) => (
