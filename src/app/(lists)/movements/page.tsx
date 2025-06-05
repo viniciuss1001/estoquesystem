@@ -7,10 +7,14 @@ import api from '@/lib/axios'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { Badge } from "@/components/ui/badge"
+import { Repeat2 } from "lucide-react"
+
 
 interface Movement {
   id: string
   type: "IN" | "OUT" | "TRANSFER"
+  status: "PENDING" | "COMPLETED" | "CANCELED"
   quantity: number
   notes: string | null
   createdAt: string
@@ -37,13 +41,20 @@ const MovementsPage = () => {
     api.get("/movements")
       .then((response) => {
         setMovements(response.data.movements)
-      
+
       })
       .catch((error) => {
         toast.error("Erro ao carregar movimentações.")
         console.log(error)
       })
   }, [])
+
+  const statusColor = {
+    PENDING: "bg-yellow-100 text-yellow-800",
+    COMPLETED: "bg-green-100 text-green-800",
+    CANCELED: "bg-red-100 text-red-800",
+  }
+
 
   return (
     <div className='p-6 w-full h-full'>
@@ -59,12 +70,13 @@ const MovementsPage = () => {
           <TableRow>
             <TableHead>Produto</TableHead>
             <TableHead>Tipo</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Origem</TableHead>
             <TableHead>Destino</TableHead>
             <TableHead>Observações</TableHead>
             <TableHead>Data</TableHead>
-            <TableHead>Ações</TableHead>
+            {/* <TableHead>Ações</TableHead> */}
             <TableHead>Detalhes</TableHead>
           </TableRow>
         </TableHeader>
@@ -80,11 +92,21 @@ const MovementsPage = () => {
               <TableRow key={movement.id}>
                 <TableCell>{movement.product?.name ?? "-"}</TableCell>
                 <TableCell>
-                  {movement.type === "IN"
-                    ? "Entrada"
-                    : movement.type === "OUT"
-                      ? "Saída"
-                      : "Transferência"}
+                  {movement.type === "TRANSFER" ? (
+                    <div className="flex items-center gap-1">
+                      <Repeat2 className="w-4 h-4 text-blue-600" />
+                      <span>Transferência</span>
+                    </div>
+                  ) : movement.type === "IN" ? "Entrada" : "Saída"}
+                </TableCell>
+                <TableCell>
+                  <Badge className={statusColor[movement.status]}>
+                    {movement.status === "PENDING"
+                      ? "Pendente"
+                      : movement.status === "COMPLETED"
+                        ? "Concluída"
+                        : "Cancelada"}
+                  </Badge>
                 </TableCell>
                 <TableCell>{movement.quantity}</TableCell>
                 <TableCell>{movement.originWareHouse?.name || "-"}</TableCell>
@@ -93,9 +115,9 @@ const MovementsPage = () => {
                 <TableCell>
                   {new Date(movement.createdAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <EditMovementModal movementId={movement.id} />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <Link href={`/movements/${movement.id}`}>
                     Detalhes

@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import EditTransferModal from "@/components/pages/movements/edit-movement-modal"
 
 interface Movement {
   id: string
@@ -66,7 +67,7 @@ const MovementPage = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
-      {/* Breadcrumb */}
+      
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbLink href="/">Início</BreadcrumbLink>
@@ -83,6 +84,7 @@ const MovementPage = () => {
         <Badge variant="outline">
           {movementTypeLabel[movement.type] || movement.type}
         </Badge>
+        <EditTransferModal movementId={id}/>
       </div>
 
       
