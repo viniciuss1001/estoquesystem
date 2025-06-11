@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       if (!originWarehouseId) {
         return new NextResponse("Armazém de origem obigatório.", {
           status: 400,
-        });
+        })
       }
 
       const stock = await prisma.warehouseProduct.findUnique({
@@ -53,19 +53,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // create movement
-    const movement = await prisma.stockMovement.create({
-      data: {
-        productId,
-        quantity,
-        type,
-        originWarehouseId,
-        destinationWarehouseId,
-        notes,
-        status,
-      },
-    })
-    
+  
 
     if (status === "COMPLETED") {
       switch (type) {
@@ -91,8 +79,8 @@ export async function POST(req: NextRequest) {
               warehouseId: destinationWarehouseId,
               quantity,
             },
-          });
-          break;
+          })
+          break
 
         case "OUT": {
           if (!originWarehouseId) {
@@ -185,6 +173,20 @@ export async function POST(req: NextRequest) {
         }
       }
     }
+
+    // create movement
+    const movement = await prisma.stockMovement.create({
+      data: {
+        productId,
+        quantity,
+        type,
+        originWarehouseId: type === "IN" ? null :  originWarehouseId,
+        destinationWarehouseId,
+        notes,
+        status,
+      },
+    })
+    
 
 
     await logAction({

@@ -238,7 +238,7 @@ const CreateMovementForm = () => {
 							/>
 						</div>
 
-						{watchType === "TRANSFER" && (
+						{watchType === "TRANSFER" ? (
 							<>
 								<FormField
 									control={form.control}
@@ -290,6 +290,32 @@ const CreateMovementForm = () => {
 									)}
 								/>
 							</>
+						) : (
+							<FormField
+								control={form.control}
+								name="destinationWarehouseId"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Destino</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value} >
+											<FormControl className="w-full">
+												<SelectTrigger className="w-full">
+													<SelectValue placeholder="Selecione o Armazém de Destino" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{warehouses.map(warehouse => (
+													<SelectItem key={warehouse.id} value={warehouse.id}>
+														{warehouse.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
 						)}
 
 						<FormField

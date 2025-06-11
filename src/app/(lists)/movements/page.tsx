@@ -90,7 +90,11 @@ const MovementsPage = () => {
           ) : (
             movements.map((movement) => (
               <TableRow key={movement.id}>
-                <TableCell>{movement.product?.name ?? "-"}</TableCell>
+                <TableCell>
+                  <Link href={`/products/${movement.product.id}`}>
+                    {movement.product?.name ?? "-"}
+                  </Link>
+                </TableCell>
                 <TableCell>
                   {movement.type === "TRANSFER" ? (
                     <div className="flex items-center gap-1">
