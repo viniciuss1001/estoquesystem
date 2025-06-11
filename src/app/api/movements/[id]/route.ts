@@ -65,98 +65,98 @@ export async function PATCH(
 
     const productId = existingMovement.productId;
 
-    //revert old movement
-    if (existingMovement.type === "IN") {
-      await prisma.product.update({
-        where: { id: productId },
-        data: {
-          quantity: { decrement: existingMovement.quantity },
-        },
-      });
-    } else if (existingMovement.type === "OUT") {
-      await prisma.product.update({
-        where: { id: productId },
-        data: {
-          quantity: { increment: existingMovement.quantity },
-        },
-      });
+    //  revert if is COMPLETED
+    if (existingMovement.status === "COMPLETED") {
+      if (existingMovement.type === "TRANSFER") {
+        if (existingMovement.originWarehouseId) {
+          await prisma.warehouseProduct.update({
+            where: {
+              warehouseId_productId: {
+                warehouseId: existingMovement.originWarehouseId,
+                productId
+              }
+            },
+            data: {
+              quantity: {
+                increment: existingMovement.quantity
+              }
+            }
+          })
+        }
+
+        if (existingMovement.destinationWarehouseId) {
+          await prisma.warehouseProduct.update({
+            where: {
+              warehouseId_productId: {
+                warehouseId: existingMovement.destinationWarehouseId,
+                productId,
+              },
+            },
+            data: {
+              quantity: { decrement: existingMovement.quantity },
+            },
+          })
+        }
+      }
     }
 
-    //if TRANSFER is COMPLETED,
-    if (
-      existingMovement.type === "TRANSFER" &&
-      existingMovement.status === "COMPLETED" &&
-      existingMovement.destinationWarehouseId
-    ) {
-      await prisma.warehouseProduct.updateMany({
-        where: {
-          productId,
-          warehouseId: existingMovement.destinationWarehouseId,
-        },
-        data: {
-          quantity: { decrement: existingMovement.quantity },
-        },
-      });
-    }
-    // aplly new transfer
-    if (type === "IN") {
-      await prisma.product.update({
-        where: { id: productId },
-        data: {
-          quantity: { increment: quantity },
-        },
-      });
-    } else if (type === "OUT") {
-      await prisma.product.update({
-        where: { id: productId },
-        data: {
-          quantity: { decrement: quantity },
-        },
-      });
-    }
+    // if new status is completed, verify stock
+    if (status === "COMPLETED" && type === "TRANSFER") {
+      if (!originWarehouseId || !destinationWarehouseId) {
+        return new NextResponse("Armazéns obrigatórios para transferência", { status: 400 });
+      }
 
-    // if TRANSFER and COMPLETED => aplly
-    if (
-      type === "TRANSFER" &&
-      status === "COMPLETED" &&
-      destinationWarehouseId
-    ) {
-      //for exists register
-
-      await prisma.warehouseProduct.upsert({
+      const originStock = await prisma.warehouseProduct.findUnique({
         where: {
           warehouseId_productId: {
-            warehouseId: destinationWarehouseId,
+            warehouseId: originWarehouseId,
             productId,
           },
         },
-        update: {
-          quantity: {
-            increment: quantity,
-          },
-        },
-        create: {
-          warehouseId: destinationWarehouseId,
-          productId,
-          quantity,
-        },
       });
+
+      if (!originStock || originStock.quantity < quantity) {
+        return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 });
+      }
     }
 
-    // if TRANSFER decrement origin - immediatly
-    if (type === "TRANSFER" && originWarehouseId) {
-      await prisma.warehouseProduct.updateMany({
-        where: {
-          productId,
-          warehouseId: originWarehouseId,
-        },
-        data: {
-          quantity: { decrement: quantity },
-        },
-      });
-    }
+    //apply new effect if final status is COMPLETED
+    if (status === "COMPLETED") {
+      switch (type) {
+        case "TRANSFER":
+          // Decrementa origem
+          await prisma.warehouseProduct.update({
+            where: {
+              warehouseId_productId: {
+                warehouseId: originWarehouseId!,
+                productId,
+              },
+            },
+            data: {
+              quantity: { decrement: quantity },
+            },
+          });
 
-    //update movement
+          // orogin decrement
+          await prisma.warehouseProduct.upsert({
+            where: {
+              warehouseId_productId: {
+                warehouseId: destinationWarehouseId!,
+                productId,
+              },
+            },
+            update: {
+              quantity: { increment: quantity },
+            },
+            create: {
+              warehouseId: destinationWarehouseId!,
+              productId,
+              quantity,
+            },
+          });
+          break
+      }
+    }
     const updatedMovement = await prisma.stockMovement.update({
       where: { id },
       data: {
@@ -167,7 +167,7 @@ export async function PATCH(
         notes,
         status,
       },
-    });
+    })
 
     await logAction({
       userId: session.user.id,
@@ -177,7 +177,7 @@ export async function PATCH(
       description: `Movimentação alterada: ${updatedMovement.id}`,
     });
 
-    return NextResponse.json({ updatedMovement });
+    return NextResponse.json({ updatedMovement })
   } catch (error) {
     console.error(error);
     return NextResponse.json(
