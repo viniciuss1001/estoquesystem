@@ -1,6 +1,7 @@
 "use client"
 
 import ProductMovementsComponent from "@/components/pages/product/ProductMovements"
+import ProductWarehouseDistribuition from "@/components/pages/product/ProductWarehouseDistribuition"
 import {
 	Breadcrumb, BreadcrumbLink, BreadcrumbList,
 	BreadcrumbPage, BreadcrumbSeparator
@@ -102,7 +103,8 @@ const ProductPage = () => {
 				</div>
 			</div>
 
-
+			<h2 className="text-2xl mt-4 pt-2">Produto por Armazém:</h2>
+				<ProductWarehouseDistribuition productId={product.id}/>
 			<h2 className="text-2xl mt-4 p-2">Movimentações do produto:</h2>
 			<ProductMovementsComponent productId={product.id} />
 		</div>

@@ -58,7 +58,7 @@ const ProductsPage = () => {
           <TableRow>
             <TableHead>Nome</TableHead>
             <TableHead>SKU</TableHead>
-            <TableHead>Quantidade</TableHead>
+            <TableHead>Quantidade Total</TableHead>
             <TableHead>Preço</TableHead>
             <TableHead>Categoria</TableHead>
             <TableHead>Fornecedor</TableHead>

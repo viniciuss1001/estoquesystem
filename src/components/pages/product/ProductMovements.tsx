@@ -53,7 +53,7 @@ const ProductMovementsComponent = ({ productId }: { productId: string }) => {
 		<div className='mt-4 border rounded-md overflow-hidden'>
 			<Table>
 				<TableHeader>
-					<TableRow>
+					<TableRow className='font-bold'>
 						<TableHead>Origem</TableHead>
 						<TableHead>Destino</TableHead>
 						<TableHead>Tipo</TableHead>
