@@ -41,7 +41,11 @@ const EditWarehouseProductModal = ({ warehouseId, productId, currentQuantity, on
 	const onSubmit = async (data: FormData) => {
 		try {
 			setLoading(true)
-			api.patch(`/warehouse-product/${warehouseId}/${productId}`, data)
+			api.patch(`/warehouse-product/quantity`, {
+				warehouseId, 
+				productId, 
+				quantity: data.quantity
+			})
 			toast.success("Quantidade atualizada com sucesso!")
 			onUpdated()
 

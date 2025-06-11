@@ -38,8 +38,9 @@ const WarehousePage = () => {
 			await api.delete(`/warehouse/${id}`)
 			setWarehouses(prev => prev.filter(w => w.id !== id))
 			toast.success("Armazém excluído com sucesso!")
-		} catch {
+		} catch(error) {
 			toast.error("Erro ao excluir armazém.")
+      // console.log(error)
 		}
 	}
 
