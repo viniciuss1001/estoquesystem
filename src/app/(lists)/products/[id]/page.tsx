@@ -103,7 +103,7 @@ const ProductPage = () => {
 			</div>
 
 
-			<h2 className="text-2xl p-4">Movimentações do produto:</h2>
+			<h2 className="text-2xl mt-4 p-2">Movimentações do produto:</h2>
 			<ProductMovementsComponent productId={product.id} />
 		</div>
 	)

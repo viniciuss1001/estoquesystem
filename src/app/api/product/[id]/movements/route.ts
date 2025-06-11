@@ -5,8 +5,12 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 
 	try {
 		const productMovements = await prisma.stockMovement.findMany({
-			where: {productId: params.id},
-			orderBy: {createdAt: "desc"}
+			where: { productId: params.id },
+			orderBy: { createdAt: "desc" },
+			include: {
+				originWareHouse: true,
+				destinationWarehouse: true
+			}
 		})
 
 		return NextResponse.json(productMovements)
