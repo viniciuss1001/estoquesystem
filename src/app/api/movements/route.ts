@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-  
+
 
     if (status === "COMPLETED") {
       switch (type) {
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
           await prisma.warehouseProduct.upsert({
             where: {
               warehouseId_productId: {
-                warehouseId: destinationWarehouseId, 
+                warehouseId: destinationWarehouseId,
                 productId,
               },
             },
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
               },
             },
           })
-          
+
           break;
         }
 
@@ -180,13 +180,13 @@ export async function POST(req: NextRequest) {
         productId,
         quantity,
         type,
-        originWarehouseId: type === "IN" ? null :  originWarehouseId,
-        destinationWarehouseId,
+        originWarehouseId: type === "IN" ? null : originWarehouseId,
+        destinationWarehouseId: type === "OUT" ? null : destinationWarehouseId,
         notes,
         status,
       },
     })
-    
+
 
 
     await logAction({

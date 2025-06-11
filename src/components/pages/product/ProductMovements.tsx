@@ -66,10 +66,10 @@ const ProductMovementsComponent = ({ productId }: { productId: string }) => {
 					{data.map((mov) => (
 						<TableRow key={mov.id}>
 							<TableCell>
-								{mov.originWareHouse.name}
+								{mov.originWareHouse?.name ?? "-"}
 							</TableCell>
 							<TableCell>
-								{mov.destinationWarehouse.name}
+								{mov.destinationWarehouse?.name ?? "-"}
 							</TableCell>
 							<TableCell>{mov.type === "IN" ? "Entrada" : mov.type === "OUT" ? "Saída" : "Transferência"}</TableCell>
 							<TableCell>{mov.quantity}</TableCell>

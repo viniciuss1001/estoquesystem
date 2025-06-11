@@ -238,7 +238,7 @@ const CreateMovementForm = () => {
 							/>
 						</div>
 
-						{watchType === "TRANSFER" ? (
+						{watchType === "TRANSFER" && (
 							<>
 								<FormField
 									control={form.control}
@@ -290,17 +290,49 @@ const CreateMovementForm = () => {
 									)}
 								/>
 							</>
-						) : (
+						)}
+
+						{watchType === "IN" && (
+							(
+								<FormField
+									control={form.control}
+									name="destinationWarehouseId"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Destino</FormLabel>
+											<Select onValueChange={field.onChange} value={field.value} >
+												<FormControl className="w-full">
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Selecione o Armazém de Destino" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{warehouses.map(warehouse => (
+														<SelectItem key={warehouse.id} value={warehouse.id}>
+															{warehouse.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+							)
+						)}
+
+						{watchType === "OUT" && (
 							<FormField
 								control={form.control}
-								name="destinationWarehouseId"
+								name="originWarehouseId"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Destino</FormLabel>
+										<FormLabel>Origem</FormLabel>
 										<Select onValueChange={field.onChange} value={field.value} >
 											<FormControl className="w-full">
 												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Selecione o Armazém de Destino" />
+													<SelectValue placeholder="Selecione o Armazém de Origem" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
@@ -308,6 +340,7 @@ const CreateMovementForm = () => {
 													<SelectItem key={warehouse.id} value={warehouse.id}>
 														{warehouse.name}
 													</SelectItem>
+
 												))}
 											</SelectContent>
 										</Select>
@@ -315,7 +348,6 @@ const CreateMovementForm = () => {
 									</FormItem>
 								)}
 							/>
-
 						)}
 
 						<FormField

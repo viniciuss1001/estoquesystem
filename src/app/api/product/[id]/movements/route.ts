@@ -1,11 +1,13 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
 	try {
+		const { id } = await params
+
 		const productMovements = await prisma.stockMovement.findMany({
-			where: { productId: params.id },
+			where: { productId: id },
 			orderBy: { createdAt: "desc" },
 			include: {
 				originWareHouse: true,
