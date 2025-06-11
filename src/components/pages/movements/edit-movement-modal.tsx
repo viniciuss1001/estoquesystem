@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Textarea } from "@/components/ui/textarea"
+import { useRouter } from "next/navigation"
+import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 
 const formSchema = z.object({
   productId: z.string().min(1),
@@ -52,6 +54,8 @@ const EditTransferModal = ({ movementId }: Props) => {
   const [loading, setLoading] = useState(false)
   const [warehouses, setWarehouses] = useState<Warehouse[]>([])
   const [products, setProducts] = useState<Product[]>([])
+
+  const router = useRouter()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -109,6 +113,22 @@ const EditTransferModal = ({ movementId }: Props) => {
       toast.error("Erro ao atualizar transferência.")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const onDelete = async () => {
+    try {
+      setLoading(true)
+      await api.delete(`/movements/${movementId}`)
+      setLoading(false)
+
+      toast.success("Produto deletado com sucesso.")
+      router.push("/movements")
+      router.refresh()
+    } catch (error) {
+      toast.error("Erro ao deletar Movimentação.")
+      setLoading(false)
+      console.log(error)
     }
   }
 
@@ -254,6 +274,11 @@ const EditTransferModal = ({ movementId }: Props) => {
               />
 
               <DialogFooter>
+
+                <AlertDialogDelete type="Movimentação"
+                  onDelete={onDelete}
+                />
+
                 <Button type="submit" disabled={loading}>
                   {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   Salvar
