@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { Badge } from "@/components/ui/badge"
-import { Repeat2 } from "lucide-react"
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
 
 
 interface Movement {
@@ -96,12 +96,30 @@ const MovementsPage = () => {
                   </Link>
                 </TableCell>
                 <TableCell>
-                  {movement.type === "TRANSFER" ? (
+                  {/* type transfer */}
+                  {movement.type === "TRANSFER" && (
                     <div className="flex items-center gap-1">
                       <Repeat2 className="w-4 h-4 text-blue-600" />
                       <span>Transferência</span>
                     </div>
-                  ) : movement.type === "IN" ? "Entrada" : "Saída"}
+                  )}
+
+          {/* type in */}
+                  {movement.type === "IN" && (
+                    <div className="flex items-center gap-1">
+                      <ArrowDownWideNarrow className="w-4 h-4 text-green-800" />
+                      <span>Entrada</span>
+                    </div>
+                  )}
+
+                  {/* type out */}
+                  {movement.type === "OUT" && (
+                    <div className="flex items-center gap-1">
+                      <ArrowUpNarrowWide className="w-4 h-4 text-red-900" />
+                      <span>Saída</span>
+                    </div>
+                  )}
+
                 </TableCell>
                 <TableCell>
                   <Badge className={statusColor[movement.status]}>

@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
             return new NextResponse("Destino obrigatório para entrada", { status: 400 });
           }
 
+          // update warehouse
           await prisma.warehouseProduct.upsert({
             where: {
               warehouseId_productId: {
@@ -79,6 +80,16 @@ export async function POST(req: NextRequest) {
               warehouseId: destinationWarehouseId,
               quantity,
             },
+          })
+
+          // update total product
+          await prisma.product.update({
+            where: { id: productId },
+            data: {
+              quantity: {
+                increment: quantity
+              }
+            }
           })
           break
 
@@ -100,6 +111,7 @@ export async function POST(req: NextRequest) {
             return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 });
           }
 
+          // update warehouse
           await prisma.warehouseProduct.update({
             where: {
               warehouseId_productId: {
@@ -112,6 +124,16 @@ export async function POST(req: NextRequest) {
                 decrement: quantity,
               },
             },
+          })
+
+          // update total product
+          await prisma.product.update({
+            where: { id: productId },
+            data: {
+              quantity: {
+                decrement: quantity
+              }
+            }
           })
 
           break;
