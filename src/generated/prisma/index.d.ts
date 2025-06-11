@@ -15328,7 +15328,7 @@ export namespace Prisma {
   }
 
   export type WarehouseProductWhereUniqueInput = Prisma.AtLeast<{
-    warehouseId_productId?: WarehouseProductWarehouseIdProductIdCompoundUniqueInput
+    warehouseId_productId?: WarehouseProductWarehouseId_productIdCompoundUniqueInput
     AND?: WarehouseProductWhereInput | WarehouseProductWhereInput[]
     OR?: WarehouseProductWhereInput[]
     NOT?: WarehouseProductWhereInput | WarehouseProductWhereInput[]
@@ -15337,7 +15337,7 @@ export namespace Prisma {
     quantity?: IntFilter<"WarehouseProduct"> | number
     warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
-  }, "warehouseId_productId">
+  }, "warehouseId_productId" | "warehouseId_productId">
 
   export type WarehouseProductOrderByWithAggregationInput = {
     warehouseId?: SortOrder
@@ -17020,6 +17020,11 @@ export namespace Prisma {
   export type ProductScalarRelationFilter = {
     is?: ProductWhereInput
     isNot?: ProductWhereInput
+  }
+
+  export type WarehouseProductWarehouseId_productIdCompoundUniqueInput = {
+    warehouseId: string
+    productId: string
   }
 
   export type WarehouseProductWarehouseIdProductIdCompoundUniqueInput = {

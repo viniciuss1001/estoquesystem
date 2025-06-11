@@ -22,6 +22,7 @@ model Product {
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     String?
   delivery       Delivery[]
+  // add status of product -> used // no used
 
   warehouseProduct WarehouseProduct[]
 }
@@ -61,7 +62,7 @@ model User {
   password      String
   office        Office     @default(GESTOR)
   phone         String?
-  department    String?
+  department    String? //add department enum ex.: product, warehouse, supplier -> crud of department
   description   String?
   image         String?
   createdAt     DateTime   @default(now())
@@ -99,6 +100,7 @@ model WarehouseProduct {
   product   Product   @relation(fields: [productId], references: [id])
 
   @@id([warehouseId, productId])
+  @@unique([warehouseId, productId], name: "warehouseId_productId")
 }
 
 model StockMovement {

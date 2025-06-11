@@ -5,103 +5,225 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-	try {
-		const session = await getServerSession(authOptions)
+  try {
+    const session = await getServerSession(authOptions);
 
-		if (!session) {
-			return new NextResponse("Não autorizado", { status: 401 })
-		}
+    if (!session) {
+      return new NextResponse("Não autorizado", { status: 401 });
+    }
 
-		const body = await req.json()
+    const data = await req.json();
+    const {
+      productId,
+      quantity,
+      type,
+      originWarehouseId,
+      destinationWarehouseId,
+      status,
+      notes,
+    } = data;
 
-		const { productId, type, quantity, originWarehouseId, destinationWarehouseId, notes,
-			status = "PENDING"
-		} = body
+    // validate positive quantity
+    if (status !== "CANCELED" && quantity <= 0) {
+      return new NextResponse("Quantidade deve ser maior do que zero.", {
+        status: 400,
+      });
+    }
+    //types needs stock
+    if (status === "COMPLETED" && (type === "OUT" || type === "TRANSFER")) {
+      if (!originWarehouseId) {
+        return new NextResponse("Armazém de origem obigatório.", {
+          status: 400,
+        });
+      }
 
-		if (!productId || !type || !quantity || quantity <= 0) {
-			return new NextResponse("Dados inválidos", { status: 400 })
-		}
+      const stock = await prisma.warehouseProduct.findUnique({
+        where: {
+          warehouseId_productId: {
+            warehouseId: originWarehouseId,
+            productId,
+          },
+        },
+      });
 
-		let movement = await prisma.stockMovement.create({
-			data: {
-				productId,
-				type,
-				quantity,
-				originWarehouseId,
-				destinationWarehouseId,
-				notes,
-				status,
-			}
-		})
+      if (!stock || stock.quantity < quantity) {
+        return new NextResponse("Estoque insuficiente no armazém de origem", {
+          status: 400,
+        });
+      }
+    }
 
-		// LOGIC
-		if (type === "IN" && status === "COMPLETED") {
-			await prisma.product.update({
-				where: { id: productId },
-				data: {
-					quantity: {
-						increment: quantity
-					}
-				}
-			})
-		}
+    // create movement
+    const movement = await prisma.stockMovement.create({
+      data: {
+        productId,
+        quantity,
+        type,
+        originWarehouseId,
+        destinationWarehouseId,
+        notes,
+        status,
+      },
+    })
+    
 
-		if (type === "OUT" && status === "COMPLETED") {
-			await prisma.product.update({
-				where: { id: productId },
-				data: {
-					quantity: { decrement: quantity }
-				}
-			})
-		}
+    if (status === "COMPLETED") {
+      switch (type) {
+        case "IN":
+          if (!destinationWarehouseId) {
+            return new NextResponse("Destino obrigatório para entrada", { status: 400 });
+          }
 
-		if (type === "TRANSFER" && status === "COMPLETED") {
-			await prisma.product.update({
-				where: { id: productId },
-				data: {
-					quantity: { decrement: quantity }
-				}
-			})
-		}
+          await prisma.warehouseProduct.upsert({
+            where: {
+              warehouseId_productId: {
+                warehouseId: destinationWarehouseId, 
+                productId,
+              },
+            },
+            update: {
+              quantity: {
+                increment: quantity,
+              },
+            },
+            create: {
+              productId,
+              warehouseId: destinationWarehouseId,
+              quantity,
+            },
+          });
+          break;
 
-		await logAction({
-			userId: session?.user.id,
-			action: "create",
-			entity: "movement",
-			entityId: movement.id,
-			description: `Movimentação criada: ${type} de ${quantity} unidades`,
-		})
+        case "OUT": {
+          if (!originWarehouseId) {
+            return new NextResponse("Origem obrigatória para saída", { status: 400 });
+          }
 
-		return NextResponse.json({ message: "Movimentação registrada com sucesso", movement })
+          const warehouseProduct = await prisma.warehouseProduct.findUnique({
+            where: {
+              warehouseId_productId: {
+                warehouseId: originWarehouseId,
+                productId,
+              },
+            },
+          });
+
+          if (!warehouseProduct || warehouseProduct.quantity < quantity) {
+            return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 });
+          }
+
+          await prisma.warehouseProduct.update({
+            where: {
+              warehouseId_productId: {
+                warehouseId: originWarehouseId,
+                productId,
+              },
+            },
+            data: {
+              quantity: {
+                decrement: quantity,
+              },
+            },
+          })
+          
+          break;
+        }
+
+        case "TRANSFER": {
+          if (!originWarehouseId || !destinationWarehouseId) {
+            return new NextResponse("Origem e destino são obrigatórios para transferência", { status: 400 });
+          }
+
+          const warehouseProduct = await prisma.warehouseProduct.findUnique({
+            where: {
+              warehouseId_productId: {
+                warehouseId: originWarehouseId,
+                productId,
+              },
+            },
+          });
+
+          if (!warehouseProduct || warehouseProduct.quantity < quantity) {
+            return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 });
+          }
+
+          // Decrementa origem
+          await prisma.warehouseProduct.update({
+            where: {
+              warehouseId_productId: {
+                warehouseId: originWarehouseId,
+                productId,
+              },
+            },
+            data: {
+              quantity: {
+                decrement: quantity,
+              },
+            },
+          });
+
+          // Incrementa ou cria destino
+          await prisma.warehouseProduct.upsert({
+            where: {
+              warehouseId_productId: {
+                warehouseId: destinationWarehouseId,
+                productId,
+              },
+            },
+            update: {
+              quantity: {
+                increment: quantity,
+              },
+            },
+            create: {
+              productId,
+              warehouseId: destinationWarehouseId,
+              quantity,
+            },
+          });
+          break;
+        }
+      }
+    }
 
 
-	} catch (error) {
-		console.error("Erro ao registrar movimentação:", error)
-		return new NextResponse("Erro interno do servidor", { status: 500 })
-	}
+    await logAction({
+      userId: session?.user.id,
+      action: "create",
+      entity: "movement",
+      entityId: movement.id,
+      description: `Movimentação criada: ${type} de ${quantity} unidades`,
+    });
+
+    return NextResponse.json({
+      message: "Movimentação registrada com sucesso",
+      movement,
+    });
+  } catch (error) {
+    console.error("Erro ao registrar movimentação:", error);
+    return new NextResponse("Erro interno do servidor", { status: 500 });
+  }
 }
 export async function GET() {
-	const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
-	if (!session) {
-		return new NextResponse("Não autorizado", { status: 401 });
-	}
+  if (!session) {
+    return new NextResponse("Não autorizado", { status: 401 });
+  }
 
-	try {
+  try {
+    const movements = await prisma.stockMovement.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        product: true,
+        originWareHouse: true,
+        destinationWarehouse: true,
+      },
+    });
 
-		const movements = await prisma.stockMovement.findMany({
-			orderBy: { createdAt: "desc" },
-			include: {
-				product: true,
-				originWareHouse: true,
-				destinationWarehouse: true
-			}
-		})
-
-		return NextResponse.json({ movements })
-
-	} catch (error) {
-		console.error("Erro ao buscar movimentações.", error);
-		return new NextResponse("Erro interno do servidor", { status: 500 });
-	}
+    return NextResponse.json({ movements });
+  } catch (error) {
+    console.error("Erro ao buscar movimentações.", error);
+    return new NextResponse("Erro interno do servidor", { status: 500 });
+  }
 }
