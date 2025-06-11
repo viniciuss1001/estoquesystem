@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 				warehouseId,
 				productId,
 				quantity: quantity ?? 0,
-				
+
 			}
 		})
 
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-export async function GET( ){
+export async function GET() {
 	try {
 		const session = await getServerSession(authOptions)
 
@@ -54,6 +54,6 @@ export async function GET( ){
 		return NextResponse.json(warehouseProducts)
 
 	} catch (error) {
-		
+
 	}
 }

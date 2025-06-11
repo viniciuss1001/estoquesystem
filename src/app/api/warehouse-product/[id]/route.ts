@@ -3,6 +3,10 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(req: NextRequest) {
+  
+}
+
 export async function PATCH(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -19,9 +23,9 @@ export async function PATCH(req: NextRequest) {
       return new Response("Parâmetros inválidos", { status: 400 });
     }
 
-    const body = await req.json();
+    const body = await req.json()
 
-    const { quantity } = body;
+    const { quantity } = body
 
     const warehouseProductUpdated = await prisma.warehouseProduct.update({
       where: {

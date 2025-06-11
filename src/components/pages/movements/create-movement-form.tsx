@@ -1,11 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { useWarehouseProductQuantity } from "@/hooks/useWarehouseProductQuantity"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2, Plus } from "lucide-react"
@@ -21,12 +22,6 @@ const movementSchema = z.object({
 		required_error: "Tipo de movimentação é obrigatório.",
 	}),
 	quantity: z.coerce.number().min(0),
-	// quantity: z.coerce.number().min(0).refine((val, ctx) => {
-	// 	if (ctx.parent.status !== "CANCELED" && val <= 0) {
-	// 		return false
-	// 	}
-	// 	return true
-	// }, { message: "Quantidade deve ser maior que 0 (exceto se cancelada)." }),
 	originWarehouseId: z.string().optional(),
 	destinationWarehouseId: z.string().optional(),
 	notes: z.string().optional(),
@@ -100,6 +95,13 @@ const CreateMovementForm = () => {
 
 	const watchType = form.watch("type")
 
+	const productId = form.watch("productId")
+	const originWarehouseId = form.watch("originWarehouseId")
+	const destinationWarehouseId = form.watch("destinationWarehouseId")
+
+	const { data: originStock } = useWarehouseProductQuantity(productId, originWarehouseId)
+	const { data: destinationStock } = useWarehouseProductQuantity(productId, destinationWarehouseId)
+
 	useEffect(() => {
 		api.get("/product")
 			.then((res) => {
@@ -125,7 +127,7 @@ const CreateMovementForm = () => {
 			form.setValue("originWarehouseId", "")
 			form.setValue("destinationWarehouseId", "")
 		}
-	})
+	}, [])
 
 	const onSubmit = async (data: MovementFormType) => {
 		try {
@@ -141,6 +143,8 @@ const CreateMovementForm = () => {
 		}
 	}
 
+
+
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger>
@@ -155,11 +159,33 @@ const CreateMovementForm = () => {
 
 						Adicionar nova Movimentação
 					</DialogTitle>
+					<DialogDescription className="w-full flex">
+						{originWarehouseId && (
+							<div className="p-3 m-3 bg-blue-400/10 border border-blue-600/15 text-white w-full rounded-md">
+
+								{originWarehouseId && (
+									<p className="text-sm">
+										Estoque em <strong>origem</strong>:{" "}
+										<span className="font-medium">{originStock?.quantity ?? 0}</span> unidades
+									</p>
+								)}
+
+								{destinationWarehouseId && (
+									<p className="text-sm ">
+										Estoque em <strong>destino</strong>:{" "}
+										<span className="font-medium">{destinationStock?.quantity ?? 0}</span> unidades
+									</p>
+								)}
+
+							</div>
+						)}
+					</DialogDescription>
 				</DialogHeader>
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<div className="flex gap-2 justify-between">
+
 							<FormField
 								control={form.control}
 								name="productId"
@@ -231,6 +257,7 @@ const CreateMovementForm = () => {
 														<SelectItem key={warehouse.id} value={warehouse.id}>
 															{warehouse.name}
 														</SelectItem>
+
 													))}
 												</SelectContent>
 											</Select>
