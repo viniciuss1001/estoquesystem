@@ -16,7 +16,7 @@ const NavbarComponents = () => {
 	const { data: session } = useSession()
 
 	return (
-		<Menubar className='w-full h-2/24 p-5 flex justify-between'>
+		<Menubar className='w-full h-2/24 max-h-[150px] p-5 flex justify-between'>
 			<MenubarMenu >
 				<Button variant='ghost' asChild className='p-2 w-12'>
 					<SidebarTrigger className='size-6 pr-4 cursor-pointer w-7 h-7' />

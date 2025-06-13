@@ -42,16 +42,16 @@ const WarehouseProductsPage = () => {
 	}
 
 	const handleDelete = async (warehouseId: string, productId: string) => {
-		 try {
+		try {
 			await api.delete(`/warehouse-product/${warehouseId}/${productId}`)
 			toast.success("Produto removido do armazém com sucesso!")
 
 			setWarehouseProducts(prev =>
 				prev.filter(p => p.warehouseId !== warehouseId || p.productId !== productId)
 			)
-		 } catch (error) {
+		} catch (error) {
 			toast.error("Erro ao excluir produto do armazém")
-		 }
+		}
 	}
 
 	useEffect(() => {
@@ -62,8 +62,8 @@ const WarehouseProductsPage = () => {
 		return <div className="flex items-center justify-center w-full h-full"><Loader2 className="animate-spin" /></div>
 	}
 
-  return (
-	 <div className="p-6">
+	return (
+		<div className="p-6">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-2xl font-bold">Produtos por Armazém</h2>
 				<CreateWarehouseProductModal onCreated={fetchWarehouseProducts} />
@@ -88,12 +88,14 @@ const WarehouseProductsPage = () => {
 								<TableCell>{wp.warehouse.name}</TableCell>
 								<TableCell>{wp.quantity}</TableCell>
 								<TableCell className="flex items-center justify-end gap-2">
-									<EditWarehouseProductModal
-										productId={wp.productId}
-										currentQuantity={wp.quantity}
-										warehouseId={wp.warehouseId}
-										onUpdated={fetchWarehouseProducts}
-									/>
+									<div className="cursor-no-drop blur">
+										{/* <EditWarehouseProductModal
+											productId={wp.productId}
+											currentQuantity={wp.quantity}
+											warehouseId={wp.warehouseId}
+											onUpdated={fetchWarehouseProducts}
+										/> */}
+									</div>
 									<Button
 										variant="destructive"
 										onClick={() => handleDelete(wp.warehouseId, wp.productId)}
@@ -110,7 +112,7 @@ const WarehouseProductsPage = () => {
 			)}
 		</div>
 	)
-  
+
 }
 
 export default WarehouseProductsPage
