@@ -1,6 +1,7 @@
 "use client"
 
 import WarehouseMovementHistory from "@/components/pages/warehouse/WarehouseMovementHistory"
+import WarehouseProductsList from "@/components/pages/warehouse/WarehouseProductsList"
 import { Badge } from "@/components/ui/badge"
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
@@ -96,6 +97,11 @@ const WarehouseIdPage = () => {
 						</Badge>
 					</div>
 
+
+					<div className="mt-5">
+						<h2 className="text-2xl mt-4 pt-2 mb-6">Produtos do Armazém</h2>
+						<WarehouseProductsList warehouseId={warehouse.id} />
+					</div>
 
 					<div className="mt-5">
 						<h2 className="text-2xl mt-4 pt-2 mb-6">Movimentações do Armazém</h2>
