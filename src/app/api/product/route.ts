@@ -30,8 +30,31 @@ export async function POST(req: NextRequest) {
 						name: body.category
 					},
 				},
+				
 			},
-		});
+		})
+
+		// after create produtc, register in warehouseproduct
+		await prisma.warehouseProduct.create({
+			data: {
+				productId: product.id,
+				warehouseId: body.warehouse,
+				quantity: body.quantity
+			}
+		})
+
+		// create movement type IN
+		await prisma.stockMovement.create({
+			data: {
+				type: "IN",
+				quantity: body.quantity,
+				productId: product.id,
+				originWarehouseId: null,
+				destinationWarehouseId: body.warehouse,
+				status: "COMPLETED",
+				
+			}
+		})
 
 		await logAction({
 			userId: session.user.id,

@@ -22,7 +22,8 @@ const formSchema = z.object({
 	supplier: z.string().min(1, "Fornecedor obrigatório."),
 	quantity: z.coerce.number().min(0),
 	price: z.coerce.number().min(0),
-	category: z.string().min(1, "Categoria é obrigatória.")
+	category: z.string().min(1, "Categoria é obrigatória."),
+	warehouse: z.string().min(1, "Armazém é obrigatório.")
 })
 
 
@@ -40,7 +41,8 @@ const CreateProductModal = () => {
 			supplier: '',
 			quantity: 0,
 			price: 0,
-			category: ""
+			category: '',
+			warehouse: ''
 		}
 	})
 
@@ -52,11 +54,19 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const {data: suppliers = [], isLoading: supplierLoading} = useQuery({
+	const { data: suppliers = [], isLoading: supplierLoading } = useQuery({
 		queryKey: ["suppliers"],
 		queryFn: async () => {
 			const response = await api.get("/supplier")
 			return response.data.suppliers
+		}
+	})
+
+	const { data: warehouses =[] } = useQuery({
+		queryKey: ["warehouses"],
+		queryFn: async () => {
+			const response = await api.get("/warehouse")
+			return response.data
 		}
 	})
 
@@ -133,7 +143,7 @@ const CreateProductModal = () => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{suppliers.map((supplier: {id: string, name: string}) => (
+											{suppliers.map((supplier: { id: string, name: string }) => (
 												<SelectItem key={supplier.id} value={supplier.id}>
 													{supplier.name}
 												</SelectItem>
@@ -144,6 +154,7 @@ const CreateProductModal = () => {
 								</FormItem>
 							)}
 						/>
+
 						<FormField
 							control={form.control}
 							name="quantity"
@@ -186,6 +197,34 @@ const CreateProductModal = () => {
 											{categories.map((cat: { id: string; name: string }) => (
 												<SelectItem key={cat.id} value={cat.name}>
 													{cat.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="warehouse"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Armazém</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										value={field.value}
+										disabled={isLoading}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Selecione o Armazém:" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{warehouses.map((warehouse: { id: string, name: string }) => (
+												<SelectItem key={warehouse.id} value={warehouse.id}>
+													{warehouse.name}
 												</SelectItem>
 											))}
 										</SelectContent>
