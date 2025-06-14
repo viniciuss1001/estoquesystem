@@ -18,6 +18,11 @@ export async function POST(req: NextRequest) {
 			data: {
 				name: body.name,
 				sku: body.sku,
+				supplier: {
+					connect: {
+						id: body.supplier
+					}
+				},
 				price: body.price,
 				quantity: body.quantity,
 				category: {

@@ -19,6 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
 	sku: z.string().min(1, "SKU é obrigatório."),
+	supplier: z.string().min(1, "Fornecedor obrigatório."),
 	quantity: z.coerce.number().min(0),
 	price: z.coerce.number().min(0),
 	category: z.string().min(1, "Categoria é obrigatória.")
@@ -36,6 +37,7 @@ const CreateProductModal = () => {
 		defaultValues: {
 			name: '',
 			sku: '',
+			supplier: '',
 			quantity: 0,
 			price: 0,
 			category: ""
@@ -47,6 +49,14 @@ const CreateProductModal = () => {
 		queryFn: async () => {
 			const response = await api.get("/categories")
 			return response.data
+		}
+	})
+
+	const {data: suppliers = [], isLoading: supplierLoading} = useQuery({
+		queryKey: ["suppliers"],
+		queryFn: async () => {
+			const response = await api.get("/supplier")
+			return response.data.suppliers
 		}
 	})
 
@@ -101,6 +111,35 @@ const CreateProductModal = () => {
 								<FormItem>
 									<FormLabel>SKU</FormLabel>
 									<FormControl><Input {...field} /></FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="supplier"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Fornecedor</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										value={field.value}
+										disabled={isLoading}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Selecione o Fornecedor:" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{suppliers.map((supplier: {id: string, name: string}) => (
+												<SelectItem key={supplier.id} value={supplier.id}>
+													{supplier.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 									<FormMessage />
 								</FormItem>
 							)}

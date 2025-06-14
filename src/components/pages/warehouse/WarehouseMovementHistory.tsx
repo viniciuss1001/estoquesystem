@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
+import Link from "next/link"
 
 interface WarehouseMovementHistoryProps {
 	warehouseId: string
@@ -44,24 +45,29 @@ const WarehouseMovementHistory = ({ warehouseId }: WarehouseMovementHistoryProps
             <TableHead>Produto</TableHead>
             <TableHead>Tipo</TableHead>
             <TableHead>Quantidade</TableHead>
-            <TableHead>Antes → Depois</TableHead>
+            <TableHead>Antes</TableHead>
+				<TableHead>Depois</TableHead>
             <TableHead>Origem</TableHead>
             <TableHead>Destino</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Data</TableHead>
+				<TableHead>Detalhes</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="p-2">
           {data.map((movement: any) => (
-            <TableRow key={movement.id}>
+            <TableRow key={movement.id} className="pt-2">
               <TableCell>{movement.product?.name || "-"}</TableCell>
               <TableCell>
                 <Badge variant="outline">{movement.type}</Badge>
               </TableCell>
               <TableCell>{movement.quantity}</TableCell>
               <TableCell>
-                {movement.quantityBefore} → {movement.quantityAfter}
+                {movement.quantityBefore}  
               </TableCell>
+				  <TableCell>
+					{movement.quantityAfter}
+				  </TableCell>
               <TableCell>{movement.originWareHouse?.name || "-"}</TableCell>
               <TableCell>{movement.destinationWarehouse?.name || "-"}</TableCell>
               <TableCell>
@@ -70,11 +76,18 @@ const WarehouseMovementHistory = ({ warehouseId }: WarehouseMovementHistoryProps
                     movement.status === "COMPLETED" ? "default" :
                     movement.status === "PENDING" ? "secondary" : "destructive"
                   }
+						className="p-1"
                 >
                   {movement.status}
                 </Badge>
               </TableCell>
               <TableCell>{format(new Date(movement.createdAt), "dd/MM/yyyy HH:mm")}</TableCell>
+				  <TableCell>
+						<Link href={`/movements/${movement.id}`}>
+						Detalhes
+						</Link>
+
+				  </TableCell>
             </TableRow>
           ))}
         </TableBody>
