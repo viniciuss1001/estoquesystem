@@ -62,7 +62,7 @@ const WarehouseMovementHistory = ({ warehouseId }: WarehouseMovementHistoryProps
               <TableCell>
                 {movement.quantityBefore} → {movement.quantityAfter}
               </TableCell>
-              <TableCell>{movement.originWarehouse?.name || "-"}</TableCell>
+              <TableCell>{movement.originWareHouse?.name || "-"}</TableCell>
               <TableCell>{movement.destinationWarehouse?.name || "-"}</TableCell>
               <TableCell>
                 <Badge
