@@ -1,0 +1,108 @@
+"use client"
+
+import { Badge } from "@/components/ui/badge"
+import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import api from "@/lib/axios"
+import { Loader2 } from "lucide-react"
+import { useParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
+
+interface Warehouse {
+	id: string
+	name: string
+	location?: string | null
+	description: string
+}
+
+const WarehouseIdPage = () => {
+
+	const [warehouse, setWarehouse] = useState<Warehouse | null>(null)
+	const { id } = useParams()
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		api.get(`/warehouse/${id}`)
+			.then((response) => {
+				setWarehouse(response.data)
+			})
+			.catch(() => {
+				toast.error("Erro ao carregar armazém.")
+			})
+			.finally(() => {
+				setLoading(false)
+			})
+
+	}, [])
+
+	if (loading) {
+		return (
+			<div className="w-full h-full flex items-center justify-center">
+				<Loader2 className="animate-spin" />
+			</div>
+		)
+	}
+
+	if (!warehouse) {
+		return (
+			<div className="p-6 max-w-full">
+				<h2 className="text-xl font-bold">Armazém não encontrado.</h2>
+			</div>
+		)
+	}
+
+	return (
+		<div className='p-6'>
+
+			<div className="mb-2 flex p-2">
+				<Breadcrumb>
+					<BreadcrumbList>
+						<BreadcrumbLink href="/">Início</BreadcrumbLink>
+						<BreadcrumbSeparator />
+						<BreadcrumbLink href="/warehouse">Armazéns</BreadcrumbLink>
+						<BreadcrumbSeparator />
+						<BreadcrumbPage>{warehouse.name}</BreadcrumbPage>
+					</BreadcrumbList>
+				</Breadcrumb>
+			</div>
+
+			<Card className="rounded-2xl shadow-md bg-background">
+				<CardHeader className="flex flex-row items-center justify-between">
+					<div>
+						<CardTitle className="text-2xl font-semibold">{warehouse.name}</CardTitle>
+						{warehouse.location && (
+							<p className="text-muted-foreground text-sm">{warehouse.location}</p>
+						)}
+					</div>
+					<Button variant="outline" >
+						Editar
+					</Button>
+				</CardHeader>
+				<Separator />
+				<CardContent className="mt-4 space-y-4">
+					<div>
+						<h3 className="text-sm font-medium text-muted-foreground">Descrição</h3>
+						<p className="text-base text-foreground">{warehouse.description}</p>
+					</div>
+
+					<div>
+						<h3 className="text-sm font-medium text-muted-foreground">ID do Armazém</h3>
+						<Badge variant="secondary" className="mt-1 p-2 text-sm">
+							{warehouse.id}
+						</Badge>
+					</div>
+
+					<div>
+						{}
+					</div>
+					
+				</CardContent>
+			</Card>
+		</div>
+	)
+}
+
+export default WarehouseIdPage

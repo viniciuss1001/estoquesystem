@@ -1,7 +1,7 @@
 import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
 import { CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
@@ -166,7 +166,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 								)}
 							/>
 
-							<div className="flex items-center justify-between pt-4 gap-2">
+							<DialogFooter className="flex items-center justify-between pt-4 gap-2">
 								<AlertDialogDelete
 									type="Fornecedor"
 									onDelete={onDelete} />
@@ -175,7 +175,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 									className="cursor-pointer flex rounded-sm w-2/4">
 									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
 								</Button>
-							</div>
+							</DialogFooter>
 
 						</form>
 

@@ -8984,10 +8984,14 @@ export namespace Prisma {
 
   export type StockMovementAvgAggregateOutputType = {
     quantity: number | null
+    quantityBefore: number | null
+    quantityAfter: number | null
   }
 
   export type StockMovementSumAggregateOutputType = {
     quantity: number | null
+    quantityBefore: number | null
+    quantityAfter: number | null
   }
 
   export type StockMovementMinAggregateOutputType = {
@@ -8997,6 +9001,8 @@ export namespace Prisma {
     quantity: number | null
     originWarehouseId: string | null
     destinationWarehouseId: string | null
+    quantityBefore: number | null
+    quantityAfter: number | null
     notes: string | null
     status: $Enums.MovementStatus | null
     createdAt: Date | null
@@ -9009,6 +9015,8 @@ export namespace Prisma {
     quantity: number | null
     originWarehouseId: string | null
     destinationWarehouseId: string | null
+    quantityBefore: number | null
+    quantityAfter: number | null
     notes: string | null
     status: $Enums.MovementStatus | null
     createdAt: Date | null
@@ -9021,6 +9029,8 @@ export namespace Prisma {
     quantity: number
     originWarehouseId: number
     destinationWarehouseId: number
+    quantityBefore: number
+    quantityAfter: number
     notes: number
     status: number
     createdAt: number
@@ -9030,10 +9040,14 @@ export namespace Prisma {
 
   export type StockMovementAvgAggregateInputType = {
     quantity?: true
+    quantityBefore?: true
+    quantityAfter?: true
   }
 
   export type StockMovementSumAggregateInputType = {
     quantity?: true
+    quantityBefore?: true
+    quantityAfter?: true
   }
 
   export type StockMovementMinAggregateInputType = {
@@ -9043,6 +9057,8 @@ export namespace Prisma {
     quantity?: true
     originWarehouseId?: true
     destinationWarehouseId?: true
+    quantityBefore?: true
+    quantityAfter?: true
     notes?: true
     status?: true
     createdAt?: true
@@ -9055,6 +9071,8 @@ export namespace Prisma {
     quantity?: true
     originWarehouseId?: true
     destinationWarehouseId?: true
+    quantityBefore?: true
+    quantityAfter?: true
     notes?: true
     status?: true
     createdAt?: true
@@ -9067,6 +9085,8 @@ export namespace Prisma {
     quantity?: true
     originWarehouseId?: true
     destinationWarehouseId?: true
+    quantityBefore?: true
+    quantityAfter?: true
     notes?: true
     status?: true
     createdAt?: true
@@ -9166,6 +9186,8 @@ export namespace Prisma {
     quantity: number
     originWarehouseId: string | null
     destinationWarehouseId: string | null
+    quantityBefore: number | null
+    quantityAfter: number | null
     notes: string | null
     status: $Enums.MovementStatus
     createdAt: Date
@@ -9197,6 +9219,8 @@ export namespace Prisma {
     quantity?: boolean
     originWarehouseId?: boolean
     destinationWarehouseId?: boolean
+    quantityBefore?: boolean
+    quantityAfter?: boolean
     notes?: boolean
     status?: boolean
     createdAt?: boolean
@@ -9212,6 +9236,8 @@ export namespace Prisma {
     quantity?: boolean
     originWarehouseId?: boolean
     destinationWarehouseId?: boolean
+    quantityBefore?: boolean
+    quantityAfter?: boolean
     notes?: boolean
     status?: boolean
     createdAt?: boolean
@@ -9227,6 +9253,8 @@ export namespace Prisma {
     quantity?: boolean
     originWarehouseId?: boolean
     destinationWarehouseId?: boolean
+    quantityBefore?: boolean
+    quantityAfter?: boolean
     notes?: boolean
     status?: boolean
     createdAt?: boolean
@@ -9242,12 +9270,14 @@ export namespace Prisma {
     quantity?: boolean
     originWarehouseId?: boolean
     destinationWarehouseId?: boolean
+    quantityBefore?: boolean
+    quantityAfter?: boolean
     notes?: boolean
     status?: boolean
     createdAt?: boolean
   }
 
-  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "type" | "quantity" | "originWarehouseId" | "destinationWarehouseId" | "notes" | "status" | "createdAt", ExtArgs["result"]["stockMovement"]>
+  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "type" | "quantity" | "originWarehouseId" | "destinationWarehouseId" | "quantityBefore" | "quantityAfter" | "notes" | "status" | "createdAt", ExtArgs["result"]["stockMovement"]>
   export type StockMovementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     originWareHouse?: boolean | StockMovement$originWareHouseArgs<ExtArgs>
@@ -9278,6 +9308,8 @@ export namespace Prisma {
       quantity: number
       originWarehouseId: string | null
       destinationWarehouseId: string | null
+      quantityBefore: number | null
+      quantityAfter: number | null
       notes: string | null
       status: $Enums.MovementStatus
       createdAt: Date
@@ -9713,6 +9745,8 @@ export namespace Prisma {
     readonly quantity: FieldRef<"StockMovement", 'Int'>
     readonly originWarehouseId: FieldRef<"StockMovement", 'String'>
     readonly destinationWarehouseId: FieldRef<"StockMovement", 'String'>
+    readonly quantityBefore: FieldRef<"StockMovement", 'Int'>
+    readonly quantityAfter: FieldRef<"StockMovement", 'Int'>
     readonly notes: FieldRef<"StockMovement", 'String'>
     readonly status: FieldRef<"StockMovement", 'MovementStatus'>
     readonly createdAt: FieldRef<"StockMovement", 'DateTime'>
@@ -14708,6 +14742,8 @@ export namespace Prisma {
     quantity: 'quantity',
     originWarehouseId: 'originWarehouseId',
     destinationWarehouseId: 'destinationWarehouseId',
+    quantityBefore: 'quantityBefore',
+    quantityAfter: 'quantityAfter',
     notes: 'notes',
     status: 'status',
     createdAt: 'createdAt'
@@ -15369,6 +15405,8 @@ export namespace Prisma {
     quantity?: IntFilter<"StockMovement"> | number
     originWarehouseId?: StringNullableFilter<"StockMovement"> | string | null
     destinationWarehouseId?: StringNullableFilter<"StockMovement"> | string | null
+    quantityBefore?: IntNullableFilter<"StockMovement"> | number | null
+    quantityAfter?: IntNullableFilter<"StockMovement"> | number | null
     notes?: StringNullableFilter<"StockMovement"> | string | null
     status?: EnumMovementStatusFilter<"StockMovement"> | $Enums.MovementStatus
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
@@ -15384,6 +15422,8 @@ export namespace Prisma {
     quantity?: SortOrder
     originWarehouseId?: SortOrderInput | SortOrder
     destinationWarehouseId?: SortOrderInput | SortOrder
+    quantityBefore?: SortOrderInput | SortOrder
+    quantityAfter?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -15402,6 +15442,8 @@ export namespace Prisma {
     quantity?: IntFilter<"StockMovement"> | number
     originWarehouseId?: StringNullableFilter<"StockMovement"> | string | null
     destinationWarehouseId?: StringNullableFilter<"StockMovement"> | string | null
+    quantityBefore?: IntNullableFilter<"StockMovement"> | number | null
+    quantityAfter?: IntNullableFilter<"StockMovement"> | number | null
     notes?: StringNullableFilter<"StockMovement"> | string | null
     status?: EnumMovementStatusFilter<"StockMovement"> | $Enums.MovementStatus
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
@@ -15417,6 +15459,8 @@ export namespace Prisma {
     quantity?: SortOrder
     originWarehouseId?: SortOrderInput | SortOrder
     destinationWarehouseId?: SortOrderInput | SortOrder
+    quantityBefore?: SortOrderInput | SortOrder
+    quantityAfter?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -15437,6 +15481,8 @@ export namespace Prisma {
     quantity?: IntWithAggregatesFilter<"StockMovement"> | number
     originWarehouseId?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     destinationWarehouseId?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
+    quantityBefore?: IntNullableWithAggregatesFilter<"StockMovement"> | number | null
+    quantityAfter?: IntNullableWithAggregatesFilter<"StockMovement"> | number | null
     notes?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     status?: EnumMovementStatusWithAggregatesFilter<"StockMovement"> | $Enums.MovementStatus
     createdAt?: DateTimeWithAggregatesFilter<"StockMovement"> | Date | string
@@ -16194,6 +16240,8 @@ export namespace Prisma {
     id?: string
     type: $Enums.MovementType
     quantity: number
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -16209,6 +16257,8 @@ export namespace Prisma {
     quantity: number
     originWarehouseId?: string | null
     destinationWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -16218,6 +16268,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16233,6 +16285,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     originWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
     destinationWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16245,6 +16299,8 @@ export namespace Prisma {
     quantity: number
     originWarehouseId?: string | null
     destinationWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -16254,6 +16310,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16266,6 +16324,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     originWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
     destinationWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17065,6 +17125,17 @@ export namespace Prisma {
     not?: NestedEnumMovementTypeFilter<$PrismaModel> | $Enums.MovementType
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EnumMovementStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.MovementStatus | EnumMovementStatusFieldRefInput<$PrismaModel>
     in?: $Enums.MovementStatus[] | ListEnumMovementStatusFieldRefInput<$PrismaModel>
@@ -17084,6 +17155,8 @@ export namespace Prisma {
     quantity?: SortOrder
     originWarehouseId?: SortOrder
     destinationWarehouseId?: SortOrder
+    quantityBefore?: SortOrder
+    quantityAfter?: SortOrder
     notes?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17091,6 +17164,8 @@ export namespace Prisma {
 
   export type StockMovementAvgOrderByAggregateInput = {
     quantity?: SortOrder
+    quantityBefore?: SortOrder
+    quantityAfter?: SortOrder
   }
 
   export type StockMovementMaxOrderByAggregateInput = {
@@ -17100,6 +17175,8 @@ export namespace Prisma {
     quantity?: SortOrder
     originWarehouseId?: SortOrder
     destinationWarehouseId?: SortOrder
+    quantityBefore?: SortOrder
+    quantityAfter?: SortOrder
     notes?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17112,6 +17189,8 @@ export namespace Prisma {
     quantity?: SortOrder
     originWarehouseId?: SortOrder
     destinationWarehouseId?: SortOrder
+    quantityBefore?: SortOrder
+    quantityAfter?: SortOrder
     notes?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17119,6 +17198,8 @@ export namespace Prisma {
 
   export type StockMovementSumOrderByAggregateInput = {
     quantity?: SortOrder
+    quantityBefore?: SortOrder
+    quantityAfter?: SortOrder
   }
 
   export type EnumMovementTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -17129,6 +17210,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMovementTypeFilter<$PrismaModel>
     _max?: NestedEnumMovementTypeFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumMovementStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -17827,6 +17924,14 @@ export namespace Prisma {
     set?: $Enums.MovementType
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumMovementStatusFieldUpdateOperationsInput = {
     set?: $Enums.MovementStatus
   }
@@ -18251,6 +18356,33 @@ export namespace Prisma {
     _max?: NestedEnumMovementTypeFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumMovementStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.MovementStatus | EnumMovementStatusFieldRefInput<$PrismaModel>
     in?: $Enums.MovementStatus[] | ListEnumMovementStatusFieldRefInput<$PrismaModel>
@@ -18311,6 +18443,8 @@ export namespace Prisma {
     id?: string
     type: $Enums.MovementType
     quantity: number
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -18324,6 +18458,8 @@ export namespace Prisma {
     quantity: number
     originWarehouseId?: string | null
     destinationWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -18469,6 +18605,8 @@ export namespace Prisma {
     quantity?: IntFilter<"StockMovement"> | number
     originWarehouseId?: StringNullableFilter<"StockMovement"> | string | null
     destinationWarehouseId?: StringNullableFilter<"StockMovement"> | string | null
+    quantityBefore?: IntNullableFilter<"StockMovement"> | number | null
+    quantityAfter?: IntNullableFilter<"StockMovement"> | number | null
     notes?: StringNullableFilter<"StockMovement"> | string | null
     status?: EnumMovementStatusFilter<"StockMovement"> | $Enums.MovementStatus
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
@@ -18906,6 +19044,8 @@ export namespace Prisma {
     id?: string
     type: $Enums.MovementType
     quantity: number
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -18919,6 +19059,8 @@ export namespace Prisma {
     type: $Enums.MovementType
     quantity: number
     destinationWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -18938,6 +19080,8 @@ export namespace Prisma {
     id?: string
     type: $Enums.MovementType
     quantity: number
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -18951,6 +19095,8 @@ export namespace Prisma {
     type: $Enums.MovementType
     quantity: number
     originWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -19753,6 +19899,8 @@ export namespace Prisma {
     quantity: number
     originWarehouseId?: string | null
     destinationWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -19777,6 +19925,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19790,6 +19940,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     originWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
     destinationWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19801,6 +19953,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     originWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
     destinationWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19977,6 +20131,8 @@ export namespace Prisma {
     type: $Enums.MovementType
     quantity: number
     destinationWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -19988,6 +20144,8 @@ export namespace Prisma {
     type: $Enums.MovementType
     quantity: number
     originWarehouseId?: string | null
+    quantityBefore?: number | null
+    quantityAfter?: number | null
     notes?: string | null
     status?: $Enums.MovementStatus
     createdAt?: Date | string
@@ -20002,6 +20160,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20015,6 +20175,8 @@ export namespace Prisma {
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
     destinationWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20026,6 +20188,8 @@ export namespace Prisma {
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
     destinationWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20035,6 +20199,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20048,6 +20214,8 @@ export namespace Prisma {
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
     originWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20059,6 +20227,8 @@ export namespace Prisma {
     type?: EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
     quantity?: IntFieldUpdateOperationsInput | number
     originWarehouseId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantityBefore?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityAfter?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMovementStatusFieldUpdateOperationsInput | $Enums.MovementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

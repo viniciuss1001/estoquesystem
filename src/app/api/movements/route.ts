@@ -27,14 +27,16 @@ export async function POST(req: NextRequest) {
     if (status !== "CANCELED" && quantity <= 0) {
       return new NextResponse("Quantidade deve ser maior do que zero.", {
         status: 400,
-      });
+      })
     }
+    
+    let quantityBefore = 0
+    let quantityAfter = 0
+
     //types needs stock
     if (status === "COMPLETED" && (type === "OUT" || type === "TRANSFER")) {
       if (!originWarehouseId) {
-        return new NextResponse("Armazém de origem obigatório.", {
-          status: 400,
-        })
+        return new NextResponse("Armazém de origem obigatório.", { status: 400})
       }
 
       const stock = await prisma.warehouseProduct.findUnique({
@@ -55,12 +57,25 @@ export async function POST(req: NextRequest) {
 
 
 
+
     if (status === "COMPLETED") {
       switch (type) {
         case "IN":
           if (!destinationWarehouseId) {
-            return new NextResponse("Destino obrigatório para entrada", { status: 400 });
+            return new NextResponse("Destino obrigatório para entrada", { status: 400 })
           }
+
+          const destStock = await prisma.warehouseProduct.findUnique({
+            where:{
+              warehouseId_productId: {
+                warehouseId: destinationWarehouseId,
+                productId
+              }
+            }
+          })
+
+          quantityBefore = destStock?.quantity ?? 0
+          quantityAfter = quantityBefore + quantity
 
           // update warehouse
           await prisma.warehouseProduct.upsert({
@@ -71,14 +86,12 @@ export async function POST(req: NextRequest) {
               },
             },
             update: {
-              quantity: {
-                increment: quantity,
-              },
+              quantity: quantityAfter
             },
             create: {
               productId,
               warehouseId: destinationWarehouseId,
-              quantity,
+              quantity: quantityAfter
             },
           })
 
@@ -98,20 +111,22 @@ export async function POST(req: NextRequest) {
             return new NextResponse("Origem obrigatória para saída", { status: 400 });
           }
 
-          const warehouseProduct = await prisma.warehouseProduct.findUnique({
+          const originStock = await prisma.warehouseProduct.findUnique({
             where: {
-              warehouseId_productId: {
+              warehouseId_productId:{
                 warehouseId: originWarehouseId,
-                productId,
-              },
-            },
-          });
+                productId
+              }
+            }
+          })
 
-          if (!warehouseProduct || warehouseProduct.quantity < quantity) {
-            return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 });
+          if(!originStock || originStock.quantity < quantity){
+            return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 })
           }
 
-          // update warehouse
+          quantityBefore = originStock.quantity
+          quantityAfter = quantityBefore - quantity
+
           await prisma.warehouseProduct.update({
             where: {
               warehouseId_productId: {
@@ -120,9 +135,7 @@ export async function POST(req: NextRequest) {
               },
             },
             data: {
-              quantity: {
-                decrement: quantity,
-              },
+              quantity: quantityAfter,
             },
           })
 
@@ -144,19 +157,32 @@ export async function POST(req: NextRequest) {
             return new NextResponse("Origem e destino são obrigatórios para transferência", { status: 400 });
           }
 
-          const warehouseProduct = await prisma.warehouseProduct.findUnique({
+          const originStock = await prisma.warehouseProduct.findUnique({
             where: {
               warehouseId_productId: {
                 warehouseId: originWarehouseId,
-                productId,
-              },
-            },
-          });
+                productId
+              }
+            }
+          })
 
-          if (!warehouseProduct || warehouseProduct.quantity < quantity) {
-            return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 });
+          if(!originStock || originStock.quantity < quantity) {
+            return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 })
           }
 
+          const detinationStock = await prisma.warehouseProduct.findUnique({
+            where:{
+              warehouseId_productId: {
+                warehouseId: destinationWarehouseId,
+                productId
+              }
+            }
+          })
+
+          quantityBefore = originStock.quantity
+          quantityAfter = quantityBefore - quantity
+
+        
           // Decrementa origem
           await prisma.warehouseProduct.update({
             where: {
@@ -166,9 +192,7 @@ export async function POST(req: NextRequest) {
               },
             },
             data: {
-              quantity: {
-                decrement: quantity,
-              },
+              quantity: quantityAfter
             },
           });
 
@@ -206,6 +230,8 @@ export async function POST(req: NextRequest) {
         destinationWarehouseId: type === "OUT" ? null : destinationWarehouseId,
         notes,
         status,
+        quantityAfter,
+        quantityBefore
       },
     })
 

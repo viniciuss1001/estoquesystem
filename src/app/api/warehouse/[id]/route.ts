@@ -14,13 +14,37 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 		const warehouse = await prisma.wareHouse.findUnique({
 			where: { id: params.id },
 			include: {
-				
+				warehouseProduct: {
+					include: {
+						product: true
+					}
+				},
+				stockMovementsOrigin: {
+					include: {
+						product: true
+					}
+				},
+				stockMovementsDestination: {
+					include: {
+						product: true
+					}
+				},
 			}
 		})
 
 		if (!warehouse) {
 			return new NextResponse("Armazém não encontrado", { status: 404 })
 		}
+
+		//unify movementes
+
+		const unifiedMovementes = [
+			...warehouse.stockMovementsOrigin.map((m) => ({
+				id: m.id,
+				productName: m.product.name,
+				
+			}))
+		]
 
 		return NextResponse.json(warehouse)
 
@@ -61,7 +85,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
 	try {
-		
+
 		// verify if warehouse has products
 		const related = await prisma.warehouseProduct.findFirst({
 			where: { warehouseId: params.id }

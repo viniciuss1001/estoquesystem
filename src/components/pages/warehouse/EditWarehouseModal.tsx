@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import {
 	Dialog,
 	DialogContent,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -24,6 +25,7 @@ import {
 	FormControl,
 	FormMessage,
 } from "@/components/ui/form"
+import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),
@@ -41,9 +43,10 @@ interface EditWarehouseModalProps {
 		description?: string
 	}
 	onUpdated?: () => void
+	
 }
 
-export default function EditWarehouseModal({ warehouse, onUpdated }: EditWarehouseModalProps) {
+export default function EditWarehouseModal({ warehouse, onUpdated,  }: EditWarehouseModalProps) {
 	const [open, setOpen] = useState(false)
 	const [loading, setLoading] = useState(false)
 
@@ -69,6 +72,16 @@ export default function EditWarehouseModal({ warehouse, onUpdated }: EditWarehou
 			setLoading(false)
 		}
 	}
+
+	const handleDelete = async () => {
+			try {
+				await api.delete(`/warehouse/${warehouse.id}`)
+				toast.success("Armazém excluído com sucesso!")
+			} catch(error) {
+				toast.error("Erro ao excluir armazém.")
+			// console.log(error)
+			}
+		}
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -122,9 +135,18 @@ export default function EditWarehouseModal({ warehouse, onUpdated }: EditWarehou
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" disabled={loading}>
-							{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
-						</Button>
+
+						<DialogFooter  className="flex items-center justify-between pt-4 gap-2">
+							
+							<AlertDialogDelete 
+							onDelete={handleDelete}
+							type="Armazém"
+							/>
+
+							<Button type="submit" disabled={loading}>
+								{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
+							</Button>
+						</DialogFooter>
 					</form>
 				</Form>
 			</DialogContent>

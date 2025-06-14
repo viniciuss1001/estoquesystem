@@ -2,7 +2,6 @@
 
 import CreateSupplierModal from "@/components/pages/supplier/create-supplier-modal"
 import EditSupplierModal from "@/components/pages/supplier/edit-supplier-modal"
-import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
 import Link from "next/link"

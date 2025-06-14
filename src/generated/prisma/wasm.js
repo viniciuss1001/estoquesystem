@@ -192,6 +192,8 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   quantity: 'quantity',
   originWarehouseId: 'originWarehouseId',
   destinationWarehouseId: 'destinationWarehouseId',
+  quantityBefore: 'quantityBefore',
+  quantityAfter: 'quantityAfter',
   notes: 'notes',
   status: 'status',
   createdAt: 'createdAt'

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
 import { Loader2, Trash } from "lucide-react"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
@@ -33,16 +34,7 @@ const WarehousePage = () => {
 			setLoading(false)
 		}
 	}
-	const handleDelete = async (id: string) => {
-		try {
-			await api.delete(`/warehouse/${id}`)
-			setWarehouses(prev => prev.filter(w => w.id !== id))
-			toast.success("Armazém excluído com sucesso!")
-		} catch(error) {
-			toast.error("Erro ao excluir armazém.")
-      // console.log(error)
-		}
-	}
+	
 
 	useEffect(() => {
 		fetchWarehouses()
@@ -69,6 +61,7 @@ const WarehousePage = () => {
               <TableHead>Localização</TableHead>
               <TableHead>Descrição</TableHead>
               <TableHead className="text-right">Ações</TableHead>
+              <TableHead>Detalhes</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -78,14 +71,13 @@ const WarehousePage = () => {
                 <TableCell>{w.location || "-"}</TableCell>
                 <TableCell>{w.description}</TableCell>
                 <TableCell className="flex gap-2 justify-end">
-                  <EditWarehouseModal warehouse={w} onUpdated={fetchWarehouses} />
-                  <Button
-                    variant="destructive"
-                    onClick={() => handleDelete(w.id)}
-                  >
-                    <Trash className="w-4 h-4 mr-2" />
-                    Deletar
-                  </Button>
+                  <EditWarehouseModal warehouse={w} 
+                  onUpdated={fetchWarehouses} />
+                </TableCell>
+                <TableCell>
+                  <Link href={`/warehouse/${w.id}`}>
+                  Detalhes
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
