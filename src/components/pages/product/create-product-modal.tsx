@@ -62,7 +62,7 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const { data: warehouses =[] } = useQuery({
+	const { data: warehouses = [] } = useQuery({
 		queryKey: ["warehouses"],
 		queryFn: async () => {
 			const response = await api.get("/warehouse")
@@ -126,113 +126,121 @@ const CreateProductModal = () => {
 							)}
 						/>
 
-						<FormField
-							control={form.control}
-							name="supplier"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Fornecedor</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										value={field.value}
-										disabled={isLoading}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Selecione o Fornecedor:" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{suppliers.map((supplier: { id: string, name: string }) => (
-												<SelectItem key={supplier.id} value={supplier.id}>
-													{supplier.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
 
-						<FormField
-							control={form.control}
-							name="quantity"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Quantidade</FormLabel>
-									<FormControl><Input type="number" {...field} /></FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="price"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Preço</FormLabel>
-									<FormControl><Input type="number" step="0.01" {...field} /></FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="category"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Categoria</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										value={field.value}
-										disabled={isLoading}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Selecione uma categoria" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{categories.map((cat: { id: string; name: string }) => (
-												<SelectItem key={cat.id} value={cat.name}>
-													{cat.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="warehouse"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Armazém</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										value={field.value}
-										disabled={isLoading}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Selecione o Armazém:" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{warehouses.map((warehouse: { id: string, name: string }) => (
-												<SelectItem key={warehouse.id} value={warehouse.id}>
-													{warehouse.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						<div className="w-auto p-3 flex flex-wrap gap-4 items-center justify-between">
+
+							<FormField
+								control={form.control}
+								name="supplier"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Fornecedor</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											value={field.value}
+											disabled={isLoading}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o Fornecedor:" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{suppliers.map((supplier: { id: string, name: string }) => (
+													<SelectItem key={supplier.id} value={supplier.id}>
+														{supplier.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="category"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Categoria</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											value={field.value}
+											disabled={isLoading}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione uma categoria" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{categories.map((cat: { id: string; name: string }) => (
+													<SelectItem key={cat.id} value={cat.name}>
+														{cat.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="warehouse"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Armazém</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											value={field.value}
+											disabled={isLoading}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o Armazém:" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{warehouses.map((warehouse: { id: string, name: string }) => (
+													<SelectItem key={warehouse.id} value={warehouse.id}>
+														{warehouse.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+
+						<div className="w-auto p-3 flex flex-wrap gap-4 items-center justify-between">
+
+							<FormField
+								control={form.control}
+								name="quantity"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Quantidade</FormLabel>
+										<FormControl><Input type="number" {...field} /></FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="price"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Preço</FormLabel>
+										<FormControl><Input type="number" step="0.01" {...field} /></FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 
 						<DialogFooter>
 							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
