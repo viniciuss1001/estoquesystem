@@ -13,7 +13,8 @@ export async function GET(_: NextRequest, context: { params: { id: string } }) {
 			where: { id },
 			include: {
 				product: true,
-				supplier: true
+				supplier: true,
+				
 			}
 		})
 

@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useQuery } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -54,8 +56,8 @@ type FormValues = z.infer<typeof formSchema>
 
 const CreateDeliveryForm = () => {
 	const [open, setOpen] = useState(false)
-	const [products, setProducts] = useState<Product[]>([])
-	const [suppliers, setSuppliers] = useState<Supplier[]>([])
+	
+	const router = useRouter()
 
 
 	const form = useForm<FormValues>({
@@ -66,16 +68,25 @@ const CreateDeliveryForm = () => {
 		}
 	})
 
-	useEffect(() => {
-		if (open) {
-			Promise.all([api.get("/product"), api.get("/supplier")])
-				.then(([productsRes, suppliersRes]) => {
-					setProducts(productsRes.data)
-					setSuppliers(suppliersRes.data.suppliers)
-				})
-				.catch(() => toast.error("Erro ao carregar produtos ou fornecedores."))
+	const { data: products = [] } = useQuery({
+		queryKey: ["products"],
+		queryFn: async () => {
+			const response = await api.get("/product")
+			return response.data
 		}
-	}, [open])
+	})
+
+	const watchProductId = form.watch("productId")
+	const selectedProduct = products.find((p: Product) => p.id === watchProductId)
+
+	useEffect(() => {
+		if (selectedProduct?.supplier?.id) {
+			form.setValue("supplierId", selectedProduct.supplier.id)
+		} else {
+			form.setValue("supplierId", "")
+		}
+	}, [watchProductId])
+
 
 
 	const onSubmit = async (data: FormValues) => {
@@ -84,6 +95,8 @@ const CreateDeliveryForm = () => {
 			toast.success("Entraga criada com sucesso.")
 			form.reset()
 			setOpen(false)
+			router.refresh()
+			
 		} catch (error) {
 			toast.error("Erro ao criar entrega")
 			console.log(error)
@@ -108,22 +121,23 @@ const CreateDeliveryForm = () => {
 
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y4">
+
 							<FormField
 								control={form.control}
 								name="productId"
 								render={({ field }) => (
-									<FormItem className="w-full mt-4">
+									<FormItem>
 										<FormLabel>Produto</FormLabel>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
 												<SelectTrigger>
-													<SelectValue placeholder="Selecione um produto" />
+													<SelectValue placeholder="Selecione o Produto" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												{products.map((p) => (
-													<SelectItem key={p.id} value={p.id}>
-														{p.name}
+												{products.map((product: Product) => (
+													<SelectItem key={product.id} value={product.id}>
+														{product.name}
 													</SelectItem>
 												))}
 											</SelectContent>
@@ -133,26 +147,32 @@ const CreateDeliveryForm = () => {
 								)}
 							/>
 
+
 							<FormField
 								control={form.control}
 								name="supplierId"
 								render={({ field }) => (
-									<FormItem className="w-full mt-4">
+									<FormItem className="mt-4">
 										<FormLabel>Fornecedor</FormLabel>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select
+											onValueChange={field.onChange}
+											value={field.value}
+											disabled={true}
+										>
 											<FormControl>
 												<SelectTrigger>
-													<SelectValue placeholder="Selecione um fornecedor" />
+													<SelectValue placeholder="Fornecedor" />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												{suppliers.map((s) => (
-													<SelectItem key={s.id} value={s.id}>
-														{s.name}
+												{selectedProduct?.supplier && (
+													<SelectItem value={selectedProduct.supplier.id}>
+														{selectedProduct.supplier.name}
 													</SelectItem>
-												))}
+												)}
 											</SelectContent>
 										</Select>
+
 										<FormMessage />
 									</FormItem>
 								)}
@@ -183,7 +203,7 @@ const CreateDeliveryForm = () => {
 											<FormLabel>Prazo de entrega</FormLabel>
 											<FormControl>
 												<Input
-												className="w-full flex gap-4"
+													className="w-full flex gap-4"
 													type="date"
 													value={formattedDate}
 													onChange={(e) => {
@@ -198,7 +218,7 @@ const CreateDeliveryForm = () => {
 								}}
 							/>
 
-							
+
 							<DialogFooter className="flex mt-4">
 								<Button type="submit" className="w-full cursor-pointer p-2">
 									Criar entrega

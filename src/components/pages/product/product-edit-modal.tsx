@@ -262,7 +262,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 										
 									</div>
 
-									<div className="w-auto p-3 flex flex-wrap gap-4 items-center justify-between">
+									<div className="w-auto p-2 flex  gap-4 items-center justify-between ">
 
 										<FormField
 											control={form.control}

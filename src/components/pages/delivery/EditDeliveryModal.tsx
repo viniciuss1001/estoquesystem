@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useQuery } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -41,14 +42,32 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
+interface Product {
+  id: string
+  name: string
+  sku: string
+  quantity: string
+  price: number
+  category?: {
+    id: string
+    name: string
+    createdAt: string
+    updatedAt: string
+  }
+  createdAt: string
+  updatedAt: string
+  supplier: {
+    id: string
+    name: string
+  }
+}
 interface EditDeliveryModalProps {
   deliveryId: string
 }
 
 export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps) {
   const [open, setOpen] = useState(false)
-  const [products, setProducts] = useState<any[]>([])
-  const [suppliers, setSuppliers] = useState<any[]>([])
+
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -60,36 +79,44 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     },
   })
 
-  useEffect(() => {
-    if (open) {
-      Promise.all([api.get("/product"), api.get("/supplier")])
-        .then(([productsRes, suppliersRes]) => {
-          setProducts(productsRes.data.products || productsRes.data)
-          setSuppliers(suppliersRes.data.suppliers || suppliersRes.data)
-        })
-        .catch(() => toast.error("Erro ao carregar produtos ou fornecedores."));
+  const { data: products = [] } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const response = await api.get("/product")
+      return response.data
     }
-  }, [open])
+  })
+
+  const watchProductId = form.watch("productId")
+  const selectedProduct = products.find((p: Product) => p.id === watchProductId)
 
   useEffect(() => {
-    if (!open) return;
+    if (selectedProduct?.supplier?.id) {
+      form.setValue("supplierId", selectedProduct.supplier.id)
+    } else {
+      form.setValue("supplierId", "")
+    }
+  }, [watchProductId])
 
-    api
-      .get(`/delivery/${deliveryId}`)
-      .then((response) => {
-        const delivery = response.data;
-        form.reset({
-          productId: delivery.product.id,
-          supplierId: delivery.supplier.id,
-          quantity: delivery.quantity,
-          expectedAt: new Date(delivery.expectedAt),
-        });
+
+  const { data: delivery } = useQuery({
+    queryKey: ["delivery", deliveryId],
+    queryFn: async () => {
+      const response = await api.get(`/delivery/${deliveryId}`)
+      const data = response.data
+
+      form.reset({
+        productId: data.product.id,
+        supplierId: data.supplier.id,
+        quantity: data.quantity,
+        expectedAt: new Date(data.expectedAt),
+        status: data.status, 
       })
-      .catch(() => {
-        toast.error("Erro ao buscar entrega.");
-        setOpen(false);
-      });
-  }, [open, deliveryId, form])
+
+      return data
+    },
+    enabled: open, 
+  })
 
 
   const onSubmit = async (data: FormValues) => {
@@ -115,58 +142,68 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
       <DialogContent>
         <DialogTitle>
           Editar Entrega
+
         </DialogTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="productId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Produto</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione um produto" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {products.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>
-                          {p.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
-            <FormField
-              control={form.control}
-              name="supplierId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Fornecedor</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione um fornecedor" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {suppliers.map((s) => (
-                        <SelectItem key={s.id} value={s.id}>
-                          {s.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="w-full p-2 rounded-sm flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="productId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Produto</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione o Produto" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {products.map((product: Product) => (
+                          <SelectItem key={product.id} value={product.id}>
+                            {product.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="supplierId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fornecedor</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={true}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Fornecedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {selectedProduct?.supplier && (
+                          <SelectItem value={selectedProduct.supplier.id}>
+                            {selectedProduct.supplier.name}
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+            </div>
 
             <FormField
               control={form.control}

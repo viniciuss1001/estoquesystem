@@ -52,9 +52,7 @@ const SupplierPage = () => {
       </div>
     )
   }
-  console.log(supplier.products.map((product) => {
-    product.name
-  }))
+
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
