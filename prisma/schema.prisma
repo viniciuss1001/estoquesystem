@@ -23,10 +23,16 @@ model Product {
   categoryId     String?
   delivery       Delivery[]
   // add status of product -> used // no used
+  expirationDate DateTime?
+  usageStatus ProductUsageStatus? @default(STOCK)
 
   warehouseProduct WarehouseProduct[]
 }
 
+enum ProductUsageStatus {
+  STOCK
+  IN_USE
+}
 model Account {
   id                 String    @id @default(cuid())
   userId             String
