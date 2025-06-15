@@ -4,25 +4,35 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
-	const { id } = await params
+export async function GET(_: NextRequest, context: { params: { id: string } }) {
+	const { id } = context.params
 
-	const product = await prisma.product.findUnique({
-		where: { id },
-		include: {
-			category: true,
-			supplier: true
+	try {
+		const product = await prisma.product.findUnique({
+			where: { id },
+			include: {
+				category: true,
+				supplier: true,
+				warehouseProduct: {
+					include: {
+						warehouse: true
+					}
+				}
+			}
+		})
+
+		if (!product) {
+			return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 })
 		}
-	})
 
-	if (!product) {
-		return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 })
+		return NextResponse.json(product)
+	} catch (error) {
+		console.error("Erro ao buscar produto:", error)
+		return NextResponse.json({ error: "Erro interno ao buscar produto" }, { status: 500 })
 	}
-
-	return NextResponse.json(product)
-
 }
+
 
 export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
 
@@ -36,29 +46,47 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 
 		const body = await req.json()
 
+		const updatedData: any = {
+			name: body.name,
+			sku: body.sku,
+			quantity: Number(body.quantity),
+			price: Number(body.price)
+		}
+
+		// connect category if updated
+		if (body.category) {
+			updatedData.category = {
+				connect: { id: body.category }
+			}
+		}
+
+		// connect supplier
+		if (body.supplier) {
+			updatedData.supplier = {
+				connect: { id: body.supplier }
+			}
+		}
+
+		// connect warehouse
+		if (body.warehouse) {
+			updatedData.warehouse = {
+				connect: { id: body.warehouse }
+			}
+		}
+
 		const product = await prisma.product.update({
 			where: { id },
-			data: {
-				name: body.name,
-				sku: body.sku,
-				quantity: Number(body.quantity),
-				price: Number(body.price),
-				category: body.category
-					? { connect: { id: body.category } }
-					: undefined,
-			}
+			data: updatedData
 		})
-		try {
-			await logAction({
-				userId: session.user.id,
-				action: "update",
-				entity: "product",
-				entityId: product.id,
-				description: `Produto alterado: ${product.name}`
-			})
-		} catch (error) {
-			return NextResponse.json({ error: "Erro ao criar o log de alteração do produto." })
-		}
+
+		await logAction({
+			userId: session.user.id,
+			action: "update",
+			entity: "product",
+			entityId: product.id,
+			description: `Produto alterado: ${product.name}`
+		})
+
 
 		return NextResponse.json(product)
 

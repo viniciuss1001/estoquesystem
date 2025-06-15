@@ -15,13 +15,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
 import { useQuery } from "@tanstack/react-query"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 
 
 const formSchema = z.object({
-	name: z.string().min(1, "Nome obrigatório."),
-	price: z.coerce.number().nonnegative("Preço inválido"),
-	quantity: z.coerce.number().int().nonnegative("Quantidade inválida"),
-	category: z.string().optional(),
+	name: z.string().min(1, "Nome é obrigatório."),
+	sku: z.string().min(1, "SKU é obrigatório."),
+	supplier: z.string().min(1, "Fornecedor obrigatório."),
+	quantity: z.coerce.number().min(0),
+	price: z.coerce.number().min(0),
+	category: z.string().min(1, "Categoria é obrigatória."),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -33,49 +37,61 @@ interface EditProductModalProps {
 const EditProductModal = ({ productId }: EditProductModalProps) => {
 
 	const router = useRouter()
-	const [loading, setLoading] = useState(true)
+	const [advancedEdit, setAdvancedEdit] = useState(false)
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: "",
-			price: 0,
+			name: '',
+			sku: '',
+			supplier: '',
 			quantity: 0,
-			category: ""
+			price: 0,
+			category: '',
 		}
 	})
 
-	useEffect(() => {
-		api.get(`/product/${productId}`)
-			.then((response) => {
-				const product = response.data
-				form.reset({
-					name: product.name,
-					price: product.price,
-					quantity: product.quantity,
-					category: product.category?.id ?? "",
-				})
-			})
-			.catch((err) => {
-				toast.error("Erro ao buscar produto.")
-				console.log(err)
-			})
-			.finally(() => {
-				setLoading(false)
-			})
-	}, [productId])
-
-	const { data: categories = [], isLoading } = useQuery({
-		queryKey: ["categories"],
+	const { data: products, isLoading } = useQuery({
+		queryKey: ["products", productId],
 		queryFn: async () => {
-			const response = await api.get("/categories")
+			const response = await api.get(`/product/${productId}`)
+
+			const product = response.data
+
+			form.reset({
+				name: product.name,
+				sku: product.sku,
+				supplier: product.supplierId,
+				quantity: product.quantity,
+				price: product.price,
+				category: product.category.name,
+			})
+
 			return response.data
 		}
 	})
 
+	const { data: categories = [] } = useQuery({
+		queryKey: ["categories", ],
+		queryFn: async () => {
+			const response = await api.get("/categories")
+			return response.data.categories
+		}
+	})
+
+	const { data: suppliers = [], isLoading: supplierLoading } = useQuery({
+		queryKey: ["suppliers"],
+		queryFn: async () => {
+			const response = await api.get("/supplier")
+			return response.data.suppliers
+		}
+	})
+
+
 	const onSubmit = async (data: FormValues) => {
 		try {
 			await api.patch(`/product/${productId}`, data)
+			console.log("enviou")
 			toast.success("Produto atualizado com sucesso!")
 
 		} catch (error) {
@@ -85,22 +101,20 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 
 	const onDelete = async () => {
 		try {
-			setLoading(true)
 			await api.delete(`/product/${productId}`)
-			setLoading(false)
 
 			toast.success("Produto deletado com sucesso.")
 			router.refresh()
 
 		} catch (error) {
 			toast.error("Erro ao deletar produto.")
-			setLoading(false)
+
 			console.log(error)
 		}
 
 	}
 
-	if (loading) {
+	if (isLoading) {
 		return (
 			<div className="w-full h-full">
 				<Loader2 className="animate-spin" />
@@ -121,19 +135,37 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 					</DialogHeader>
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-							<FormField
-								control={form.control}
-								name="name"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Nome</FormLabel>
-										<FormControl>
-											<Input {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+							<div className="w-full p-1 flex flex-wrap items-center justify-between">
+								<div className="flex w-1/2">
+									<FormField
+										control={form.control}
+										name="name"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Nome</FormLabel>
+												<FormControl>
+													<Input {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+								<div className="flex w-1/2 border rounded-md p-2 h-full mt-auto gap-3 items-center justify-between">
+
+									<Label htmlFor="advanced-edit"
+										className="text-sm"
+									>
+										Edição Avançada
+									</Label>
+									<Switch
+										id="advanced-edit"
+										checked={advancedEdit}
+										onCheckedChange={setAdvancedEdit}
+									/>
+
+								</div>
+							</div>
 
 							<div className="grid grid-cols-2 gap-4">
 								<FormField
@@ -165,34 +197,99 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 								/>
 							</div>
 
-							<FormField
-								control={form.control}
-								name="category"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Categoria</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											value={field.value}
-											disabled={isLoading}
-										>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder="Selecione uma categoria" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												{categories.map((cat: { id: string; name: string }) => (
-													<SelectItem key={cat.id} value={cat.id}>
-														{cat.name}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+							{advancedEdit && (
+								<>
+									<div className="w-auto p-3 flex flex-wrap gap-4 items-center">
+
+										<FormField
+											control={form.control}
+											name="supplier"
+											render={({ field }) => (
+												<FormItem className="w-1/2 ">
+													<FormLabel>Fornecedor</FormLabel>
+													<Select
+														onValueChange={field.onChange}
+														value={field.value}
+														disabled={isLoading}
+														
+													>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder="Selecione o Fornecedor:" />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent className="flex">
+															{suppliers.map((supplier: { id: string, name: string }) => (
+																<SelectItem key={supplier.id} value={supplier.id} className="flex w-full">
+																	{supplier.name}
+																</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+
+										<FormField
+											control={form.control}
+											name="category"
+											render={({ field }) => (
+												<FormItem >
+													<FormLabel>Categoria</FormLabel>
+													<Select
+														onValueChange={field.onChange}
+														value={field.value}
+														disabled={isLoading}
+													>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder="Selecione uma categoria" />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{categories.map((cat: { id: string; name: string }) => (
+																<SelectItem key={cat.id} value={cat.name}>
+																	{cat.name}
+																</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										
+									</div>
+
+									<div className="w-auto p-3 flex flex-wrap gap-4 items-center justify-between">
+
+										<FormField
+											control={form.control}
+											name="quantity"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Quantidade</FormLabel>
+													<FormControl><Input type="number" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="price"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Preço</FormLabel>
+													<FormControl><Input type="number" step="0.01" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</>
+							)}
+
 
 							<div className="flex items-center justify-between pt-4 gap-2">
 								<AlertDialogDelete
@@ -200,7 +297,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 									onDelete={onDelete}
 								/>
 								<Button type="submit" className="cursor-pointer flex rounded-sm w-2/4">
-									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+									Salvar
 								</Button>
 							</div>
 						</form>

@@ -3,7 +3,7 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import api from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, Loader2, Repeat2 } from 'lucide-react'
 import Link from 'next/link'
 
 interface Movement {
@@ -71,7 +71,31 @@ const ProductMovementsComponent = ({ productId }: { productId: string }) => {
 							<TableCell>
 								{mov.destinationWarehouse?.name ?? "-"}
 							</TableCell>
-							<TableCell>{mov.type === "IN" ? "Entrada" : mov.type === "OUT" ? "Saída" : "Transferência"}</TableCell>
+							<TableCell>
+								{/* type transfer */}
+								{mov.type === "TRANSFER" && (
+									<div className="flex items-center gap-1">
+										<Repeat2 className="w-4 h-4 text-blue-600" />
+										<span>Transferência</span>
+									</div>
+								)}
+
+								{/* type in */}
+								{mov.type === "IN" && (
+									<div className="flex items-center gap-1">
+										<ArrowDownWideNarrow className="w-4 h-4 text-green-800" />
+										<span>Entrada</span>
+									</div>
+								)}
+
+								{/* type out */}
+								{mov.type === "OUT" && (
+									<div className="flex items-center gap-1">
+										<ArrowUpNarrowWide className="w-4 h-4 text-red-900" />
+										<span>Saída</span>
+									</div>
+								)}
+							</TableCell>
 							<TableCell>{mov.quantity}</TableCell>
 							<TableCell>{new Date(mov.createdAt).toLocaleDateString()}</TableCell>
 							<TableCell>

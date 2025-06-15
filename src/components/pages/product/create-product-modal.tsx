@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useQuery } from "@tanstack/react-query"
@@ -243,7 +243,10 @@ const CreateProductModal = () => {
 						</div>
 
 						<DialogFooter>
-							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
+							<DialogClose className="cursor-pointer p-2 hover:bg-card rounded-sm w-1/3 transition">
+								Cancelar
+							</DialogClose>
+							<Button type="submit" disabled={form.formState.isSubmitting} className="w-2/3 flex justify-center p-3 cursor-pointer hover:bg-blue-400">
 								{form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
 							</Button>
 						</DialogFooter>

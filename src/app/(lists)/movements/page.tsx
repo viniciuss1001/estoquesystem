@@ -104,7 +104,7 @@ const MovementsPage = () => {
                     </div>
                   )}
 
-          {/* type in */}
+                  {/* type in */}
                   {movement.type === "IN" && (
                     <div className="flex items-center gap-1">
                       <ArrowDownWideNarrow className="w-4 h-4 text-green-800" />

@@ -104,7 +104,7 @@ const ProductPage = () => {
 			</div>
 
 			<h2 className="text-2xl mt-4 pt-2">Produto por Armazém:</h2>
-				<ProductWarehouseDistribuition productId={product.id}/>
+			<ProductWarehouseDistribuition productId={product.id} />
 			<h2 className="text-2xl mt-4 p-2">Movimentações do produto:</h2>
 			<ProductMovementsComponent productId={product.id} />
 		</div>
