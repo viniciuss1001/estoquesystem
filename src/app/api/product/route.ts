@@ -12,26 +12,30 @@ export async function POST(req: NextRequest) {
 			return new Response("Unauthorized", { status: 401 });
 		}
 
-		const body = await req.json();
+		const body = await req.json()
+
+		const category = await prisma.category.findUnique({
+			where: {
+				name: body.category
+			}
+		})
+
+		const productData: any = {
+			name: body.name,
+			sku: body.sku,
+			supplier: body.supplier ? { connect: { id: body.supplier } } : undefined,
+			price: body.price,
+			quantity: body.quantity,
+			usageStatus: body.usageStatus,
+			category: category ? { connect: { name: category.name } } : undefined
+		}
+
+		if(category?.name === "Perecível" && body.expirationDate) {
+			productData.expirationDate = new Date(body.expirationDate)
+		}
 
 		const product = await prisma.product.create({
-			data: {
-				name: body.name,
-				sku: body.sku,
-				supplier: {
-					connect: {
-						id: body.supplier
-					}
-				},
-				price: body.price,
-				quantity: body.quantity,
-				category: {
-					connect: {
-						name: body.category
-					},
-				},
-				
-			},
+			data: productData
 		})
 
 		// after create produtc, register in warehouseproduct
@@ -52,7 +56,7 @@ export async function POST(req: NextRequest) {
 				originWarehouseId: null,
 				destinationWarehouseId: body.warehouse,
 				status: "COMPLETED",
-				
+
 			}
 		})
 
@@ -76,11 +80,11 @@ export async function GET() {
 	try {
 		const products = await prisma.product.findMany({
 			orderBy: { createdAt: "desc" },
-			include: { 
+			include: {
 				category: true,
 				supplier: true
 
-			 }
+			}
 		})
 
 		return NextResponse.json(products)

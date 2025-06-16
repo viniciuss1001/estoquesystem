@@ -4,6 +4,7 @@ import EditProductModal from "@/components/pages/product/product-edit-modal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -95,7 +96,7 @@ const ProductsPage = () => {
                 </TableCell>
                 <TableCell>
                   <Link href={`/products/${product.id}`}>
-                    Detalhes
+                    <ChevronRight />
                   </Link>
                 </TableCell>
               </TableRow>

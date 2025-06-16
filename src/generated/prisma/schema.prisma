@@ -9,22 +9,23 @@ datasource db {
 }
 
 model Product {
-  id             String          @id @default(uuid())
-  name           String
-  sku            String          @unique
-  quantity       Int
-  price          Float
-  supplierId     String?
-  supplier       Supplier?       @relation(fields: [supplierId], references: [id])
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  stockMovements StockMovement[]
-  category       Category?       @relation(fields: [categoryId], references: [id])
-  categoryId     String?
-  delivery       Delivery[]
-  // add status of product -> used // no used
-
+  id               String             @id @default(uuid())
+  name             String
+  sku              String             @unique
+  quantity         Int
+  price            Float
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  supplierId       String?
+  categoryId       String?
+  delivery         Delivery[]
+  category         Category?          @relation(fields: [categoryId], references: [id])
+  supplier         Supplier?          @relation(fields: [supplierId], references: [id])
+  stockMovements   StockMovement[]
   warehouseProduct WarehouseProduct[]
+
+  expirationDate DateTime?
+  usageStatus    UsageStatus @default(IN_STOCK)
 }
 
 model Account {
@@ -58,68 +59,111 @@ model User {
   id            String     @id @default(cuid())
   name          String
   email         String     @unique
-  emailVerified DateTime?
-  password      String
   office        Office     @default(GESTOR)
-  phone         String?
-  department    String? //add department enum ex.: product, warehouse, supplier -> crud of department
-  description   String?
-  image         String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  emailVerified DateTime?
+  image         String?
+  password      String
+  department    String?
+  description   String?
+  phone         String?
   accounts      Account[]
-  sessions      Session[]
   AuditLog      AuditLog[]
-}
-
-enum Office {
-  ADMIN
-  GESTOR
+  sessions      Session[]
 }
 
 model WareHouse {
-  id          String   @id @default(uuid())
-  name        String
-  location    String?
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  stockMovementsOrigin      StockMovement[] @relation("OriginWarehouse")
-  stockMovementsDestination StockMovement[] @relation("DestinationWarehouse")
-
-  warehouseProduct WarehouseProduct[]
+  id                        String             @id @default(uuid())
+  name                      String
+  location                  String?
+  createdAt                 DateTime           @default(now())
+  updatedAt                 DateTime           @updatedAt
+  description               String?
+  stockMovementsDestination StockMovement[]    @relation("DestinationWarehouse")
+  stockMovementsOrigin      StockMovement[]    @relation("OriginWarehouse")
+  warehouseProduct          WarehouseProduct[]
 }
 
 model WarehouseProduct {
   warehouseId String
   productId   String
-  quantity    Int    @default(0)
-
-  warehouse WareHouse @relation(fields: [warehouseId], references: [id])
-  product   Product   @relation(fields: [productId], references: [id])
+  quantity    Int       @default(0)
+  product     Product   @relation(fields: [productId], references: [id])
+  warehouse   WareHouse @relation(fields: [warehouseId], references: [id])
 
   @@id([warehouseId, productId])
   @@unique([warehouseId, productId], name: "warehouseId_productId")
 }
 
 model StockMovement {
-  id                     String       @id @default(uuid())
-  product                Product      @relation(fields: [productId], references: [id])
-  productId              String
+  id                     String         @id @default(uuid())
   type                   MovementType
   quantity               Int
-  originWarehouseId      String?
+  productId              String
+  createdAt              DateTime       @default(now())
+  notes                  String?
   destinationWarehouseId String?
-  quantityBefore         Int?
+  originWarehouseId      String?
+  status                 MovementStatus @default(PENDING)
   quantityAfter          Int?
+  quantityBefore         Int?
+  destinationWarehouse   WareHouse?     @relation("DestinationWarehouse", fields: [destinationWarehouseId], references: [id])
+  originWareHouse        WareHouse?     @relation("OriginWarehouse", fields: [originWarehouseId], references: [id])
+  product                Product        @relation(fields: [productId], references: [id])
+}
 
-  originWareHouse      WareHouse? @relation("OriginWarehouse", fields: [originWarehouseId], references: [id])
-  destinationWarehouse WareHouse? @relation("DestinationWarehouse", fields: [destinationWarehouseId], references: [id])
+model Supplier {
+  id           String     @id @default(uuid())
+  name         String
+  email        String
+  contactPhone String
+  description  String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deliveryTime DateTime
+  delivery     Delivery[]
+  products     Product[]
+}
 
-  notes     String?
-  status    MovementStatus @default(PENDING)
-  createdAt DateTime       @default(now())
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String
+  action      String
+  entity      String
+  entityId    String?
+  description String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entity])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createAt  DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Delivery {
+  id         String         @id @default(uuid())
+  productId  String
+  supplierId String
+  quantity   Int
+  expectedAt DateTime
+  updatedAt  DateTime       @updatedAt
+  status     DeliveryStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  product    Product        @relation(fields: [productId], references: [id])
+  supplier   Supplier       @relation(fields: [supplierId], references: [id])
+}
+
+enum Office {
+  ADMIN
+  GESTOR
 }
 
 enum MovementType {
@@ -134,58 +178,15 @@ enum MovementStatus {
   CANCELED
 }
 
-model Supplier {
-  id           String     @id @default(uuid())
-  name         String
-  email        String
-  contactPhone String
-  deliveryTime DateTime
-  description  String
-  products     Product[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  delivery     Delivery[]
-}
-
-model AuditLog {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User?    @relation(fields: [userId], references: [id])
-  action      String
-  entity      String
-  entityId    String?
-  description String
-  createdAt   DateTime @default(now())
-
-  @@index([userId])
-  @@index([entity])
-}
-
-model Category {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  products Product[]
-
-  createAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Delivery {
-  id         String         @id @default(uuid())
-  product    Product        @relation(fields: [productId], references: [id])
-  productId  String
-  supplier   Supplier       @relation(fields: [supplierId], references: [id])
-  supplierId String
-  quantity   Int
-  expectedAt DateTime
-  status     DeliveryStatus @default(PENDING)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-}
-
 enum DeliveryStatus {
   PENDING
   COMPLETED
   CANCELED
   LATE
+}
+
+enum UsageStatus {
+  IN_STOCK
+  IN_USE
+  CONSUMED
 }

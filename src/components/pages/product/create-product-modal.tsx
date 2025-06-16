@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { useQuery } from "@tanstack/react-query"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import DatePicker from "@/components/shared/DatePicker"
 
 
 const formSchema = z.object({
@@ -23,7 +24,11 @@ const formSchema = z.object({
 	quantity: z.coerce.number().min(0),
 	price: z.coerce.number().min(0),
 	category: z.string().min(1, "Categoria é obrigatória."),
-	warehouse: z.string().min(1, "Armazém é obrigatório.")
+	warehouse: z.string().min(1, "Armazém é obrigatório."),
+	usageStatus: z.enum(["IN_STOCK", "IN_USE", "CONSUMED"], {
+		required_error: "Estado de uso obrigatório.",
+	}),
+	expirationDate: z.date().optional()
 })
 
 
@@ -42,9 +47,19 @@ const CreateProductModal = () => {
 			quantity: 0,
 			price: 0,
 			category: '',
-			warehouse: ''
+			warehouse: '',
+			usageStatus: "IN_STOCK",
+			expirationDate: new Date()
 		}
 	})
+
+	const categoryWatch = form.watch("category")
+
+	const statusOptions = [
+		{ value: "IN_STOCK", label: "Em estoque" },
+		{ value: "IN_USE", label: "Em uso" },
+		{ value: "CONSUMED", label: "Consumido" }
+	]
 
 	const { data: categories = [], isLoading } = useQuery({
 		queryKey: ["categories"],
@@ -186,6 +201,45 @@ const CreateProductModal = () => {
 									</FormItem>
 								)}
 							/>
+
+							{categoryWatch === "Perecível" && (
+								<FormField
+									control={form.control}
+									name="expirationDate"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Data de validade</FormLabel>
+											<input type="date" placeholder="Selecionar data" />
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							)}
+
+							<FormField
+								name="usageStatus"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Status de uso</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o status" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{statusOptions.map((opt) => (
+													<SelectItem key={opt.value} value={opt.value}>
+														{opt.label}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
 							<FormField
 								control={form.control}
 								name="warehouse"

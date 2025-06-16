@@ -126,10 +126,12 @@ exports.Prisma.ProductScalarFieldEnum = {
   sku: 'sku',
   quantity: 'quantity',
   price: 'price',
-  supplierId: 'supplierId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  categoryId: 'categoryId'
+  supplierId: 'supplierId',
+  categoryId: 'categoryId',
+  expirationDate: 'expirationDate',
+  usageStatus: 'usageStatus'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -159,24 +161,24 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
-  emailVerified: 'emailVerified',
-  password: 'password',
   office: 'office',
-  phone: 'phone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  password: 'password',
   department: 'department',
   description: 'description',
-  image: 'image',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  phone: 'phone'
 };
 
 exports.Prisma.WareHouseScalarFieldEnum = {
   id: 'id',
   name: 'name',
   location: 'location',
-  description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  description: 'description'
 };
 
 exports.Prisma.WarehouseProductScalarFieldEnum = {
@@ -187,16 +189,16 @@ exports.Prisma.WarehouseProductScalarFieldEnum = {
 
 exports.Prisma.StockMovementScalarFieldEnum = {
   id: 'id',
-  productId: 'productId',
   type: 'type',
   quantity: 'quantity',
-  originWarehouseId: 'originWarehouseId',
-  destinationWarehouseId: 'destinationWarehouseId',
-  quantityBefore: 'quantityBefore',
-  quantityAfter: 'quantityAfter',
+  productId: 'productId',
+  createdAt: 'createdAt',
   notes: 'notes',
+  destinationWarehouseId: 'destinationWarehouseId',
+  originWarehouseId: 'originWarehouseId',
   status: 'status',
-  createdAt: 'createdAt'
+  quantityAfter: 'quantityAfter',
+  quantityBefore: 'quantityBefore'
 };
 
 exports.Prisma.SupplierScalarFieldEnum = {
@@ -204,10 +206,10 @@ exports.Prisma.SupplierScalarFieldEnum = {
   name: 'name',
   email: 'email',
   contactPhone: 'contactPhone',
-  deliveryTime: 'deliveryTime',
   description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deliveryTime: 'deliveryTime'
 };
 
 exports.Prisma.AuditLogScalarFieldEnum = {
@@ -233,9 +235,9 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   supplierId: 'supplierId',
   quantity: 'quantity',
   expectedAt: 'expectedAt',
+  updatedAt: 'updatedAt',
   status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -252,6 +254,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.UsageStatus = exports.$Enums.UsageStatus = {
+  IN_STOCK: 'IN_STOCK',
+  IN_USE: 'IN_USE',
+  CONSUMED: 'CONSUMED'
+};
+
 exports.Office = exports.$Enums.Office = {
   ADMIN: 'ADMIN',
   GESTOR: 'GESTOR'
