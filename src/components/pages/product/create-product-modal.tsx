@@ -104,7 +104,7 @@ const CreateProductModal = () => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen} >
 			<DialogTrigger asChild>
-				<Button variant='ghost' className='flex p-2 cursor-pointer'>
+				<Button variant='default' className='flex cursor-pointer items-center mb-auto'>
 					<Plus />
 					Criar Produto
 				</Button>

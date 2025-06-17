@@ -30,22 +30,36 @@ interface Product {
 
 interface ProductListActionsProps {
 	products: Product[]
+	userName: string
+	userNameOffice: string
 }
 
-const ProductListActions = ({ products }: ProductListActionsProps) => {
+const ProductListActions = ({ products, userName, userNameOffice }: ProductListActionsProps) => {
 
-	const handlePrint = () => {
+	const handlePrint =  () => {
 		window.print()
 	}
 
-	const handleExportPDF = () => {
+	const handleExportPDF = async () => {
 		const document = new jsPDF()
 
-		document.setFontSize(12)
-		document.text("Lista de Produtos", 14, 22)
+		// load logo
+		const logoUrl = "/logo-rbg.png"
+		const image = await getImageBase64(logoUrl)
 
+		// header
+		if (image) {
+			document.addImage(image, "PNG", 14, 10, 25, 18)
+		}
+
+		document.setFontSize(10)
+		document.text(`Gerador por: ${userName} (${userNameOffice})`, 14, 25)
+		
+		document.setFontSize(12)
+		document.text("Lista de Produtos", 14, 35)
+		
 		autoTable(document, {
-			startY: 30,
+			startY: 40,
 			head: [
 				["Nome", "SKU", "Categoria", "Fornecedor", "Qtd", "Preço", "Estado", "Validade"]
 			],
@@ -63,8 +77,36 @@ const ProductListActions = ({ products }: ProductListActionsProps) => {
 			headStyles: { fillColor: [59, 130, 246] }, // azul
 		})
 
+		// footer with date 
+		const pageHeight = document.internal.pageSize.height
+		const now = new Date()
+
+		const formatted = now.toLocaleDateString("pt-BR")
+
+		document.setFontSize(9)
+		document.text(`Documento gerado em: ${formatted}`, 14, pageHeight - 10)
 
 		document.save("produtos_completos.pdf")
+	}
+
+	const getImageBase64 = (url: string): Promise<string | null> => {
+		return new Promise((resolve) => {
+			const img = new Image()
+			img.crossOrigin = "Anonymous"
+			img.src = url
+
+			img.onload = () => {
+				const canvas = document.createElement("canvas")
+				canvas.width = img.width
+				canvas.height = img.height
+				const ctx = canvas.getContext("2d")
+				if (!ctx) return resolve(null)
+				ctx.drawImage(img, 0, 0)
+				resolve(canvas.toDataURL("image/png"))
+			}
+
+			img.onerror = () => resolve(null)
+		})
 	}
 
 	const formatUsageStatus = (status: string | null | undefined) => {
@@ -87,11 +129,11 @@ const ProductListActions = ({ products }: ProductListActionsProps) => {
 
 	return (
 		<div className="flex gap-2 mb-4 print:hidden">
-			<Button onClick={handlePrint} variant="outline">
+			<Button onClick={handlePrint} variant="outline" className='cursor-pointer'>
 				<Printer className="w-4 h-4 mr-2" />
 				Imprimir Página
 			</Button>
-			<Button onClick={handleExportPDF}>
+			<Button onClick={handleExportPDF} variant="outline" className='cursor-pointer'>
 				<Download className="w-4 h-4 mr-2" />
 				Exportar PDF
 			</Button>

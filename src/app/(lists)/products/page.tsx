@@ -3,6 +3,7 @@ import CreateProductModal from "@/components/pages/product/create-product-modal"
 import EditProductModal from "@/components/pages/product/product-edit-modal"
 import ProductListActions from "@/components/pages/product/ProductListActions"
 import { Button } from "@/components/ui/button"
+import { useSession } from 'next-auth/react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
 import { ChevronRight } from "lucide-react"
@@ -29,10 +30,13 @@ interface Product {
     name: string
   }
   usageStatus?: "IN_STOCK" | "IN_USE" | "CONSUMED"
-	expirationDate?: string | null
+  expirationDate?: string | null
 }
 
 const ProductsPage = () => {
+
+  const { data: session } = useSession()
+
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -54,8 +58,14 @@ const ProductsPage = () => {
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold mb-6">Lista de Produtos</h2>
-        <ProductListActions products={products} />
-        <CreateProductModal />
+        <div className="flex gap-3 items-center justify-end">
+          <ProductListActions products={products}
+            userName={session?.user.name || "usuário"}
+            userNameOffice={session?.user.office || "Cargo desconhecido"}
+          />
+          <CreateProductModal />
+
+        </div>
       </div>
 
       <Table>
