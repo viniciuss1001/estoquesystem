@@ -11,6 +11,7 @@ import { Loader2, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
 
 interface Delivery {
 	id: string
@@ -30,33 +31,36 @@ interface Delivery {
 
 const DeliveryPage = () => {
 
-	const [deliveries, setDeliveries] = useState<Delivery[]>([])
+	const queryClient = useQueryClient()	
 	const [loading, setLoading] = useState(true)
 
-	const fetchDeliveries = async () => {
-		try {
-			const response = await api.get("/delivery")
-			setDeliveries(response.data)
-		} catch {
-			toast.error("Erro ao carregar entregas.")
-		} finally {
-			setLoading(false)
+	const {data: deliveries, isLoading, isError} = useQuery({
+		queryKey: ["deliveries"],
+		queryFn: async () => {
+			const response = await api.get('/delivery')
+			return response.data
+		},
+		onError: () => {
+			toast.error("Erro ao carregar entregas")
 		}
-	}
+	})
+
+	const deleteDelivery = useMutation({
+		mutationFn: async (id: string) => {
+			return await api.delete(`/delivery/${id}`)
+		},
+		onSuccess: () => {
+			toast.success("Entrega excluída com sucesso!")
+			queryClient.invalidateQueries({ queryKey: ["deliveries"]})
+		}, 
+		onError: ()=>{
+			toast.error("Erro ao excluir entrega")
+		}
+	})
 
 	const handleDelete = async (id: string) => {
-		try {
-			await api.delete(`/delivery/${id}`)
-			toast.success("Entrega excluída com sucesso!")
-			setDeliveries((prev) => prev.filter((d) => d.id !== id))
-		} catch {
-			toast.error("Erro ao excluir entrega.")
-		}
+		deleteDelivery.mutate(id)
 	}
-
-	useEffect(() => {
-		fetchDeliveries()
-	}, [])
 
 	if (loading) return <div className='flex items-center justify-center w-full h-full'><Loader2 className='animate-spin' /></div>
 
