@@ -13,7 +13,7 @@ import { toast } from "sonner"
 import { z } from "zod"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
@@ -35,6 +35,8 @@ interface EditProductModalProps {
 }
 
 const EditProductModal = ({ productId }: EditProductModalProps) => {
+
+	const queryClient = useQueryClient()
 
 	const router = useRouter()
 	const [advancedEdit, setAdvancedEdit] = useState(false)
@@ -72,7 +74,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 	})
 
 	const { data: categories = [] } = useQuery({
-		queryKey: ["categories", ],
+		queryKey: ["categories",],
 		queryFn: async () => {
 			const response = await api.get("/categories")
 			return response.data.categories
@@ -87,32 +89,41 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 		}
 	})
 
-
-	const onSubmit = async (data: FormValues) => {
-		try {
+	const updateProduct = useMutation({
+		mutationFn: async (data: FormValues) => {
 			await api.patch(`/product/${productId}`, data)
-			console.log("enviou")
-			toast.success("Produto atualizado com sucesso!")
-
-		} catch (error) {
-			toast.error("Erro ao atualizar produto.")
+		},
+		onSuccess: () => {
+			toast.success('Produto atualizado com sucesso!')
+			queryClient.invalidateQueries({ queryKey: ['products'] })
+		},
+		onError: () => {
+			toast.error('Erro ao atualizar produto.')
 		}
-	}
+	})
 
-	const onDelete = async () => {
-		try {
+	const deleteProduct = useMutation({
+		mutationFn: async () => {
 			await api.delete(`/product/${productId}`)
-
-			toast.success("Produto deletado com sucesso.")
+		},
+		onSuccess: () => {
+			toast.success('Produto deletado com sucesso.')
+			queryClient.invalidateQueries({ queryKey: ['products'] })
 			router.refresh()
+		},
+		onError: (error) => {
+			toast.error('Erro ao deletar produto.')
+			console.error(error)
+		},
+	})
 
-		} catch (error) {
-			toast.error("Erro ao deletar produto.")
+	const onSubmit = (data: FormValues) => {
+    updateProduct.mutate(data)
+  }
 
-			console.log(error)
-		}
-
-	}
+  const onDelete = () => {
+    deleteProduct.mutate()
+  }
 
 	if (isLoading) {
 		return (
@@ -211,7 +222,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 														onValueChange={field.onChange}
 														value={field.value}
 														disabled={isLoading}
-														
+
 													>
 														<FormControl>
 															<SelectTrigger>
@@ -259,7 +270,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 												</FormItem>
 											)}
 										/>
-										
+
 									</div>
 
 									<div className="w-auto p-2 flex  gap-4 items-center justify-between ">

@@ -9,7 +9,7 @@ import {
   DialogFooter
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Pencil, Loader2 } from "lucide-react"
+import { Pencil, Loader2, ApertureIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import api from "@/lib/axios"
@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Textarea } from "@/components/ui/textarea"
 import { useRouter } from "next/navigation"
 import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 const formSchema = z.object({
   productId: z.string().min(1),
@@ -51,86 +52,101 @@ interface Props {
 
 const EditTransferModal = ({ movementId }: Props) => {
   const [open, setOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [warehouses, setWarehouses] = useState<Warehouse[]>([])
-  const [products, setProducts] = useState<Product[]>([])
-
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      productId: "",
-      originWarehouseId: "",
-      destinationWarehouseId: "",
+      productId: '',
+      originWarehouseId: '',
+      destinationWarehouseId: '',
       quantity: 0,
-      notes: "",
-      status: "PENDING"
-    }
+      notes: '',
+      status: 'PENDING',
+    },
   })
 
   const { control } = form
 
+  const { data: movementData, isLoading: isLoadingMovement } = useQuery({
+    queryKey: ['movement', movementId],
+    queryFn: async () => {
+      const response = await api.get(`/movements/${movementId}`)
+      return response.data
+    },
+    enabled: open
+  })
+
+  const { data: warehouses = [], isLoading: isLoadingWarehouses } = useQuery({
+    queryKey: ['warehouses'],
+    queryFn: async () => {
+      const response = await api.get('/warehouse')
+      return response.data as Warehouse[]
+    },
+    enabled: open
+  })
+
+  const { data: products = [], isLoading: isLoadingProducts } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const response = await api.get('/product')
+      return response.data as Product[]
+    },
+    enabled: open
+  })
+
   useEffect(() => {
-    if (!open) return
-
-    setLoading(true)
-
-    Promise.all([
-      api.get(`/movements/${movementId}`),
-      api.get("/warehouse"),
-      api.get("/product")
-    ])
-      .then(([movementRes, warehousesRes, productsRes]) => {
-        const m = movementRes.data.movement
-        form.reset({
-          productId: m.product?.id || "",
-          originWarehouseId: m.originWareHouse?.id || "",
-          destinationWarehouseId: m.destinationWarehouse?.id || "",
-          quantity: m.quantity,
-          notes: m.notes || "",
-          status: m.status || "PENDING"
-        })
-        setWarehouses(warehousesRes.data)
-        setProducts(productsRes.data)
+    if (movementData) {
+      form.reset({
+        productId: movementData.product?.id || '',
+        originWarehouseId: movementData.originWareHouse?.id || '',
+        destinationWarehouseId: movementData.destinationWarehouse?.id || '',
+        quantity: movementData.quantity,
+        notes: movementData.notes || '',
+        status: movementData.status || 'PENDING',
       })
-      .catch(() => {
-        toast.error("Erro ao carregar dados da transferência.")
-      })
-      .finally(() => setLoading(false))
-  }, [open, movementId, form])
-
-  const onSubmit = async (data: FormData) => {
-    try {
-      setLoading(true)
-      await api.patch(`/movements/${movementId}`, {
-        ...data,
-        type: "TRANSFER"
-      })
-      toast.success("Transferência atualizada com sucesso.")
-      setOpen(false)
-    } catch {
-      toast.error("Erro ao atualizar transferência.")
-    } finally {
-      setLoading(false)
     }
-  }
+  }, [movementData, form])
 
-  const onDelete = async () => {
-    try {
-      setLoading(true)
+  const updateMutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      await api.patch(`/movements/${movementId}`, { ...data, type: 'TRANSFER' })
+    },
+    onSuccess: () => {
+      toast.success('Transferência atualizada com sucesso.')
+      setOpen(false)
+      queryClient.invalidateQueries({ queryKey: ['movements'] })
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar transferência.')
+    }
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
       await api.delete(`/movements/${movementId}`)
-      setLoading(false)
-
-      toast.success("Produto deletado com sucesso.")
-      router.push("/movements")
+    },
+    onSuccess: () => {
+      toast.success('Produto deletado com sucesso.')
+      router.push('/movements')
       router.refresh()
-    } catch (error) {
-      toast.error("Erro ao deletar Movimentação.")
-      setLoading(false)
+    },
+    onError: (error) => {
+      toast.error('Erro ao deletar movimentação.')
       console.log(error)
     }
+  })
+
+  const onSubmit = (data: FormData) => {
+    updateMutation.mutate(data)
   }
+
+  const onDelete = () => {
+    deleteMutation.mutate()
+  }
+
+  const loading = isLoadingMovement || isLoadingProducts || isLoadingWarehouses || updateMutation.isPending
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

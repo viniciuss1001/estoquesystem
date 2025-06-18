@@ -17,6 +17,7 @@ import { toast } from "sonner"
 import { z } from "zod"
 import api from "@/lib/axios"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { useMutation } from "@tanstack/react-query"
 
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),
@@ -26,29 +27,28 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-export default function CreateWarehouseModal({ onCreated }: { onCreated?: () => void }) {
-	const [open, setOpen] = useState(false)
-	const [loading, setLoading] = useState(false)
+export default function CreateWarehouseModal() {
+	 const [open, setOpen] = useState(false)
 
-	const form = useForm<FormData>({
-		resolver: zodResolver(schema),
-		defaultValues: { name: "", location: "", description: "" },
-	})
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: '', location: '', description: '' },
+  })
 
-	const onSubmit = async (data: FormData) => {
-		setLoading(true)
-		try {
-			await api.post("/warehouse", data)
-			toast.success("Armazém criado com sucesso!")
-			setOpen(false)
-			onCreated?.()
-		} catch {
-			toast.error("Erro ao criar armazém.")
-		} finally {
-			setLoading(false)
-		}
-	}
+  const { mutate: createWarehouse } = useMutation({
+    mutationFn: (data: FormData) => api.post('/warehouse', data),
+    onSuccess: () => {
+      toast.success('Armazém criado com sucesso!')
+      setOpen(false)
+    },
+    onError: () => {
+      toast.error('Erro ao criar armazém.')
+    },
+  })
 
+  const onSubmit = (data: FormData) => {
+    createWarehouse(data)
+  }
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
@@ -101,8 +101,8 @@ export default function CreateWarehouseModal({ onCreated }: { onCreated?: () => 
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" disabled={loading}>
-							{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Criar"}
+						<Button type="submit">
+							Criar
 						</Button>
 					</form>
 				</Form>

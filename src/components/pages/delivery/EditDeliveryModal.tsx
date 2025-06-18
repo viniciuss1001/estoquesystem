@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -67,6 +67,8 @@ interface EditDeliveryModalProps {
 
 export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps) {
   const [open, setOpen] = useState(false)
+
+  const queryClient = useQueryClient()
 
 
   const form = useForm<FormValues>({
@@ -110,24 +112,30 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
         supplierId: data.supplier.id,
         quantity: data.quantity,
         expectedAt: new Date(data.expectedAt),
-        status: data.status, 
+        status: data.status,
       })
 
       return data
     },
-    enabled: open, 
+    enabled: open,
   })
 
-
-  const onSubmit = async (data: FormValues) => {
-    try {
+  const updateDelivery = useMutation({
+    mutationFn: async (data: FormValues) => {
       await api.patch(`/delivery/${deliveryId}`, data)
+    },
+    onSuccess: () => {
       toast.success("Entrega atualizada com sucesso!")
       setOpen(false)
-
-    } catch {
-      toast.error("Erro ao atualizar entrega")
+      queryClient.invalidateQueries({ queryKey: ['delivery'] })
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar entrega.")
     }
+  })
+
+  const onSubmit = async (data: FormValues) => {
+    updateDelivery.mutate(data)
   }
 
   return (

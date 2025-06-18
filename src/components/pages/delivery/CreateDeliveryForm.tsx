@@ -87,8 +87,6 @@ const CreateDeliveryForm = () => {
 		}
 	}, [watchProductId])
 
-
-
 	const onSubmit = async (data: FormValues) => {
 		try {
 			await api.post("/delivery", data)

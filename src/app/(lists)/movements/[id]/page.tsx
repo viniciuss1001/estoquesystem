@@ -14,6 +14,7 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import EditTransferModal from "@/components/pages/movements/edit-movement-modal"
+import { useQuery } from "@tanstack/react-query"
 
 interface Movement {
   id: string
@@ -37,19 +38,19 @@ interface Movement {
 
 
 const MovementPage = () => {
-  const [movement, setMovement] = useState<Movement>()
-  const [loading, setLoading] = useState(true)
+ 
   const id = useParams().id as string
 
-  useEffect(() => {
-    api
-      .get(`/movements/${id}`)
-      .then((res) => setMovement(res.data.movement))
-      .catch(() => toast.error("Erro ao buscar movimentação."))
-      .finally(() => setLoading(false))
-  }, [id])
+ const {data: movement, isLoading, isError} = useQuery({
+  queryKey: ["movement", id],
+  queryFn: async () => {
+    const response = await api.get(`/movements/${id}`)
+    return response.data as Movement
+  }, 
+  enabled: !!id
+ })
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center p-10">
         <Loader2 className="animate-spin w-6 h-6" />

@@ -2,53 +2,39 @@
 
 import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseModal"
 import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
-import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
-import { Loader2, Trash } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
 
 interface Warehouse {
-	id: string
-	name: string
-	location?: string | null
+  id: string
+  name: string
+  location?: string | null
   description: string
 }
 
 const WarehousePage = () => {
-	const [warehouses, setWarehouses] = useState<Warehouse[]>([])
-	const [loading, setLoading] = useState(true)
 
-	const fetchWarehouses = async () => {
-		try {
-			const response = await api.get("/warehouse")
-			setWarehouses(response.data)
-			setLoading(false)
+  const { data: warehouses = [], isLoading } = useQuery({
+    queryKey: ['warehouses'],
+    queryFn: async () => {
+      const response = await api.get('/warehouse')
+      return response.data as Warehouse[]
+    }
+  })
 
-		} catch (error) {
-			console.log(error)
-			toast.error("Erro ao carregar armazéns")
-			setLoading(false)
-		}
-	}
-	
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-full"><Loader2 className="w-6 h-6 animate-spin" /></div>
+  }
 
-	useEffect(() => {
-		fetchWarehouses()
-	}, [])
-
-	if (loading) {
-		return <div className="flex justify-center items-center h-full"><Loader2 className="w-6 h-6 animate-spin" /></div>
-	}
-
-	return (
-		 <div className="p-6">
+  return (
+    <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Armazéns</h2>
-        <CreateWarehouseModal onCreated={fetchWarehouses} />
+        <CreateWarehouseModal />
       </div>
 
       {warehouses.length === 0 ? (
@@ -71,12 +57,11 @@ const WarehousePage = () => {
                 <TableCell>{w.location || "-"}</TableCell>
                 <TableCell>{w.description}</TableCell>
                 <TableCell className="flex gap-2 justify-end">
-                  <EditWarehouseModal warehouse={w} 
-                  onUpdated={fetchWarehouses} />
+                  <EditWarehouseModal warehouse={w} />
                 </TableCell>
                 <TableCell>
                   <Link href={`/warehouse/${w.id}`}>
-                  Detalhes
+                    Detalhes
                   </Link>
                 </TableCell>
               </TableRow>
@@ -85,7 +70,7 @@ const WarehousePage = () => {
         </Table>
       )}
     </div>
-	)
+  )
 }
 
 export default WarehousePage

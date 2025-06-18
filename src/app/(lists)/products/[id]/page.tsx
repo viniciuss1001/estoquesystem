@@ -22,6 +22,7 @@ import {
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { useQuery } from "@tanstack/react-query"
 
 interface Product {
 	id: string
@@ -46,24 +47,19 @@ interface Product {
 }
 
 const ProductPage = () => {
-	const [product, setProduct] = useState<Product | null>(null)
 	const { id } = useParams()
-	const [loading, setLoading] = useState(true)
+	
+	const {data: product, isLoading} = useQuery({
+		queryKey: ['product', id],
+		queryFn: async () => {
+			const response = await api.get(`/product/${id}`)
+			return response.data as Product
+		},
+		enabled: !!id,
+		
+	})
 
-	useEffect(() => {
-		api.get(`/product/${id}`)
-			.then((response) => {
-				setProduct(response.data)
-			})
-			.catch(() => {
-				toast.error("Erro ao buscar produto.")
-			})
-			.finally(() => {
-				setLoading(false)
-			})
-	}, [id])
-
-	if (loading) {
+	if (isLoading) {
 		return (
 			<div className="w-full h-full flex items-center justify-center">
 				<Loader2 className="animate-spin" />

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useWarehouseProductQuantity } from "@/hooks/useWarehouseProductQuantity"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -75,9 +76,8 @@ interface Warehouse {
 
 const CreateMovementForm = () => {
 	const [open, setOpen] = useState(false)
-	const [products, setProducts] = useState<Product[]>([])
-	const [warehouses, setWarehouses] = useState<Warehouse[]>([])
 	const router = useRouter()
+	const queryClient = useQueryClient()
 
 	const form = useForm<MovementFormType>({
 		resolver: zodResolver(movementSchema) as any,
@@ -92,58 +92,57 @@ const CreateMovementForm = () => {
 		}
 	})
 
-
 	const watchType = form.watch("type")
-
 	const productId = form.watch("productId")
 	const originWarehouseId = form.watch("originWarehouseId")
 	const destinationWarehouseId = form.watch("destinationWarehouseId")
 
+
+	const { data: products = [] } = useQuery({
+		queryKey: ['products'],
+		queryFn: async () => {
+			const response = await api.get('/product')
+			return response.data as Product[]
+		},
+	})
+
+	const { data: warehouses = [] } = useQuery({
+		queryKey: ['warehouses'],
+		queryFn: async () => {
+			const response = await api.get('/warehouse')
+			return response.data as Warehouse[]
+		}
+	})
+
 	const { data: originStock } = useWarehouseProductQuantity(productId, originWarehouseId)
 	const { data: destinationStock } = useWarehouseProductQuantity(productId, destinationWarehouseId)
 
-	useEffect(() => {
-		api.get("/product")
-			.then((res) => {
-				setProducts(res.data)
-				// console.log(res.data)
-			})
-			.catch(() => toast.error("Erro ao carregar os produtos"))
-	}, [])
+useEffect(() => {
+    if (watchType !== 'TRANSFER') {
+      form.setValue('originWarehouseId', '')
+      form.setValue('destinationWarehouseId', '')
+    }
+  }, [watchType, form])
 
-	useEffect(() => {
-		api.get("/warehouse")
-			.then((res) => {
-				setWarehouses(res.data)
-				// console.log(res.data)
-			})
-
-			.catch(() => toast.error("Falha ao carregar locais de armazenamento"))
-
-	}, [])
-
-	useEffect(() => {
-		if (watchType !== "TRANSFER") {
-			form.setValue("originWarehouseId", "")
-			form.setValue("destinationWarehouseId", "")
-		}
-	}, [])
+  const createMovement = useMutation({
+	mutationFn: async (data: MovementFormType) => {
+		await api.post("/movements", data)
+	},
+	onSuccess: () => {
+		toast.success('Movimentação registrada com sucesso.')
+		router.refresh()
+		form.reset()
+		setOpen(false)
+		queryClient.invalidateQueries({queryKey: ['movements']})
+	},
+	onError: () => {
+		toast.error('Erro ao registrar movimentação')
+	}
+  })
 
 	const onSubmit = async (data: MovementFormType) => {
-		try {
-			await api.post("/movements", data)
-			toast.success("Movimentação registrada com sucesso.")
-			router.refresh()
-			form.reset()
-
-			setOpen(false)
-
-		} catch (error) {
-			toast.error("Erro ao registrar movimentação.")
-		}
+		createMovement.mutate(data)
 	}
-
-
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>

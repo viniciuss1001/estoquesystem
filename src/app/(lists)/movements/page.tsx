@@ -1,14 +1,13 @@
 "use client"
 
 import CreateMovementForm from '@/components/pages/movements/create-movement-form'
-import EditMovementModal from '@/components/pages/movements/edit-movement-modal'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import api from '@/lib/axios'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
 import { Badge } from "@/components/ui/badge"
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
+import { useQuery } from '@tanstack/react-query'
+import { Skeleton } from '@/components/ui/skeleton'
 
 
 interface Movement {
@@ -32,28 +31,25 @@ interface Movement {
   } | null
 }
 
-
-
 const MovementsPage = () => {
-  const [movements, setMovements] = useState<Movement[]>([])
-
-  useEffect(() => {
-    api.get("/movements")
-      .then((response) => {
-        setMovements(response.data.movements)
-
-      })
-      .catch((error) => {
-        toast.error("Erro ao carregar movimentações.")
-        console.log(error)
-      })
-  }, [])
+  
+  const {data: movements = [], isLoading, isError} = useQuery({
+    queryKey: ["movements"],
+    queryFn: async () => {
+      const response = await api.get('/movements')
+      return response.data as Movement[]
+    }
+  })
 
   const statusColor = {
     PENDING: "bg-yellow-100 text-yellow-800",
     COMPLETED: "bg-green-100 text-green-800",
     CANCELED: "bg-red-100 text-red-800",
   }
+
+  if(isLoading){
+		return <Skeleton className="h-40 w-full"/>
+	}
 
 
   return (

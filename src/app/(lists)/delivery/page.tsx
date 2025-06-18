@@ -9,9 +9,9 @@ import api from '@/lib/axios'
 import { format } from 'date-fns'
 import { Loader2, Trash } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
-import { useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface Delivery {
 	id: string
@@ -34,15 +34,12 @@ const DeliveryPage = () => {
 	const queryClient = useQueryClient()	
 	const [loading, setLoading] = useState(true)
 
-	const {data: deliveries, isLoading, isError} = useQuery({
+	const {data: deliveries = [], isLoading, isError} = useQuery({
 		queryKey: ["deliveries"],
 		queryFn: async () => {
 			const response = await api.get('/delivery')
-			return response.data
+			return response.data as Delivery[]
 		},
-		onError: () => {
-			toast.error("Erro ao carregar entregas")
-		}
 	})
 
 	const deleteDelivery = useMutation({

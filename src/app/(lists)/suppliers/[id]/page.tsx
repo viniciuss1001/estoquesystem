@@ -4,6 +4,7 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbLink, BreadcrumbSeparator, Breadc
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -26,18 +27,17 @@ interface Supplier {
 }
 
 const SupplierPage = () => {
-  const [supplier, setSupplier] = useState<Supplier>()
-  const [loading, setLoading] = useState(true)
   const { id } = useParams()
+ 
+  const {data:supplier, isLoading} = useQuery({
+    queryKey: ['supplier', id],
+    queryFn: async () => {
+      const response = await api.get(`/supplier/${id}`)
+      return response.data as Supplier
+    }
+  })
 
-  useEffect(() => {
-    api.get(`/supplier/${id}`)
-      .then((res) => setSupplier(res.data))
-      .catch(() => toast.error("Erro ao buscar fornecedor."))
-      .finally(() => setLoading(false))
-  }, [])
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />

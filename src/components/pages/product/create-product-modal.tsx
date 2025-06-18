@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import DatePicker from "@/components/shared/DatePicker"
 
@@ -37,6 +37,7 @@ const CreateProductModal = () => {
 	const [open, setOpen] = useState(false)
 
 	const router = useRouter()
+	const queryClient = useQueryClient()
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -85,21 +86,27 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const onSubmit = async (data: z.infer<typeof formSchema>) => {
-		try {
-			await api.post("/product", data)
-			toast.success("Produto criado com sucesso!")
-			form.reset()
-
-			setOpen(false)
+	const createProduct = useMutation({
+		mutationFn: async (data: z.infer<typeof formSchema>) => {
+			await api.post('/product', data)
+		},
+		onSuccess: () => {
+			toast.success("Produto criado com sucesso"),
+				form.reset()
 			router.refresh()
-
-		} catch (error) {
-			toast.error("Erro ao criar produto.")
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['products'] })
+		},
+		onError: (error) => {
+			toast.error("Erro ao criar produto")
 			console.log(error)
 		}
-	}
+	})
 
+	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+		createProduct.mutate(data)
+
+	}
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen} >

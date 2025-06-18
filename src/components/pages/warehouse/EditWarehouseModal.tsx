@@ -26,6 +26,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form"
 import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),
@@ -43,12 +44,12 @@ interface EditWarehouseModalProps {
 		description?: string
 	}
 	onUpdated?: () => void
-	
+
 }
 
-export default function EditWarehouseModal({ warehouse, onUpdated,  }: EditWarehouseModalProps) {
+export default function EditWarehouseModal({ warehouse, }: EditWarehouseModalProps) {
 	const [open, setOpen] = useState(false)
-	const [loading, setLoading] = useState(false)
+	const queryClient = useQueryClient()
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(schema),
@@ -59,29 +60,35 @@ export default function EditWarehouseModal({ warehouse, onUpdated,  }: EditWareh
 		},
 	})
 
-	const onSubmit = async (data: FormData) => {
-		setLoading(true)
-		try {
-			await api.patch(`/warehouse/${warehouse.id}`, data)
+	const updateWarehouseMutation = useMutation({
+		mutationFn: (data: FormData) => api.patch(`/warehouse/${warehouse.id}`, data),
+		onSuccess: () => {
 			toast.success("Armazém atualizado com sucesso!")
-			setOpen(false)
-			onUpdated?.()
-		} catch {
+			queryClient.invalidateQueries({ queryKey: ["warehouse"] })
+		},
+		onError: () => {
 			toast.error("Erro ao atualizar armazém.")
-		} finally {
-			setLoading(false)
-		}
+		},
+	})
+
+	const deleteWarehouseMutation = useMutation({
+		mutationFn: () => api.delete(`/warehouse/${warehouse.id}`),
+		onSuccess: () => {
+			toast.success("Armazém excluído com sucesso!")
+			queryClient.invalidateQueries({ queryKey: ["warehouse"] })
+		},
+		onError: () => {
+			toast.error("Erro ao excluir armazém.")
+		},
+	})
+
+	const onSubmit = (data: FormData) => {
+		updateWarehouseMutation.mutate(data)
 	}
 
-	const handleDelete = async () => {
-			try {
-				await api.delete(`/warehouse/${warehouse.id}`)
-				toast.success("Armazém excluído com sucesso!")
-			} catch(error) {
-				toast.error("Erro ao excluir armazém.")
-			// console.log(error)
-			}
-		}
+	const handleDelete = () => {
+		deleteWarehouseMutation.mutate()
+	}
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -136,15 +143,15 @@ export default function EditWarehouseModal({ warehouse, onUpdated,  }: EditWareh
 							)}
 						/>
 
-						<DialogFooter  className="flex items-center justify-between pt-4 gap-2">
-							
-							<AlertDialogDelete 
-							onDelete={handleDelete}
-							type="Armazém"
+						<DialogFooter className="flex items-center justify-between pt-4 gap-2">
+
+							<AlertDialogDelete
+								onDelete={handleDelete}
+								type="Armazém"
 							/>
 
-							<Button type="submit" disabled={loading}>
-								{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
+							<Button type="submit" >
+								Salvar
 							</Button>
 						</DialogFooter>
 					</form>

@@ -37,7 +37,7 @@ interface Warehouse {
 }
 
 
-const CreateWarehouseProductModal = ({ onCreated }: Props) => {
+const CreateWarehouseProductModal = () => {
 
 	const [open, setOpen] = useState(false)
 	const [loading, setLoading] = useState(true)
@@ -77,9 +77,6 @@ const CreateWarehouseProductModal = ({ onCreated }: Props) => {
 			toast.success("Produto vinculado ao armazém com sucesso.")
 			form.reset()
 			setOpen(false)
-			onCreated()
-
-
 		} catch (error) {
 			toast.error("Erro ao criar relação produto/armazém")
 			setLoading(false)

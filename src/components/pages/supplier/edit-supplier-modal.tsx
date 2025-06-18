@@ -6,9 +6,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -28,7 +28,7 @@ interface EditSupplierModalProps {
 
 const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 	const router = useRouter()
-	const [loading, setLoading] = useState(true)
+	const queryClient = useQueryClient()
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -40,58 +40,55 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 		}
 	})
 
-	useEffect(() => {
-		api.get(`/supplier/${supplierId}`)
-			.then((response) => {
-				const supplier = response.data
-				form.reset({
-					name: supplier.name,
-					email: supplier.email,
-					contactPhone: supplier.contactPhone,
-					description: supplier.description
-				})
-			})
-			.catch(() => {
-				toast.error("Erro ao buscar fornecedor.")
-			})
-			.finally(() => {
-				setLoading(false)
-			})
-	}, [])
+	const { data: supplier, isLoading: isLoadingSupplier } = useQuery({
+		queryKey: ['supplier', supplierId],
+		queryFn: async () => {
+			const response = await api.get(`/supplier/${supplierId}`)
+			return response.data
+		},
+	})
 
-	const onSubmit = async (data: FormValues) => {
-		try {
-			await api.put(`/supplier/${supplierId}`)
-			toast.success("Fornecedor atualizado com sucesso!")
+	const updateSupplier = useMutation({
+		mutationFn: (data: FormValues) => api.put(`/supplier/${supplierId}`, data),
+		onSuccess: () => {
+			toast.success('Fornecedor atualizado com sucesso!')
+			queryClient.invalidateQueries({ queryKey: ['supplier', supplierId] })
+		},
+		onError: () => toast.error('Erro ao atualizar fornecedor.'),
+	})
 
-
-		} catch (error) {
-			toast.error("Erro ao atualizar fornecedor.")
-		}
-	}
-	const onDelete = async () => {
-		try {
-			setLoading(true)
-			await api.delete(`/supplier/${supplierId}`)
-			setLoading(false)
-
-			toast.success("Fornecedor deletado com sucesso.")
+	const deleteSupplier = useMutation({
+		mutationFn: () => api.delete(`/supplier/${supplierId}`),
+		onSuccess: () => {
+			toast.success('Fornecedor deletado com sucesso.')
 			router.refresh()
+		},
+		onError: () => toast.error('Erro ao deletar fornecedor.'),
+	})
 
-		} catch (error) {
-			toast.error("Erro ao deletar fornecedor.")
-			setLoading(false)
-			console.log(error)
-		}
-
-	}
-
-	if (loading) {
+	if (isLoadingSupplier) {
 		return (
-			<div className="w-full h-full">
+			<div className="w-full h-full flex items-center justify-center">
 				<Loader2 className="animate-spin" />
 			</div>
 		)
+	}
+
+	if (supplier) {
+		form.reset({
+			name: supplier.name,
+			email: supplier.email,
+			contactPhone: supplier.contactPhone,
+			description: supplier.description,
+		})
+	}
+
+	const onSubmit = (data: FormValues) => {
+		updateSupplier.mutate(data)
+	}
+
+	const onDelete = () => {
+		deleteSupplier.mutate()
 	}
 
 	return (
@@ -173,7 +170,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 								<Button
 									type="submit"
 									className="cursor-pointer flex rounded-sm w-2/4">
-									{loading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+									Salvar
 								</Button>
 							</DialogFooter>
 

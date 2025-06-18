@@ -4,9 +4,9 @@ import CreateSupplierModal from "@/components/pages/supplier/create-supplier-mod
 import EditSupplierModal from "@/components/pages/supplier/edit-supplier-modal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { useQuery } from "@tanstack/react-query"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
 interface Supplier {
 	id: string,
@@ -18,18 +18,21 @@ interface Supplier {
 }
 
 const SupplierPage = () => {
-	const [suppliers, setSuppliers] = useState<Supplier[]>([])
+	const {data: suppliers = [], isLoading} = useQuery({
+		queryKey: ['suppliers'], 
+		queryFn: async () => {
+			const response = await api.get('/supplier')
+			return response.data as Supplier[]
+		}
+	})
 
-	useEffect(() => {
-		api
-			.get("/supplier")
-			.then((response) => {
-				setSuppliers(response.data.suppliers)
-			})
-			.catch(() => {
-				toast.error("Erro ao carregar os fornecedores.")
-			})
-	}, [])
+	if (isLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
+      </div>
+    )
+  }
 
 	return (
 		<div className="p-6">

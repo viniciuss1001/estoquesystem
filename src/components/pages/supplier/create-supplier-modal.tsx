@@ -1,19 +1,25 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { Loader2, Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Loader2, Plus } from "lucide-react"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import api from "@/lib/axios"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useRouter } from "next/navigation"
 
+
+interface Product {
+	id: string
+	name: string
+}
 
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
@@ -26,7 +32,8 @@ const formSchema = z.object({
 
 const CreateSupplierModal = () => {
 	const [open, setOpen] = useState(false)
-	const [products, setProducts] = useState<{ id: string; name: string }[]>([])
+	const router = useRouter()
+	const queryClient = useQueryClient()
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -40,43 +47,40 @@ const CreateSupplierModal = () => {
 		}
 	})
 
-	const router = useRouter()
-
 	//load products
-	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await api.get("/product")
-				setProducts(response.data)
-
-			} catch (error) {
-				console.log(error)
-				toast.error("Erro ao buscar os produtos no banco.")
-			}
+	const { data: products = [], isLoading: isLoadingProducts } = useQuery({
+		queryKey: ['products'],
+		queryFn: async () => {
+			const response = await api.get('/product')
+			return response.data as Product[]
 		}
+	})
 
-		fetchProducts()
-	}, [])
-
-	const onSubmit = async (data: z.infer<typeof formSchema>) => {
-		try {
-			await api.post("/supplier", data)
-			toast.success("Fonecedor criado com sucesso!")
+	const createSupplier = useMutation({
+		mutationFn: async (data: z.infer<typeof formSchema>) => {
+			await api.post('/supplier', data)
+		},
+		onSuccess: () => {
+			toast.success('Fornecedor criado com sucesso!')
 			router.refresh()
 			form.reset()
-			
 			setOpen(false)
-		} catch (error) {
-			toast.error("Erro ao criar fornecedor.")
-			console.log(error)
-		}
-	}
+			queryClient.invalidateQueries({ queryKey: ['suppliers'] }) // caso tenha listagem
+		},
+		onError: () => {
+			toast.error('Erro ao criar fornecedor.')
+		},
+	})
+
+	const onSubmit = (data: z.infer<typeof formSchema>) => {
+    createSupplier.mutate(data)
+  }
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger>
 				<Button variant='ghost' className='flex p-2 cursor-pointer'>
-					<Plus className="size-4"/>
+					<Plus className="size-4" />
 					Criar Fornecedor
 				</Button>
 			</DialogTrigger>
@@ -123,7 +127,7 @@ const CreateSupplierModal = () => {
 							control={form.control}
 							name="deliveryTime"
 							render={({ field }) => {
-								
+
 								const formattedDate = field.value ? field.value.toISOString().substring(0, 10) : "";
 
 								return (

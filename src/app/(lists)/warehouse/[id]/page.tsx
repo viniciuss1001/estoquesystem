@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import api from "@/lib/axios"
+import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -22,25 +23,17 @@ interface Warehouse {
 
 const WarehouseIdPage = () => {
 
-	const [warehouse, setWarehouse] = useState<Warehouse | null>(null)
 	const { id } = useParams()
-	const [loading, setLoading] = useState(true)
+	
+	const {data: warehouse, isLoading} = useQuery({
+		queryKey: ['warehouse', id],
+		queryFn: async () => {
+			const response = await api.get(`/warehouse/${id}`)
+			return response.data as Warehouse
+		}
+	})
 
-	useEffect(() => {
-		api.get(`/warehouse/${id}`)
-			.then((response) => {
-				setWarehouse(response.data)
-			})
-			.catch(() => {
-				toast.error("Erro ao carregar armazém.")
-			})
-			.finally(() => {
-				setLoading(false)
-			})
-
-	}, [])
-
-	if (loading) {
+	if (isLoading) {
 		return (
 			<div className="w-full h-full flex items-center justify-center">
 				<Loader2 className="animate-spin" />

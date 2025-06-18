@@ -10,6 +10,7 @@ import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { useQuery } from "@tanstack/react-query"
 
 interface Product {
   id: string
@@ -37,22 +38,13 @@ const ProductsPage = () => {
 
   const { data: session } = useSession()
 
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    api
-      .get("/product")
-      .then((response) => {
-        setProducts(response.data ?? [])
-      })
-      .catch(() => {
-        toast.error("Erro ao carregar os fornecedores.")
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
+  const {data: products = [], isLoading, isError} = useQuery({
+    queryKey: ['products'],
+    queryFn: async ()=>{
+      const response = await api.get('/product')
+      return response.data as Product[]
+    },
+  })
 
   return (
     <div className="p-6">
@@ -86,7 +78,7 @@ const ProductsPage = () => {
         <TableBody>
 
 
-          {loading ? (
+          {isLoading ? (
             <TableRow>
               <TableCell colSpan={7} className="text-center">
                 Carregando...

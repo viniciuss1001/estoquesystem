@@ -1,12 +1,11 @@
 "use client"
 
 import CreateWarehouseProductModal from "@/components/pages/warehouse-product/CreateWarehouseProductModal"
-import EditWarehouseProductModal from "@/components/pages/warehouse-product/EditWarehouseProductModal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
-import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
 interface WarehouseProduct {
@@ -25,48 +24,48 @@ interface WarehouseProduct {
 
 
 const WarehouseProductsPage = () => {
-	const [warehouseProducts, setWarehouseProducts] = useState<WarehouseProduct[]>([])
-	const [loading, setLoading] = useState(true)
+	
+	const queryClient = useQueryClient()
 
-
-	const fetchWarehouseProducts = async () => {
-		try {
-			const response = await api.get("/warehouse-product")
-			setWarehouseProducts(response.data)
-			setLoading(false)
-
-		} catch (error) {
-			toast.error("Erro ao buscar produtos por armazém.")
-			setLoading(false)
+	const {data: warehouseProducts = [], isLoading} = useQuery({
+		queryKey: ['warehouseProducts'],
+		queryFn: async () => {
+			const response = await api.get('/warehouse-product')
+			return response.data as WarehouseProduct[]
 		}
-	}
 
-	const handleDelete = async (warehouseId: string, productId: string) => {
-		try {
-			await api.delete(`/warehouse-product/${warehouseId}/${productId}`)
+	})
+
+	const deleteMutation = useMutation({
+		mutationFn: async ({warehouseId, productId}: {warehouseId: string, productId: string}) => {
+			api.delete(`/warehouse-product/${warehouseId}/${productId}`)
+		},
+		onSuccess: () => {
 			toast.success("Produto removido do armazém com sucesso!")
-
-			setWarehouseProducts(prev =>
-				prev.filter(p => p.warehouseId !== warehouseId || p.productId !== productId)
-			)
-		} catch (error) {
-			toast.error("Erro ao excluir produto do armazém")
+			queryClient.invalidateQueries({ queryKey: ['warehouseProducts'] })
+		},
+		onError: () => {
+		toast.error("Erro ao deletar produto")
 		}
-	}
+	})
 
-	useEffect(() => {
-		fetchWarehouseProducts()
-	}, [])
+const handleDelete = (warehouseId: string, productId: string) => {
+	deleteMutation.mutate({warehouseId, productId})
+}
 
-	if (loading) {
-		return <div className="flex items-center justify-center w-full h-full"><Loader2 className="animate-spin" /></div>
-	}
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
 
 	return (
 		<div className="p-6">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-2xl font-bold">Produtos por Armazém</h2>
-				<CreateWarehouseProductModal onCreated={fetchWarehouseProducts} />
+				<CreateWarehouseProductModal />
 			</div>
 
 			{warehouseProducts.length === 0 ? (

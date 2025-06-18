@@ -28,15 +28,13 @@ interface ThisUser {
 const SettingsPage = () => {
 
   const [user, setUser] = useState<ThisUser | null>(null)
-
+  
   const { data: session } = useSession()
-
+  
   if (!session) {
     return <p className="p-6 text-center">Você precisa estar logado para acessar esta página.</p>
   }
-
   
-
   const { id: userId } = useParams()
 
   useEffect(() => {
