@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { useQuery } from '@tanstack/react-query'
 
 interface Delivery {
   id: string
@@ -30,16 +31,19 @@ interface Delivery {
 }
 
 const DeliveryPage = () => {
-  const [delivery, setDelivery] = useState<Delivery | null>(null)
   const { id } = useParams()
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    api.get(`/delivery/${id}`)
-      .then((res) => setDelivery(res.data))
-      .catch(() => toast.error("Erro ao buscar entrega."))
-      .finally(() => setLoading(false))
-  }, [id])
+ 
+  const {data: delivery, isLoading, isError} = useQuery({
+    queryKey: ['delivery', id],
+    queryFn: async () => {
+      const response = await api.get(`/delivery/${id}`)
+      return response.data
+    },
+    enabled: !!id,
+    onError: () => {
+      toast.error('Erro ao buscar entrega.')
+    }
+  })
 
   const formatStatus = (status: Delivery["status"]) => {
     switch (status) {
