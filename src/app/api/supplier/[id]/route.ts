@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const session = await getServerSession(authOptions);
 
@@ -12,13 +12,15 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 			return new Response("Unauthorized", { status: 401 });
 		}
 
+		const { id } = await params
+
 		const supplier = await prisma.supplier.findUnique({
-			where: { id: params.id },
+			where: { id: id },
 			include: {
 				products: {
 					include: {
 						category: true,
-						
+
 					}
 				}
 			}
@@ -36,20 +38,22 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const data = await req.json()
 
 	const { name, email, contactPhone, deliveryTime, description } = data
 
 	try {
-		const session = await getServerSession(authOptions);
+		const session = await getServerSession(authOptions)
 
 		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Unauthorized", { status: 401 });
+			return new Response("Unauthorized", { status: 401 })
 		}
 
+		const { id } = await params
+
 		const updatedSupplier = await prisma.supplier.update({
-			where: { id: params.id },
+			where: { id: id },
 			data: {
 				name, email, contactPhone, deliveryTime, description
 			}
@@ -70,7 +74,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 	}
 }
 
-export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
 
 	try {
 
@@ -80,8 +84,10 @@ export async function DELETE(_: Request, { params }: { params: { id: string } })
 			return new Response("Unauthorized", { status: 401 });
 		}
 
+		const { id } = await params
+
 		await prisma.supplier.delete({
-			where: { id: params.id },
+			where: { id: id },
 
 		})
 
@@ -89,8 +95,8 @@ export async function DELETE(_: Request, { params }: { params: { id: string } })
 			userId: session.user.id,
 			action: "delete",
 			entity: "supplier",
-			entityId: params.id,
-			description: `Fornecedor excluído: ${params.id}`
+			entityId: id,
+			description: `Fornecedor excluído: ${id}`
 		})
 
 		return NextResponse.json({ message: "Fornecedor deletado com sucesso." });

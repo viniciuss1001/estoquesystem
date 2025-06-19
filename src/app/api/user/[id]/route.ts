@@ -105,7 +105,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 	}
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ userIdToDelete: string }> }) {
 	try {
 
 		const token = req.headers.get("authorization")?.replace("Bearer ", "")
@@ -115,7 +115,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 		if (typeof decoded !== "object") return NextResponse.json({ error: "Token inválido" }, { status: 401 })
 
 		const userIdFromToken = (decoded as any).id
-		const userIdToDelete = params.id
+		const {userIdToDelete} = await params
 
 		// Apenas admin pode deletar (melhor prática)
 		if ((decoded as any).office !== "ADMIN") {

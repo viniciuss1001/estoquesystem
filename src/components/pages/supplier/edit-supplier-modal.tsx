@@ -49,7 +49,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 	})
 
 	const updateSupplier = useMutation({
-		mutationFn: (data: FormValues) => api.put(`/supplier/${supplierId}`, data),
+		mutationFn: (data: FormValues) => api.patch(`/supplier/${supplierId}`, data),
 		onSuccess: () => {
 			toast.success('Fornecedor atualizado com sucesso!')
 			queryClient.invalidateQueries({ queryKey: ['supplier', supplierId] })

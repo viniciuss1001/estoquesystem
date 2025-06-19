@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const session = await getServerSession(authOptions);
 
@@ -16,7 +16,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 		const category = await prisma.category.update({
 			where: {
-				id: params.id
+				id: (await params).id
 			},
 			data: {
 				name: body.name
@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 	}
 }
 
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ categoryId: string }> }) {
 
 	try {
 		const session = await getServerSession(authOptions);
@@ -48,7 +48,7 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 		if (!session || session.user.office !== "ADMIN") {
 			return new Response("Unauthorized", { status: 401 });
 		}
-		const categoryId = params.id
+		const { categoryId } = await params
 
 		await prisma.product.updateMany({
 			where: { categoryId },
@@ -66,8 +66,8 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 			userId: session.user.id,
 			action: "delete",
 			entity: "category",
-			entityId: params.id,
-			description: `Categoria deletada: ${params.id}}`
+			entityId: categoryId,
+			description: `Categoria deletada: ${categoryId}}`
 		})
 
 		return new NextResponse(null, { status: 204 })

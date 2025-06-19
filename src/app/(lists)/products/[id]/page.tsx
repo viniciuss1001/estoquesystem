@@ -48,15 +48,15 @@ interface Product {
 
 const ProductPage = () => {
 	const { id } = useParams()
-	
-	const {data: product, isLoading} = useQuery({
+
+	const { data: product, isLoading } = useQuery({
 		queryKey: ['product', id],
 		queryFn: async () => {
 			const response = await api.get(`/product/${id}`)
 			return response.data as Product
 		},
 		enabled: !!id,
-		
+
 	})
 
 	if (isLoading) {

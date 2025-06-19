@@ -36,7 +36,7 @@ interface ProductListActionsProps {
 
 const ProductListActions = ({ products, userName, userNameOffice }: ProductListActionsProps) => {
 
-	const handlePrint =  () => {
+	const handlePrint = () => {
 		window.print()
 	}
 
@@ -54,10 +54,10 @@ const ProductListActions = ({ products, userName, userNameOffice }: ProductListA
 
 		document.setFontSize(10)
 		document.text(`Gerador por: ${userName} (${userNameOffice})`, 14, 25)
-		
+
 		document.setFontSize(12)
 		document.text("Lista de Produtos", 14, 35)
-		
+
 		autoTable(document, {
 			startY: 40,
 			head: [
@@ -130,12 +130,14 @@ const ProductListActions = ({ products, userName, userNameOffice }: ProductListA
 	return (
 		<div className="flex gap-2 mb-4 print:hidden">
 			<Button onClick={handlePrint} variant="outline" className='cursor-pointer'>
-				<Printer className="w-4 h-4 mr-2" />
-				Imprimir Página
+				<Printer className="w-4 h-4" />
+				<span className='hidden md:block'>Imprimir Página</span>
 			</Button>
 			<Button onClick={handleExportPDF} variant="outline" className='cursor-pointer'>
-				<Download className="w-4 h-4 mr-2" />
-				Exportar PDF
+				<Download className="w-4 h-4" />
+				<span className='hidden md:block'>
+					Exportar PDF
+				</span>
 			</Button>
 		</div>
 	)

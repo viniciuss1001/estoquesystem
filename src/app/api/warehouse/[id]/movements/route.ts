@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 
 	try {
 
@@ -13,11 +13,13 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 			return new NextResponse("Não autorizado", { status: 401 })
 		}
 
+		const {id} = await params
+
 		const movements = await prisma.stockMovement.findMany({
 			where: {
 				OR: [
-					{ originWarehouseId: params.id },
-					{ destinationWarehouseId: params.id }
+					{ originWarehouseId: id },
+					{ destinationWarehouseId: id }
 				]
 			},
 			include: {

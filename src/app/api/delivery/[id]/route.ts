@@ -4,9 +4,9 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, context: { params: { id: string } }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
-	const { id } = context.params
+	const { id } = await params
 
 	try {
 		const delivery = await prisma.delivery.findUnique({
@@ -14,7 +14,7 @@ export async function GET(_: NextRequest, context: { params: { id: string } }) {
 			include: {
 				product: true,
 				supplier: true,
-				
+
 			}
 		})
 
@@ -31,9 +31,9 @@ export async function GET(_: NextRequest, context: { params: { id: string } }) {
 
 }
 
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
-	const { id } = context.params
+	const { id } = await params
 	const session = await getServerSession(authOptions)
 
 	if (!session || session.user.office !== "ADMIN") {
@@ -69,11 +69,11 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 		// verify if product is the same
 		const sameProduct = existingDelivery?.productId === productId
 
-		if(productId && quantity && sameProduct){
+		if (productId && quantity && sameProduct) {
 			// other -> completed => increment
-			if(!wasCompleted && isNowCompleted){
+			if (!wasCompleted && isNowCompleted) {
 				await prisma.product.update({
-					where: {id: productId},
+					where: { id: productId },
 					data: {
 						quantity: {
 							increment: body.quantity
@@ -83,9 +83,9 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 			}
 
 			// completed -> other => decrement
-			if(wasCompleted && !isNowCompleted){
+			if (wasCompleted && !isNowCompleted) {
 				await prisma.product.update({
-					where: {id: productId},
+					where: { id: productId },
 					data: {
 						quantity: {
 							decrement: body.quantity
@@ -114,8 +114,8 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 
 }
 
-export async function DELETE(_: NextRequest, context: { params: { id: string } }) {
-	const { id } = context.params;
+export async function DELETE(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+	const { id } = await params
 	const session = await getServerSession(authOptions)
 
 	if (!session || session.user.office !== "ADMIN") {

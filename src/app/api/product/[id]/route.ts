@@ -5,8 +5,8 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export async function GET(_: NextRequest, context: { params: { id: string } }) {
-	const { id } = context.params
+export async function GET(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+	const { id } = await params
 
 	try {
 		const product = await prisma.product.findUnique({
@@ -34,10 +34,10 @@ export async function GET(_: NextRequest, context: { params: { id: string } }) {
 }
 
 
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 
 	try {
-		const { id } = context.params
+		const { id } = await params
 		const session = await getServerSession(authOptions);
 
 		if (!session || session.user.office !== "ADMIN") {
@@ -96,9 +96,9 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 	}
 }
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 	try {
-		const { id } = context.params
+		const { id } = await params
 		const session = await getServerSession(authOptions);
 
 		if (!session || session.user.office !== "ADMIN") {

@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 
 	try {
 
@@ -12,9 +12,10 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 		if (!session) {
 			return new NextResponse("Não autorizado", { status: 401 })
 		}
+		const {id} = await params
 
 		const productsInWarehouse = await prisma.warehouseProduct.findMany({
-			where: {warehouseId: params.id},
+			where: {warehouseId: id},
 			include: {
 				product: {
 					include: {

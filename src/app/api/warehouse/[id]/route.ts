@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const session = await getServerSession(authOptions);
 
@@ -11,8 +11,10 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 			return new Response("Unauthorized", { status: 401 })
 		}
 
+		const {id} = await params
+
 		const warehouse = await prisma.wareHouse.findUnique({
-			where: { id: params.id },
+			where: { id: id },
 			include: {
 				warehouseProduct: {
 					include: {
@@ -54,7 +56,7 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 	}
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const session = await getServerSession(authOptions);
 
@@ -64,10 +66,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 		const body = await req.json()
 
+		const {id} = await params
+
 		const { name, description, location } = body
 
 		const updatedWarehouse = await prisma.wareHouse.update({
-			where: { id: params.id },
+			where: { id: id },
 			data: {
 				name,
 				location,
@@ -83,12 +87,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 	}
 }
 
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 	try {
+
+		const {id} = await params
 
 		// verify if warehouse has products
 		const related = await prisma.warehouseProduct.findFirst({
-			where: { warehouseId: params.id }
+			where: { warehouseId: id }
 		})
 
 		if (related) {
@@ -96,7 +102,7 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 		}
 
 		await prisma.wareHouse.delete({
-			where: { id: params.id },
+			where: { id: id },
 		})
 
 		return NextResponse.json({ message: "Armazém excluído com sucesso" })
