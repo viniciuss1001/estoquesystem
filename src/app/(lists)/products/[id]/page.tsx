@@ -2,49 +2,26 @@
 
 import ProductMovementsComponent from "@/components/pages/product/ProductMovements"
 import ProductWarehouseDistribuition from "@/components/pages/product/ProductWarehouseDistribuition"
+import { Badge } from "@/components/ui/badge"
 import {
 	Breadcrumb, BreadcrumbLink, BreadcrumbList,
 	BreadcrumbPage, BreadcrumbSeparator
 } from "@/components/ui/breadcrumb"
-import { Badge } from "@/components/ui/badge"
 import api from "@/lib/axios"
+import { Product } from "@/types/types"
+import { useQuery } from "@tanstack/react-query"
 import {
+	AlertTriangle,
+	Boxes,
+	CalendarCheck,
 	Loader2,
 	PackageCheck,
-	CalendarCheck,
-	Boxes,
 	PackageSearch,
-	Tag,
-	User2,
 	PackageX,
-	AlertTriangle
+	Tag,
+	User2
 } from "lucide-react"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
-import { useQuery } from "@tanstack/react-query"
-
-interface Product {
-	id: string
-	name: string
-	sku: string
-	quantity: string
-	price: number
-	expirationDate?: string
-	usageStatus?: "IN_STOCK" | "IN_USE" | "CONSUMED"
-	category?: {
-		id: string
-		name: string
-		createdAt: string
-		updatedAt: string
-	}
-	createdAt: string
-	updatedAt: string
-	supplier: {
-		id: string
-		name: string
-	}
-}
 
 const ProductPage = () => {
 	const { id } = useParams()

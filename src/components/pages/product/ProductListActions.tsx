@@ -1,32 +1,11 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
+import { Product } from '@/types/types'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { Download, Printer } from 'lucide-react'
 
-
-interface Product {
-	id: string
-	name: string
-	sku: string
-	quantity: string
-	price: number
-	category?: {
-		id: string
-		name: string
-		createdAt: string
-		updatedAt: string
-	}
-	createdAt: string
-	updatedAt: string
-	supplier: {
-		id: string
-		name: string
-	}
-	usageStatus?: "IN_STOCK" | "IN_USE" | "CONSUMED"
-	expirationDate?: string | null
-}
 
 interface ProductListActionsProps {
 	products: Product[]

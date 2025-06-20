@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -10,23 +10,23 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Pencil, Loader2 } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "sonner"
-import { z } from "zod"
-import api from "@/lib/axios"
 import {
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
 	FormMessage,
 } from "@/components/ui/form"
-import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
+import { Input } from "@/components/ui/input"
+import api from "@/lib/axios"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { Pencil } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),

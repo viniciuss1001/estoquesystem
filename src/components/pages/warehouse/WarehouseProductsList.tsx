@@ -20,7 +20,6 @@ interface Props {
 	warehouseId: string
 }
 
-
 const WarehouseProductsList = ({ warehouseId }: Props) => {
 
 	const { data, isLoading } = useQuery<WarehouseProduct[]>({

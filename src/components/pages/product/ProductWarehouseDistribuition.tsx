@@ -1,17 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { WarehouseStock } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 
-interface WarehouseStock {
-	id: string
-	quantity: string
-	warehouse: {
-		id: string
-		name: string
-		location: string | null
-	}
-}
 
 const ProductWarehouseDistribuition = ({ productId }: { productId: string }) => {
 

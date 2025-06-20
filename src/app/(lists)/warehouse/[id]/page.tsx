@@ -8,18 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import api from "@/lib/axios"
+import { Warehouse } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
-interface Warehouse {
-	id: string
-	name: string
-	location?: string | null
-	description: string
-}
 
 const WarehouseIdPage = () => {
 

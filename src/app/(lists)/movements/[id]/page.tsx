@@ -1,40 +1,19 @@
 "use client"
 
+import EditTransferModal from "@/components/pages/movements/edit-movement-modal"
+import { Badge } from "@/components/ui/badge"
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Badge } from "@/components/ui/badge"
 import api from "@/lib/axios"
+import { Movement } from "@/types/types"
+import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
-import EditTransferModal from "@/components/pages/movements/edit-movement-modal"
-import { useQuery } from "@tanstack/react-query"
-
-interface Movement {
-  id: string
-  type: "IN" | "OUT" | "TRANSFER"
-  quantity: number
-  notes: string | null
-  createdAt: string
-  product: {
-    id: string
-    name: string
-  }
-  originWareHouse: {
-    id: string
-    name: string
-  } | null
-  destinationWarehouse: {
-    id: string
-    name: string
-  } | null
-}
 
 
 const MovementPage = () => {

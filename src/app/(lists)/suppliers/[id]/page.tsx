@@ -1,30 +1,14 @@
 "use client"
 
-import { Breadcrumb, BreadcrumbList, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { Supplier } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
-interface Supplier {
-  id: string
-  name: string
-  email: string
-  contactPhone: string
-  deliveryTime: string
-  description?: string
-  products: {
-    id: string
-    name: string
-    category?: {
-      name: string
-    } | null
-  }[]
-}
 
 const SupplierPage = () => {
   const { id } = useParams()

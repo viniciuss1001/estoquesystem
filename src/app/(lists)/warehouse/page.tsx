@@ -4,17 +4,10 @@ import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseMo
 import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { Warehouse } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
-
-
-interface Warehouse {
-  id: string
-  name: string
-  location?: string | null
-  description: string
-}
 
 const WarehousePage = () => {
 

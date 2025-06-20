@@ -4,23 +4,10 @@ import CreateWarehouseProductModal from "@/components/pages/warehouse-product/Cr
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { WarehouseProduct } from "@/types/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
 import { toast } from "sonner"
-
-interface WarehouseProduct {
-	warehouseId: string
-	productId: string
-	quantity: number
-	warehouse: {
-		id: string
-		name: string
-	}
-	product: {
-		id: string
-		name: string
-	}
-}
 
 
 const WarehouseProductsPage = () => {

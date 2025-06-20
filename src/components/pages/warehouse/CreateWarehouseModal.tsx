@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -9,15 +8,16 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Loader2, Plus } from "lucide-react"
-import { useForm } from "react-hook-form"
+import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
+import { Plus } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import api from "@/lib/axios"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { useMutation } from "@tanstack/react-query"
 
 const schema = z.object({
 	name: z.string().min(1, "Nome é obrigatório"),

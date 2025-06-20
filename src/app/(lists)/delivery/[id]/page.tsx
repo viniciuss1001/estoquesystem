@@ -11,25 +11,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import api from "@/lib/axios"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+import { Delivery } from "@/types/types"
 import { useQuery } from '@tanstack/react-query'
 import Link from "next/link"
 
-interface Delivery {
-  id: string
-  product: {
-    id: string
-    name: string
-  }
-  quantity: number
-  supplier: {
-    id: string
-    name: string
-  }
-  expectedAt: string
-  status: "PENDING" | "COMPLETED" | "CANCELLED"
-}
 
 const DeliveryPage = () => {
   const { id } = useParams()
@@ -50,8 +35,10 @@ const DeliveryPage = () => {
         return <span className="text-yellow-600 font-medium">Pendente</span>
       case "COMPLETED":
         return <span className="text-green-600 font-medium">Concluída</span>
-      case "CANCELLED":
+      case "CANCELED":
         return <span className="text-red-600 font-medium">Cancelada</span>
+      case "LATE":
+        return <span className="text-orange-600 font-medium">Cancelada</span>
     }
   }
 

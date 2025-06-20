@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import api from "@/lib/axios"
+import { Product } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
@@ -42,25 +43,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-interface Product {
-  id: string
-  name: string
-  sku: string
-  quantity: string
-  price: number
-  category?: {
-    id: string
-    name: string
-    createdAt: string
-    updatedAt: string
-  }
-  createdAt: string
-  updatedAt: string
-  supplier: {
-    id: string
-    name: string
-  }
-}
+
 interface EditDeliveryModalProps {
   deliveryId: string
 }

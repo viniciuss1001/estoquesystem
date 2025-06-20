@@ -1,25 +1,11 @@
 "use client"
 
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import api from '@/lib/axios'
+import { Movement } from '@/types/types'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, Loader2, Repeat2 } from 'lucide-react'
 import Link from 'next/link'
-
-interface Movement {
-	id: string
-	type: "IN" | "OUT" | "TRANSFER"
-	quantity: number
-	destinationWarehouse: {
-		id: string
-		name: string
-	}
-	originWareHouse: {
-		id: string
-		name: string
-	}
-	createdAt: string
-}
 
 const ProductMovementsComponent = ({ productId }: { productId: string }) => {
 

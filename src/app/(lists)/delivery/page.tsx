@@ -9,24 +9,9 @@ import api from '@/lib/axios'
 import { format } from 'date-fns'
 import { Loader2, Trash } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { Delivery } from '@/types/types'
 import { toast } from 'sonner'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-
-interface Delivery {
-	id: string
-	product: {
-		id: string
-		name: string
-	}
-	quantity: number
-	supplier: {
-		id: string
-		name: string
-	}
-	expectedAt: string
-	status: "PENDING" | "COMPLETED" | "CANCELED" | "LATE"
-}
 
 
 const DeliveryPage = () => {

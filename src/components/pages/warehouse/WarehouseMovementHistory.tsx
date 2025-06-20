@@ -12,7 +12,6 @@ interface WarehouseMovementHistoryProps {
 	warehouseId: string
 }
 
-
 const WarehouseMovementHistory = ({ warehouseId }: WarehouseMovementHistoryProps) => {
 
 	const { data, isLoading } = useQuery({

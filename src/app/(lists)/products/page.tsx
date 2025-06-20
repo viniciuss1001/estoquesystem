@@ -2,45 +2,22 @@
 import CreateProductModal from "@/components/pages/product/create-product-modal"
 import EditProductModal from "@/components/pages/product/product-edit-modal"
 import ProductListActions from "@/components/pages/product/ProductListActions"
-import { Button } from "@/components/ui/button"
-import { useSession } from 'next-auth/react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
-import { ChevronRight } from "lucide-react"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+import { Product } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
+import { ChevronRight } from "lucide-react"
+import { useSession } from 'next-auth/react'
+import Link from "next/link"
 
-interface Product {
-  id: string
-  name: string
-  sku: string
-  quantity: string
-  price: number
-  category?: {
-    id: string
-    name: string
-    createdAt: string
-    updatedAt: string
-  }
-  createdAt: string
-  updatedAt: string
-  supplier: {
-    id: string
-    name: string
-  }
-  usageStatus?: "IN_STOCK" | "IN_USE" | "CONSUMED"
-  expirationDate?: string | null
-}
 
 const ProductsPage = () => {
 
   const { data: session } = useSession()
 
-  const {data: products = [], isLoading, isError} = useQuery({
+  const { data: products = [], isLoading, isError } = useQuery({
     queryKey: ['products'],
-    queryFn: async ()=>{
+    queryFn: async () => {
       const response = await api.get('/product')
       return response.data as Product[]
     },

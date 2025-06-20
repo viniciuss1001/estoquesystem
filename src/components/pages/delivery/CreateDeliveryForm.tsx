@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
+import { Product } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
@@ -15,41 +16,12 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-
 const formSchema = z.object({
 	productId: z.string().min(1, "Produto obrigatório"),
 	supplierId: z.string().min(1, "Fornecedor obrigatório"),
 	quantity: z.coerce.number().int().positive("Quantidade inválida"),
 	expectedAt: z.date({ required_error: "Data obrigatória" })
 })
-
-interface Product {
-	id: string
-	name: string
-	sku: string
-	quantity: string
-	price: number
-	category?: {
-		id: string
-		name: string
-		createdAt: string
-		updatedAt: string
-	}
-	createdAt: string
-	updatedAt: string
-	supplier: {
-		id: string
-		name: string
-	}
-}
-interface Supplier {
-	id: string,
-	name: string
-	email: string
-	contactPhone: string
-	deliveryTime: string
-	description?: string
-}
 
 type FormValues = z.infer<typeof formSchema>
 

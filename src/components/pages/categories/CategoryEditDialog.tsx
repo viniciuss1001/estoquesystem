@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
+import { Category } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
@@ -18,10 +19,7 @@ const formSchema = z.object({
 })
 
 interface CategoryEditDialogProps {
-	category: {
-		id: string
-		name: string
-	}
+	category: Category
 }
 
 

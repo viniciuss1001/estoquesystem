@@ -1,35 +1,14 @@
 "use client"
 
 import CreateMovementForm from '@/components/pages/movements/create-movement-form'
+import { Badge } from "@/components/ui/badge"
+import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import api from '@/lib/axios'
-import Link from 'next/link'
-import { Badge } from "@/components/ui/badge"
-import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
+import { Movement } from '@/types/types'
 import { useQuery } from '@tanstack/react-query'
-import { Skeleton } from '@/components/ui/skeleton'
-
-
-interface Movement {
-  id: string
-  type: "IN" | "OUT" | "TRANSFER"
-  status: "PENDING" | "COMPLETED" | "CANCELED"
-  quantity: number
-  notes: string | null
-  createdAt: string
-  product: {
-    id: string
-    name: string
-  }
-  originWareHouse: {
-    id: string
-    name: string
-  } | null
-  destinationWarehouse: {
-    id: string
-    name: string
-  } | null
-}
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
+import Link from 'next/link'
 
 const MovementsPage = () => {
 

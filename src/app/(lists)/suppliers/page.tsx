@@ -7,15 +7,7 @@ import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
-
-interface Supplier {
-	id: string,
-	name: string
-	email: string
-	contactPhone: string
-	deliveryTime: string
-	description?: string
-}
+import { Supplier } from "@/types/types"
 
 const SupplierPage = () => {
 	const { data: suppliers = [], isLoading } = useQuery({
