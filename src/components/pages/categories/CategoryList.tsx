@@ -23,7 +23,7 @@ const CategoryList = () => {
     queryKey: ["categories"],
     queryFn: async () => {
       const response = await api.get("/categories");
-      return response.data;
+      return response.data
     },
   });
 
@@ -66,17 +66,17 @@ const CategoryList = () => {
                 <TableRow key={category.id}>
                   <TableCell>{category.name}</TableCell>
                   <TableCell className="text-right space-x-2 flex ml-auto gap-2 justify-end items-end">
-                    
+
                     <CategoryEditDialog category={category} />
 
-                    
+
                     <Button
                       variant="destructive"
                       size="sm"
                       onClick={() => deleteMutation.mutate(category.id)}
                       className="flex gap-2 cursor-pointer"
                     >
-                      <Trash2 className="size-4"/>
+                      <Trash2 className="size-4" />
                       Excluir
                     </Button>
                   </TableCell>
@@ -90,4 +90,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default CategoryList
