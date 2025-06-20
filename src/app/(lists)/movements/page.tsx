@@ -32,12 +32,12 @@ interface Movement {
 }
 
 const MovementsPage = () => {
-  
-  const {data: movements = [], isLoading, isError} = useQuery({
+
+  const { data: movements = [], isLoading } = useQuery({
     queryKey: ["movements"],
     queryFn: async () => {
       const response = await api.get('/movements')
-      return response.data as Movement[]
+      return response.data.movements as Movement[]
     }
   })
 
@@ -47,9 +47,9 @@ const MovementsPage = () => {
     CANCELED: "bg-red-100 text-red-800",
   }
 
-  if(isLoading){
-		return <Skeleton className="h-40 w-full"/>
-	}
+  if (isLoading) {
+    return <Skeleton className="h-40 w-full" />
+  }
 
 
   return (

@@ -41,11 +41,11 @@ const MovementPage = () => {
  
   const id = useParams().id as string
 
- const {data: movement, isLoading, isError} = useQuery({
+ const {data: movement, isLoading} = useQuery({
   queryKey: ["movement", id],
   queryFn: async () => {
     const response = await api.get(`/movements/${id}`)
-    return response.data as Movement
+    return response.data.movement as Movement
   }, 
   enabled: !!id
  })

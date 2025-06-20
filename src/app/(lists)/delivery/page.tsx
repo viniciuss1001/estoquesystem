@@ -32,7 +32,6 @@ interface Delivery {
 const DeliveryPage = () => {
 
 	const queryClient = useQueryClient()	
-	const [loading, setLoading] = useState(true)
 
 	const {data: deliveries = [], isLoading, isError} = useQuery({
 		queryKey: ["deliveries"],
@@ -59,7 +58,7 @@ const DeliveryPage = () => {
 		deleteDelivery.mutate(id)
 	}
 
-	if (loading) return <div className='flex items-center justify-center w-full h-full'><Loader2 className='animate-spin' /></div>
+	if (isLoading) return <div className='flex items-center justify-center w-full h-full'><Loader2 className='animate-spin' /></div>
 
 
 	return (

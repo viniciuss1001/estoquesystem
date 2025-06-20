@@ -73,7 +73,7 @@ const EditTransferModal = ({ movementId }: Props) => {
     queryKey: ['movement', movementId],
     queryFn: async () => {
       const response = await api.get(`/movements/${movementId}`)
-      return response.data
+      return response.data.movement
     },
     enabled: open
   })

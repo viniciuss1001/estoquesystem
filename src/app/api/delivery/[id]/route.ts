@@ -22,7 +22,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			return NextResponse.json({ error: "Entrega não encontrada." })
 		}
 
-		return NextResponse.json(delivery)
+		return NextResponse.json({delivery})
 
 	} catch (error) {
 		console.error(error)

@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -48,6 +49,17 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 		},
 	})
 
+	useEffect(() => {
+		if (supplier) {
+			form.reset({
+				name: supplier.name,
+				email: supplier.email,
+				contactPhone: supplier.contactPhone,
+				description: supplier.description,
+			})
+		}
+	}, [supplier, form])
+
 	const updateSupplier = useMutation({
 		mutationFn: (data: FormValues) => api.patch(`/supplier/${supplierId}`, data),
 		onSuccess: () => {
@@ -74,14 +86,6 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 		)
 	}
 
-	if (supplier) {
-		form.reset({
-			name: supplier.name,
-			email: supplier.email,
-			contactPhone: supplier.contactPhone,
-			description: supplier.description,
-		})
-	}
 
 	const onSubmit = (data: FormValues) => {
 		updateSupplier.mutate(data)

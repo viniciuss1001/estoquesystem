@@ -59,7 +59,7 @@ export async function POST(req: Request) {
     })
 
     return NextResponse.json({ message: "Fornecedor criado com sucesso", supplier })
-    
+
   } catch (error) {
     console.error("Erro ao criar fornecedor:", error);
     return new NextResponse("Erro ao criar fornecedor", { status: 500 });
@@ -69,10 +69,10 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     const suppliers = await prisma.supplier.findMany({
-      orderBy: {createdAt: "desc"}
+      orderBy: { createdAt: "desc" }
     })
 
-    return NextResponse.json({suppliers})
+    return NextResponse.json({ suppliers })
 
   } catch (error) {
     console.error('Erro ao buscar fornecedores:', error);

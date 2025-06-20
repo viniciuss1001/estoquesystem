@@ -14,6 +14,7 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { useQuery } from '@tanstack/react-query'
+import Link from "next/link"
 
 interface Delivery {
   id: string
@@ -37,12 +38,10 @@ const DeliveryPage = () => {
     queryKey: ['delivery', id],
     queryFn: async () => {
       const response = await api.get(`/delivery/${id}`)
-      return response.data
+      return response.data.delivery
     },
     enabled: !!id,
-    onError: () => {
-      toast.error('Erro ao buscar entrega.')
-    }
+
   })
 
   const formatStatus = (status: Delivery["status"]) => {
@@ -56,7 +55,7 @@ const DeliveryPage = () => {
     }
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
@@ -95,9 +94,9 @@ const DeliveryPage = () => {
             <CardDescription>Detalhes do produto e fornecedor</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <p><span className="font-semibold">Produto:</span> {delivery.product.name}</p>
+            <p><span className="font-semibold">Produto:</span> <Link href={`/products/${delivery.product.id}`}> {delivery.product.name}</Link></p>
             <p><span className="font-semibold">Quantidade:</span> {delivery.quantity}</p>
-            <p><span className="font-semibold">Fornecedor:</span> {delivery.supplier.name}</p>
+            <p><span className="font-semibold">Fornecedor:</span> <Link href={`/suppliers/${delivery.supplier.id}`}>{delivery.supplier.name}</Link></p>
           </CardContent>
         </Card>
 

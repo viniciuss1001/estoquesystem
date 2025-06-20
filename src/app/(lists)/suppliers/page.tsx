@@ -18,27 +18,27 @@ interface Supplier {
 }
 
 const SupplierPage = () => {
-	const {data: suppliers = [], isLoading} = useQuery({
-		queryKey: ['suppliers'], 
+	const { data: suppliers = [], isLoading } = useQuery({
+		queryKey: ['suppliers'],
 		queryFn: async () => {
 			const response = await api.get('/supplier')
-			return response.data as Supplier[]
+			return response.data.suppliers as Supplier[]
 		}
 	})
 
 	if (isLoading) {
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
-      </div>
-    )
-  }
+		return (
+			<div className="w-full h-full flex items-center justify-center">
+				<Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
+			</div>
+		)
+	}
 
 	return (
 		<div className="p-6">
 			<div className="flex justify-between items-center mb-4">
-			<h2 className="text-2xl font-bold mb-6">Lista de Fornecedores</h2>
-			<CreateSupplierModal />
+				<h2 className="text-2xl font-bold mb-6">Lista de Fornecedores</h2>
+				<CreateSupplierModal />
 			</div>
 
 			<Table>

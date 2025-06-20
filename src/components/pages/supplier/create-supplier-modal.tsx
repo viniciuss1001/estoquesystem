@@ -73,8 +73,8 @@ const CreateSupplierModal = () => {
 	})
 
 	const onSubmit = (data: z.infer<typeof formSchema>) => {
-    createSupplier.mutate(data)
-  }
+		createSupplier.mutate(data)
+	}
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
