@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
@@ -260,10 +262,16 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                 </FormItem>
               )}
             />
+            <DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
+              <DialogClose className="cursor-pointer p-2 hover:bg-zinc-500/20 transition rounded-sm">
+                Cancelar
+              </DialogClose>
+              <Button type="submit" className="w-2/3 cursor-pointer">
+                Atualizar entrega
+              </Button>
 
-            <Button type="submit" className="w-full cursor-pointer">
-              Atualizar entrega
-            </Button>
+            </DialogFooter>
+
           </form>
         </Form>
       </DialogContent>

@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
@@ -80,7 +80,10 @@ const CategoryEditDialog = ({ category }: CategoryEditDialogProps) => {
 							)}
 						/>
 
-						<DialogFooter>
+						<DialogFooter className="flex p-2 gap-3 items-center justify-end">
+							<DialogClose className="cursor-pointer p-2 hover:bg-zinc-500/20 transition rounded-sm">
+								Cancelar
+							</DialogClose>
 							<Button type="submit" disabled={isPending}>
 								Salvar
 							</Button>

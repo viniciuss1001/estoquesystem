@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -28,27 +30,27 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function CreateWarehouseModal() {
-	 const [open, setOpen] = useState(false)
+	const [open, setOpen] = useState(false)
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: { name: '', location: '', description: '' },
-  })
+	const form = useForm<FormData>({
+		resolver: zodResolver(schema),
+		defaultValues: { name: '', location: '', description: '' },
+	})
 
-  const { mutate: createWarehouse } = useMutation({
-    mutationFn: (data: FormData) => api.post('/warehouse', data),
-    onSuccess: () => {
-      toast.success('Armazém criado com sucesso!')
-      setOpen(false)
-    },
-    onError: () => {
-      toast.error('Erro ao criar armazém.')
-    },
-  })
+	const { mutate: createWarehouse } = useMutation({
+		mutationFn: (data: FormData) => api.post('/warehouse', data),
+		onSuccess: () => {
+			toast.success('Armazém criado com sucesso!')
+			setOpen(false)
+		},
+		onError: () => {
+			toast.error('Erro ao criar armazém.')
+		},
+	})
 
-  const onSubmit = (data: FormData) => {
-    createWarehouse(data)
-  }
+	const onSubmit = (data: FormData) => {
+		createWarehouse(data)
+	}
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
@@ -101,9 +103,15 @@ export default function CreateWarehouseModal() {
 								</FormItem>
 							)}
 						/>
-						<Button type="submit">
-							Criar
-						</Button>
+
+						<DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
+							<DialogClose className="cursor-pointer p-2 hover:bg-card transition rounded-sm w-1/4">
+								Cancelar
+							</DialogClose>
+							<Button type="submit" className="w-2/3 cursor-pointer">
+								Criar
+							</Button>
+						</DialogFooter>
 					</form>
 				</Form>
 			</DialogContent>

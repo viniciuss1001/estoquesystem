@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
@@ -201,7 +201,10 @@ const CreateSupplierModal = () => {
 								</FormItem>
 							)}
 						/>
-						<DialogFooter>
+						<DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
+							<DialogClose className="cursor-pointer p-2 hover:bg-card transition rounded-sm w-1/4">
+								Cancelar
+							</DialogClose>
 							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
 								{form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
 							</Button>

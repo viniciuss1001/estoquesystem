@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -28,7 +28,7 @@ type FormValues = z.infer<typeof formSchema>
 
 const CreateDeliveryForm = () => {
 	const [open, setOpen] = useState(false)
-	
+
 	const router = useRouter()
 
 
@@ -66,7 +66,7 @@ const CreateDeliveryForm = () => {
 			form.reset()
 			setOpen(false)
 			router.refresh()
-			
+
 		} catch (error) {
 			toast.error("Erro ao criar entrega")
 			console.log(error)
@@ -189,8 +189,11 @@ const CreateDeliveryForm = () => {
 							/>
 
 
-							<DialogFooter className="flex mt-4">
-								<Button type="submit" className="w-full cursor-pointer p-2">
+							<DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
+								<DialogClose className="cursor-pointer p-2 hover:bg-zinc-500/20 transition rounded-sm w-1/4">
+									Cancelar
+								</DialogClose>
+								<Button type="submit" className="w-2/3 cursor-pointer p-2">
 									Criar entrega
 								</Button>
 							</DialogFooter>

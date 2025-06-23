@@ -11,10 +11,10 @@ import { toast } from "sonner"
 
 
 const WarehouseProductsPage = () => {
-	
+
 	const queryClient = useQueryClient()
 
-	const {data: warehouseProducts = [], isLoading} = useQuery({
+	const { data: warehouseProducts = [], isLoading } = useQuery({
 		queryKey: ['warehouseProducts'],
 		queryFn: async () => {
 			const response = await api.get('/warehouse-product')
@@ -24,7 +24,7 @@ const WarehouseProductsPage = () => {
 	})
 
 	const deleteMutation = useMutation({
-		mutationFn: async ({warehouseId, productId}: {warehouseId: string, productId: string}) => {
+		mutationFn: async ({ warehouseId, productId }: { warehouseId: string, productId: string }) => {
 			api.delete(`/warehouse-product/${warehouseId}/${productId}`)
 		},
 		onSuccess: () => {
@@ -32,21 +32,21 @@ const WarehouseProductsPage = () => {
 			queryClient.invalidateQueries({ queryKey: ['warehouseProducts'] })
 		},
 		onError: () => {
-		toast.error("Erro ao deletar produto")
+			toast.error("Erro ao deletar produto")
 		}
 	})
 
-const handleDelete = (warehouseId: string, productId: string) => {
-	deleteMutation.mutate({warehouseId, productId})
-}
+	const handleDelete = (warehouseId: string, productId: string) => {
+		deleteMutation.mutate({ warehouseId, productId })
+	}
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loader2 className="animate-spin" />
-      </div>
-    )
-  }
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center w-full h-full">
+				<Loader2 className="animate-spin" />
+			</div>
+		)
+	}
 
 	return (
 		<div className="p-6">
