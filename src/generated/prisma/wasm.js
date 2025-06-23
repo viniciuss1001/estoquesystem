@@ -130,6 +130,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   updatedAt: 'updatedAt',
   supplierId: 'supplierId',
   categoryId: 'categoryId',
+  minimumStock: 'minimumStock',
   expirationDate: 'expirationDate',
   usageStatus: 'usageStatus'
 };

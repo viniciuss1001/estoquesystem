@@ -74,6 +74,10 @@ export async function PATCH(req: NextRequest,  { params }: { params: Promise<{ i
 			}
 		}
 
+		if(body.minimumStock !== undefined){
+			updatedData.minimumStock = Number(body.minimumStock)
+		}
+
 		const product = await prisma.product.update({
 			where: { id },
 			data: updatedData

@@ -11,6 +11,7 @@ import api from "@/lib/axios"
 import { Product } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import {
+	AlertCircle,
 	AlertTriangle,
 	Boxes,
 	CalendarCheck,
@@ -86,7 +87,11 @@ const ProductPage = () => {
 						<p className="flex gap-2"><span className="font-semibold flex items-center gap-1">
 							<Boxes className="w-4 h-4" /> Categoria: </span> {product.category?.name ?? "Não definida"}</p>
 						<p className="flex gap-2"><span className="font-semibold flex items-center gap-1">
-							<Boxes className="w-4 h-4" /> Quantidade em estoque:</span> {product.quantity} unidade(s)</p>
+							<Boxes className="w-4 h-4" /> Quantidade em estoque:</span> {product.quantity} unidade(s)
+						</p>
+						<p className="flex gap-2"><span className="font-semibold flex items-center gap-1">
+							<AlertCircle className="w-4 h-4 text-orange-800" /> Estoque Mínimo:</span> {product.minimumStock} unidade(s)
+						</p>
 						<p className="flex gap-2"><span className="font-semibold flex items-center gap-1">
 							<Tag className="w-4 h-4" /> Preço:</span> R$ {product.price.toFixed(2)}</p>
 						<p className="flex gap-2"><span className="font-semibold flex items-center gap-1">

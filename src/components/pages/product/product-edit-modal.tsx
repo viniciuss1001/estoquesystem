@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2, Pencil } from "lucide-react"
+import { Boxes, DollarSign, Layers3, Loader2, PackageSearch, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -26,6 +26,7 @@ const formSchema = z.object({
 	quantity: z.coerce.number().min(0),
 	price: z.coerce.number().min(0),
 	category: z.string().min(1, "Categoria é obrigatória."),
+	minimumStock: z.coerce.number().min(0, "Estoque mínimo deve ser zero ou mais.").optional()
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -50,6 +51,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 			quantity: 0,
 			price: 0,
 			category: '',
+			minimumStock: 0
 		}
 	})
 
@@ -66,7 +68,8 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 				supplier: product.supplierId,
 				quantity: product.quantity,
 				price: product.price,
-				category: product.category.name,
+				category: product.category.id,
+				minimumStock: product.minimumStock ?? 0
 			})
 
 			return response.data
@@ -96,6 +99,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 		onSuccess: () => {
 			toast.success('Produto atualizado com sucesso!')
 			queryClient.invalidateQueries({ queryKey: ['products'] })
+
 		},
 		onError: () => {
 			toast.error('Erro ao atualizar produto.')
@@ -118,12 +122,12 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 	})
 
 	const onSubmit = (data: FormValues) => {
-    updateProduct.mutate(data)
-  }
+		updateProduct.mutate(data)
+	}
 
-  const onDelete = () => {
-    deleteProduct.mutate()
-  }
+	const onDelete = () => {
+		deleteProduct.mutate()
+	}
 
 	if (isLoading) {
 		return (
@@ -145,48 +149,47 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 						<DialogTitle>Detalhes do Produto</DialogTitle>
 					</DialogHeader>
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-							<div className="w-full p-1 flex flex-wrap items-center justify-between">
-								<div className="flex w-1/2">
-									<FormField
-										control={form.control}
-										name="name"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Nome</FormLabel>
-												<FormControl>
-													<Input {...field} />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-								<div className="flex w-1/2 border rounded-md p-2 h-full mt-auto gap-3 items-center justify-between">
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-									<Label htmlFor="advanced-edit"
-										className="text-sm"
-									>
-										Edição Avançada
-									</Label>
+							<div className="flex flex-col md:flex-row justify-between items-start gap-4 md:items-center">
+								<FormField
+									control={form.control}
+									name="name"
+									render={({ field }) => (
+										<FormItem className="w-full md:w-2/3">
+											<FormLabel className="flex items-center gap-2 text-base font-medium">
+												<PackageSearch className="w-4 h-4 text-muted-foreground" /> Nome
+											</FormLabel>
+											<FormControl>
+												<Input {...field} placeholder="Nome do produto" />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<div className="flex bg-card/20 p-2 items-center justify-center gap-2 rounded-sm">
+									<Label htmlFor="advanced-edit" className="text-xs text-muted-foreground">Edição Avançada</Label>
 									<Switch
 										id="advanced-edit"
 										checked={advancedEdit}
 										onCheckedChange={setAdvancedEdit}
 									/>
-
 								</div>
 							</div>
 
-							<div className="grid grid-cols-2 gap-4">
+
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 								<FormField
 									control={form.control}
 									name="price"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Preço</FormLabel>
+											<FormLabel className="flex items-center gap-2">
+												<DollarSign className="w-4 h-4 text-muted-foreground" /> Preço
+											</FormLabel>
 											<FormControl>
-												<Input type="number" {...field} />
+												<Input type="number" step="0.01" {...field} placeholder="0.00" />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -198,9 +201,11 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 									name="quantity"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Quantidade</FormLabel>
+											<FormLabel className="flex items-center gap-2">
+												<Boxes className="w-4 h-4 text-muted-foreground" /> Quantidade
+											</FormLabel>
 											<FormControl>
-												<Input type="number" {...field} />
+												<Input type="number" {...field} placeholder="0" />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -208,111 +213,102 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 								/>
 							</div>
 
+
 							{advancedEdit && (
-								<>
-									<div className="w-auto p-3 flex flex-wrap gap-4 items-center">
+								<div className="flex gap-2 flex-col">
+									<FormField
+										control={form.control}
+										name="sku"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className="flex items-center gap-2">
+													<Boxes className="w-4 h-4 text-muted-foreground" /> SKU:
+												</FormLabel>
+												<FormControl>
+													<Input type="text" {...field} placeholder="SKU" />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
+									<div className="flex items-center justify-between p-2">
 										<FormField
-											control={form.control}
-											name="supplier"
-											render={({ field }) => (
-												<FormItem className="w-1/2 ">
-													<FormLabel>Fornecedor</FormLabel>
-													<Select
-														onValueChange={field.onChange}
-														value={field.value}
-														disabled={isLoading}
+										control={form.control}
+										name="supplier"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Fornecedor</FormLabel>
+												<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder="Selecione o fornecedor" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{suppliers.map((s: { id: string, name: string }) => (
+															<SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue placeholder="Selecione o Fornecedor:" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent className="flex">
-															{suppliers.map((supplier: { id: string, name: string }) => (
-																<SelectItem key={supplier.id} value={supplier.id} className="flex w-full">
-																	{supplier.name}
-																</SelectItem>
-															))}
-														</SelectContent>
-													</Select>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-
-										<FormField
-											control={form.control}
-											name="category"
-											render={({ field }) => (
-												<FormItem >
-													<FormLabel>Categoria</FormLabel>
-													<Select
-														onValueChange={field.onChange}
-														value={field.value}
-														disabled={isLoading}
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue placeholder="Selecione uma categoria" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															{categories.map((cat: { id: string; name: string }) => (
-																<SelectItem key={cat.id} value={cat.name}>
-																	{cat.name}
-																</SelectItem>
-															))}
-														</SelectContent>
-													</Select>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-
+									<FormField
+										control={form.control}
+										name="category"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Categoria</FormLabel>
+												<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder="Selecione uma categoria" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{categories.map((c: { id: string, name: string }) => (
+															<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 									</div>
 
-									<div className="w-auto p-2 flex  gap-4 items-center justify-between ">
+									<FormField
+										control={form.control}
+										name="minimumStock"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className="flex items-center gap-2">
+													<Layers3 className="w-4 h-4 text-muted-foreground" /> Estoque Mínimo
+												</FormLabel>
+												<FormControl>
+													<Input type="number" min={0} inputMode="numeric" placeholder="Valor mínimo para alerta" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-										<FormField
-											control={form.control}
-											name="quantity"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Quantidade</FormLabel>
-													<FormControl><Input type="number" {...field} /></FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="price"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Preço</FormLabel>
-													<FormControl><Input type="number" step="0.01" {...field} /></FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
-								</>
+								</div>
+
 							)}
 
-
-							<div className="flex items-center justify-between pt-4 gap-2">
-								<AlertDialogDelete
-									type="Produto"
-									onDelete={onDelete}
-								/>
-								<Button type="submit" className="cursor-pointer flex rounded-sm w-2/4">
-									Salvar
+							<div className="flex flex-col-reverse md:flex-row justify-between items-center gap-4 pt-6">
+								<AlertDialogDelete type="Produto" onDelete={onDelete} />
+								<Button type="submit" className="w-full md:w-1/3">
+									Salvar Alterações
 								</Button>
 							</div>
 						</form>
 					</Form>
+
 				</DialogContent>
 			</Dialog>
 		</div>
