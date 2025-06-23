@@ -54,7 +54,7 @@ export interface Product {
   }
   usageStatus?: "IN_STOCK" | "IN_USE" | "CONSUMED"
   expirationDate?: string | null
-  minimumStock: number | string
+  minimumStock: number 
 }
 
 export interface Supplier {

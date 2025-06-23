@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import { isAfter, isSameDay, parseISO, format } from "date-fns"
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
-import { CalendarDays, ChevronRight, ChevronsDown, Eye, Package, SeparatorHorizontal, Truck } from "lucide-react"
+import { CalendarDays, ChevronRight, ChevronsDown, Package, Truck } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 
@@ -29,7 +29,7 @@ const DeliveryCalendarAside = () => {
 	const deliveriesDates = futureDeliveries.map(delivery => format(parseISO(delivery.expectedAt), 'yyyy-MM-dd'))
 
 	return (
-		<aside className="w-full md:w-96 border-l border-gray-200 p-4 space-y-4">
+		<aside className="w-full md:w-96  p-4 space-y-4">
 			<h2 className="text-2xl font-bold p-2 flex gap-2">
 				<ChevronsDown className="text-2xl text-blue-500 "/>
 
