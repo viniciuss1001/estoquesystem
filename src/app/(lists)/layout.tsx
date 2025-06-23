@@ -1,3 +1,4 @@
+import DeliveryCalendarAside from '@/components/pages/DeliveryCalendarAside'
 import NavbarComponents from '@/components/pages/Navbar'
 import SidebarComponent from '@/components/pages/Sidebar'
 import React from 'react'
@@ -10,6 +11,9 @@ const ListsLayout = ({children}: {children: React.ReactNode}) => {
 			<NavbarComponents />
 			{children}
 		</main>
+		<aside className='p-2 flex flex-col gap-2 mt-4'>
+			<DeliveryCalendarAside />
+		</aside>
 	 </div>
   )
 }
