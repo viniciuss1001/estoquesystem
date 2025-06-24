@@ -1,6 +1,7 @@
 "use client"
 
 import ProductMovementsComponent from "@/components/pages/product/ProductMovements"
+import ProductPDFDetails from "@/components/pages/product/ProductPDFDetails"
 import ProductWarehouseDistribuition from "@/components/pages/product/ProductWarehouseDistribuition"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -22,10 +23,12 @@ import {
 	Tag,
 	User2
 } from "lucide-react"
+import { useSession } from "next-auth/react"
 import { useParams } from "next/navigation"
 
 const ProductPage = () => {
 	const { id } = useParams()
+	const {data: session} = useSession()
 
 	const { data: product, isLoading } = useQuery({
 		queryKey: ['product', id],
@@ -75,8 +78,13 @@ const ProductPage = () => {
 					</BreadcrumbList>
 				</Breadcrumb>
 			</div>
-
+			<div className="flex p-2 items-center justify-end">
+				<ProductPDFDetails productId={product.id} productName={product.name} 
+				userName={session?.user.name ?? "Usuário"} userRole={session?.user.office ?? "Sem cargo"}
+				/>
+			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
 				<div className="border rounded-xl p-4 shadow-sm bg-background">
 					<h2 className="text-2xl font-medium mb-2 flex items-center gap-2">
 						<PackageSearch className="w-5 h-5" /> Informações do Produto

@@ -11,12 +11,11 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			orderBy: { createdAt: "desc" },
 			include: {
 				originWareHouse: true,
-				destinationWarehouse: true
+				destinationWarehouse: true,
 			}
 		})
 
 		return NextResponse.json(productMovements)
-
 
 	} catch (error) {
 		console.error(error)
