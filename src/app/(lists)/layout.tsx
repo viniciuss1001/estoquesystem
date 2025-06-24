@@ -1,3 +1,4 @@
+import CollapsibleAside from '@/components/pages/CollapsibleAside'
 import DeliveryCalendarAside from '@/components/pages/DeliveryCalendarAside'
 import LowStockAlert from '@/components/pages/LowStockAlert'
 import NavbarComponents from '@/components/pages/Navbar'
@@ -12,10 +13,10 @@ const ListsLayout = ({children}: {children: React.ReactNode}) => {
 			<NavbarComponents />
 			{children}
 		</main>
-		<aside className='p-2 flex flex-col gap-2 mt-4  mb-4 border-l border-gray-200 space-y-4'>
+		<CollapsibleAside>
 			<DeliveryCalendarAside />
 			<LowStockAlert />
-		</aside>
+		</CollapsibleAside>
 	 </div>
   )
 }

@@ -4,6 +4,7 @@ import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { AlertTriangle, Loader2 } from "lucide-react"
+import Link from "next/link"
 
 interface LowStockProduc {
 	id: string
@@ -34,8 +35,6 @@ const LowStockAlert = () => {
 		return <p className="text-red-600">Erro ao carregar alertas</p>
 	}
 
-
-
 	return (
 		<div className="p-4 bg-background border border-card rounded-md shadow-sm max-w-sm">
 
@@ -59,7 +58,9 @@ const LowStockAlert = () => {
                 : "bg-yellow-100 text-yellow-900"
             )}
           >
-            <span>{product.name}</span>
+            <Link href={`/products/${product.id}`}>
+				<span>{product.name}</span>
+				</Link>
             <span>
               {product.quantity} / {product.minimumStock ?? 0}
             </span>

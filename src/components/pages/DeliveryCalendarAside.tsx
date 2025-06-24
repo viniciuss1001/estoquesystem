@@ -29,7 +29,7 @@ const DeliveryCalendarAside = () => {
 	const deliveriesDates = futureDeliveries.map(delivery => format(parseISO(delivery.expectedAt), 'yyyy-MM-dd'))
 
 	return (
-		<aside className="w-full md:w-96  p-4 space-y-4">
+		<div className="max-w-sm space-y-4">
 			<h2 className="text-2xl font-bold p-2 flex gap-2">
 				<ChevronsDown className="text-2xl text-blue-500 "/>
 
@@ -63,7 +63,7 @@ const DeliveryCalendarAside = () => {
 							key={delivery.id}
 							className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2"
 						>
-							<Separator className="w-full rounded-full h-1 bg-blue-600"/>
+							<Separator className="w-2 rounded-full h-1 bg-blue-600"/>
 							<div className="flex items-center gap-2">
 								<Package className="w-4 h-4 text-primary" />
 								<p className="text-base font-semibold text-foreground">
@@ -96,7 +96,7 @@ const DeliveryCalendarAside = () => {
 				)}
 			</div>
 
-		</aside>
+		</div>
 	)
 }
 
