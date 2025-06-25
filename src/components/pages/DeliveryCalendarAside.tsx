@@ -6,16 +6,10 @@ import { useQuery } from "@tanstack/react-query"
 import { isAfter, isSameDay, parseISO, format } from "date-fns"
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
-import { CalendarDays, ChevronRight, ChevronsDown, FileText, Package, Truck } from "lucide-react"
+import { CalendarDays, ChevronRight, ChevronsDown, DollarSign, FileText, Package, Truck } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
-
-interface UpcomingInvoice {
-	id: string
-	title: string
-	dueDate: string
-	supplier: { name: string }
-}
+import { SupplierInvoice } from "@/types/types"
 
 const DeliveryCalendarAside = () => {
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
@@ -28,7 +22,7 @@ const DeliveryCalendarAside = () => {
 		}
 	})
 
-	const { data: upcomingInvoices = [], isLoading: upcomingInvoicesLoading } = useQuery<UpcomingInvoice[]>({
+	const { data: upcomingInvoices = [], isLoading: upcomingInvoicesLoading } = useQuery<SupplierInvoice[]>({
 		queryKey: ["upcomingInvoices"],
 		queryFn: async () => {
 			const response = await api.get("/supplier-invoice/upcoming")
@@ -108,7 +102,7 @@ const DeliveryCalendarAside = () => {
 
 							<Link href={`/delivery/${delivery.id}`} className="flex gap-2 items-center justify-end">
 								<ChevronRight className="w-4 h-4 text-blue-400" />
-								<p className="text-sm text-blue-400 undeline">Ver movimentação</p>
+								<p className="text-sm text-blue-400 undeline">Ver entrega</p>
 							</Link>
 						</div>
 					))
@@ -127,36 +121,43 @@ const DeliveryCalendarAside = () => {
 
 				{!upcomingInvoicesLoading && invoicesOnSelectedDate.length > 0 ? (
 					invoicesOnSelectedDate.map((invoice) => (
-					<div
-						key={invoice.id}
-						className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2 dark:text-gray-400"
-					>
-						<Separator className="w-2 rounded-full h-1 bg-yellow-500" />
-						<div className="flex items-center gap-2">
-							<FileText className="w-4 h-4 " />
-							<p className="text-base font-semibold ">
-								{invoice.title}
-							</p>
-						</div>
+						<div
+							key={invoice.id}
+							className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2 dark:text-gray-400"
+						>
+							<Separator className="w-2 rounded-full h-1 bg-yellow-500" />
+							<div className="flex items-center gap-2">
+								<FileText className="w-4 h-4 " />
+								<p className="text-base font-semibold ">
+									{invoice.title}
+								</p>
+							</div>
 
-						<div className="flex items-center gap-2">
-							<Truck className="w-4 h-4" />
-							<p className="text-sm ">{invoice.supplier.name}</p>
-						</div>
+							<div className="flex items-center gap-2">
+								<Truck className="w-4 h-4" />
+								<p className="text-sm ">{invoice.supplier.name}</p>
+							</div>
 
-						<div className="flex items-center gap-2">
-							<CalendarDays className="w-4 h-4 " />
-							<p className="text-sm ">
-								{format(parseISO(invoice.dueDate), "dd/MM/yyyy")}
-							</p>
-						</div>
+							<div className="flex items-center gap-2">
+								<CalendarDays className="w-4 h-4 " />
+								<p className="text-sm ">
+									{format(parseISO(invoice.dueDate), "dd/MM/yyyy")}
+								</p>
+							</div>
 
-						<Link href={`/supplier-invoice/${invoice.id}`} className="flex gap-2 items-center justify-end">
-							<ChevronRight className="w-4 h-4 text-yellow-500" />
-							<p className="text-sm text-yellow-500 ">Ver boleto</p>
-						</Link>
-					</div>
-				))
+							<div className="flex items-center gap-2">
+								<DollarSign className="w-4 h-4" />
+								<p className="text-sm">
+									{Number(invoice.amount).toFixed(2)} {" "}
+								</p>
+							</div>
+
+							<Link href={`/supplier-invoice/${invoice.id}`} className="flex gap-2 items-center justify-end">
+								<ChevronRight className="w-4 h-4 text-yellow-500" />
+								<p className="text-sm text-yellow-500 ">Ver boleto</p>
+							</Link>
+						</div>
+					))
 				) : (
 					!upcomingInvoicesLoading && <p className="text-md border border-card rounded-md p-2">Nenhuma pagamento nesta data.</p>
 				)}

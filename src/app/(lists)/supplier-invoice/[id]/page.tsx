@@ -85,7 +85,7 @@ const SupplierInvoicePage = () => {
         <BreadcrumbList>
           <BreadcrumbLink href="/">Início</BreadcrumbLink>
           <BreadcrumbSeparator />
-          <BreadcrumbLink href="/supplier-invoices">Boletos</BreadcrumbLink>
+          <BreadcrumbLink href="/supplier-invoice">Boletos</BreadcrumbLink>
           <BreadcrumbSeparator />
           <BreadcrumbPage>{invoice.title}</BreadcrumbPage>
         </BreadcrumbList>
@@ -107,7 +107,10 @@ const SupplierInvoicePage = () => {
             <p><span className="font-medium text-foreground">Fornecedor:</span> {invoice.supplier?.name || "-"}</p>
             <p><span className="font-medium text-foreground">Título:</span> {invoice.title}</p>
             <p><span className="font-medium text-foreground">Descrição:</span> {invoice.description || "-"}</p>
-            <p><span className="font-medium text-foreground">Valor:</span> R$ {Number(invoice.amount).toFixed(2)}</p>
+            <p>
+              <span className="font-medium text-foreground">Valor:</span>
+              R$ {Number(invoice.amount).toFixed(2)}
+            </p>
           </div>
           <div className="flex flex-col gap-3">
             <p className="flex items-center gap-2">

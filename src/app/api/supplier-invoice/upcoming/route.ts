@@ -20,7 +20,8 @@ export async function GET() {
 				id: true,
 				title: true,
 				dueDate: true,
-				supplier: { select: { name: true } }
+				supplier: { select: { name: true } },
+				amount: true
 			},
 			orderBy: { dueDate: "asc" }
 		})

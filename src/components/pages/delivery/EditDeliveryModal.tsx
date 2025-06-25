@@ -45,9 +45,7 @@ const formSchema = z.object({
   status: z.enum(["PENDING", "COMPLETED", "CANCELED", "LATE"]),
 })
 
-
 type FormValues = z.infer<typeof formSchema>
-
 
 interface EditDeliveryModalProps {
   deliveryId: string
@@ -55,9 +53,9 @@ interface EditDeliveryModalProps {
 
 export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps) {
   const [open, setOpen] = useState(false)
+  const [formLoaded, setFormLoaded] = useState(false)
 
   const queryClient = useQueryClient()
-
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -72,11 +70,20 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     },
   })
 
+  const { data: delivery } = useQuery({
+    queryKey: ["delivery", deliveryId],
+    queryFn: async () => {
+      const response = await api.get(`/delivery/${deliveryId}`)
+      return response.data.delivery
+    },
+    enabled: open,
+  })
+
   const { data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const response = await api.get("/product")
-      return response.data 
+      return response.data
     }
   })
 
@@ -107,27 +114,27 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     }
   }, [watchProductId])
 
-
-  const { data: delivery } = useQuery({
-    queryKey: ["delivery", deliveryId],
-    queryFn: async () => {
-      const response = await api.get(`/delivery/${deliveryId}`)
-      const data = response.data
-
+  useEffect(() => {
+    if (open && delivery && !formLoaded) {
       form.reset({
-        productId: data.product.id,
-        supplierId: data.supplier.id,
-        warehouseId: data.warehouse?.id || "",
-        supplierInvoiceId: data.supplierInvoice?.id || "",
-        quantity: data.quantity,
-        expectedAt: new Date(data.expectedAt),
-        status: data.status,
+        productId: delivery.productId,
+        supplierId: delivery.supplierId,
+        warehouseId: delivery.warehouse?.id || "",
+        supplierInvoiceId: delivery.supplierInvoice?.id || "",
+        quantity: delivery.quantity,
+        expectedAt: delivery.expectedAt ? new Date(delivery.expectedAt) : new Date(),
+        status: delivery.status,
       })
+      setFormLoaded(true)
+    }
+  }, [open, delivery, form, formLoaded])
 
-      return data
-    },
-    enabled: open,
-  })
+  // Reset state of modal
+  useEffect(() => {
+    if (!open) {
+      setFormLoaded(false)
+    }
+  }, [open])
 
   const updateDelivery = useMutation({
     mutationFn: async (data: FormValues) => {
@@ -221,60 +228,60 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                   </FormItem>
                 )}
               />
-              
+
             </div>
 
-             {/* warehouse */}
-              <FormField
-                control={form.control}
-                name="warehouseId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Armazém</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione o armazém" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {warehouses.map((w) => (
-                          <SelectItem key={w.id} value={w.id}>
-                            {w.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            {/* warehouse */}
+            <FormField
+              control={form.control}
+              name="warehouseId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Armazém</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o armazém" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {warehouses.map((w) => (
+                        <SelectItem key={w.id} value={w.id}>
+                          {w.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              {/* invoice */}
-              <FormField
-                control={form.control}
-                name="supplierInvoiceId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Boleto (opcional)</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione um boleto" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {supplierInvoices.map((invoice) => (
-                          <SelectItem key={invoice.id} value={invoice.id}>
-                            {invoice.title}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            {/* invoice */}
+            <FormField
+              control={form.control}
+              name="supplierInvoiceId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Boleto (opcional)</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione um boleto" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {supplierInvoices.map((invoice) => (
+                        <SelectItem key={invoice.id} value={invoice.id}>
+                          {invoice.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* quantity */}
             <FormField
@@ -296,7 +303,10 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
               control={form.control}
               name="expectedAt"
               render={({ field }) => {
-                const formattedDate = field.value ? field.value.toISOString().substring(0, 10) : "";
+                const isValidDate = field.value instanceof Date && !isNaN(field.value.getTime());
+                const formattedDate = isValidDate
+                  ? field.value.toISOString().substring(0, 10)
+                  : "";
 
                 return (
                   <FormItem className="mt-4">
@@ -317,6 +327,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                 );
               }}
             />
+
 
             {/* status */}
             <FormField
@@ -342,6 +353,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                 </FormItem>
               )}
             />
+
             <DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
               <DialogClose className="cursor-pointer p-2 hover:bg-zinc-500/20 transition rounded-sm">
                 Cancelar

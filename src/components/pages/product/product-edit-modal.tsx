@@ -234,50 +234,50 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 
 									<div className="flex items-center justify-between p-2">
 										<FormField
-										control={form.control}
-										name="supplier"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Fornecedor</FormLabel>
-												<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
-													<FormControl>
-														<SelectTrigger>
-															<SelectValue placeholder="Selecione o fornecedor" />
-														</SelectTrigger>
-													</FormControl>
-													<SelectContent>
-														{suppliers.map((s: { id: string, name: string }) => (
-															<SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
-														))}
-													</SelectContent>
-												</Select>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+											control={form.control}
+											name="supplier"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Fornecedor</FormLabel>
+													<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder="Selecione o fornecedor" />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{suppliers.map((s: { id: string, name: string }) => (
+																<SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
 
-									<FormField
-										control={form.control}
-										name="category"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Categoria</FormLabel>
-												<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
-													<FormControl>
-														<SelectTrigger>
-															<SelectValue placeholder="Selecione uma categoria" />
-														</SelectTrigger>
-													</FormControl>
-													<SelectContent>
-														{categories.map((c: { id: string, name: string }) => (
-															<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
-														))}
-													</SelectContent>
-												</Select>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+										<FormField
+											control={form.control}
+											name="category"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Categoria</FormLabel>
+													<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder="Selecione uma categoria" />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{categories.map((c: { id: string, name: string }) => (
+																<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
 									</div>
 
 									<FormField
