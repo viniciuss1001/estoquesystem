@@ -1,3 +1,4 @@
+"use client"
 import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
 import { CardTitle } from "@/components/ui/card"
