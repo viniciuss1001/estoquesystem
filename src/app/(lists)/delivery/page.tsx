@@ -16,9 +16,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 const DeliveryPage = () => {
 
-	const queryClient = useQueryClient()	
+	const queryClient = useQueryClient()
 
-	const {data: deliveries = [], isLoading, isError} = useQuery({
+	const { data: deliveries = [], isLoading, isError } = useQuery({
 		queryKey: ["deliveries"],
 		queryFn: async () => {
 			const response = await api.get('/delivery')
@@ -32,9 +32,9 @@ const DeliveryPage = () => {
 		},
 		onSuccess: () => {
 			toast.success("Entrega excluída com sucesso!")
-			queryClient.invalidateQueries({ queryKey: ["deliveries"]})
-		}, 
-		onError: ()=>{
+			queryClient.invalidateQueries({ queryKey: ["deliveries"] })
+		},
+		onError: () => {
 			toast.error("Erro ao excluir entrega")
 		}
 	})
@@ -61,7 +61,9 @@ const DeliveryPage = () => {
 							<TableHead>Produto</TableHead>
 							<TableHead>Fornecedor</TableHead>
 							<TableHead>Quantidade</TableHead>
+							<TableHead>Armazém</TableHead>
 							<TableHead>Data prevista</TableHead>
+							<TableHead>Boleto</TableHead>
 							<TableHead>Estado</TableHead>
 							<TableHead className="text-right">Ações</TableHead>
 							<TableHead>Detalhes</TableHead>
@@ -69,31 +71,41 @@ const DeliveryPage = () => {
 					</TableHeader>
 					<TableBody>
 						{deliveries.map((delivery) => (
-							<TableRow key={delivery.id}>
-								<TableCell>{delivery.product.name}</TableCell>
-								<TableCell>{delivery.supplier.name}</TableCell>
-								<TableCell>{delivery.quantity}</TableCell>
-								<TableCell>{format(new Date(delivery.expectedAt), "dd/MM/yyyy")}</TableCell>
-								<TableCell>
-									<DeliveryStatusBadge status={delivery.status}/>
-								</TableCell>
-								<TableCell className="flex items-center justify-end gap-2">
-									<EditDeliveryModal
-										deliveryId={delivery.id}
-									/>
-									<Button variant="destructive" onClick={() => handleDelete(delivery.id)}
-										className='cursor-pointer flex gap-2'
-									>
-										<Trash className="w-4 h-4" />
-										Deletar
-									</Button>
-								</TableCell>
-								<TableCell>
-									<Link href={`/delivery/${delivery.id}`}>
-									Detalhes
-									</Link>
-								</TableCell>
-							</TableRow>
+							<>
+							{console.log(delivery.supplierInvoice?.title)}
+								<TableRow key={delivery.id}>
+									<TableCell>{delivery.product.name}</TableCell>
+									<TableCell>{delivery.supplier.name}</TableCell>
+									<TableCell>{delivery.quantity}</TableCell>
+									<TableCell>
+										{delivery.warehouse.name}
+									</TableCell>
+									<TableCell>{format(new Date(delivery.expectedAt), "dd/MM/yyyy")}</TableCell>
+									<TableCell>
+
+										{delivery.supplierInvoice?.title ?? "-"}
+									</TableCell>
+									<TableCell>
+										<DeliveryStatusBadge status={delivery.status} />
+									</TableCell>
+									<TableCell className="flex items-center justify-end gap-2">
+										<EditDeliveryModal
+											deliveryId={delivery.id}
+										/>
+										<Button variant="destructive" onClick={() => handleDelete(delivery.id)}
+											className='cursor-pointer flex gap-2'
+										>
+											<Trash className="w-4 h-4" />
+											Deletar
+										</Button>
+									</TableCell>
+									<TableCell>
+										<Link href={`/delivery/${delivery.id}`}>
+											Detalhes
+										</Link>
+									</TableCell>
+								</TableRow>
+							</>
 						))}
 					</TableBody>
 				</Table>

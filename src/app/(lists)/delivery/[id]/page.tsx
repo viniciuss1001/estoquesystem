@@ -18,8 +18,8 @@ import Link from "next/link"
 
 const DeliveryPage = () => {
   const { id } = useParams()
- 
-  const {data: delivery, isLoading, isError} = useQuery({
+
+  const { data: delivery, isLoading, isError } = useQuery({
     queryKey: ['delivery', id],
     queryFn: async () => {
       const response = await api.get(`/delivery/${id}`)
@@ -81,15 +81,31 @@ const DeliveryPage = () => {
             <CardDescription>Detalhes do produto e fornecedor</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <p><span className="font-semibold">Produto:</span> <Link href={`/products/${delivery.product.id}`}> {delivery.product.name}</Link></p>
+            <p>
+              <span className="font-semibold">Produto:</span>
+              <Link href={`/products/${delivery.product.id}`} className="text-blue-500">
+                {delivery.product.name}
+              </Link>
+            </p>
             <p><span className="font-semibold">Quantidade:</span> {delivery.quantity}</p>
-            <p><span className="font-semibold">Fornecedor:</span> <Link href={`/suppliers/${delivery.supplier.id}`}>{delivery.supplier.name}</Link></p>
+            <p>
+              <span className="font-semibold">Fornecedor:</span>
+              <Link href={`/suppliers/${delivery.supplier.id}`} className="text-blue-500">
+                {delivery.supplier.name}
+              </Link>
+            </p>
+            <p>
+              <span className="font-semibold">Armazém:</span>{" "}
+              <Link href={`/warehouses/${delivery.warehouse.id}`} className="text-blue-500">
+                {delivery.warehouse.name}
+              </Link>
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Data e Status</CardTitle>
+            <CardTitle>Data, Status e Boleto</CardTitle>
             <CardDescription>Previsão de entrega e situação</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
@@ -101,7 +117,24 @@ const DeliveryPage = () => {
                 year: "numeric",
               })}
             </p>
-            <p><span className="font-semibold">Status:</span> {formatStatus(delivery.status)}</p>
+            <p>
+              <span className="font-semibold">Status:</span>
+              {formatStatus(delivery.status)}
+            </p>
+
+            {delivery.supplierInvoice ? (
+              <p>
+                <span className="font-semibold">Boleto:</span>{" "}
+                <Link
+                  href={`/invoices/${delivery.supplierInvoice.id}`}
+                  className="text-blue-600 underline"
+                >
+                  {delivery.supplierInvoice.title} - R$ {delivery.supplierInvoice.amount.toFixed(2)}
+                </Link>
+              </p>
+            ) : (
+              <p className="text-muted-foreground">Nenhum boleto vinculado</p>
+            )}
           </CardContent>
         </Card>
       </div>

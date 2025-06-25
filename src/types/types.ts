@@ -4,11 +4,20 @@ export interface Delivery {
 		id: string
 		name: string
 	}
-	quantity: number
 	supplier: {
 		id: string
 		name: string
 	}
+	warehouse: {
+		id: string
+		name: string
+	}
+	supplierInvoice?: {
+		id: string
+		title: string
+		amount: number
+	}
+	quantity: number
 	expectedAt: string
 	status: "PENDING" | "COMPLETED" | "CANCELED" | "LATE"
 }

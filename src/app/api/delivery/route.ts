@@ -25,11 +25,9 @@ export async function POST(req: NextRequest) {
 					connect: { id: body.supplierId }
 				},
 				warehouse: {
-					connect: {id: body.warehouseId}
+					connect: { id: body.warehouseId }
 				},
-				invoice: body.invoice ? {
-					connect: {id: body.invoiceId}
-				} : undefined
+				invoice: body.supplierInvoiceId ? {connect: {id: body.supplierInvoiceId},}: undefined
 			}
 		})
 
@@ -41,7 +39,7 @@ export async function POST(req: NextRequest) {
 			description: `Entrega criada para o produto ${body.productId} com quantidade ${body.quantity}`
 		})
 
-		return NextResponse.json(delivery, {status: 201})
+		return NextResponse.json(delivery, { status: 201 })
 
 
 	} catch (error) {
@@ -53,10 +51,12 @@ export async function POST(req: NextRequest) {
 export async function GET() {
 	try {
 		const deliveries = await prisma.delivery.findMany({
-			orderBy: {createdAt: "desc"},
+			orderBy: { createdAt: "desc" },
 			include: {
 				product: true,
-				supplier: true
+				supplier: true,
+				warehouse: true,
+				invoice: true
 			}
 		})
 

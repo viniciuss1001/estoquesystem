@@ -14,7 +14,8 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			include: {
 				product: true,
 				supplier: true,
-
+				invoice: true,
+				warehouse: true
 			}
 		})
 
@@ -47,7 +48,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const existingDelivery = await prisma.delivery.findUnique({
 			where: { id },
 			include: {
-				product: true
+				product: true,
+				invoice: true,
+				supplier: true,
+				warehouse: true
 			}
 		})
 

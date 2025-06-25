@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import api from "@/lib/axios"
-import { Product } from "@/types/types"
+import { Product, SupplierInvoice, Warehouse } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
@@ -38,10 +38,13 @@ import { z } from "zod"
 const formSchema = z.object({
   productId: z.string().min(1, "Produto obrigatório"),
   supplierId: z.string().min(1, "Fornecedor obrigatório"),
+  warehouseId: z.string().min(1, "Armazém obrigatório"),
+  supplierInvoiceId: z.string().optional(),
   quantity: z.coerce.number().int().positive("Quantidade inválida"),
   expectedAt: z.date({ required_error: "Data obrigatória" }),
-  status: z.enum(["PENDING", "COMPLETED", "CANCELED", "LATE"])
+  status: z.enum(["PENDING", "COMPLETED", "CANCELED", "LATE"]),
 })
+
 
 type FormValues = z.infer<typeof formSchema>
 
@@ -61,8 +64,11 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     defaultValues: {
       productId: "",
       supplierId: "",
+      warehouseId: "",
+      supplierInvoiceId: "",
       quantity: 0,
       expectedAt: new Date(),
+      status: "PENDING"
     },
   })
 
@@ -70,7 +76,23 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     queryKey: ["products"],
     queryFn: async () => {
       const response = await api.get("/product")
-      return response.data
+      return response.data 
+    }
+  })
+
+  const { data: warehouses = [] } = useQuery({
+    queryKey: ["warehouses"],
+    queryFn: async () => {
+      const response = await api.get("/warehouse")
+      return response.data as Warehouse[]
+    }
+  })
+
+  const { data: supplierInvoices = [] } = useQuery({
+    queryKey: ["supplierInvoices"],
+    queryFn: async () => {
+      const response = await api.get("/supplier-invoice")
+      return response.data as SupplierInvoice[]
     }
   })
 
@@ -95,6 +117,8 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
       form.reset({
         productId: data.product.id,
         supplierId: data.supplier.id,
+        warehouseId: data.warehouse?.id || "",
+        supplierInvoiceId: data.supplierInvoice?.id || "",
         quantity: data.quantity,
         expectedAt: new Date(data.expectedAt),
         status: data.status,
@@ -141,6 +165,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
             <div className="w-full p-2 rounded-sm flex items-center justify-between">
+              {/* product */}
               <FormField
                 control={form.control}
                 name="productId"
@@ -166,6 +191,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                 )}
               />
 
+              {/* supplier */}
               <FormField
                 control={form.control}
                 name="supplierId"
@@ -195,9 +221,62 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                   </FormItem>
                 )}
               />
-
+              
             </div>
 
+             {/* warehouse */}
+              <FormField
+                control={form.control}
+                name="warehouseId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Armazém</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione o armazém" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {warehouses.map((w) => (
+                          <SelectItem key={w.id} value={w.id}>
+                            {w.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* invoice */}
+              <FormField
+                control={form.control}
+                name="supplierInvoiceId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Boleto (opcional)</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione um boleto" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {supplierInvoices.map((invoice) => (
+                          <SelectItem key={invoice.id} value={invoice.id}>
+                            {invoice.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+            {/* quantity */}
             <FormField
               control={form.control}
               name="quantity"
@@ -212,7 +291,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
               )}
             />
 
-
+            {/* expectedAt */}
             <FormField
               control={form.control}
               name="expectedAt"
@@ -239,6 +318,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
               }}
             />
 
+            {/* status */}
             <FormField
               control={form.control}
               name="status"
