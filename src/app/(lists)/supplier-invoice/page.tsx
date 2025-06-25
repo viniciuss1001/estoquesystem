@@ -15,19 +15,8 @@ import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { format, isValid } from "date-fns"
+import { SupplierInvoice } from "@/types/types"
 
-interface SupplierInvoice {
-	id: string
-	title: string
-	amount: number
-	status: "PENDING" | "PAID" | "CANCELED"
-	dueDate: string
-	createdAt: string
-	supplier: {
-		id: string
-		name: string
-	}
-}
 
 const statusColor = {
 	PENDING: "bg-yellow-100 text-yellow-800",

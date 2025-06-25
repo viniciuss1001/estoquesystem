@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
-import { Product } from "@/types/types"
+import { Product, SupplierInvoice, Warehouse } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
@@ -19,6 +19,8 @@ import { z } from "zod"
 const formSchema = z.object({
 	productId: z.string().min(1, "Produto obrigatório"),
 	supplierId: z.string().min(1, "Fornecedor obrigatório"),
+	warehouseId: z.string().min(1, "Armazém obrigatório"),
+	supplierInvoiceId: z.string().optional(),
 	quantity: z.coerce.number().int().positive("Quantidade inválida"),
 	expectedAt: z.date({ required_error: "Data obrigatória" })
 })
@@ -36,7 +38,9 @@ const CreateDeliveryForm = () => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			quantity: 1,
-			expectedAt: new Date()
+			expectedAt: new Date(),
+			warehouseId: "",
+			supplierInvoiceId: ""
 		}
 	})
 
@@ -45,6 +49,22 @@ const CreateDeliveryForm = () => {
 		queryFn: async () => {
 			const response = await api.get("/product")
 			return response.data
+		}
+	})
+
+	const { data: warehouses = [] } = useQuery({
+		queryKey: ["warehouses"],
+		queryFn: async () => {
+			const response = await api.get("/warehouse")
+			return response.data as Warehouse[]
+		}
+	})
+
+	const { data: invoices = [] } = useQuery({
+		queryKey: ["invoices"],
+		queryFn: async () => {
+			const response = await api.get("/supplier-invoice")
+			return response.data as SupplierInvoice[]
 		}
 	})
 
@@ -92,6 +112,7 @@ const CreateDeliveryForm = () => {
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y4">
 
+							{/* product */}
 							<FormField
 								control={form.control}
 								name="productId"
@@ -117,7 +138,7 @@ const CreateDeliveryForm = () => {
 								)}
 							/>
 
-
+							{/* supplier */}
 							<FormField
 								control={form.control}
 								name="supplierId"
@@ -148,6 +169,60 @@ const CreateDeliveryForm = () => {
 								)}
 							/>
 
+							{/* warehouse */}
+							<FormField
+								control={form.control}
+								name="warehouseId"
+								render={({ field }) => (
+									<FormItem className="mt-4">
+										<FormLabel>Armazém de destino</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o armazém" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{warehouses.map((warehouse) => (
+													<SelectItem key={warehouse.id} value={warehouse.id}>
+														{warehouse.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* supplierInvoice */}
+							<FormField
+								control={form.control}
+								name="supplierInvoiceId"
+								render={({ field }) => (
+									<FormItem className="mt-4">
+										<FormLabel>Boleto (opcional)</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o boleto ou deixe em branco" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{invoices.map((invoice) => (
+													<SelectItem key={invoice.id} value={invoice.id}>
+														{invoice.title} 
+														
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* quantity */}
 							<FormField
 								control={form.control}
 								name="quantity"
@@ -162,6 +237,7 @@ const CreateDeliveryForm = () => {
 								)}
 							/>
 
+							{/* expectedAt */}
 							<FormField
 								control={form.control}
 								name="expectedAt"

@@ -74,17 +74,21 @@ export interface Supplier {
 }
 
 export interface SupplierInvoice {
-  id: string
-  title: string
-  amount: number
-  status: "PENDING" | "PAID" | "CANCELED"
-  dueDate: string
-  createdAt: string
-  supplier: {
-    id: string
-    name: string
-  }
+	id: string
+	title: string
+	description?: string
+	amount: number
+	status: "PENDING" | "PAID" | "CANCELED"
+	dueDate: string
+	createdAt: string
+	updatedAt?: string
+	fileUrl?: string | null
+	supplier: {
+		id: string
+		name: string
+	}
 }
+
 
 export interface Warehouse {
     id: string
