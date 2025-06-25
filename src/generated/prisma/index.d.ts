@@ -54,6 +54,11 @@ export type StockMovement = $Result.DefaultSelection<Prisma.$StockMovementPayloa
  */
 export type Supplier = $Result.DefaultSelection<Prisma.$SupplierPayload>
 /**
+ * Model SupplierInvoice
+ * 
+ */
+export type SupplierInvoice = $Result.DefaultSelection<Prisma.$SupplierInvoicePayload>
+/**
  * Model AuditLog
  * 
  */
@@ -117,6 +122,16 @@ export const UsageStatus: {
 
 export type UsageStatus = (typeof UsageStatus)[keyof typeof UsageStatus]
 
+
+export const InvoiceStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE',
+  CANCELED: 'CANCELED'
+};
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
 }
 
 export type Office = $Enums.Office
@@ -138,6 +153,10 @@ export const DeliveryStatus: typeof $Enums.DeliveryStatus
 export type UsageStatus = $Enums.UsageStatus
 
 export const UsageStatus: typeof $Enums.UsageStatus
+
+export type InvoiceStatus = $Enums.InvoiceStatus
+
+export const InvoiceStatus: typeof $Enums.InvoiceStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -343,6 +362,16 @@ export class PrismaClient<
     * ```
     */
   get supplier(): Prisma.SupplierDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.supplierInvoice`: Exposes CRUD operations for the **SupplierInvoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SupplierInvoices
+    * const supplierInvoices = await prisma.supplierInvoice.findMany()
+    * ```
+    */
+  get supplierInvoice(): Prisma.SupplierInvoiceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.auditLog`: Exposes CRUD operations for the **AuditLog** model.
@@ -821,6 +850,7 @@ export namespace Prisma {
     WarehouseProduct: 'WarehouseProduct',
     StockMovement: 'StockMovement',
     Supplier: 'Supplier',
+    SupplierInvoice: 'SupplierInvoice',
     AuditLog: 'AuditLog',
     Category: 'Category',
     Delivery: 'Delivery'
@@ -842,7 +872,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "product" | "account" | "session" | "user" | "wareHouse" | "warehouseProduct" | "stockMovement" | "supplier" | "auditLog" | "category" | "delivery"
+      modelProps: "product" | "account" | "session" | "user" | "wareHouse" | "warehouseProduct" | "stockMovement" | "supplier" | "supplierInvoice" | "auditLog" | "category" | "delivery"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1438,6 +1468,80 @@ export namespace Prisma {
           }
         }
       }
+      SupplierInvoice: {
+        payload: Prisma.$SupplierInvoicePayload<ExtArgs>
+        fields: Prisma.SupplierInvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupplierInvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupplierInvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.SupplierInvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupplierInvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>
+          }
+          findMany: {
+            args: Prisma.SupplierInvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>[]
+          }
+          create: {
+            args: Prisma.SupplierInvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>
+          }
+          createMany: {
+            args: Prisma.SupplierInvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SupplierInvoiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>[]
+          }
+          delete: {
+            args: Prisma.SupplierInvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>
+          }
+          update: {
+            args: Prisma.SupplierInvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.SupplierInvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupplierInvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SupplierInvoiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>[]
+          }
+          upsert: {
+            args: Prisma.SupplierInvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupplierInvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.SupplierInvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupplierInvoice>
+          }
+          groupBy: {
+            args: Prisma.SupplierInvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupplierInvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupplierInvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<SupplierInvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
       AuditLog: {
         payload: Prisma.$AuditLogPayload<ExtArgs>
         fields: Prisma.AuditLogFieldRefs
@@ -1752,6 +1856,7 @@ export namespace Prisma {
     warehouseProduct?: WarehouseProductOmit
     stockMovement?: StockMovementOmit
     supplier?: SupplierOmit
+    supplierInvoice?: SupplierInvoiceOmit
     auditLog?: AuditLogOmit
     category?: CategoryOmit
     delivery?: DeliveryOmit
@@ -1998,11 +2103,13 @@ export namespace Prisma {
   export type SupplierCountOutputType = {
     delivery: number
     products: number
+    SupplierInvoice: number
   }
 
   export type SupplierCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     delivery?: boolean | SupplierCountOutputTypeCountDeliveryArgs
     products?: boolean | SupplierCountOutputTypeCountProductsArgs
+    SupplierInvoice?: boolean | SupplierCountOutputTypeCountSupplierInvoiceArgs
   }
 
   // Custom InputTypes
@@ -2028,6 +2135,13 @@ export namespace Prisma {
    */
   export type SupplierCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductWhereInput
+  }
+
+  /**
+   * SupplierCountOutputType without action
+   */
+  export type SupplierCountOutputTypeCountSupplierInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupplierInvoiceWhereInput
   }
 
 
@@ -10448,6 +10562,7 @@ export namespace Prisma {
     deliveryTime?: boolean
     delivery?: boolean | Supplier$deliveryArgs<ExtArgs>
     products?: boolean | Supplier$productsArgs<ExtArgs>
+    SupplierInvoice?: boolean | Supplier$SupplierInvoiceArgs<ExtArgs>
     _count?: boolean | SupplierCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supplier"]>
 
@@ -10488,6 +10603,7 @@ export namespace Prisma {
   export type SupplierInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     delivery?: boolean | Supplier$deliveryArgs<ExtArgs>
     products?: boolean | Supplier$productsArgs<ExtArgs>
+    SupplierInvoice?: boolean | Supplier$SupplierInvoiceArgs<ExtArgs>
     _count?: boolean | SupplierCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SupplierIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -10498,6 +10614,7 @@ export namespace Prisma {
     objects: {
       delivery: Prisma.$DeliveryPayload<ExtArgs>[]
       products: Prisma.$ProductPayload<ExtArgs>[]
+      SupplierInvoice: Prisma.$SupplierInvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10904,6 +11021,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     delivery<T extends Supplier$deliveryArgs<ExtArgs> = {}>(args?: Subset<T, Supplier$deliveryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     products<T extends Supplier$productsArgs<ExtArgs> = {}>(args?: Subset<T, Supplier$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    SupplierInvoice<T extends Supplier$SupplierInvoiceArgs<ExtArgs> = {}>(args?: Subset<T, Supplier$SupplierInvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11377,6 +11495,30 @@ export namespace Prisma {
   }
 
   /**
+   * Supplier.SupplierInvoice
+   */
+  export type Supplier$SupplierInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    where?: SupplierInvoiceWhereInput
+    orderBy?: SupplierInvoiceOrderByWithRelationInput | SupplierInvoiceOrderByWithRelationInput[]
+    cursor?: SupplierInvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupplierInvoiceScalarFieldEnum | SupplierInvoiceScalarFieldEnum[]
+  }
+
+  /**
    * Supplier without action
    */
   export type SupplierDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11392,6 +11534,1163 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SupplierInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SupplierInvoice
+   */
+
+  export type AggregateSupplierInvoice = {
+    _count: SupplierInvoiceCountAggregateOutputType | null
+    _avg: SupplierInvoiceAvgAggregateOutputType | null
+    _sum: SupplierInvoiceSumAggregateOutputType | null
+    _min: SupplierInvoiceMinAggregateOutputType | null
+    _max: SupplierInvoiceMaxAggregateOutputType | null
+  }
+
+  export type SupplierInvoiceAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type SupplierInvoiceSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type SupplierInvoiceMinAggregateOutputType = {
+    id: string | null
+    supplierId: string | null
+    title: string | null
+    description: string | null
+    amount: Decimal | null
+    dueDate: Date | null
+    status: $Enums.InvoiceStatus | null
+    fileUrl: string | null
+    createAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SupplierInvoiceMaxAggregateOutputType = {
+    id: string | null
+    supplierId: string | null
+    title: string | null
+    description: string | null
+    amount: Decimal | null
+    dueDate: Date | null
+    status: $Enums.InvoiceStatus | null
+    fileUrl: string | null
+    createAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SupplierInvoiceCountAggregateOutputType = {
+    id: number
+    supplierId: number
+    title: number
+    description: number
+    amount: number
+    dueDate: number
+    status: number
+    fileUrl: number
+    createAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SupplierInvoiceAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type SupplierInvoiceSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type SupplierInvoiceMinAggregateInputType = {
+    id?: true
+    supplierId?: true
+    title?: true
+    description?: true
+    amount?: true
+    dueDate?: true
+    status?: true
+    fileUrl?: true
+    createAt?: true
+    updatedAt?: true
+  }
+
+  export type SupplierInvoiceMaxAggregateInputType = {
+    id?: true
+    supplierId?: true
+    title?: true
+    description?: true
+    amount?: true
+    dueDate?: true
+    status?: true
+    fileUrl?: true
+    createAt?: true
+    updatedAt?: true
+  }
+
+  export type SupplierInvoiceCountAggregateInputType = {
+    id?: true
+    supplierId?: true
+    title?: true
+    description?: true
+    amount?: true
+    dueDate?: true
+    status?: true
+    fileUrl?: true
+    createAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SupplierInvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupplierInvoice to aggregate.
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupplierInvoices to fetch.
+     */
+    orderBy?: SupplierInvoiceOrderByWithRelationInput | SupplierInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SupplierInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupplierInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupplierInvoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SupplierInvoices
+    **/
+    _count?: true | SupplierInvoiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SupplierInvoiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SupplierInvoiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SupplierInvoiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SupplierInvoiceMaxAggregateInputType
+  }
+
+  export type GetSupplierInvoiceAggregateType<T extends SupplierInvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateSupplierInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSupplierInvoice[P]>
+      : GetScalarType<T[P], AggregateSupplierInvoice[P]>
+  }
+
+
+
+
+  export type SupplierInvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupplierInvoiceWhereInput
+    orderBy?: SupplierInvoiceOrderByWithAggregationInput | SupplierInvoiceOrderByWithAggregationInput[]
+    by: SupplierInvoiceScalarFieldEnum[] | SupplierInvoiceScalarFieldEnum
+    having?: SupplierInvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SupplierInvoiceCountAggregateInputType | true
+    _avg?: SupplierInvoiceAvgAggregateInputType
+    _sum?: SupplierInvoiceSumAggregateInputType
+    _min?: SupplierInvoiceMinAggregateInputType
+    _max?: SupplierInvoiceMaxAggregateInputType
+  }
+
+  export type SupplierInvoiceGroupByOutputType = {
+    id: string
+    supplierId: string
+    title: string
+    description: string
+    amount: Decimal
+    dueDate: Date
+    status: $Enums.InvoiceStatus
+    fileUrl: string | null
+    createAt: Date
+    updatedAt: Date
+    _count: SupplierInvoiceCountAggregateOutputType | null
+    _avg: SupplierInvoiceAvgAggregateOutputType | null
+    _sum: SupplierInvoiceSumAggregateOutputType | null
+    _min: SupplierInvoiceMinAggregateOutputType | null
+    _max: SupplierInvoiceMaxAggregateOutputType | null
+  }
+
+  type GetSupplierInvoiceGroupByPayload<T extends SupplierInvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SupplierInvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SupplierInvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SupplierInvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], SupplierInvoiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SupplierInvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    supplierId?: boolean
+    title?: boolean
+    description?: boolean
+    amount?: boolean
+    dueDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supplierInvoice"]>
+
+  export type SupplierInvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    supplierId?: boolean
+    title?: boolean
+    description?: boolean
+    amount?: boolean
+    dueDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supplierInvoice"]>
+
+  export type SupplierInvoiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    supplierId?: boolean
+    title?: boolean
+    description?: boolean
+    amount?: boolean
+    dueDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supplierInvoice"]>
+
+  export type SupplierInvoiceSelectScalar = {
+    id?: boolean
+    supplierId?: boolean
+    title?: boolean
+    description?: boolean
+    amount?: boolean
+    dueDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "title" | "description" | "amount" | "dueDate" | "status" | "fileUrl" | "createAt" | "updatedAt", ExtArgs["result"]["supplierInvoice"]>
+  export type SupplierInvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }
+  export type SupplierInvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }
+  export type SupplierInvoiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }
+
+  export type $SupplierInvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SupplierInvoice"
+    objects: {
+      supplier: Prisma.$SupplierPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      supplierId: string
+      title: string
+      description: string
+      amount: Prisma.Decimal
+      dueDate: Date
+      status: $Enums.InvoiceStatus
+      fileUrl: string | null
+      createAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["supplierInvoice"]>
+    composites: {}
+  }
+
+  type SupplierInvoiceGetPayload<S extends boolean | null | undefined | SupplierInvoiceDefaultArgs> = $Result.GetResult<Prisma.$SupplierInvoicePayload, S>
+
+  type SupplierInvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SupplierInvoiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SupplierInvoiceCountAggregateInputType | true
+    }
+
+  export interface SupplierInvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SupplierInvoice'], meta: { name: 'SupplierInvoice' } }
+    /**
+     * Find zero or one SupplierInvoice that matches the filter.
+     * @param {SupplierInvoiceFindUniqueArgs} args - Arguments to find a SupplierInvoice
+     * @example
+     * // Get one SupplierInvoice
+     * const supplierInvoice = await prisma.supplierInvoice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SupplierInvoiceFindUniqueArgs>(args: SelectSubset<T, SupplierInvoiceFindUniqueArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SupplierInvoice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SupplierInvoiceFindUniqueOrThrowArgs} args - Arguments to find a SupplierInvoice
+     * @example
+     * // Get one SupplierInvoice
+     * const supplierInvoice = await prisma.supplierInvoice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SupplierInvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, SupplierInvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupplierInvoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceFindFirstArgs} args - Arguments to find a SupplierInvoice
+     * @example
+     * // Get one SupplierInvoice
+     * const supplierInvoice = await prisma.supplierInvoice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SupplierInvoiceFindFirstArgs>(args?: SelectSubset<T, SupplierInvoiceFindFirstArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupplierInvoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceFindFirstOrThrowArgs} args - Arguments to find a SupplierInvoice
+     * @example
+     * // Get one SupplierInvoice
+     * const supplierInvoice = await prisma.supplierInvoice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SupplierInvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, SupplierInvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SupplierInvoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SupplierInvoices
+     * const supplierInvoices = await prisma.supplierInvoice.findMany()
+     * 
+     * // Get first 10 SupplierInvoices
+     * const supplierInvoices = await prisma.supplierInvoice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const supplierInvoiceWithIdOnly = await prisma.supplierInvoice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SupplierInvoiceFindManyArgs>(args?: SelectSubset<T, SupplierInvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SupplierInvoice.
+     * @param {SupplierInvoiceCreateArgs} args - Arguments to create a SupplierInvoice.
+     * @example
+     * // Create one SupplierInvoice
+     * const SupplierInvoice = await prisma.supplierInvoice.create({
+     *   data: {
+     *     // ... data to create a SupplierInvoice
+     *   }
+     * })
+     * 
+     */
+    create<T extends SupplierInvoiceCreateArgs>(args: SelectSubset<T, SupplierInvoiceCreateArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SupplierInvoices.
+     * @param {SupplierInvoiceCreateManyArgs} args - Arguments to create many SupplierInvoices.
+     * @example
+     * // Create many SupplierInvoices
+     * const supplierInvoice = await prisma.supplierInvoice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SupplierInvoiceCreateManyArgs>(args?: SelectSubset<T, SupplierInvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SupplierInvoices and returns the data saved in the database.
+     * @param {SupplierInvoiceCreateManyAndReturnArgs} args - Arguments to create many SupplierInvoices.
+     * @example
+     * // Create many SupplierInvoices
+     * const supplierInvoice = await prisma.supplierInvoice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SupplierInvoices and only return the `id`
+     * const supplierInvoiceWithIdOnly = await prisma.supplierInvoice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SupplierInvoiceCreateManyAndReturnArgs>(args?: SelectSubset<T, SupplierInvoiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SupplierInvoice.
+     * @param {SupplierInvoiceDeleteArgs} args - Arguments to delete one SupplierInvoice.
+     * @example
+     * // Delete one SupplierInvoice
+     * const SupplierInvoice = await prisma.supplierInvoice.delete({
+     *   where: {
+     *     // ... filter to delete one SupplierInvoice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SupplierInvoiceDeleteArgs>(args: SelectSubset<T, SupplierInvoiceDeleteArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SupplierInvoice.
+     * @param {SupplierInvoiceUpdateArgs} args - Arguments to update one SupplierInvoice.
+     * @example
+     * // Update one SupplierInvoice
+     * const supplierInvoice = await prisma.supplierInvoice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SupplierInvoiceUpdateArgs>(args: SelectSubset<T, SupplierInvoiceUpdateArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SupplierInvoices.
+     * @param {SupplierInvoiceDeleteManyArgs} args - Arguments to filter SupplierInvoices to delete.
+     * @example
+     * // Delete a few SupplierInvoices
+     * const { count } = await prisma.supplierInvoice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SupplierInvoiceDeleteManyArgs>(args?: SelectSubset<T, SupplierInvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupplierInvoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SupplierInvoices
+     * const supplierInvoice = await prisma.supplierInvoice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SupplierInvoiceUpdateManyArgs>(args: SelectSubset<T, SupplierInvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupplierInvoices and returns the data updated in the database.
+     * @param {SupplierInvoiceUpdateManyAndReturnArgs} args - Arguments to update many SupplierInvoices.
+     * @example
+     * // Update many SupplierInvoices
+     * const supplierInvoice = await prisma.supplierInvoice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SupplierInvoices and only return the `id`
+     * const supplierInvoiceWithIdOnly = await prisma.supplierInvoice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SupplierInvoiceUpdateManyAndReturnArgs>(args: SelectSubset<T, SupplierInvoiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SupplierInvoice.
+     * @param {SupplierInvoiceUpsertArgs} args - Arguments to update or create a SupplierInvoice.
+     * @example
+     * // Update or create a SupplierInvoice
+     * const supplierInvoice = await prisma.supplierInvoice.upsert({
+     *   create: {
+     *     // ... data to create a SupplierInvoice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SupplierInvoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SupplierInvoiceUpsertArgs>(args: SelectSubset<T, SupplierInvoiceUpsertArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SupplierInvoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceCountArgs} args - Arguments to filter SupplierInvoices to count.
+     * @example
+     * // Count the number of SupplierInvoices
+     * const count = await prisma.supplierInvoice.count({
+     *   where: {
+     *     // ... the filter for the SupplierInvoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends SupplierInvoiceCountArgs>(
+      args?: Subset<T, SupplierInvoiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SupplierInvoiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SupplierInvoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SupplierInvoiceAggregateArgs>(args: Subset<T, SupplierInvoiceAggregateArgs>): Prisma.PrismaPromise<GetSupplierInvoiceAggregateType<T>>
+
+    /**
+     * Group by SupplierInvoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupplierInvoiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SupplierInvoiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SupplierInvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: SupplierInvoiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SupplierInvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSupplierInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SupplierInvoice model
+   */
+  readonly fields: SupplierInvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SupplierInvoice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SupplierInvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    supplier<T extends SupplierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SupplierDefaultArgs<ExtArgs>>): Prisma__SupplierClient<$Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SupplierInvoice model
+   */
+  interface SupplierInvoiceFieldRefs {
+    readonly id: FieldRef<"SupplierInvoice", 'String'>
+    readonly supplierId: FieldRef<"SupplierInvoice", 'String'>
+    readonly title: FieldRef<"SupplierInvoice", 'String'>
+    readonly description: FieldRef<"SupplierInvoice", 'String'>
+    readonly amount: FieldRef<"SupplierInvoice", 'Decimal'>
+    readonly dueDate: FieldRef<"SupplierInvoice", 'DateTime'>
+    readonly status: FieldRef<"SupplierInvoice", 'InvoiceStatus'>
+    readonly fileUrl: FieldRef<"SupplierInvoice", 'String'>
+    readonly createAt: FieldRef<"SupplierInvoice", 'DateTime'>
+    readonly updatedAt: FieldRef<"SupplierInvoice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SupplierInvoice findUnique
+   */
+  export type SupplierInvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which SupplierInvoice to fetch.
+     */
+    where: SupplierInvoiceWhereUniqueInput
+  }
+
+  /**
+   * SupplierInvoice findUniqueOrThrow
+   */
+  export type SupplierInvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which SupplierInvoice to fetch.
+     */
+    where: SupplierInvoiceWhereUniqueInput
+  }
+
+  /**
+   * SupplierInvoice findFirst
+   */
+  export type SupplierInvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which SupplierInvoice to fetch.
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupplierInvoices to fetch.
+     */
+    orderBy?: SupplierInvoiceOrderByWithRelationInput | SupplierInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupplierInvoices.
+     */
+    cursor?: SupplierInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupplierInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupplierInvoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupplierInvoices.
+     */
+    distinct?: SupplierInvoiceScalarFieldEnum | SupplierInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * SupplierInvoice findFirstOrThrow
+   */
+  export type SupplierInvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which SupplierInvoice to fetch.
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupplierInvoices to fetch.
+     */
+    orderBy?: SupplierInvoiceOrderByWithRelationInput | SupplierInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupplierInvoices.
+     */
+    cursor?: SupplierInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupplierInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupplierInvoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupplierInvoices.
+     */
+    distinct?: SupplierInvoiceScalarFieldEnum | SupplierInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * SupplierInvoice findMany
+   */
+  export type SupplierInvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which SupplierInvoices to fetch.
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupplierInvoices to fetch.
+     */
+    orderBy?: SupplierInvoiceOrderByWithRelationInput | SupplierInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SupplierInvoices.
+     */
+    cursor?: SupplierInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupplierInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupplierInvoices.
+     */
+    skip?: number
+    distinct?: SupplierInvoiceScalarFieldEnum | SupplierInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * SupplierInvoice create
+   */
+  export type SupplierInvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SupplierInvoice.
+     */
+    data: XOR<SupplierInvoiceCreateInput, SupplierInvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * SupplierInvoice createMany
+   */
+  export type SupplierInvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SupplierInvoices.
+     */
+    data: SupplierInvoiceCreateManyInput | SupplierInvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SupplierInvoice createManyAndReturn
+   */
+  export type SupplierInvoiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to create many SupplierInvoices.
+     */
+    data: SupplierInvoiceCreateManyInput | SupplierInvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupplierInvoice update
+   */
+  export type SupplierInvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SupplierInvoice.
+     */
+    data: XOR<SupplierInvoiceUpdateInput, SupplierInvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which SupplierInvoice to update.
+     */
+    where: SupplierInvoiceWhereUniqueInput
+  }
+
+  /**
+   * SupplierInvoice updateMany
+   */
+  export type SupplierInvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SupplierInvoices.
+     */
+    data: XOR<SupplierInvoiceUpdateManyMutationInput, SupplierInvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which SupplierInvoices to update
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * Limit how many SupplierInvoices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupplierInvoice updateManyAndReturn
+   */
+  export type SupplierInvoiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to update SupplierInvoices.
+     */
+    data: XOR<SupplierInvoiceUpdateManyMutationInput, SupplierInvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which SupplierInvoices to update
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * Limit how many SupplierInvoices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SupplierInvoice upsert
+   */
+  export type SupplierInvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SupplierInvoice to update in case it exists.
+     */
+    where: SupplierInvoiceWhereUniqueInput
+    /**
+     * In case the SupplierInvoice found by the `where` argument doesn't exist, create a new SupplierInvoice with this data.
+     */
+    create: XOR<SupplierInvoiceCreateInput, SupplierInvoiceUncheckedCreateInput>
+    /**
+     * In case the SupplierInvoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SupplierInvoiceUpdateInput, SupplierInvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * SupplierInvoice delete
+   */
+  export type SupplierInvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which SupplierInvoice to delete.
+     */
+    where: SupplierInvoiceWhereUniqueInput
+  }
+
+  /**
+   * SupplierInvoice deleteMany
+   */
+  export type SupplierInvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupplierInvoices to delete
+     */
+    where?: SupplierInvoiceWhereInput
+    /**
+     * Limit how many SupplierInvoices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupplierInvoice without action
+   */
+  export type SupplierInvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
   }
 
 
@@ -14806,6 +16105,22 @@ export namespace Prisma {
   export type SupplierScalarFieldEnum = (typeof SupplierScalarFieldEnum)[keyof typeof SupplierScalarFieldEnum]
 
 
+  export const SupplierInvoiceScalarFieldEnum: {
+    id: 'id',
+    supplierId: 'supplierId',
+    title: 'title',
+    description: 'description',
+    amount: 'amount',
+    dueDate: 'dueDate',
+    status: 'status',
+    fileUrl: 'fileUrl',
+    createAt: 'createAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SupplierInvoiceScalarFieldEnum = (typeof SupplierInvoiceScalarFieldEnum)[keyof typeof SupplierInvoiceScalarFieldEnum]
+
+
   export const AuditLogScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -14981,6 +16296,34 @@ export namespace Prisma {
    * Reference to a field of type 'MovementStatus[]'
    */
   export type ListEnumMovementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MovementStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus'
+   */
+  export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus[]'
+   */
+  export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
     
 
 
@@ -15571,6 +16914,7 @@ export namespace Prisma {
     deliveryTime?: DateTimeFilter<"Supplier"> | Date | string
     delivery?: DeliveryListRelationFilter
     products?: ProductListRelationFilter
+    SupplierInvoice?: SupplierInvoiceListRelationFilter
   }
 
   export type SupplierOrderByWithRelationInput = {
@@ -15584,6 +16928,7 @@ export namespace Prisma {
     deliveryTime?: SortOrder
     delivery?: DeliveryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
+    SupplierInvoice?: SupplierInvoiceOrderByRelationAggregateInput
   }
 
   export type SupplierWhereUniqueInput = Prisma.AtLeast<{
@@ -15600,6 +16945,7 @@ export namespace Prisma {
     deliveryTime?: DateTimeFilter<"Supplier"> | Date | string
     delivery?: DeliveryListRelationFilter
     products?: ProductListRelationFilter
+    SupplierInvoice?: SupplierInvoiceListRelationFilter
   }, "id">
 
   export type SupplierOrderByWithAggregationInput = {
@@ -15628,6 +16974,88 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
     deliveryTime?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
+  }
+
+  export type SupplierInvoiceWhereInput = {
+    AND?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
+    OR?: SupplierInvoiceWhereInput[]
+    NOT?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
+    id?: StringFilter<"SupplierInvoice"> | string
+    supplierId?: StringFilter<"SupplierInvoice"> | string
+    title?: StringFilter<"SupplierInvoice"> | string
+    description?: StringFilter<"SupplierInvoice"> | string
+    amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    createAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
+  }
+
+  export type SupplierInvoiceOrderByWithRelationInput = {
+    id?: SortOrder
+    supplierId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    amount?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
+    supplier?: SupplierOrderByWithRelationInput
+  }
+
+  export type SupplierInvoiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
+    OR?: SupplierInvoiceWhereInput[]
+    NOT?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
+    supplierId?: StringFilter<"SupplierInvoice"> | string
+    title?: StringFilter<"SupplierInvoice"> | string
+    description?: StringFilter<"SupplierInvoice"> | string
+    amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    createAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
+  }, "id">
+
+  export type SupplierInvoiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    supplierId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    amount?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SupplierInvoiceCountOrderByAggregateInput
+    _avg?: SupplierInvoiceAvgOrderByAggregateInput
+    _max?: SupplierInvoiceMaxOrderByAggregateInput
+    _min?: SupplierInvoiceMinOrderByAggregateInput
+    _sum?: SupplierInvoiceSumOrderByAggregateInput
+  }
+
+  export type SupplierInvoiceScalarWhereWithAggregatesInput = {
+    AND?: SupplierInvoiceScalarWhereWithAggregatesInput | SupplierInvoiceScalarWhereWithAggregatesInput[]
+    OR?: SupplierInvoiceScalarWhereWithAggregatesInput[]
+    NOT?: SupplierInvoiceScalarWhereWithAggregatesInput | SupplierInvoiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SupplierInvoice"> | string
+    supplierId?: StringWithAggregatesFilter<"SupplierInvoice"> | string
+    title?: StringWithAggregatesFilter<"SupplierInvoice"> | string
+    description?: StringWithAggregatesFilter<"SupplierInvoice"> | string
+    amount?: DecimalWithAggregatesFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
+    status?: EnumInvoiceStatusWithAggregatesFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    fileUrl?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    createAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
   }
 
   export type AuditLogWhereInput = {
@@ -16432,6 +17860,7 @@ export namespace Prisma {
     deliveryTime: Date | string
     delivery?: DeliveryCreateNestedManyWithoutSupplierInput
     products?: ProductCreateNestedManyWithoutSupplierInput
+    SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUncheckedCreateInput = {
@@ -16445,6 +17874,7 @@ export namespace Prisma {
     deliveryTime: Date | string
     delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInput
     products?: ProductUncheckedCreateNestedManyWithoutSupplierInput
+    SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUpdateInput = {
@@ -16458,6 +17888,7 @@ export namespace Prisma {
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     delivery?: DeliveryUpdateManyWithoutSupplierNestedInput
     products?: ProductUpdateManyWithoutSupplierNestedInput
+    SupplierInvoice?: SupplierInvoiceUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierUncheckedUpdateInput = {
@@ -16471,6 +17902,7 @@ export namespace Prisma {
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
     products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
+    SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierCreateManyInput = {
@@ -16504,6 +17936,96 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupplierInvoiceCreateInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createAt?: Date | string
+    updatedAt?: Date | string
+    supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+  }
+
+  export type SupplierInvoiceUncheckedCreateInput = {
+    id?: string
+    supplierId: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SupplierInvoiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
+  }
+
+  export type SupplierInvoiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupplierInvoiceCreateManyInput = {
+    id?: string
+    supplierId: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SupplierInvoiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupplierInvoiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AuditLogCreateInput = {
@@ -17362,7 +18884,17 @@ export namespace Prisma {
     none?: ProductWhereInput
   }
 
+  export type SupplierInvoiceListRelationFilter = {
+    every?: SupplierInvoiceWhereInput
+    some?: SupplierInvoiceWhereInput
+    none?: SupplierInvoiceWhereInput
+  }
+
   export type ProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SupplierInvoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17397,6 +18929,102 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deliveryTime?: SortOrder
+  }
+
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type EnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type SupplierScalarRelationFilter = {
+    is?: SupplierWhereInput
+    isNot?: SupplierWhereInput
+  }
+
+  export type SupplierInvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    supplierId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    amount?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SupplierInvoiceAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type SupplierInvoiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    supplierId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    amount?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SupplierInvoiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    supplierId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    amount?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SupplierInvoiceSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type EnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
   }
 
   export type AuditLogCountOrderByAggregateInput = {
@@ -17455,11 +19083,6 @@ export namespace Prisma {
     in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumDeliveryStatusFilter<$PrismaModel> | $Enums.DeliveryStatus
-  }
-
-  export type SupplierScalarRelationFilter = {
-    is?: SupplierWhereInput
-    isNot?: SupplierWhereInput
   }
 
   export type DeliveryCountOrderByAggregateInput = {
@@ -18095,6 +19718,13 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
+  export type SupplierInvoiceCreateNestedManyWithoutSupplierInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutSupplierInput, SupplierInvoiceUncheckedCreateWithoutSupplierInput> | SupplierInvoiceCreateWithoutSupplierInput[] | SupplierInvoiceUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutSupplierInput | SupplierInvoiceCreateOrConnectWithoutSupplierInput[]
+    createMany?: SupplierInvoiceCreateManySupplierInputEnvelope
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+  }
+
   export type DeliveryUncheckedCreateNestedManyWithoutSupplierInput = {
     create?: XOR<DeliveryCreateWithoutSupplierInput, DeliveryUncheckedCreateWithoutSupplierInput> | DeliveryCreateWithoutSupplierInput[] | DeliveryUncheckedCreateWithoutSupplierInput[]
     connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInput | DeliveryCreateOrConnectWithoutSupplierInput[]
@@ -18107,6 +19737,13 @@ export namespace Prisma {
     connectOrCreate?: ProductCreateOrConnectWithoutSupplierInput | ProductCreateOrConnectWithoutSupplierInput[]
     createMany?: ProductCreateManySupplierInputEnvelope
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutSupplierInput, SupplierInvoiceUncheckedCreateWithoutSupplierInput> | SupplierInvoiceCreateWithoutSupplierInput[] | SupplierInvoiceUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutSupplierInput | SupplierInvoiceCreateOrConnectWithoutSupplierInput[]
+    createMany?: SupplierInvoiceCreateManySupplierInputEnvelope
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
   }
 
   export type DeliveryUpdateManyWithoutSupplierNestedInput = {
@@ -18137,6 +19774,20 @@ export namespace Prisma {
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
   }
 
+  export type SupplierInvoiceUpdateManyWithoutSupplierNestedInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutSupplierInput, SupplierInvoiceUncheckedCreateWithoutSupplierInput> | SupplierInvoiceCreateWithoutSupplierInput[] | SupplierInvoiceUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutSupplierInput | SupplierInvoiceCreateOrConnectWithoutSupplierInput[]
+    upsert?: SupplierInvoiceUpsertWithWhereUniqueWithoutSupplierInput | SupplierInvoiceUpsertWithWhereUniqueWithoutSupplierInput[]
+    createMany?: SupplierInvoiceCreateManySupplierInputEnvelope
+    set?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    disconnect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    delete?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    update?: SupplierInvoiceUpdateWithWhereUniqueWithoutSupplierInput | SupplierInvoiceUpdateWithWhereUniqueWithoutSupplierInput[]
+    updateMany?: SupplierInvoiceUpdateManyWithWhereWithoutSupplierInput | SupplierInvoiceUpdateManyWithWhereWithoutSupplierInput[]
+    deleteMany?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
+  }
+
   export type DeliveryUncheckedUpdateManyWithoutSupplierNestedInput = {
     create?: XOR<DeliveryCreateWithoutSupplierInput, DeliveryUncheckedCreateWithoutSupplierInput> | DeliveryCreateWithoutSupplierInput[] | DeliveryUncheckedCreateWithoutSupplierInput[]
     connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInput | DeliveryCreateOrConnectWithoutSupplierInput[]
@@ -18163,6 +19814,46 @@ export namespace Prisma {
     update?: ProductUpdateWithWhereUniqueWithoutSupplierInput | ProductUpdateWithWhereUniqueWithoutSupplierInput[]
     updateMany?: ProductUpdateManyWithWhereWithoutSupplierInput | ProductUpdateManyWithWhereWithoutSupplierInput[]
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutSupplierInput, SupplierInvoiceUncheckedCreateWithoutSupplierInput> | SupplierInvoiceCreateWithoutSupplierInput[] | SupplierInvoiceUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutSupplierInput | SupplierInvoiceCreateOrConnectWithoutSupplierInput[]
+    upsert?: SupplierInvoiceUpsertWithWhereUniqueWithoutSupplierInput | SupplierInvoiceUpsertWithWhereUniqueWithoutSupplierInput[]
+    createMany?: SupplierInvoiceCreateManySupplierInputEnvelope
+    set?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    disconnect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    delete?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    update?: SupplierInvoiceUpdateWithWhereUniqueWithoutSupplierInput | SupplierInvoiceUpdateWithWhereUniqueWithoutSupplierInput[]
+    updateMany?: SupplierInvoiceUpdateManyWithWhereWithoutSupplierInput | SupplierInvoiceUpdateManyWithWhereWithoutSupplierInput[]
+    deleteMany?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
+  }
+
+  export type SupplierCreateNestedOneWithoutSupplierInvoiceInput = {
+    create?: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
+    connectOrCreate?: SupplierCreateOrConnectWithoutSupplierInvoiceInput
+    connect?: SupplierWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type EnumInvoiceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InvoiceStatus
+  }
+
+  export type SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput = {
+    create?: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
+    connectOrCreate?: SupplierCreateOrConnectWithoutSupplierInvoiceInput
+    upsert?: SupplierUpsertWithoutSupplierInvoiceInput
+    connect?: SupplierWhereUniqueInput
+    update?: XOR<XOR<SupplierUpdateToOneWithWhereWithoutSupplierInvoiceInput, SupplierUpdateWithoutSupplierInvoiceInput>, SupplierUncheckedUpdateWithoutSupplierInvoiceInput>
   }
 
   export type UserCreateNestedOneWithoutAuditLogInput = {
@@ -18525,6 +20216,50 @@ export namespace Prisma {
     _max?: NestedEnumMovementStatusFilter<$PrismaModel>
   }
 
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumDeliveryStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.DeliveryStatus | EnumDeliveryStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
@@ -18601,6 +20336,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deliveryTime: Date | string
     delivery?: DeliveryCreateNestedManyWithoutSupplierInput
+    SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUncheckedCreateWithoutProductsInput = {
@@ -18613,6 +20349,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deliveryTime: Date | string
     delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInput
+    SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierCreateOrConnectWithoutProductsInput = {
@@ -18752,6 +20489,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     delivery?: DeliveryUpdateManyWithoutSupplierNestedInput
+    SupplierInvoice?: SupplierInvoiceUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierUncheckedUpdateWithoutProductsInput = {
@@ -18764,6 +20502,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
+    SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type StockMovementUpsertWithWhereUniqueWithoutProductInput = {
@@ -19734,6 +21473,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SupplierInvoiceCreateWithoutSupplierInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SupplierInvoiceUncheckedCreateWithoutSupplierInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SupplierInvoiceCreateOrConnectWithoutSupplierInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    create: XOR<SupplierInvoiceCreateWithoutSupplierInput, SupplierInvoiceUncheckedCreateWithoutSupplierInput>
+  }
+
+  export type SupplierInvoiceCreateManySupplierInputEnvelope = {
+    data: SupplierInvoiceCreateManySupplierInput | SupplierInvoiceCreateManySupplierInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DeliveryUpsertWithWhereUniqueWithoutSupplierInput = {
     where: DeliveryWhereUniqueInput
     update: XOR<DeliveryUpdateWithoutSupplierInput, DeliveryUncheckedUpdateWithoutSupplierInput>
@@ -19782,6 +21555,106 @@ export namespace Prisma {
     minimumStock?: IntNullableFilter<"Product"> | number | null
     expirationDate?: DateTimeNullableFilter<"Product"> | Date | string | null
     usageStatus?: EnumUsageStatusFilter<"Product"> | $Enums.UsageStatus
+  }
+
+  export type SupplierInvoiceUpsertWithWhereUniqueWithoutSupplierInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    update: XOR<SupplierInvoiceUpdateWithoutSupplierInput, SupplierInvoiceUncheckedUpdateWithoutSupplierInput>
+    create: XOR<SupplierInvoiceCreateWithoutSupplierInput, SupplierInvoiceUncheckedCreateWithoutSupplierInput>
+  }
+
+  export type SupplierInvoiceUpdateWithWhereUniqueWithoutSupplierInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    data: XOR<SupplierInvoiceUpdateWithoutSupplierInput, SupplierInvoiceUncheckedUpdateWithoutSupplierInput>
+  }
+
+  export type SupplierInvoiceUpdateManyWithWhereWithoutSupplierInput = {
+    where: SupplierInvoiceScalarWhereInput
+    data: XOR<SupplierInvoiceUpdateManyMutationInput, SupplierInvoiceUncheckedUpdateManyWithoutSupplierInput>
+  }
+
+  export type SupplierInvoiceScalarWhereInput = {
+    AND?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
+    OR?: SupplierInvoiceScalarWhereInput[]
+    NOT?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
+    id?: StringFilter<"SupplierInvoice"> | string
+    supplierId?: StringFilter<"SupplierInvoice"> | string
+    title?: StringFilter<"SupplierInvoice"> | string
+    description?: StringFilter<"SupplierInvoice"> | string
+    amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    createAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+  }
+
+  export type SupplierCreateWithoutSupplierInvoiceInput = {
+    id?: string
+    name: string
+    email: string
+    contactPhone: string
+    description: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deliveryTime: Date | string
+    delivery?: DeliveryCreateNestedManyWithoutSupplierInput
+    products?: ProductCreateNestedManyWithoutSupplierInput
+  }
+
+  export type SupplierUncheckedCreateWithoutSupplierInvoiceInput = {
+    id?: string
+    name: string
+    email: string
+    contactPhone: string
+    description: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deliveryTime: Date | string
+    delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInput
+    products?: ProductUncheckedCreateNestedManyWithoutSupplierInput
+  }
+
+  export type SupplierCreateOrConnectWithoutSupplierInvoiceInput = {
+    where: SupplierWhereUniqueInput
+    create: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
+  }
+
+  export type SupplierUpsertWithoutSupplierInvoiceInput = {
+    update: XOR<SupplierUpdateWithoutSupplierInvoiceInput, SupplierUncheckedUpdateWithoutSupplierInvoiceInput>
+    create: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
+    where?: SupplierWhereInput
+  }
+
+  export type SupplierUpdateToOneWithWhereWithoutSupplierInvoiceInput = {
+    where?: SupplierWhereInput
+    data: XOR<SupplierUpdateWithoutSupplierInvoiceInput, SupplierUncheckedUpdateWithoutSupplierInvoiceInput>
+  }
+
+  export type SupplierUpdateWithoutSupplierInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    delivery?: DeliveryUpdateManyWithoutSupplierNestedInput
+    products?: ProductUpdateManyWithoutSupplierNestedInput
+  }
+
+  export type SupplierUncheckedUpdateWithoutSupplierInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
+    products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type UserCreateWithoutAuditLogInput = {
@@ -19977,6 +21850,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deliveryTime: Date | string
     products?: ProductCreateNestedManyWithoutSupplierInput
+    SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUncheckedCreateWithoutDeliveryInput = {
@@ -19989,6 +21863,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deliveryTime: Date | string
     products?: ProductUncheckedCreateNestedManyWithoutSupplierInput
+    SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierCreateOrConnectWithoutDeliveryInput = {
@@ -20062,6 +21937,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     products?: ProductUpdateManyWithoutSupplierNestedInput
+    SupplierInvoice?: SupplierInvoiceUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierUncheckedUpdateWithoutDeliveryInput = {
@@ -20074,6 +21950,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
     products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
+    SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type DeliveryCreateManyProductInput = {
@@ -20456,6 +22333,18 @@ export namespace Prisma {
     usageStatus?: $Enums.UsageStatus
   }
 
+  export type SupplierInvoiceCreateManySupplierInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type DeliveryUpdateWithoutSupplierInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -20532,6 +22421,42 @@ export namespace Prisma {
     minimumStock?: NullableIntFieldUpdateOperationsInput | number | null
     expirationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usageStatus?: EnumUsageStatusFieldUpdateOperationsInput | $Enums.UsageStatus
+  }
+
+  export type SupplierInvoiceUpdateWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupplierInvoiceUncheckedUpdateWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupplierInvoiceUncheckedUpdateManyWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProductCreateManyCategoryInput = {

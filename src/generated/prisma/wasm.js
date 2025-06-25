@@ -213,6 +213,19 @@ exports.Prisma.SupplierScalarFieldEnum = {
   deliveryTime: 'deliveryTime'
 };
 
+exports.Prisma.SupplierInvoiceScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  title: 'title',
+  description: 'description',
+  amount: 'amount',
+  dueDate: 'dueDate',
+  status: 'status',
+  fileUrl: 'fileUrl',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AuditLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -278,6 +291,13 @@ exports.MovementStatus = exports.$Enums.MovementStatus = {
   CANCELED: 'CANCELED'
 };
 
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE',
+  CANCELED: 'CANCELED'
+};
+
 exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
@@ -294,6 +314,7 @@ exports.Prisma.ModelName = {
   WarehouseProduct: 'WarehouseProduct',
   StockMovement: 'StockMovement',
   Supplier: 'Supplier',
+  SupplierInvoice: 'SupplierInvoice',
   AuditLog: 'AuditLog',
   Category: 'Category',
   Delivery: 'Delivery'
