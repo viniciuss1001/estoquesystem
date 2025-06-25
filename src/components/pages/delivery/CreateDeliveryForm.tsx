@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import api from "@/lib/axios"
 import { Product, SupplierInvoice, Warehouse } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -32,7 +32,7 @@ const CreateDeliveryForm = () => {
 	const [open, setOpen] = useState(false)
 
 	const router = useRouter()
-
+	const queryClient = useQueryClient()
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -68,6 +68,22 @@ const CreateDeliveryForm = () => {
 		}
 	})
 
+	const createDelivery = useMutation({
+		mutationFn: async (data: FormValues) => {
+			await api.post("/delivery", data)
+		},
+		onSuccess: () => {
+			toast.success('Movimentação registrada com sucesso.')
+			router.refresh()
+			form.reset()
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['deliveries'] })
+		},
+		onError: () => {
+			toast.error("Erro ao registrar entrega")
+		}
+	})
+
 	const watchProductId = form.watch("productId")
 	const selectedProduct = products.find((p: Product) => p.id === watchProductId)
 
@@ -80,17 +96,7 @@ const CreateDeliveryForm = () => {
 	}, [watchProductId])
 
 	const onSubmit = async (data: FormValues) => {
-		try {
-			await api.post("/delivery", data)
-			toast.success("Entraga criada com sucesso.")
-			form.reset()
-			setOpen(false)
-			router.refresh()
-
-		} catch (error) {
-			toast.error("Erro ao criar entrega")
-			console.log(error)
-		}
+		createDelivery.mutate(data)
 	}
 
 	return (
@@ -211,8 +217,7 @@ const CreateDeliveryForm = () => {
 											<SelectContent>
 												{invoices.map((invoice) => (
 													<SelectItem key={invoice.id} value={invoice.id}>
-														{invoice.title} 
-														
+														{invoice.title}
 													</SelectItem>
 												))}
 											</SelectContent>

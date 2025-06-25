@@ -10599,7 +10599,7 @@ export namespace Prisma {
     description: string
     createdAt: Date
     updatedAt: Date
-    deliveryTime: Date
+    deliveryTime: Date | null
     _count: SupplierCountAggregateOutputType | null
     _min: SupplierMinAggregateOutputType | null
     _max: SupplierMaxAggregateOutputType | null
@@ -10692,7 +10692,7 @@ export namespace Prisma {
       description: string
       createdAt: Date
       updatedAt: Date
-      deliveryTime: Date
+      deliveryTime: Date | null
     }, ExtArgs["result"]["supplier"]>
     composites: {}
   }
@@ -14963,7 +14963,7 @@ export namespace Prisma {
     status: $Enums.DeliveryStatus | null
     createdAt: Date | null
     warehouseId: string | null
-    invoiceId: string | null
+    supplierInvoiceId: string | null
   }
 
   export type DeliveryMaxAggregateOutputType = {
@@ -14976,7 +14976,7 @@ export namespace Prisma {
     status: $Enums.DeliveryStatus | null
     createdAt: Date | null
     warehouseId: string | null
-    invoiceId: string | null
+    supplierInvoiceId: string | null
   }
 
   export type DeliveryCountAggregateOutputType = {
@@ -14989,7 +14989,7 @@ export namespace Prisma {
     status: number
     createdAt: number
     warehouseId: number
-    invoiceId: number
+    supplierInvoiceId: number
     _all: number
   }
 
@@ -15012,7 +15012,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     warehouseId?: true
-    invoiceId?: true
+    supplierInvoiceId?: true
   }
 
   export type DeliveryMaxAggregateInputType = {
@@ -15025,7 +15025,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     warehouseId?: true
-    invoiceId?: true
+    supplierInvoiceId?: true
   }
 
   export type DeliveryCountAggregateInputType = {
@@ -15038,7 +15038,7 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     warehouseId?: true
-    invoiceId?: true
+    supplierInvoiceId?: true
     _all?: true
   }
 
@@ -15138,7 +15138,7 @@ export namespace Prisma {
     status: $Enums.DeliveryStatus
     createdAt: Date
     warehouseId: string
-    invoiceId: string | null
+    supplierInvoiceId: string | null
     _count: DeliveryCountAggregateOutputType | null
     _avg: DeliveryAvgAggregateOutputType | null
     _sum: DeliverySumAggregateOutputType | null
@@ -15170,11 +15170,11 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     warehouseId?: boolean
-    invoiceId?: boolean
+    supplierInvoiceId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
-    invoice?: boolean | Delivery$invoiceArgs<ExtArgs>
+    supplierInvoice?: boolean | Delivery$supplierInvoiceArgs<ExtArgs>
   }, ExtArgs["result"]["delivery"]>
 
   export type DeliverySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15187,11 +15187,11 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     warehouseId?: boolean
-    invoiceId?: boolean
+    supplierInvoiceId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
-    invoice?: boolean | Delivery$invoiceArgs<ExtArgs>
+    supplierInvoice?: boolean | Delivery$supplierInvoiceArgs<ExtArgs>
   }, ExtArgs["result"]["delivery"]>
 
   export type DeliverySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15204,11 +15204,11 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     warehouseId?: boolean
-    invoiceId?: boolean
+    supplierInvoiceId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
-    invoice?: boolean | Delivery$invoiceArgs<ExtArgs>
+    supplierInvoice?: boolean | Delivery$supplierInvoiceArgs<ExtArgs>
   }, ExtArgs["result"]["delivery"]>
 
   export type DeliverySelectScalar = {
@@ -15221,27 +15221,27 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     warehouseId?: boolean
-    invoiceId?: boolean
+    supplierInvoiceId?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "supplierId" | "quantity" | "expectedAt" | "updatedAt" | "status" | "createdAt" | "warehouseId" | "invoiceId", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "supplierId" | "quantity" | "expectedAt" | "updatedAt" | "status" | "createdAt" | "warehouseId" | "supplierInvoiceId", ExtArgs["result"]["delivery"]>
   export type DeliveryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
-    invoice?: boolean | Delivery$invoiceArgs<ExtArgs>
+    supplierInvoice?: boolean | Delivery$supplierInvoiceArgs<ExtArgs>
   }
   export type DeliveryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
-    invoice?: boolean | Delivery$invoiceArgs<ExtArgs>
+    supplierInvoice?: boolean | Delivery$supplierInvoiceArgs<ExtArgs>
   }
   export type DeliveryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
-    invoice?: boolean | Delivery$invoiceArgs<ExtArgs>
+    supplierInvoice?: boolean | Delivery$supplierInvoiceArgs<ExtArgs>
   }
 
   export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15250,7 +15250,7 @@ export namespace Prisma {
       product: Prisma.$ProductPayload<ExtArgs>
       supplier: Prisma.$SupplierPayload<ExtArgs>
       warehouse: Prisma.$WareHousePayload<ExtArgs>
-      invoice: Prisma.$SupplierInvoicePayload<ExtArgs> | null
+      supplierInvoice: Prisma.$SupplierInvoicePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15262,7 +15262,7 @@ export namespace Prisma {
       status: $Enums.DeliveryStatus
       createdAt: Date
       warehouseId: string
-      invoiceId: string | null
+      supplierInvoiceId: string | null
     }, ExtArgs["result"]["delivery"]>
     composites: {}
   }
@@ -15660,7 +15660,7 @@ export namespace Prisma {
     product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     supplier<T extends SupplierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SupplierDefaultArgs<ExtArgs>>): Prisma__SupplierClient<$Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     warehouse<T extends WareHouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WareHouseDefaultArgs<ExtArgs>>): Prisma__WareHouseClient<$Result.GetResult<Prisma.$WareHousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    invoice<T extends Delivery$invoiceArgs<ExtArgs> = {}>(args?: Subset<T, Delivery$invoiceArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    supplierInvoice<T extends Delivery$supplierInvoiceArgs<ExtArgs> = {}>(args?: Subset<T, Delivery$supplierInvoiceArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15699,7 +15699,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Delivery", 'DeliveryStatus'>
     readonly createdAt: FieldRef<"Delivery", 'DateTime'>
     readonly warehouseId: FieldRef<"Delivery", 'String'>
-    readonly invoiceId: FieldRef<"Delivery", 'String'>
+    readonly supplierInvoiceId: FieldRef<"Delivery", 'String'>
   }
     
 
@@ -16096,9 +16096,9 @@ export namespace Prisma {
   }
 
   /**
-   * Delivery.invoice
+   * Delivery.supplierInvoice
    */
-  export type Delivery$invoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Delivery$supplierInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SupplierInvoice
      */
@@ -16313,7 +16313,7 @@ export namespace Prisma {
     status: 'status',
     createdAt: 'createdAt',
     warehouseId: 'warehouseId',
-    invoiceId: 'invoiceId'
+    supplierInvoiceId: 'supplierInvoiceId'
   };
 
   export type DeliveryScalarFieldEnum = (typeof DeliveryScalarFieldEnum)[keyof typeof DeliveryScalarFieldEnum]
@@ -17075,7 +17075,7 @@ export namespace Prisma {
     description?: StringFilter<"Supplier"> | string
     createdAt?: DateTimeFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeFilter<"Supplier"> | Date | string
-    deliveryTime?: DateTimeFilter<"Supplier"> | Date | string
+    deliveryTime?: DateTimeNullableFilter<"Supplier"> | Date | string | null
     delivery?: DeliveryListRelationFilter
     products?: ProductListRelationFilter
     SupplierInvoice?: SupplierInvoiceListRelationFilter
@@ -17089,7 +17089,7 @@ export namespace Prisma {
     description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deliveryTime?: SortOrder
+    deliveryTime?: SortOrderInput | SortOrder
     delivery?: DeliveryOrderByRelationAggregateInput
     products?: ProductOrderByRelationAggregateInput
     SupplierInvoice?: SupplierInvoiceOrderByRelationAggregateInput
@@ -17106,7 +17106,7 @@ export namespace Prisma {
     description?: StringFilter<"Supplier"> | string
     createdAt?: DateTimeFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeFilter<"Supplier"> | Date | string
-    deliveryTime?: DateTimeFilter<"Supplier"> | Date | string
+    deliveryTime?: DateTimeNullableFilter<"Supplier"> | Date | string | null
     delivery?: DeliveryListRelationFilter
     products?: ProductListRelationFilter
     SupplierInvoice?: SupplierInvoiceListRelationFilter
@@ -17120,7 +17120,7 @@ export namespace Prisma {
     description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deliveryTime?: SortOrder
+    deliveryTime?: SortOrderInput | SortOrder
     _count?: SupplierCountOrderByAggregateInput
     _max?: SupplierMaxOrderByAggregateInput
     _min?: SupplierMinOrderByAggregateInput
@@ -17137,7 +17137,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Supplier"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
-    deliveryTime?: DateTimeWithAggregatesFilter<"Supplier"> | Date | string
+    deliveryTime?: DateTimeNullableWithAggregatesFilter<"Supplier"> | Date | string | null
   }
 
   export type SupplierInvoiceWhereInput = {
@@ -17353,11 +17353,11 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
     warehouseId?: StringFilter<"Delivery"> | string
-    invoiceId?: StringNullableFilter<"Delivery"> | string | null
+    supplierInvoiceId?: StringNullableFilter<"Delivery"> | string | null
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
     warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
-    invoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
+    supplierInvoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
   }
 
   export type DeliveryOrderByWithRelationInput = {
@@ -17370,11 +17370,11 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     warehouseId?: SortOrder
-    invoiceId?: SortOrderInput | SortOrder
+    supplierInvoiceId?: SortOrderInput | SortOrder
     product?: ProductOrderByWithRelationInput
     supplier?: SupplierOrderByWithRelationInput
     warehouse?: WareHouseOrderByWithRelationInput
-    invoice?: SupplierInvoiceOrderByWithRelationInput
+    supplierInvoice?: SupplierInvoiceOrderByWithRelationInput
   }
 
   export type DeliveryWhereUniqueInput = Prisma.AtLeast<{
@@ -17390,11 +17390,11 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
     warehouseId?: StringFilter<"Delivery"> | string
-    invoiceId?: StringNullableFilter<"Delivery"> | string | null
+    supplierInvoiceId?: StringNullableFilter<"Delivery"> | string | null
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
     warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
-    invoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
+    supplierInvoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
   }, "id">
 
   export type DeliveryOrderByWithAggregationInput = {
@@ -17407,7 +17407,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     warehouseId?: SortOrder
-    invoiceId?: SortOrderInput | SortOrder
+    supplierInvoiceId?: SortOrderInput | SortOrder
     _count?: DeliveryCountOrderByAggregateInput
     _avg?: DeliveryAvgOrderByAggregateInput
     _max?: DeliveryMaxOrderByAggregateInput
@@ -17428,7 +17428,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusWithAggregatesFilter<"Delivery"> | $Enums.DeliveryStatus
     createdAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
     warehouseId?: StringWithAggregatesFilter<"Delivery"> | string
-    invoiceId?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    supplierInvoiceId?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
   }
 
   export type ProductCreateInput = {
@@ -18044,7 +18044,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     delivery?: DeliveryCreateNestedManyWithoutSupplierInput
     products?: ProductCreateNestedManyWithoutSupplierInput
     SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutSupplierInput
@@ -18058,7 +18058,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInput
     products?: ProductUncheckedCreateNestedManyWithoutSupplierInput
     SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput
@@ -18072,7 +18072,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUpdateManyWithoutSupplierNestedInput
     products?: ProductUpdateManyWithoutSupplierNestedInput
     SupplierInvoice?: SupplierInvoiceUpdateManyWithoutSupplierNestedInput
@@ -18086,7 +18086,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
     products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
     SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput
@@ -18100,7 +18100,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
   }
 
   export type SupplierUpdateManyMutationInput = {
@@ -18111,7 +18111,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SupplierUncheckedUpdateManyInput = {
@@ -18122,7 +18122,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SupplierInvoiceCreateInput = {
@@ -18136,7 +18136,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
-    Delivery?: DeliveryCreateNestedManyWithoutInvoiceInput
+    Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateInput = {
@@ -18150,7 +18150,7 @@ export namespace Prisma {
     fileUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Delivery?: DeliveryUncheckedCreateNestedManyWithoutInvoiceInput
+    Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
   }
 
   export type SupplierInvoiceUpdateInput = {
@@ -18164,7 +18164,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
-    Delivery?: DeliveryUpdateManyWithoutInvoiceNestedInput
+    Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateInput = {
@@ -18178,7 +18178,7 @@ export namespace Prisma {
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Delivery?: DeliveryUncheckedUpdateManyWithoutInvoiceNestedInput
+    Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
   }
 
   export type SupplierInvoiceCreateManyInput = {
@@ -18351,7 +18351,7 @@ export namespace Prisma {
     product: ProductCreateNestedOneWithoutDeliveryInput
     supplier: SupplierCreateNestedOneWithoutDeliveryInput
     warehouse: WareHouseCreateNestedOneWithoutDeliveryInput
-    invoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
+    supplierInvoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
   }
 
   export type DeliveryUncheckedCreateInput = {
@@ -18364,7 +18364,7 @@ export namespace Prisma {
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
     warehouseId: string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type DeliveryUpdateInput = {
@@ -18377,7 +18377,7 @@ export namespace Prisma {
     product?: ProductUpdateOneRequiredWithoutDeliveryNestedInput
     supplier?: SupplierUpdateOneRequiredWithoutDeliveryNestedInput
     warehouse?: WareHouseUpdateOneRequiredWithoutDeliveryNestedInput
-    invoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
+    supplierInvoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
   }
 
   export type DeliveryUncheckedUpdateInput = {
@@ -18390,7 +18390,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseId?: StringFieldUpdateOperationsInput | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DeliveryCreateManyInput = {
@@ -18403,7 +18403,7 @@ export namespace Prisma {
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
     warehouseId: string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type DeliveryUpdateManyMutationInput = {
@@ -18425,7 +18425,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseId?: StringFieldUpdateOperationsInput | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -19303,7 +19303,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     warehouseId?: SortOrder
-    invoiceId?: SortOrder
+    supplierInvoiceId?: SortOrder
   }
 
   export type DeliveryAvgOrderByAggregateInput = {
@@ -19320,7 +19320,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     warehouseId?: SortOrder
-    invoiceId?: SortOrder
+    supplierInvoiceId?: SortOrder
   }
 
   export type DeliveryMinOrderByAggregateInput = {
@@ -19333,7 +19333,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     warehouseId?: SortOrder
-    invoiceId?: SortOrder
+    supplierInvoiceId?: SortOrder
   }
 
   export type DeliverySumOrderByAggregateInput = {
@@ -20092,17 +20092,17 @@ export namespace Prisma {
     connect?: SupplierWhereUniqueInput
   }
 
-  export type DeliveryCreateNestedManyWithoutInvoiceInput = {
-    create?: XOR<DeliveryCreateWithoutInvoiceInput, DeliveryUncheckedCreateWithoutInvoiceInput> | DeliveryCreateWithoutInvoiceInput[] | DeliveryUncheckedCreateWithoutInvoiceInput[]
-    connectOrCreate?: DeliveryCreateOrConnectWithoutInvoiceInput | DeliveryCreateOrConnectWithoutInvoiceInput[]
-    createMany?: DeliveryCreateManyInvoiceInputEnvelope
+  export type DeliveryCreateNestedManyWithoutSupplierInvoiceInput = {
+    create?: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput> | DeliveryCreateWithoutSupplierInvoiceInput[] | DeliveryUncheckedCreateWithoutSupplierInvoiceInput[]
+    connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInvoiceInput | DeliveryCreateOrConnectWithoutSupplierInvoiceInput[]
+    createMany?: DeliveryCreateManySupplierInvoiceInputEnvelope
     connect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
   }
 
-  export type DeliveryUncheckedCreateNestedManyWithoutInvoiceInput = {
-    create?: XOR<DeliveryCreateWithoutInvoiceInput, DeliveryUncheckedCreateWithoutInvoiceInput> | DeliveryCreateWithoutInvoiceInput[] | DeliveryUncheckedCreateWithoutInvoiceInput[]
-    connectOrCreate?: DeliveryCreateOrConnectWithoutInvoiceInput | DeliveryCreateOrConnectWithoutInvoiceInput[]
-    createMany?: DeliveryCreateManyInvoiceInputEnvelope
+  export type DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput = {
+    create?: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput> | DeliveryCreateWithoutSupplierInvoiceInput[] | DeliveryUncheckedCreateWithoutSupplierInvoiceInput[]
+    connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInvoiceInput | DeliveryCreateOrConnectWithoutSupplierInvoiceInput[]
+    createMany?: DeliveryCreateManySupplierInvoiceInputEnvelope
     connect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
   }
 
@@ -20126,31 +20126,31 @@ export namespace Prisma {
     update?: XOR<XOR<SupplierUpdateToOneWithWhereWithoutSupplierInvoiceInput, SupplierUpdateWithoutSupplierInvoiceInput>, SupplierUncheckedUpdateWithoutSupplierInvoiceInput>
   }
 
-  export type DeliveryUpdateManyWithoutInvoiceNestedInput = {
-    create?: XOR<DeliveryCreateWithoutInvoiceInput, DeliveryUncheckedCreateWithoutInvoiceInput> | DeliveryCreateWithoutInvoiceInput[] | DeliveryUncheckedCreateWithoutInvoiceInput[]
-    connectOrCreate?: DeliveryCreateOrConnectWithoutInvoiceInput | DeliveryCreateOrConnectWithoutInvoiceInput[]
-    upsert?: DeliveryUpsertWithWhereUniqueWithoutInvoiceInput | DeliveryUpsertWithWhereUniqueWithoutInvoiceInput[]
-    createMany?: DeliveryCreateManyInvoiceInputEnvelope
+  export type DeliveryUpdateManyWithoutSupplierInvoiceNestedInput = {
+    create?: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput> | DeliveryCreateWithoutSupplierInvoiceInput[] | DeliveryUncheckedCreateWithoutSupplierInvoiceInput[]
+    connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInvoiceInput | DeliveryCreateOrConnectWithoutSupplierInvoiceInput[]
+    upsert?: DeliveryUpsertWithWhereUniqueWithoutSupplierInvoiceInput | DeliveryUpsertWithWhereUniqueWithoutSupplierInvoiceInput[]
+    createMany?: DeliveryCreateManySupplierInvoiceInputEnvelope
     set?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
     disconnect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
     delete?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
     connect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
-    update?: DeliveryUpdateWithWhereUniqueWithoutInvoiceInput | DeliveryUpdateWithWhereUniqueWithoutInvoiceInput[]
-    updateMany?: DeliveryUpdateManyWithWhereWithoutInvoiceInput | DeliveryUpdateManyWithWhereWithoutInvoiceInput[]
+    update?: DeliveryUpdateWithWhereUniqueWithoutSupplierInvoiceInput | DeliveryUpdateWithWhereUniqueWithoutSupplierInvoiceInput[]
+    updateMany?: DeliveryUpdateManyWithWhereWithoutSupplierInvoiceInput | DeliveryUpdateManyWithWhereWithoutSupplierInvoiceInput[]
     deleteMany?: DeliveryScalarWhereInput | DeliveryScalarWhereInput[]
   }
 
-  export type DeliveryUncheckedUpdateManyWithoutInvoiceNestedInput = {
-    create?: XOR<DeliveryCreateWithoutInvoiceInput, DeliveryUncheckedCreateWithoutInvoiceInput> | DeliveryCreateWithoutInvoiceInput[] | DeliveryUncheckedCreateWithoutInvoiceInput[]
-    connectOrCreate?: DeliveryCreateOrConnectWithoutInvoiceInput | DeliveryCreateOrConnectWithoutInvoiceInput[]
-    upsert?: DeliveryUpsertWithWhereUniqueWithoutInvoiceInput | DeliveryUpsertWithWhereUniqueWithoutInvoiceInput[]
-    createMany?: DeliveryCreateManyInvoiceInputEnvelope
+  export type DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput = {
+    create?: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput> | DeliveryCreateWithoutSupplierInvoiceInput[] | DeliveryUncheckedCreateWithoutSupplierInvoiceInput[]
+    connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInvoiceInput | DeliveryCreateOrConnectWithoutSupplierInvoiceInput[]
+    upsert?: DeliveryUpsertWithWhereUniqueWithoutSupplierInvoiceInput | DeliveryUpsertWithWhereUniqueWithoutSupplierInvoiceInput[]
+    createMany?: DeliveryCreateManySupplierInvoiceInputEnvelope
     set?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
     disconnect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
     delete?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
     connect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
-    update?: DeliveryUpdateWithWhereUniqueWithoutInvoiceInput | DeliveryUpdateWithWhereUniqueWithoutInvoiceInput[]
-    updateMany?: DeliveryUpdateManyWithWhereWithoutInvoiceInput | DeliveryUpdateManyWithWhereWithoutInvoiceInput[]
+    update?: DeliveryUpdateWithWhereUniqueWithoutSupplierInvoiceInput | DeliveryUpdateWithWhereUniqueWithoutSupplierInvoiceInput[]
+    updateMany?: DeliveryUpdateManyWithWhereWithoutSupplierInvoiceInput | DeliveryUpdateManyWithWhereWithoutSupplierInvoiceInput[]
     deleteMany?: DeliveryScalarWhereInput | DeliveryScalarWhereInput[]
   }
 
@@ -20614,7 +20614,7 @@ export namespace Prisma {
     createdAt?: Date | string
     supplier: SupplierCreateNestedOneWithoutDeliveryInput
     warehouse: WareHouseCreateNestedOneWithoutDeliveryInput
-    invoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
+    supplierInvoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
   }
 
   export type DeliveryUncheckedCreateWithoutProductInput = {
@@ -20626,7 +20626,7 @@ export namespace Prisma {
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
     warehouseId: string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type DeliveryCreateOrConnectWithoutProductInput = {
@@ -20666,7 +20666,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     delivery?: DeliveryCreateNestedManyWithoutSupplierInput
     SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutSupplierInput
   }
@@ -20679,7 +20679,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInput
     SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput
   }
@@ -20774,7 +20774,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
     warehouseId?: StringFilter<"Delivery"> | string
-    invoiceId?: StringNullableFilter<"Delivery"> | string | null
+    supplierInvoiceId?: StringNullableFilter<"Delivery"> | string | null
   }
 
   export type CategoryUpsertWithoutProductsInput = {
@@ -20821,7 +20821,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUpdateManyWithoutSupplierNestedInput
     SupplierInvoice?: SupplierInvoiceUpdateManyWithoutSupplierNestedInput
   }
@@ -20834,7 +20834,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
     SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput
   }
@@ -21346,7 +21346,7 @@ export namespace Prisma {
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutDeliveryInput
     supplier: SupplierCreateNestedOneWithoutDeliveryInput
-    invoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
+    supplierInvoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
   }
 
   export type DeliveryUncheckedCreateWithoutWarehouseInput = {
@@ -21358,7 +21358,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type DeliveryCreateOrConnectWithoutWarehouseInput = {
@@ -21804,7 +21804,7 @@ export namespace Prisma {
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutDeliveryInput
     warehouse: WareHouseCreateNestedOneWithoutDeliveryInput
-    invoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
+    supplierInvoice?: SupplierInvoiceCreateNestedOneWithoutDeliveryInput
   }
 
   export type DeliveryUncheckedCreateWithoutSupplierInput = {
@@ -21816,7 +21816,7 @@ export namespace Prisma {
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
     warehouseId: string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type DeliveryCreateOrConnectWithoutSupplierInput = {
@@ -21883,7 +21883,7 @@ export namespace Prisma {
     fileUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Delivery?: DeliveryCreateNestedManyWithoutInvoiceInput
+    Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateWithoutSupplierInput = {
@@ -21896,7 +21896,7 @@ export namespace Prisma {
     fileUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Delivery?: DeliveryUncheckedCreateNestedManyWithoutInvoiceInput
+    Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
   }
 
   export type SupplierInvoiceCreateOrConnectWithoutSupplierInput = {
@@ -21999,7 +21999,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     delivery?: DeliveryCreateNestedManyWithoutSupplierInput
     products?: ProductCreateNestedManyWithoutSupplierInput
   }
@@ -22012,7 +22012,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInput
     products?: ProductUncheckedCreateNestedManyWithoutSupplierInput
   }
@@ -22022,7 +22022,7 @@ export namespace Prisma {
     create: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
   }
 
-  export type DeliveryCreateWithoutInvoiceInput = {
+  export type DeliveryCreateWithoutSupplierInvoiceInput = {
     id?: string
     quantity: number
     expectedAt: Date | string
@@ -22034,7 +22034,7 @@ export namespace Prisma {
     warehouse: WareHouseCreateNestedOneWithoutDeliveryInput
   }
 
-  export type DeliveryUncheckedCreateWithoutInvoiceInput = {
+  export type DeliveryUncheckedCreateWithoutSupplierInvoiceInput = {
     id?: string
     productId: string
     supplierId: string
@@ -22046,13 +22046,13 @@ export namespace Prisma {
     warehouseId: string
   }
 
-  export type DeliveryCreateOrConnectWithoutInvoiceInput = {
+  export type DeliveryCreateOrConnectWithoutSupplierInvoiceInput = {
     where: DeliveryWhereUniqueInput
-    create: XOR<DeliveryCreateWithoutInvoiceInput, DeliveryUncheckedCreateWithoutInvoiceInput>
+    create: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput>
   }
 
-  export type DeliveryCreateManyInvoiceInputEnvelope = {
-    data: DeliveryCreateManyInvoiceInput | DeliveryCreateManyInvoiceInput[]
+  export type DeliveryCreateManySupplierInvoiceInputEnvelope = {
+    data: DeliveryCreateManySupplierInvoiceInput | DeliveryCreateManySupplierInvoiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -22075,7 +22075,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUpdateManyWithoutSupplierNestedInput
     products?: ProductUpdateManyWithoutSupplierNestedInput
   }
@@ -22088,25 +22088,25 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
     products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
-  export type DeliveryUpsertWithWhereUniqueWithoutInvoiceInput = {
+  export type DeliveryUpsertWithWhereUniqueWithoutSupplierInvoiceInput = {
     where: DeliveryWhereUniqueInput
-    update: XOR<DeliveryUpdateWithoutInvoiceInput, DeliveryUncheckedUpdateWithoutInvoiceInput>
-    create: XOR<DeliveryCreateWithoutInvoiceInput, DeliveryUncheckedCreateWithoutInvoiceInput>
+    update: XOR<DeliveryUpdateWithoutSupplierInvoiceInput, DeliveryUncheckedUpdateWithoutSupplierInvoiceInput>
+    create: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput>
   }
 
-  export type DeliveryUpdateWithWhereUniqueWithoutInvoiceInput = {
+  export type DeliveryUpdateWithWhereUniqueWithoutSupplierInvoiceInput = {
     where: DeliveryWhereUniqueInput
-    data: XOR<DeliveryUpdateWithoutInvoiceInput, DeliveryUncheckedUpdateWithoutInvoiceInput>
+    data: XOR<DeliveryUpdateWithoutSupplierInvoiceInput, DeliveryUncheckedUpdateWithoutSupplierInvoiceInput>
   }
 
-  export type DeliveryUpdateManyWithWhereWithoutInvoiceInput = {
+  export type DeliveryUpdateManyWithWhereWithoutSupplierInvoiceInput = {
     where: DeliveryScalarWhereInput
-    data: XOR<DeliveryUpdateManyMutationInput, DeliveryUncheckedUpdateManyWithoutInvoiceInput>
+    data: XOR<DeliveryUpdateManyMutationInput, DeliveryUncheckedUpdateManyWithoutSupplierInvoiceInput>
   }
 
   export type UserCreateWithoutAuditLogInput = {
@@ -22300,7 +22300,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     products?: ProductCreateNestedManyWithoutSupplierInput
     SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutSupplierInput
   }
@@ -22313,7 +22313,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    deliveryTime: Date | string
+    deliveryTime?: Date | string | null
     products?: ProductUncheckedCreateNestedManyWithoutSupplierInput
     SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutSupplierInput
   }
@@ -22447,7 +22447,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     products?: ProductUpdateManyWithoutSupplierNestedInput
     SupplierInvoice?: SupplierInvoiceUpdateManyWithoutSupplierNestedInput
   }
@@ -22460,7 +22460,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliveryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
     SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutSupplierNestedInput
   }
@@ -22546,7 +22546,7 @@ export namespace Prisma {
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
     warehouseId: string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type StockMovementCreateManyProductInput = {
@@ -22576,7 +22576,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutDeliveryNestedInput
     warehouse?: WareHouseUpdateOneRequiredWithoutDeliveryNestedInput
-    invoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
+    supplierInvoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
   }
 
   export type DeliveryUncheckedUpdateWithoutProductInput = {
@@ -22588,7 +22588,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseId?: StringFieldUpdateOperationsInput | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DeliveryUncheckedUpdateManyWithoutProductInput = {
@@ -22600,7 +22600,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseId?: StringFieldUpdateOperationsInput | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StockMovementUpdateWithoutProductInput = {
@@ -22817,7 +22817,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type StockMovementUpdateWithoutDestinationWarehouseInput = {
@@ -22922,7 +22922,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutDeliveryNestedInput
     supplier?: SupplierUpdateOneRequiredWithoutDeliveryNestedInput
-    invoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
+    supplierInvoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
   }
 
   export type DeliveryUncheckedUpdateWithoutWarehouseInput = {
@@ -22934,7 +22934,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DeliveryUncheckedUpdateManyWithoutWarehouseInput = {
@@ -22946,7 +22946,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DeliveryCreateManySupplierInput = {
@@ -22958,7 +22958,7 @@ export namespace Prisma {
     status?: $Enums.DeliveryStatus
     createdAt?: Date | string
     warehouseId: string
-    invoiceId?: string | null
+    supplierInvoiceId?: string | null
   }
 
   export type ProductCreateManySupplierInput = {
@@ -22996,7 +22996,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutDeliveryNestedInput
     warehouse?: WareHouseUpdateOneRequiredWithoutDeliveryNestedInput
-    invoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
+    supplierInvoice?: SupplierInvoiceUpdateOneWithoutDeliveryNestedInput
   }
 
   export type DeliveryUncheckedUpdateWithoutSupplierInput = {
@@ -23008,7 +23008,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseId?: StringFieldUpdateOperationsInput | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DeliveryUncheckedUpdateManyWithoutSupplierInput = {
@@ -23020,7 +23020,7 @@ export namespace Prisma {
     status?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseId?: StringFieldUpdateOperationsInput | string
-    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProductUpdateWithoutSupplierInput = {
@@ -23081,7 +23081,7 @@ export namespace Prisma {
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Delivery?: DeliveryUpdateManyWithoutInvoiceNestedInput
+    Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateWithoutSupplierInput = {
@@ -23094,7 +23094,7 @@ export namespace Prisma {
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Delivery?: DeliveryUncheckedUpdateManyWithoutInvoiceNestedInput
+    Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateManyWithoutSupplierInput = {
@@ -23109,7 +23109,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeliveryCreateManyInvoiceInput = {
+  export type DeliveryCreateManySupplierInvoiceInput = {
     id?: string
     productId: string
     supplierId: string
@@ -23121,7 +23121,7 @@ export namespace Prisma {
     warehouseId: string
   }
 
-  export type DeliveryUpdateWithoutInvoiceInput = {
+  export type DeliveryUpdateWithoutSupplierInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     expectedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23133,7 +23133,7 @@ export namespace Prisma {
     warehouse?: WareHouseUpdateOneRequiredWithoutDeliveryNestedInput
   }
 
-  export type DeliveryUncheckedUpdateWithoutInvoiceInput = {
+  export type DeliveryUncheckedUpdateWithoutSupplierInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     supplierId?: StringFieldUpdateOperationsInput | string
@@ -23145,7 +23145,7 @@ export namespace Prisma {
     warehouseId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DeliveryUncheckedUpdateManyWithoutInvoiceInput = {
+  export type DeliveryUncheckedUpdateManyWithoutSupplierInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     supplierId?: StringFieldUpdateOperationsInput | string

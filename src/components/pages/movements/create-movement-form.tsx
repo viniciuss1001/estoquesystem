@@ -117,28 +117,28 @@ const CreateMovementForm = () => {
 	const { data: originStock } = useWarehouseProductQuantity(productId, originWarehouseId)
 	const { data: destinationStock } = useWarehouseProductQuantity(productId, destinationWarehouseId)
 
-useEffect(() => {
-    if (watchType !== 'TRANSFER') {
-      form.setValue('originWarehouseId', '')
-      form.setValue('destinationWarehouseId', '')
-    }
-  }, [watchType, form])
+	useEffect(() => {
+		if (watchType !== 'TRANSFER') {
+			form.setValue('originWarehouseId', '')
+			form.setValue('destinationWarehouseId', '')
+		}
+	}, [watchType, form])
 
-  const createMovement = useMutation({
-	mutationFn: async (data: MovementFormType) => {
-		await api.post("/movements", data)
-	},
-	onSuccess: () => {
-		toast.success('Movimentação registrada com sucesso.')
-		router.refresh()
-		form.reset()
-		setOpen(false)
-		queryClient.invalidateQueries({queryKey: ['movements']})
-	},
-	onError: () => {
-		toast.error('Erro ao registrar movimentação')
-	}
-  })
+	const createMovement = useMutation({
+		mutationFn: async (data: MovementFormType) => {
+			await api.post("/movements", data)
+		},
+		onSuccess: () => {
+			toast.success('Movimentação registrada com sucesso.')
+			router.refresh()
+			form.reset()
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['movements'] })
+		},
+		onError: () => {
+			toast.error('Erro ao registrar movimentação')
+		}
+	})
 
 	const onSubmit = async (data: MovementFormType) => {
 		createMovement.mutate(data)
@@ -402,7 +402,7 @@ useEffect(() => {
 
 
 						<DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
-								<DialogClose className="cursor-pointer p-2 hover:bg-zinc-500/20 transition rounded-sm">
+							<DialogClose className="cursor-pointer p-2 hover:bg-zinc-500/20 transition rounded-sm">
 								Cancelar
 							</DialogClose>
 							<Button type="submit" disabled={form.formState.isSubmitting} className="w-2/3 flex justify-center p-3 cursor-pointer">

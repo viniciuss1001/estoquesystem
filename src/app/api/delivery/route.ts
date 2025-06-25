@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 				warehouse: {
 					connect: { id: body.warehouseId }
 				},
-				invoice: body.supplierInvoiceId ? {connect: {id: body.supplierInvoiceId},}: undefined
+				supplierInvoice: body.supplierInvoiceId ? { connect: { id: body.supplierInvoiceId }, } : undefined
 			}
 		})
 
@@ -56,7 +56,7 @@ export async function GET() {
 				product: true,
 				supplier: true,
 				warehouse: true,
-				invoice: true
+				supplierInvoice: true
 			}
 		})
 

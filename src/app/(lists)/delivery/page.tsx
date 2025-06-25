@@ -72,7 +72,6 @@ const DeliveryPage = () => {
 					<TableBody>
 						{deliveries.map((delivery) => (
 							<>
-							{console.log(delivery.supplierInvoice?.title)}
 								<TableRow key={delivery.id}>
 									<TableCell>{delivery.product.name}</TableCell>
 									<TableCell>{delivery.supplier.name}</TableCell>

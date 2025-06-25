@@ -14,7 +14,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			include: {
 				product: true,
 				supplier: true,
-				invoice: true,
+				supplierInvoice: true,
 				warehouse: true
 			}
 		})
@@ -49,7 +49,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 			where: { id },
 			include: {
 				product: true,
-				invoice: true,
+				supplierInvoice: true,
 				supplier: true,
 				warehouse: true
 			}
@@ -64,7 +64,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 				product: productId ? { connect: { id: productId } } : undefined,
 				supplier: supplierId ? { connect: { id: supplierId } } : undefined,
 				warehouse: body.warehouseId ? { connect: { id: body.warehouseId } } : undefined,
-				invoice: body.invoiceId ? { connect: { id: body.invoiceId } } : undefined,
+				supplierInvoice: body.supplierInvoiceId ? { connect: { id: body.supplierInvoiceId }, } : undefined
 			},
 		})
 
@@ -161,6 +161,8 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
 			entityId: id,
 			description: `Entrega excluida`
 		})
+
+		return NextResponse.json({ message: "Entrega excluída com sucesso!" })
 
 	} catch (error) {
 		console.log(error)

@@ -253,7 +253,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   warehouseId: 'warehouseId',
-  invoiceId: 'invoiceId'
+  supplierInvoiceId: 'supplierInvoiceId'
 };
 
 exports.Prisma.SortOrder = {

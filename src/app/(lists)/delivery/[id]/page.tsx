@@ -126,10 +126,10 @@ const DeliveryPage = () => {
               <p>
                 <span className="font-semibold">Boleto:</span>{" "}
                 <Link
-                  href={`/invoices/${delivery.supplierInvoice.id}`}
+                  href={`/supplier-invoice/${delivery.supplierInvoice.id}`}
                   className="text-blue-600 underline"
                 >
-                  {delivery.supplierInvoice.title} - R$ {delivery.supplierInvoice.amount.toFixed(2)}
+                  {delivery.supplierInvoice.title}
                 </Link>
               </p>
             ) : (
