@@ -22,7 +22,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			return NextResponse.json({ error: "Entrega não encontrada." })
 		}
 
-		return NextResponse.json({delivery})
+		return NextResponse.json({ delivery })
 
 	} catch (error) {
 		console.error(error)
@@ -59,6 +59,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 				status,
 				product: productId ? { connect: { id: productId } } : undefined,
 				supplier: supplierId ? { connect: { id: supplierId } } : undefined,
+				warehouse: body.warehouseId ? { connect: { id: body.warehouseId } } : undefined,
+				invoice: body.invoiceId ? { connect: { id: body.invoiceId } } : undefined,
 			},
 		})
 
@@ -69,28 +71,49 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		// verify if product is the same
 		const sameProduct = existingDelivery?.productId === productId
 
-		if (productId && quantity && sameProduct) {
-			// other -> completed => increment
+		if (productId && quantity && sameProduct && body.warehouseId) {
+			// other -> completed => increment global e no armazém
 			if (!wasCompleted && isNowCompleted) {
 				await prisma.product.update({
 					where: { id: productId },
-					data: {
-						quantity: {
-							increment: body.quantity
-						}
-					}
+					data: { quantity: { increment: quantity } },
+				})
+
+				await prisma.warehouseProduct.upsert({
+					where: {
+						warehouseId_productId: {
+							warehouseId: body.warehouseId,
+							productId,
+						},
+					},
+					create: {
+						warehouseId: body.warehouseId,
+						productId,
+						quantity,
+					},
+					update: {
+						quantity: { increment: quantity },
+					},
 				})
 			}
 
-			// completed -> other => decrement
+			// completed -> other => decrement global e no armazém
 			if (wasCompleted && !isNowCompleted) {
 				await prisma.product.update({
 					where: { id: productId },
+					data: { quantity: { decrement: quantity } },
+				})
+
+				await prisma.warehouseProduct.update({
+					where: {
+						warehouseId_productId: {
+							warehouseId: body.warehouseId,
+							productId,
+						},
+					},
 					data: {
-						quantity: {
-							decrement: body.quantity
-						}
-					}
+						quantity: { decrement: quantity },
+					},
 				})
 			}
 		}
@@ -114,7 +137,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 }
 
-export async function DELETE(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
 	const session = await getServerSession(authOptions)
 

@@ -78,8 +78,8 @@ const ProductsPage = () => {
                   />
                 </TableCell>
                 <TableCell>
-                  <Link href={`/products/${product.id}`}>
-                    <ChevronRight />
+                  <Link href={`/products/${product.id}`} className="text-blue-500 underline">
+                    Detalhes
                   </Link>
                 </TableCell>
               </TableRow>

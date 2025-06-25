@@ -24,6 +24,12 @@ export async function POST(req: NextRequest) {
 				supplier: {
 					connect: { id: body.supplierId }
 				},
+				warehouse: {
+					connect: {id: body.warehouseId}
+				},
+				invoice: body.invoice ? {
+					connect: {id: body.invoiceId}
+				} : undefined
 			}
 		})
 

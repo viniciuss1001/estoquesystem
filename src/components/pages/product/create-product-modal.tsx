@@ -19,7 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
 	sku: z.string().min(1, "SKU é obrigatório."),
-	supplier: z.string().min(1, "Fornecedor obrigatório."),
+	supplier: z.string().optional(),
 	quantity: z.coerce.number().min(0),
 	price: z.coerce.number().min(0),
 	category: z.string().min(1, "Categoria é obrigatória."),

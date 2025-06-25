@@ -25,7 +25,7 @@ const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
 	email: z.string().email().min(1, "Email é obrigatório."),
 	contactPhone: z.string().min(8, "O telefone é obrigatório."),
-	deliveryTime: z.coerce.date(),
+	deliveryTime: z.coerce.date().optional(),
 	description: z.string().optional(),
 	products: z.array(z.string()).min(1, "Selecione pelo menos um produto"),
 })
@@ -205,7 +205,7 @@ const CreateSupplierModal = () => {
 							<DialogClose className="cursor-pointer p-2 hover:bg-card transition rounded-sm w-1/4">
 								Cancelar
 							</DialogClose>
-							<Button type="submit" disabled={form.formState.isSubmitting} className="w-full flex justify-center p-3 cursor-pointer">
+							<Button type="submit" disabled={form.formState.isSubmitting} className="w-2/3 flex justify-center p-3 cursor-pointer">
 								{form.formState.isSubmitting ? <Loader2 className="animate-spin" /> : 'Salvar'}
 							</Button>
 						</DialogFooter>

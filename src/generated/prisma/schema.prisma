@@ -84,6 +84,7 @@ model WareHouse {
   stockMovementsDestination StockMovement[]    @relation("DestinationWarehouse")
   stockMovementsOrigin      StockMovement[]    @relation("OriginWarehouse")
   warehouseProduct          WarehouseProduct[]
+  Delivery                  Delivery[]
 }
 
 model WarehouseProduct {
@@ -141,6 +142,7 @@ model SupplierInvoice {
   fileUrl     String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+  Delivery    Delivery[]
 }
 
 model AuditLog {
@@ -166,16 +168,22 @@ model Category {
 }
 
 model Delivery {
-  id         String         @id @default(uuid())
-  productId  String
-  supplierId String
-  quantity   Int
-  expectedAt DateTime
-  updatedAt  DateTime       @updatedAt
-  status     DeliveryStatus @default(PENDING)
-  createdAt  DateTime       @default(now())
-  product    Product        @relation(fields: [productId], references: [id])
-  supplier   Supplier       @relation(fields: [supplierId], references: [id])
+  id          String         @id @default(uuid())
+  productId   String
+  supplierId  String
+  quantity    Int
+  expectedAt  DateTime
+  updatedAt   DateTime       @updatedAt
+  status      DeliveryStatus @default(PENDING)
+  createdAt   DateTime       @default(now())
+  warehouseId String
+  invoiceId   String?
+
+  product  Product  @relation(fields: [productId], references: [id])
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+
+  warehouse WareHouse        @relation(fields: [warehouseId], references: [id])
+  invoice   SupplierInvoice? @relation(fields: [invoiceId], references: [id])
 }
 
 enum Office {
