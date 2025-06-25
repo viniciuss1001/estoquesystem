@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/sidebar'
 import {
   Archive,
+  FileText,
   Home,
   List,
   Package,
@@ -57,6 +58,12 @@ const SidebarComponent = () => {
       items: [
         { label: "Fornecedores", icon: Truck, href: "/suppliers" },
         { label: "Usuários", icon: Users, href: "/users" }
+      ]
+    },
+    {
+      title: "Financeiro",
+      items: [
+        { label: "Boletos", icon: FileText, href: "/supplier-invoice" }
       ]
     },
     {
