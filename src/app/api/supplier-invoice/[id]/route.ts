@@ -4,6 +4,37 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+
+	try {
+		const session = await getServerSession(authOptions)
+
+		if (!session || session.user.office !== "ADMIN") {
+			return new Response("Não autorizado", { status: 401 })
+		}
+
+		const { id } = await params
+
+		const invoice = await prisma.supplierInvoice.findUnique({
+			where: { id },
+			include: {
+				supplier: true,
+			},
+		})
+
+		if (!invoice) {
+			return NextResponse.json({ error: "Boleto não encontrado" }, { status: 404 })
+		}
+
+		return NextResponse.json(invoice)
+
+	} catch (error) {
+		console.error("Erro ao buscar boleto:", error)
+		return NextResponse.json({ error: "Erro ao buscar boleto." }, { status: 500 })
+	}
+}
+
+
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 

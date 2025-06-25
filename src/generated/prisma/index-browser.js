@@ -222,7 +222,7 @@ exports.Prisma.SupplierInvoiceScalarFieldEnum = {
   dueDate: 'dueDate',
   status: 'status',
   fileUrl: 'fileUrl',
-  createAt: 'createAt',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 

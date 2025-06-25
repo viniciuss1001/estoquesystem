@@ -11566,7 +11566,7 @@ export namespace Prisma {
     dueDate: Date | null
     status: $Enums.InvoiceStatus | null
     fileUrl: string | null
-    createAt: Date | null
+    createdAt: Date | null
     updatedAt: Date | null
   }
 
@@ -11579,7 +11579,7 @@ export namespace Prisma {
     dueDate: Date | null
     status: $Enums.InvoiceStatus | null
     fileUrl: string | null
-    createAt: Date | null
+    createdAt: Date | null
     updatedAt: Date | null
   }
 
@@ -11592,7 +11592,7 @@ export namespace Prisma {
     dueDate: number
     status: number
     fileUrl: number
-    createAt: number
+    createdAt: number
     updatedAt: number
     _all: number
   }
@@ -11615,7 +11615,7 @@ export namespace Prisma {
     dueDate?: true
     status?: true
     fileUrl?: true
-    createAt?: true
+    createdAt?: true
     updatedAt?: true
   }
 
@@ -11628,7 +11628,7 @@ export namespace Prisma {
     dueDate?: true
     status?: true
     fileUrl?: true
-    createAt?: true
+    createdAt?: true
     updatedAt?: true
   }
 
@@ -11641,7 +11641,7 @@ export namespace Prisma {
     dueDate?: true
     status?: true
     fileUrl?: true
-    createAt?: true
+    createdAt?: true
     updatedAt?: true
     _all?: true
   }
@@ -11741,7 +11741,7 @@ export namespace Prisma {
     dueDate: Date
     status: $Enums.InvoiceStatus
     fileUrl: string | null
-    createAt: Date
+    createdAt: Date
     updatedAt: Date
     _count: SupplierInvoiceCountAggregateOutputType | null
     _avg: SupplierInvoiceAvgAggregateOutputType | null
@@ -11773,7 +11773,7 @@ export namespace Prisma {
     dueDate?: boolean
     status?: boolean
     fileUrl?: boolean
-    createAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supplierInvoice"]>
@@ -11787,7 +11787,7 @@ export namespace Prisma {
     dueDate?: boolean
     status?: boolean
     fileUrl?: boolean
-    createAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supplierInvoice"]>
@@ -11801,7 +11801,7 @@ export namespace Prisma {
     dueDate?: boolean
     status?: boolean
     fileUrl?: boolean
-    createAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supplierInvoice"]>
@@ -11815,11 +11815,11 @@ export namespace Prisma {
     dueDate?: boolean
     status?: boolean
     fileUrl?: boolean
-    createAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "title" | "description" | "amount" | "dueDate" | "status" | "fileUrl" | "createAt" | "updatedAt", ExtArgs["result"]["supplierInvoice"]>
+  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "title" | "description" | "amount" | "dueDate" | "status" | "fileUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["supplierInvoice"]>
   export type SupplierInvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
   }
@@ -11844,7 +11844,7 @@ export namespace Prisma {
       dueDate: Date
       status: $Enums.InvoiceStatus
       fileUrl: string | null
-      createAt: Date
+      createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["supplierInvoice"]>
     composites: {}
@@ -12278,7 +12278,7 @@ export namespace Prisma {
     readonly dueDate: FieldRef<"SupplierInvoice", 'DateTime'>
     readonly status: FieldRef<"SupplierInvoice", 'InvoiceStatus'>
     readonly fileUrl: FieldRef<"SupplierInvoice", 'String'>
-    readonly createAt: FieldRef<"SupplierInvoice", 'DateTime'>
+    readonly createdAt: FieldRef<"SupplierInvoice", 'DateTime'>
     readonly updatedAt: FieldRef<"SupplierInvoice", 'DateTime'>
   }
     
@@ -16114,7 +16114,7 @@ export namespace Prisma {
     dueDate: 'dueDate',
     status: 'status',
     fileUrl: 'fileUrl',
-    createAt: 'createAt',
+    createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
@@ -16988,7 +16988,7 @@ export namespace Prisma {
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
     status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
-    createAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    createdAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
   }
@@ -17002,7 +17002,7 @@ export namespace Prisma {
     dueDate?: SortOrder
     status?: SortOrder
     fileUrl?: SortOrderInput | SortOrder
-    createAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
     supplier?: SupplierOrderByWithRelationInput
   }
@@ -17019,7 +17019,7 @@ export namespace Prisma {
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
     status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
-    createAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    createdAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
   }, "id">
@@ -17033,7 +17033,7 @@ export namespace Prisma {
     dueDate?: SortOrder
     status?: SortOrder
     fileUrl?: SortOrderInput | SortOrder
-    createAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SupplierInvoiceCountOrderByAggregateInput
     _avg?: SupplierInvoiceAvgOrderByAggregateInput
@@ -17054,7 +17054,7 @@ export namespace Prisma {
     dueDate?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
     status?: EnumInvoiceStatusWithAggregatesFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
-    createAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
   }
 
@@ -17946,7 +17946,7 @@ export namespace Prisma {
     dueDate: Date | string
     status?: $Enums.InvoiceStatus
     fileUrl?: string | null
-    createAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
   }
@@ -17960,7 +17960,7 @@ export namespace Prisma {
     dueDate: Date | string
     status?: $Enums.InvoiceStatus
     fileUrl?: string | null
-    createAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -17972,7 +17972,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
   }
@@ -17986,7 +17986,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17999,7 +17999,7 @@ export namespace Prisma {
     dueDate: Date | string
     status?: $Enums.InvoiceStatus
     fileUrl?: string | null
-    createAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -18011,7 +18011,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18024,7 +18024,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18963,7 +18963,7 @@ export namespace Prisma {
     dueDate?: SortOrder
     status?: SortOrder
     fileUrl?: SortOrder
-    createAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -18980,7 +18980,7 @@ export namespace Prisma {
     dueDate?: SortOrder
     status?: SortOrder
     fileUrl?: SortOrder
-    createAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -18993,7 +18993,7 @@ export namespace Prisma {
     dueDate?: SortOrder
     status?: SortOrder
     fileUrl?: SortOrder
-    createAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -21481,7 +21481,7 @@ export namespace Prisma {
     dueDate: Date | string
     status?: $Enums.InvoiceStatus
     fileUrl?: string | null
-    createAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -21493,7 +21493,7 @@ export namespace Prisma {
     dueDate: Date | string
     status?: $Enums.InvoiceStatus
     fileUrl?: string | null
-    createAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -21585,7 +21585,7 @@ export namespace Prisma {
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
     status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
-    createAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
+    createdAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
   }
 
@@ -22341,7 +22341,7 @@ export namespace Prisma {
     dueDate: Date | string
     status?: $Enums.InvoiceStatus
     fileUrl?: string | null
-    createAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -22431,7 +22431,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22443,7 +22443,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22455,7 +22455,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

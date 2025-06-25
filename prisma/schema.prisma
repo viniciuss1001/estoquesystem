@@ -139,7 +139,7 @@ model SupplierInvoice {
   dueDate     DateTime
   status      InvoiceStatus @default(PENDING)
   fileUrl     String?
-  createAt    DateTime      @default(now())
+  createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
 

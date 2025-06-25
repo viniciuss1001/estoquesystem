@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Supplier } from "@/types/types"
 
 const CreateSupplierInvoiceForm = () => {
 
@@ -34,17 +35,18 @@ const CreateSupplierInvoiceForm = () => {
 	})
 
 
-	const { data: suppliers, isLoading } = useQuery({
+	const { data: suppliers = [] } = useQuery({
 		queryKey: ["suppliers"],
 		queryFn: async () => {
 			const response = await api.get("/supplier")
-			return response.data
+			return response.data.suppliers as Supplier[]
 		}
 	})
 
 	const { mutate: createInvoice, isPending } = useMutation({
 		mutationFn: async (data: FormData) => {
 			const response = await api.post('/supplier-invoice', data)
+			
 		},
 		onSuccess: () => {
 			toast.success("Boleto criado com sucesso!")
@@ -188,7 +190,7 @@ const CreateSupplierInvoiceForm = () => {
 								Cancelar
 							</DialogClose>
 							
-							<Button type="submit" disabled={isPending}>
+							<Button type="submit" disabled={isPending} className="cursor-pointer">
 								{isPending ? "Salvando..." : "Criar Boleto"}
 							</Button>
 

@@ -112,9 +112,6 @@ const MovementsPage = () => {
                 <TableCell>
                   {new Date(movement.createdAt).toLocaleDateString()}
                 </TableCell>
-                {/* <TableCell>
-                  <EditMovementModal movementId={movement.id} />
-                </TableCell> */}
                 <TableCell>
                   <Link href={`/movements/${movement.id}`}>
                     Detalhes
