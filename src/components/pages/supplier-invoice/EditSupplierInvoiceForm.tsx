@@ -100,8 +100,9 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 	return (
 		<div className="p-6 max-w-2xl mx-auto">
 			<Dialog>
-				<DialogTrigger className="p-0 m-0 cursor-pointer">
-					<Pencil className="size-4" />
+				<DialogTrigger className="p-2 m-0 cursor-pointer flex items-center border rounded-sm bg-card/50 hover:bg-card shadow-sm">
+					<Pencil className="size-4 ml-2 mr-2" />
+					<span>Editar Boleto</span>
 				</DialogTrigger>
 				<DialogContent>
 					<DialogHeader className="flex justify-start items-center gap-3">

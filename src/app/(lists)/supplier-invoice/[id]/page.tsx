@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import EditSupplierInvoiceForm from "@/components/pages/supplier-invoice/EditSupplierInvoiceForm"
 
 const statusMap = {
   PENDING: {
@@ -92,9 +93,15 @@ const SupplierInvoicePage = () => {
       </Breadcrumb>
 
       {/* Título */}
-      <div className="flex items-center gap-2">
-        <FileText className="w-6 h-6 text-primary" />
+      <div className="flex items-center gap-2 justify-between ">
+        <div className="flex gap-2 items-center">
+          <FileText className="w-6 h-6 text-primary" />
         <h1 className="text-2xl font-bold">Detalhes do Boleto</h1>
+        </div>
+
+        <div className="flex items-center ml-auto">
+          <EditSupplierInvoiceForm invoiceId={id as string}/>
+        </div>
       </div>
 
       {/* Detalhes principais */}
