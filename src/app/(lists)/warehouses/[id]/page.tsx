@@ -50,7 +50,7 @@ const WarehouseIdPage = () => {
 					<BreadcrumbList>
 						<BreadcrumbLink href="/">Início</BreadcrumbLink>
 						<BreadcrumbSeparator />
-						<BreadcrumbLink href="/warehouse">Armazéns</BreadcrumbLink>
+						<BreadcrumbLink href="/warehouses">Armazéns</BreadcrumbLink>
 						<BreadcrumbSeparator />
 						<BreadcrumbPage>{warehouse.name}</BreadcrumbPage>
 					</BreadcrumbList>

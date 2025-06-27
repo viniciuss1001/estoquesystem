@@ -1,16 +1,15 @@
 import { logAction } from "@/lib/audit";
-import { authOptions } from "@/lib/authOptions";
+import { requireAdmin, requireSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
 	try {
-		const session = await getServerSession(authOptions);
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Unauthorized", { status: 401 });
-		}
+		const { error: adminError } = await requireAdmin(session)
+		if (adminError) return adminError
 
 		const body = await req.json()
 

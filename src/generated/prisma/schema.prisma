@@ -9,16 +9,18 @@ datasource db {
 }
 
 model Product {
-  id               String             @id @default(uuid())
-  name             String
-  sku              String             @unique
-  quantity         Int
-  price            Float
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  supplierId       String?
-  categoryId       String?
-  minimumStock     Int?               @default(0)
+  id           String   @id @default(uuid())
+  name         String
+  sku          String   @unique
+  quantity     Int
+  price        Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  supplierId   String?
+  categoryId   String?
+  minimumStock Int?     @default(0)
+  unit         UnitType @default(UNIT)
+
   delivery         Delivery[]
   category         Category?          @relation(fields: [categoryId], references: [id])
   supplier         Supplier?          @relation(fields: [supplierId], references: [id])
@@ -221,4 +223,11 @@ enum InvoiceStatus {
   PAID
   OVERDUE
   CANCELED
+}
+
+enum UnitType {
+  UNIT
+  KILOGRAM
+  LITER
+  SQUARE_METER
 }

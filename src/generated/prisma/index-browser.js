@@ -131,6 +131,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   supplierId: 'supplierId',
   categoryId: 'categoryId',
   minimumStock: 'minimumStock',
+  unit: 'unit',
   expirationDate: 'expirationDate',
   usageStatus: 'usageStatus'
 };
@@ -270,6 +271,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.UnitType = exports.$Enums.UnitType = {
+  UNIT: 'UNIT',
+  KILOGRAM: 'KILOGRAM',
+  LITER: 'LITER',
+  SQUARE_METER: 'SQUARE_METER'
+};
+
 exports.UsageStatus = exports.$Enums.UsageStatus = {
   IN_STOCK: 'IN_STOCK',
   IN_USE: 'IN_USE',

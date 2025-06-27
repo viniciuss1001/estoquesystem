@@ -1,22 +1,22 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Boxes, DollarSign, Layers3, Loader2, PackageSearch, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
 
 
 const formSchema = z.object({
@@ -26,7 +26,12 @@ const formSchema = z.object({
 	quantity: z.coerce.number().min(0),
 	price: z.coerce.number().min(0),
 	category: z.string().min(1, "Categoria é obrigatória."),
-	minimumStock: z.coerce.number().min(0, "Estoque mínimo deve ser zero ou mais.").optional()
+	minimumStock: z.coerce.number().min(0, "Estoque mínimo deve ser zero ou mais.").optional(),
+	usageStatus: z.enum(["IN_STOCK", "IN_USE", "CONSUMED"], {
+		required_error: "Estado de uso obrigatório.",
+	}),
+	expirationDate: z.date().optional(),
+	unit: z.enum(["UNIT", "KILOGRAM", "LITER", "SQUARE_METER"])
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -55,6 +60,20 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 		}
 	})
 
+	const statusOptions = [
+		{ value: "IN_STOCK", label: "Em estoque" },
+		{ value: "IN_USE", label: "Em uso" },
+		{ value: "CONSUMED", label: "Consumido" }
+	]
+
+	const units = [
+		{ label: "Unidade", value: "UNIT" },
+		{ label: "Quilograma (kg)", value: "KILOGRAM" },
+		{ label: "Litro (L)", value: "LITER" },
+		{ label: "Metro quadrado (m²)", value: "SQUARE_METER" },
+	]
+
+
 	const { data: products, isLoading } = useQuery({
 		queryKey: ["products", productId],
 		queryFn: async () => {
@@ -75,6 +94,8 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 			return response.data
 		}
 	})
+
+	const categoryWatch = form.watch("category")
 
 	const { data: categories = [] } = useQuery({
 		queryKey: ["categories",],
@@ -211,6 +232,30 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 										</FormItem>
 									)}
 								/>
+
+								<FormField
+									name="unit"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Unidade do Produto</FormLabel>
+											<Select onValueChange={field.onChange} value={field.value}>
+												<FormControl>
+													<SelectTrigger>
+														<SelectValue placeholder="Selecione Unidade" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{units.map((unit) => (
+														<SelectItem key={unit.value} value={unit.value}>
+															{unit.label}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 							</div>
 
 
@@ -278,7 +323,45 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 												</FormItem>
 											)}
 										/>
+
+										{categoryWatch === "Perecível" && (
+											<FormField
+												control={form.control}
+												name="expirationDate"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Data de validade</FormLabel>
+														<input type="date" placeholder="Selecionar data" />
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										)}
 									</div>
+
+									<FormField
+										name="usageStatus"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Status de uso</FormLabel>
+												<Select onValueChange={field.onChange} value={field.value}>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder="Selecione o status" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{statusOptions.map((opt) => (
+															<SelectItem key={opt.value} value={opt.value}>
+																{opt.label}
+															</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
 									<FormField
 										control={form.control}

@@ -6,7 +6,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import api from "@/lib/axios"
 import { Product } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
-import { ChevronRight } from "lucide-react"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
 
@@ -22,6 +21,13 @@ const ProductsPage = () => {
       return response.data as Product[]
     },
   })
+
+  const unitLabels: Record<string, string> = {
+    UNIT: "Unidade",
+    KILOGRAM: "kg",
+    LITER: "L",
+    SQUARE_METER: "m²",
+  }
 
   return (
     <div className="p-6">
@@ -42,7 +48,8 @@ const ProductsPage = () => {
           <TableRow>
             <TableHead>Nome</TableHead>
             <TableHead>SKU</TableHead>
-            <TableHead>Quantidade Total</TableHead>
+            <TableHead>Quantidade</TableHead>
+            <TableHead>Unidade</TableHead>
             <TableHead>Preço</TableHead>
             <TableHead>Categoria</TableHead>
             <TableHead>Fornecedor</TableHead>
@@ -67,6 +74,7 @@ const ProductsPage = () => {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.sku}</TableCell>
                 <TableCell >{product.quantity}</TableCell>
+                <TableCell>{unitLabels[product?.unit] ?? product.unit}</TableCell>
                 <TableCell>R$ {product.price.toFixed(2)}</TableCell>
                 <TableCell>{product.category?.name ?? "-"}</TableCell>
 

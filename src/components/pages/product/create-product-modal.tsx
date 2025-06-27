@@ -1,19 +1,19 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 const formSchema = z.object({
@@ -27,7 +27,8 @@ const formSchema = z.object({
 	usageStatus: z.enum(["IN_STOCK", "IN_USE", "CONSUMED"], {
 		required_error: "Estado de uso obrigatório.",
 	}),
-	expirationDate: z.date().optional()
+	expirationDate: z.date().optional(),
+	unit: z.enum(["UNIT", "KILOGRAM", "LITER", "SQUARE_METER"])
 })
 
 
@@ -49,7 +50,8 @@ const CreateProductModal = () => {
 			category: '',
 			warehouse: '',
 			usageStatus: "IN_STOCK",
-			expirationDate: new Date()
+			expirationDate: new Date(),
+			unit: "UNIT"
 		}
 	})
 
@@ -59,6 +61,13 @@ const CreateProductModal = () => {
 		{ value: "IN_STOCK", label: "Em estoque" },
 		{ value: "IN_USE", label: "Em uso" },
 		{ value: "CONSUMED", label: "Consumido" }
+	]
+
+	const units = [
+		{ label: "Unidade", value: "UNIT" },
+		{ label: "Quilograma (kg)", value: "KILOGRAM" },
+		{ label: "Litro (L)", value: "LITER" },
+		{ label: "Metro quadrado (m²)", value: "SQUARE_METER" },
 	]
 
 	const { data: categories = [], isLoading } = useQuery({
@@ -90,8 +99,8 @@ const CreateProductModal = () => {
 			await api.post('/product', data)
 		},
 		onSuccess: () => {
-			toast.success("Produto criado com sucesso"),
-				form.reset()
+			toast.success("Produto criado com sucesso")
+			form.reset()
 			router.refresh()
 			setOpen(false)
 			queryClient.invalidateQueries({ queryKey: ['products'] })
@@ -289,6 +298,32 @@ const CreateProductModal = () => {
 									</FormItem>
 								)}
 							/>
+
+							<FormField
+								name="unit"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Unidade do Produto</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione Unidade" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{units.map((unit) => (
+													<SelectItem key={unit.value} value={unit.value}>
+														{unit.label}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+
 							<FormField
 								control={form.control}
 								name="price"

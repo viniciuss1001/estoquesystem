@@ -53,7 +53,7 @@ const WarehousePage = () => {
                   <EditWarehouseModal warehouse={w} />
                 </TableCell>
                 <TableCell>
-                  <Link href={`/warehouse/${w.id}`}>
+                  <Link href={`/warehouses/${w.id}`}>
                     Detalhes
                   </Link>
                 </TableCell>

@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
 			supplier: body.supplier ? { connect: { id: body.supplier } } : undefined,
 			price: body.price,
 			quantity: body.quantity,
+			unit: body.unit, 
 			usageStatus: body.usageStatus,
 			category: category ? { connect: { name: category.name } } : undefined
 		}
