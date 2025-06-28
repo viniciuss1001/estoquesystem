@@ -108,11 +108,11 @@ const ProductListActions = ({ products, userName, userNameOffice }: ProductListA
 
 	return (
 		<div className="flex gap-2 mb-4 print:hidden">
-			<Button onClick={handlePrint} variant="outline" className='cursor-pointer'>
+			<Button onClick={handlePrint} variant="ghost" className='cursor-pointer'>
 				<Printer className="w-4 h-4" />
 				<span className='hidden md:block'>Imprimir Página</span>
 			</Button>
-			<Button onClick={handleExportPDF} variant="outline" className='cursor-pointer'>
+			<Button onClick={handleExportPDF} variant="ghost" className='cursor-pointer'>
 				<Download className="w-4 h-4" />
 				<span className='hidden md:block'>
 					Exportar PDF

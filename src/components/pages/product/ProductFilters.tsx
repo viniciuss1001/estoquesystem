@@ -73,20 +73,38 @@ const ProductFilters = () => {
 				<div className="flex flex-col gap-4 py-2">
 
 					{/* category */}
-					<Combobox
-						items={categories}
-						placeholder="Categoria"
-						selectedId={categoryId}
-						onChange={setCategoryId}
-					/>
+					<Select
+						value={categoryId}
+						onValueChange={setCategoryId}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Categoria" />
+						</SelectTrigger>
+						<SelectContent>
+							{categories.map((category) => (
+								<SelectItem key={category.id} value={category.id}>
+									{category.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 
 					{/* supplier */}
-					<Combobox
-						items={suppliers}
-						placeholder="Fornecedor"
-						selectedId={supplierId}
-						onChange={setSupplierId}
-					/>
+					<Select
+						value={supplierId}
+						onValueChange={setSupplierId}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Fornecedor" />
+						</SelectTrigger>
+						<SelectContent>
+							{suppliers.map((supplier) => (
+								<SelectItem key={supplier.id} value={supplier.id}>
+									{supplier.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 
 					{/* Status */}
 					<Select
@@ -104,12 +122,21 @@ const ProductFilters = () => {
 					</Select>
 
 					{/* warehouse */}
-					<Combobox
-						items={warehouses}
-						placeholder="Armazém"
-						selectedId={warehouseId}
-						onChange={setWarehouseId}
-					/>
+					<Select
+						value={warehouseId}
+						onValueChange={setWarehouseId}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Armazém" />
+						</SelectTrigger>
+						<SelectContent>
+							{warehouses.map((warehouse) => (
+								<SelectItem key={warehouse.id} value={warehouse.id}>
+									{warehouse.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 				</div>
 
 				<DialogFooter className="flex items-center justify-end gap-2">
@@ -117,7 +144,7 @@ const ProductFilters = () => {
 						variant="destructive"
 						className="self-end text-sm cursor-pointer"
 						onClick={() => resetQuery()}
-						
+
 					>
 						Limpar filtros
 					</Button>

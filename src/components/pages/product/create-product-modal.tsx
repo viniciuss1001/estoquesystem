@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
+import { useSuppliers, useWarehouses } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
@@ -78,21 +79,9 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const { data: suppliers = [], isLoading: supplierLoading } = useQuery({
-		queryKey: ["suppliers"],
-		queryFn: async () => {
-			const response = await api.get("/supplier")
-			return response.data.suppliers
-		}
-	})
+	const { data: suppliers = [], isLoading: supplierLoading } =useSuppliers()
 
-	const { data: warehouses = [] } = useQuery({
-		queryKey: ["warehouses"],
-		queryFn: async () => {
-			const response = await api.get("/warehouse")
-			return response.data
-		}
-	})
+	const { data: warehouses = [] } = useWarehouses()
 
 	const createProduct = useMutation({
 		mutationFn: async (data: z.infer<typeof formSchema>) => {
@@ -119,7 +108,7 @@ const CreateProductModal = () => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen} >
 			<DialogTrigger asChild>
-				<Button variant='default' className='flex cursor-pointer items-center mb-auto'>
+				<Button variant='ghost' className='flex cursor-pointer items-center mb-auto'>
 					<Plus />
 					Criar Produto
 				</Button>
