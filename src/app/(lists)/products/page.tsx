@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import api from "@/lib/axios"
 import { Product } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
+import { Boxes, PackageCheck, PackageX } from "lucide-react"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -36,6 +37,24 @@ const ProductsPage = () => {
       return response.data as Product[]
     },
   })
+
+  const usageStatusMap = {
+    IN_STOCK: {
+      label: "Em estoque",
+      color: "default",
+      icon: <Boxes className="w-4 h-4 text-green-800" />,
+    },
+    IN_USE: {
+      label: "Em uso",
+      color: "blue",
+      icon: <PackageCheck className="w-4 h-4 text-blue-500" />,
+    },
+    CONSUMED: {
+      label: "Consumido",
+      color: "red",
+      icon: <PackageX className="w-4 h-4 text-orange-900" />,
+    },
+  }
 
 
   const unitLabels: Record<string, string> = {
@@ -72,7 +91,7 @@ const ProductsPage = () => {
             <TableHead>Preço</TableHead>
             <TableHead>Categoria</TableHead>
             <TableHead>Fornecedor</TableHead>
-            <TableHead>Criado em</TableHead>
+            <TableHead>Estado</TableHead>
             <TableHead>Ações</TableHead>
             <TableHead>Detalhes</TableHead>
           </TableRow>
@@ -98,7 +117,12 @@ const ProductsPage = () => {
                 <TableCell>{product.category?.name ?? "-"}</TableCell>
 
                 <TableCell>{product.supplier?.name ?? "Não informado"}</TableCell>
-                <TableCell>{new Date(product.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    {usageStatusMap[product.usageStatus as keyof typeof usageStatusMap]?.icon}
+                    <span>{usageStatusMap[product.usageStatus as keyof typeof usageStatusMap]?.label ?? product.usageStatus}</span>
+                  </div>
+                </TableCell>
                 <TableCell >
                   <EditProductModal
                     productId={product.id}

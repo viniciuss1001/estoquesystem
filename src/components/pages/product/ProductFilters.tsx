@@ -8,7 +8,7 @@ import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import { Filter } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 
 
 const ProductFilters = () => {
@@ -16,6 +16,12 @@ const ProductFilters = () => {
 	const searchParams = useSearchParams()
 	const router = useRouter()
 	const [isPending, startTransition] = useTransition()
+
+	// local states
+	const [categoryId, setCategoryId] = useState<string | undefined>(searchParams.get("categoryId") || undefined)
+	const [supplierId, setSupplierId] = useState<string | undefined>(searchParams.get("supplierId") || undefined)
+	const [warehouseId, setWarehouseId] = useState<string | undefined>(searchParams.get("warehouseId") || undefined)
+	const [usageStatus, setUsageStatus] = useState<string | undefined>(searchParams.get("usageStatus") || undefined)
 
 	const { data: categories = [], isLoading: categoriesLoading } = useQuery({
 		queryKey: ["categories"],
@@ -41,14 +47,13 @@ const ProductFilters = () => {
 		}
 	})
 
-	function updateParam(key: string, value: string | undefined) {
-		const params = new URLSearchParams(searchParams.toString())
+	function handleApplyFilters() {
+		const params = new URLSearchParams()
 
-		if (value) {
-			params.set(key, value)
-		} else {
-			params.delete(key)
-		}
+		if (categoryId) params.set("categoryId", categoryId)
+		if (supplierId) params.set("supplierId", supplierId)
+		if (warehouseId) params.set("warehouseId", warehouseId)
+		if (usageStatus) params.set("usageStatus", usageStatus)
 
 		startTransition(() => {
 			router.push(`?${params.toString()}`)
@@ -73,26 +78,26 @@ const ProductFilters = () => {
 
 				<div className="flex flex-col gap-4 py-2">
 
-					{/* Categoria */}
+					{/* category */}
 					<Combobox
 						items={categories}
 						placeholder="Categoria"
-						onChange={(value) => updateParam("categoryId", value)}
-						selectedId={searchParams.get("categoryId") || ""}
+						selectedId={categoryId}
+						onChange={setCategoryId}
 					/>
 
-					{/* Fornecedor */}
+					{/* supplier */}
 					<Combobox
 						items={suppliers}
 						placeholder="Fornecedor"
-						onChange={(value) => updateParam("supplierId", value)}
-						selectedId={searchParams.get("supplierId") || ""}
+						selectedId={supplierId}
+						onChange={setSupplierId}
 					/>
 
 					{/* Status */}
 					<Select
-						onValueChange={(value) => updateParam("usageStatus", value)}
-						defaultValue={searchParams.get("usageStatus") || ""}
+						defaultValue={usageStatus}
+						onValueChange={setUsageStatus}
 					>
 						<SelectTrigger className="w-full">
 							<SelectValue placeholder="Status" />
@@ -104,24 +109,32 @@ const ProductFilters = () => {
 						</SelectContent>
 					</Select>
 
-					{/* Armazém */}
+					{/* warehouse */}
 					<Combobox
 						items={warehouses}
 						placeholder="Armazém"
-						onChange={(value) => updateParam("warehouseId", value)}
-						selectedId={searchParams.get("warehouseId") || ""}
+						selectedId={warehouseId}
+						onChange={setWarehouseId}
 					/>
 				</div>
 
-				<DialogFooter>
+				<DialogFooter className="flex items-center justify-end gap-2">
 					<Button
-						variant="ghost"
-						className="self-end text-sm text-red-500"
+						variant="destructive"
+						className="self-end text-sm cursor-pointer"
 						onClick={() => {
 							startTransition(() => router.push(window.location.pathname))
 						}}
 					>
 						Limpar filtros
+					</Button>
+
+					<Button
+						onClick={handleApplyFilters}
+						className="mt-2 cursor-pointer"
+						disabled={isPending}
+					>
+						Aplicar Filtros
 					</Button>
 				</DialogFooter>
 			</DialogContent>
