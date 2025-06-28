@@ -4,6 +4,7 @@ import CreateWarehouseProductModal from "@/components/pages/warehouse-product/Cr
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
+import { useWarehouseProduct } from "@/lib/queries"
 import { WarehouseProduct } from "@/types/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
@@ -14,15 +15,8 @@ const WarehouseProductsPage = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: warehouseProducts = [], isLoading } = useQuery({
-		queryKey: ['warehouseProducts'],
-		queryFn: async () => {
-			const response = await api.get('/warehouse-product')
-			return response.data as WarehouseProduct[]
-		}
-
-	})
-
+	const { data: warehouseProducts = [], isLoading } =  useWarehouseProduct()
+	
 	const deleteMutation = useMutation({
 		mutationFn: async ({ warehouseId, productId }: { warehouseId: string, productId: string }) => {
 			api.delete(`/warehouse-product/${warehouseId}/${productId}`)

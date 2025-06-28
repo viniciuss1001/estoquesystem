@@ -25,6 +25,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import EditSupplierInvoiceForm from "@/components/pages/supplier-invoice/EditSupplierInvoiceForm"
+import { useSupplierInvoice } from "@/lib/queries"
 
 const statusMap = {
   PENDING: {
@@ -48,15 +49,8 @@ const SupplierInvoicePage = () => {
   const { id } = useParams()
   const { data: session } = useSession()
 
-  const { data: invoice, isLoading } = useQuery({
-    queryKey: ["supplierInvoice", id],
-    queryFn: async () => {
-      const res = await api.get(`/supplier-invoice/${id}`)
-      return res.data
-    },
-    enabled: !!id,
-  })
-
+  const { data: invoice, isLoading } = useSupplierInvoice(id as string)
+  
   if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">

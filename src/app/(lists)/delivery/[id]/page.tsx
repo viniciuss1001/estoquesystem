@@ -2,32 +2,23 @@
 
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import api from "@/lib/axios"
-import { Loader2 } from "lucide-react"
-import { useParams } from "next/navigation"
+import { useDelivery } from "@/lib/queries"
 import { Delivery } from "@/types/types"
-import { useQuery } from '@tanstack/react-query'
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 
 
 const DeliveryPage = () => {
   const { id } = useParams()
 
-  const { data: delivery, isLoading, isError } = useQuery({
-    queryKey: ['delivery', id],
-    queryFn: async () => {
-      const response = await api.get(`/delivery/${id}`)
-      return response.data.delivery
-    },
-    enabled: !!id,
-
-  })
+  const { data: delivery, isLoading, isError } = useDelivery(id as string)
 
   const formatStatus = (status: Delivery["status"]) => {
     switch (status) {

@@ -4,21 +4,13 @@ import CreateMovementForm from '@/components/pages/movements/create-movement-for
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import api from '@/lib/axios'
-import { Movement } from '@/types/types'
-import { useQuery } from '@tanstack/react-query'
+import { useMovements } from '@/lib/queries'
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
 import Link from 'next/link'
 
 const MovementsPage = () => {
 
-  const { data: movements = [], isLoading } = useQuery({
-    queryKey: ["movements"],
-    queryFn: async () => {
-      const response = await api.get('/movements')
-      return response.data.movements as Movement[]
-    }
-  })
+  const { data: movements = [], isLoading } = useMovements()
 
   const statusColor = {
     PENDING: "bg-yellow-100 text-yellow-800",

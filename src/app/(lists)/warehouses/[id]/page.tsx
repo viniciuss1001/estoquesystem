@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import api from "@/lib/axios"
+import { useWarehouse } from "@/lib/queries"
 import { Warehouse } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
@@ -18,13 +19,7 @@ const WarehouseIdPage = () => {
 
 	const { id } = useParams()
 	
-	const {data: warehouse, isLoading} = useQuery({
-		queryKey: ['warehouse', id],
-		queryFn: async () => {
-			const response = await api.get(`/warehouse/${id}`)
-			return response.data as Warehouse
-		}
-	})
+	const {data: warehouse, isLoading} = useWarehouse(id as string)
 
 	if (isLoading) {
 		return (

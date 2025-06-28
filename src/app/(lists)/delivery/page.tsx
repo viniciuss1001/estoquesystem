@@ -6,25 +6,19 @@ import EditDeliveryModal from '@/components/pages/delivery/EditDeliveryModal'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import api from '@/lib/axios'
+import { useDeliveries } from '@/lib/queries'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { Loader2, Trash } from 'lucide-react'
 import Link from 'next/link'
-import { Delivery } from '@/types/types'
 import { toast } from 'sonner'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 
 const DeliveryPage = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: deliveries = [], isLoading, isError } = useQuery({
-		queryKey: ["deliveries"],
-		queryFn: async () => {
-			const response = await api.get('/delivery')
-			return response.data as Delivery[]
-		},
-	})
+	const { data: deliveries = [], isLoading } = useDeliveries()
 
 	const deleteDelivery = useMutation({
 		mutationFn: async (id: string) => {

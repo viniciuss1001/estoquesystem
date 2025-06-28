@@ -3,20 +3,12 @@
 import CreateSupplierModal from "@/components/pages/supplier/create-supplier-modal"
 import EditSupplierModal from "@/components/pages/supplier/edit-supplier-modal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
-import { useQuery } from "@tanstack/react-query"
+import { useSuppliers } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
-import { Supplier } from "@/types/types"
 
 const SupplierPage = () => {
-	const { data: suppliers = [], isLoading } = useQuery({
-		queryKey: ['suppliers'],
-		queryFn: async () => {
-			const response = await api.get('/supplier')
-			return response.data.suppliers as Supplier[]
-		}
-	})
+	const { data: suppliers = [], isLoading } = useSuppliers()
 
 	if (isLoading) {
 		return (

@@ -3,23 +3,15 @@
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
-import { Supplier } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
+import { useSupplier } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 
 
 const SupplierPage = () => {
   const { id } = useParams()
- 
-  const {data:supplier, isLoading} = useQuery({
-    queryKey: ['supplier', id],
-    queryFn: async () => {
-      const response = await api.get(`/supplier/${id}`)
-      return response.data as Supplier
-    }
-  })
+
+  const { data: supplier, isLoading } = useSupplier(id as string)
 
   if (isLoading) {
     return (

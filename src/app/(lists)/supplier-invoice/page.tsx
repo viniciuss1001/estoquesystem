@@ -11,11 +11,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
-import api from "@/lib/axios"
-import { useQuery } from "@tanstack/react-query"
-import Link from "next/link"
+import { useSupplierInvoices } from "@/lib/queries"
 import { format, isValid } from "date-fns"
-import { SupplierInvoice } from "@/types/types"
+import Link from "next/link"
 
 
 const statusColor = {
@@ -25,14 +23,8 @@ const statusColor = {
 }
 
 const SupplierInvoicesPage = () => {
-	const { data: invoices = [], isLoading } = useQuery<SupplierInvoice[]>({
-		queryKey: ["supplierInvoices"],
-		queryFn: async () => {
-			const response = await api.get("/supplier-invoice")
-			return response.data
-		},
-	})
-
+	const { data: invoices = [], isLoading } = useSupplierInvoices()
+	
 	if (isLoading) {
 		return <Skeleton className="h-40 w-full" />
 	}

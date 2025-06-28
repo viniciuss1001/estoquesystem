@@ -9,25 +9,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import api from "@/lib/axios"
-import { Movement } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
+import { useMovement } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 
 
 const MovementPage = () => {
- 
+
   const id = useParams().id as string
 
- const {data: movement, isLoading} = useQuery({
-  queryKey: ["movement", id],
-  queryFn: async () => {
-    const response = await api.get(`/movements/${id}`)
-    return response.data.movement as Movement
-  }, 
-  enabled: !!id
- })
+  const { data: movement, isLoading } = useMovement(id as string)
 
   if (isLoading) {
     return (
@@ -47,7 +38,7 @@ const MovementPage = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
-      
+
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbLink href="/">Início</BreadcrumbLink>
@@ -58,22 +49,22 @@ const MovementPage = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      
+
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Movimentação #{movement.id}</h1>
         <Badge variant="outline">
           {movementTypeLabel[movement.type] || movement.type}
         </Badge>
-        <EditTransferModal movementId={id}/>
+        <EditTransferModal movementId={id} />
       </div>
 
-      
+
       <div className="rounded-xl border p-4 bg-muted/50">
         <h2 className="font-semibold text-muted-foreground mb-1">Produto</h2>
         <p className="text-lg">{movement.product.name}</p>
       </div>
 
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="rounded-xl border p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Origem</h3>
@@ -96,7 +87,7 @@ const MovementPage = () => {
         </div>
       </div>
 
-      
+
       {movement.notes && (
         <div className="rounded-xl border p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Observações</h3>

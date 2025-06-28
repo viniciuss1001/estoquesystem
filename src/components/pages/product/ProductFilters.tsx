@@ -4,8 +4,7 @@ import Combobox from "@/components/shared/Combobox"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import api from "@/lib/axios"
-import { useQuery } from "@tanstack/react-query"
+import { useCategories, useSuppliers, useWarehouses } from "@/lib/queries"
 import { Filter } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
@@ -23,29 +22,11 @@ const ProductFilters = () => {
 	const [warehouseId, setWarehouseId] = useState<string | undefined>(searchParams.get("warehouseId") || undefined)
 	const [usageStatus, setUsageStatus] = useState<string | undefined>(searchParams.get("usageStatus") || undefined)
 
-	const { data: categories = [], isLoading: categoriesLoading } = useQuery({
-		queryKey: ["categories"],
-		queryFn: async () => {
-			const response = await api.get("/categories");
-			return response.data
-		},
-	})
+	const { data: categories = [], isLoading: categoriesLoading } = useCategories()
+	
+	const { data: suppliers = [], isLoading: supplierLoading } = useSuppliers()
 
-	const { data: suppliers = [], isLoading: supplierLoading } = useQuery({
-		queryKey: ['suppliers'],
-		queryFn: async () => {
-			const response = await api.get('/supplier')
-			return response.data.suppliers
-		}
-	})
-
-	const { data: warehouses = [], isLoading: warehouseLoading } = useQuery({
-		queryKey: ["warehouses"],
-		queryFn: async () => {
-			const response = await api.get("/warehouse")
-			return response.data
-		}
-	})
+	const { data: warehouses = [], isLoading: warehouseLoading } = useWarehouses()
 
 	function handleApplyFilters() {
 		const params = new URLSearchParams()

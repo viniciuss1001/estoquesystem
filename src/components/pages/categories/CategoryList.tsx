@@ -15,17 +15,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import CategoryEditDialog from "./CategoryEditDialog";
 import { Trash2 } from "lucide-react";
+import { useCategories } from "@/lib/queries";
 
 const CategoryList = () => {
   const queryClient = useQueryClient();
 
-  const { data: categories = [], isLoading } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const response = await api.get("/categories");
-      return response.data
-    },
-  })
+  const { data: categories = [], isLoading: categoriesLoading } = useCategories()
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {

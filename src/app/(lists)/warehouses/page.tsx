@@ -3,21 +3,13 @@
 import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseModal"
 import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
-import { Warehouse } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
+import { useWarehouses } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 
 const WarehousePage = () => {
 
-  const { data: warehouses = [], isLoading } = useQuery({
-    queryKey: ['warehouses'],
-    queryFn: async () => {
-      const response = await api.get('/warehouse')
-      return response.data as Warehouse[]
-    }
-  })
+  const { data: warehouses = [], isLoading } = useWarehouses()
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-full"><Loader2 className="w-6 h-6 animate-spin" /></div>
