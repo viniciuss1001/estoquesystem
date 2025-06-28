@@ -46,7 +46,7 @@ const DeliveryCalendarAside = () => {
 	return (
 		<div className="max-w-sm space-y-4">
 			<h2 className="text-2xl font-bold p-2 flex gap-2">
-				<ChevronsDown className="text-2xl text-blue-500 " />
+				<ChevronsDown className="text-xl text-blue-500 " />
 
 				Próximas Entregas
 			</h2>

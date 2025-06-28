@@ -6,9 +6,10 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { FileText, Package, SearchIcon, Tag, Truck, User, Warehouse } from "lucide-react"
+import { FileText, Package, SearchIcon, Tag, Truck, User, Warehouse, XCircle } from "lucide-react"
 import { Input } from "../ui/input"
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command"
+import { Button } from "../ui/button"
 
 interface SearchResults {
 	id: string
@@ -48,7 +49,13 @@ const SearchInput = () => {
 							className="pl-9"
 							value={query}
 							onChange={(e) => setQuery(e.target.value)}
+							
 						/>
+						<Button variant="ghost" size='icon' className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer"
+						onClick={() => setQuery("")}
+						>
+							<XCircle />
+						</Button>
 					</div>
 				</PopoverTrigger>
 
@@ -92,6 +99,7 @@ const SearchInput = () => {
 												key={item.id}
 												value={item.label}
 												onSelect={() => router.push(item.href)}
+												className="cursor-pointer"
 											>
 												<div className="flex items-start gap-2">
 													{iconMap[type]}
