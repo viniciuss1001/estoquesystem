@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Supplier } from "@/types/types"
+import { useSuppliers } from "@/lib/queries"
 
 const CreateSupplierInvoiceForm = () => {
 
@@ -35,13 +36,7 @@ const CreateSupplierInvoiceForm = () => {
 	})
 
 
-	const { data: suppliers = [] } = useQuery({
-		queryKey: ["suppliers"],
-		queryFn: async () => {
-			const response = await api.get("/supplier")
-			return response.data.suppliers as Supplier[]
-		}
-	})
+	const { data: suppliers = [] } = useSuppliers()
 
 	const { mutate: createInvoice, isPending } = useMutation({
 		mutationFn: async (data: FormData) => {

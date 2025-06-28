@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
+import { useSupplierInvoices, useWarehouses } from "@/lib/queries"
 import { Product, SupplierInvoice, Warehouse } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -52,21 +53,9 @@ const CreateDeliveryForm = () => {
 		}
 	})
 
-	const { data: warehouses = [] } = useQuery({
-		queryKey: ["warehouses"],
-		queryFn: async () => {
-			const response = await api.get("/warehouse")
-			return response.data as Warehouse[]
-		}
-	})
+	const { data: warehouses = [] } = useWarehouses()
 
-	const { data: invoices = [] } = useQuery({
-		queryKey: ["invoices"],
-		queryFn: async () => {
-			const response = await api.get("/supplier-invoice")
-			return response.data as SupplierInvoice[]
-		}
-	})
+	const { data: invoices = [] } = useSupplierInvoices()
 
 	const createDelivery = useMutation({
 		mutationFn: async (data: FormValues) => {

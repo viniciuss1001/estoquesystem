@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
+import { useSupplier } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
@@ -42,13 +43,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 		}
 	})
 
-	const { data: supplier, isLoading: isLoadingSupplier } = useQuery({
-		queryKey: ['supplier', supplierId],
-		queryFn: async () => {
-			const response = await api.get(`/supplier/${supplierId}`)
-			return response.data
-		},
-	})
+	const { data: supplier, isLoading: isLoadingSupplier } = useSupplier(supplierId)
 
 	useEffect(() => {
 		if (supplier) {

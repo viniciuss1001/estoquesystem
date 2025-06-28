@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import api from "@/lib/axios"
+import { useDelivery, useSupplierInvoices, useWarehouses } from "@/lib/queries"
 import { Product, SupplierInvoice, Warehouse } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -70,14 +71,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     },
   })
 
-  const { data: delivery } = useQuery({
-    queryKey: ["delivery", deliveryId],
-    queryFn: async () => {
-      const response = await api.get(`/delivery/${deliveryId}`)
-      return response.data.delivery
-    },
-    enabled: open,
-  })
+  const { data: delivery } = useDelivery(deliveryId)
 
   const { data: products = [] } = useQuery({
     queryKey: ["products"],
@@ -87,21 +81,9 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     }
   })
 
-  const { data: warehouses = [] } = useQuery({
-    queryKey: ["warehouses"],
-    queryFn: async () => {
-      const response = await api.get("/warehouse")
-      return response.data as Warehouse[]
-    }
-  })
+  const { data: warehouses = [] } =useWarehouses()
 
-  const { data: supplierInvoices = [] } = useQuery({
-    queryKey: ["supplierInvoices"],
-    queryFn: async () => {
-      const response = await api.get("/supplier-invoice")
-      return response.data as SupplierInvoice[]
-    }
-  })
+  const { data: supplierInvoices = [] } = useSupplierInvoices()
 
   const watchProductId = form.watch("productId")
   const selectedProduct = products.find((p: Product) => p.id === watchProductId)
@@ -117,8 +99,8 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
   useEffect(() => {
     if (open && delivery && !formLoaded) {
       form.reset({
-        productId: delivery.productId,
-        supplierId: delivery.supplierId,
+        productId: delivery.product.id,
+        supplierId: delivery.supplier.id,
         warehouseId: delivery.warehouse?.id || "",
         supplierInvoiceId: delivery.supplierInvoice?.id || "",
         quantity: delivery.quantity,

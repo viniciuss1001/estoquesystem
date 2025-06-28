@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { useWarehouseProductQuantity } from "@/hooks/useWarehouseProductQuantity"
 import api from "@/lib/axios"
+import { useWarehouses } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
@@ -106,13 +107,7 @@ const CreateMovementForm = () => {
 		},
 	})
 
-	const { data: warehouses = [] } = useQuery({
-		queryKey: ['warehouses'],
-		queryFn: async () => {
-			const response = await api.get('/warehouse')
-			return response.data as Warehouse[]
-		}
-	})
+	const { data: warehouses = [] } = useWarehouses()
 
 	const { data: originStock } = useWarehouseProductQuantity(productId, originWarehouseId)
 	const { data: destinationStock } = useWarehouseProductQuantity(productId, destinationWarehouseId)

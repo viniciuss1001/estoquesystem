@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
+import { useSupplierInvoice } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -38,13 +39,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 		}
 	})
 
-	const { data: invoice, isLoading } = useQuery({
-		queryKey: ["supplierInvoice", invoiceId],
-		queryFn: async () => {
-			const response = await api.get(`/supplier-invoice/${invoiceId}`)
-			return response.data
-		}
-	})
+	const { data: invoice, isLoading } = useSupplierInvoice(invoiceId)
 
 	useEffect(() => {
 		if (invoice) {
