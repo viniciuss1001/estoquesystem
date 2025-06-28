@@ -26,12 +26,12 @@ export async function POST(req: NextRequest) {
 			supplier: body.supplier ? { connect: { id: body.supplier } } : undefined,
 			price: body.price,
 			quantity: body.quantity,
-			unit: body.unit, 
+			unit: body.unit,
 			usageStatus: body.usageStatus,
 			category: category ? { connect: { name: category.name } } : undefined
 		}
 
-		if(category?.name === "Perecível" && body.expirationDate) {
+		if (category?.name === "Perecível" && body.expirationDate) {
 			productData.expirationDate = new Date(body.expirationDate)
 		}
 
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
 	try {
-		const {searchParams} = new URL(req.url)
+		const { searchParams } = new URL(req.url)
 
 		const categoryId = searchParams.get("categoryId")
 		const supplierId = searchParams.get("supplierId")
@@ -88,32 +88,32 @@ export async function GET(req: NextRequest) {
 
 		const where: any = {}
 
-		if(categoryId) {
+		if (categoryId) {
 			where.categoryId = categoryId
 		}
 
-		if(supplierId){
+		if (supplierId) {
 			where.supplierId = supplierId
 		}
 
-		if(usageStatus){
+		if (usageStatus) {
 			where.usageStatus = usageStatus
 		}
 
 		const products = await prisma.product.findMany({
-			where, 
+			where,
 			include: {
-				category: true, 
-				supplier: true, 
+				category: true,
+				supplier: true,
 				warehouseProduct: warehouseId ? {
 					where: {
 						warehouseId
-					}, 
+					},
 					select: {
 						quantity: true
 					}
 				}
-				: false
+					: false
 			}
 		})
 

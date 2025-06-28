@@ -45,7 +45,12 @@ export async function GET() {
 	try {
 		const warehouses = await prisma.wareHouse.findMany({
 			orderBy: { createdAt: "desc" },
-			select: { id: true, name: true }
+			select: { 
+				id: true, 
+				name: true, 
+				location: true,
+				description: true
+			}
 		})
 		return NextResponse.json(warehouses)
 

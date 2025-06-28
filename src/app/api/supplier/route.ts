@@ -70,7 +70,14 @@ export async function GET() {
   try {
     const suppliers = await prisma.supplier.findMany({
       orderBy: { createdAt: "desc" },
-      select: { id: true, name: true }
+      select: { 
+        id: true, 
+        name: true,
+        email: true, 
+        contactPhone: true,
+        description: true, 
+        deliveryTime: true
+      }
     })
 
     return NextResponse.json({ suppliers })

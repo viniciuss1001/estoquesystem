@@ -40,7 +40,7 @@ const WarehousePage = () => {
               <TableRow key={w.id}>
                 <TableCell>{w.name}</TableCell>
                 <TableCell>{w.location || "-"}</TableCell>
-                <TableCell>{w.description}</TableCell>
+                <TableCell>{w.description || "-"}</TableCell>
                 <TableCell className="flex gap-2 justify-end">
                   <EditWarehouseModal warehouse={w} />
                 </TableCell>

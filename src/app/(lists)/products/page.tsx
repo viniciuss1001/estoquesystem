@@ -68,7 +68,17 @@ const ProductsPage = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold mb-6">Lista de Produtos</h2>
+        <div className="flex flex-col">
+
+        <h2 className="text-2xl font-bold mb-2">Lista de Produtos</h2>
+
+        {products.length > 0 && (
+          <p className="text-xs text-muted-foreground mb-4 ">
+            Exibindo {products.length} produto (s) com os filtros aplicados.
+          </p>
+        )}
+        </div>
+
         <div className="flex gap-3 items-center justify-end">
           <ProductFilters />
 

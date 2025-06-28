@@ -23,7 +23,7 @@ const ProductFilters = () => {
 	const [usageStatus, setUsageStatus] = useState<string | undefined>(searchParams.get("usageStatus") || undefined)
 
 	const { data: categories = [], isLoading: categoriesLoading } = useCategories()
-	
+
 	const { data: suppliers = [], isLoading: supplierLoading } = useSuppliers()
 
 	const { data: warehouses = [], isLoading: warehouseLoading } = useWarehouses()
@@ -34,22 +34,35 @@ const ProductFilters = () => {
 		if (categoryId) params.set("categoryId", categoryId)
 		if (supplierId) params.set("supplierId", supplierId)
 		if (warehouseId) params.set("warehouseId", warehouseId)
-		if (usageStatus) params.set("usageStatus", usageStatus)
+		if (usageStatus) params.set("status", usageStatus)
 
 		startTransition(() => {
 			router.push(`?${params.toString()}`)
 		})
 	}
 
+	const resetQuery = () => {
+		setCategoryId(undefined)
+		setSupplierId(undefined)
+		setWarehouseId(undefined)
+		setUsageStatus(undefined)
+		startTransition(() => router.push(window.location.pathname))
+	}
+
 	const isLoading = categoriesLoading || supplierLoading || warehouseLoading
+
+	const hasFilters = categoryId || supplierId || warehouseId || usageStatus
 
 	return (
 
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline" className='flex cursor-pointer items-center mb-auto gap-2' disabled={isPending || isLoading}>
+				<Button
+					variant={hasFilters ? "default" : "ghost"}
+					className='flex cursor-pointer items-center mb-auto gap-2'
+					disabled={isPending || isLoading}>
 					<Filter className="w-4 h-4" />
-					Filtros
+					{hasFilters ? "Filtros (ativos)" : "Filtros"}
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="max-w-md">
@@ -103,9 +116,8 @@ const ProductFilters = () => {
 					<Button
 						variant="destructive"
 						className="self-end text-sm cursor-pointer"
-						onClick={() => {
-							startTransition(() => router.push(window.location.pathname))
-						}}
+						onClick={() => resetQuery()}
+						
 					>
 						Limpar filtros
 					</Button>
