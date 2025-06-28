@@ -77,14 +77,43 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
-		const products = await prisma.product.findMany({
-			orderBy: { createdAt: "desc" },
-			include: {
-				category: true,
-				supplier: true
+		const {searchParams} = new URL(req.url)
 
+		const categoryId = searchParams.get("categoryId")
+		const supplierId = searchParams.get("supplierId")
+		const usageStatus = searchParams.get("status")
+		const warehouseId = searchParams.get("warehouseId")
+
+		const where: any = {}
+
+		if(categoryId) {
+			where.categoryId = categoryId
+		}
+
+		if(supplierId){
+			where.supplierId = supplierId
+		}
+
+		if(usageStatus){
+			where.usageStatus = usageStatus
+		}
+
+		const products = await prisma.product.findMany({
+			where, 
+			include: {
+				category: true, 
+				supplier: true, 
+				warehouseProduct: warehouseId ? {
+					where: {
+						warehouseId
+					}, 
+					select: {
+						quantity: true
+					}
+				}
+				: false
 			}
 		})
 

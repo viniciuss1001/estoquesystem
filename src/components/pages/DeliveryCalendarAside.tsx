@@ -1,15 +1,15 @@
 "use client"
 
-import api from "@/lib/axios"
-import { Delivery } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
-import { isAfter, isSameDay, parseISO, format } from "date-fns"
-import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
-import { CalendarDays, ChevronRight, ChevronsDown, DollarSign, FileText, Package, Truck } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import api from "@/lib/axios"
+import { Delivery, SupplierInvoice } from "@/types/types"
+import { useQuery } from "@tanstack/react-query"
+import { format, isAfter, isSameDay, parseISO } from "date-fns"
+import { ptBR } from "date-fns/locale"
+import { CalendarDays, ChevronRight, ChevronsDown, DollarSign, FileText, Package, Truck } from "lucide-react"
 import Link from "next/link"
-import { SupplierInvoice } from "@/types/types"
+import { useState } from "react"
 
 const DeliveryCalendarAside = () => {
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
@@ -45,7 +45,7 @@ const DeliveryCalendarAside = () => {
 
 	return (
 		<div className="max-w-sm space-y-4">
-			<h2 className="text-2xl font-bold p-2 flex gap-2">
+			<h2 className="text-2xl font-bold flex gap-2">
 				<ChevronsDown className="text-xl text-blue-500 " />
 
 				Próximas Entregas
@@ -56,6 +56,7 @@ const DeliveryCalendarAside = () => {
 					selected={selectedDate}
 					onSelect={setSelectedDate}
 					className="rounded-md border"
+					locale={ptBR}
 					modifiers={{
 						hasEvent: (date) => highlightedDates.includes(format(date, "yyyy-MM-dd"))
 					}}
