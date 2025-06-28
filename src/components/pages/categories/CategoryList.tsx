@@ -25,7 +25,7 @@ const CategoryList = () => {
       const response = await api.get("/categories");
       return response.data
     },
-  });
+  })
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -38,7 +38,7 @@ const CategoryList = () => {
     onError: () => {
       toast.error("Erro ao deletar categoria");
     },
-  });
+  })
 
   return (
     <Card>

@@ -69,7 +69,8 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     const suppliers = await prisma.supplier.findMany({
-      orderBy: { createdAt: "desc" }
+      orderBy: { createdAt: "desc" },
+      select: { id: true, name: true }
     })
 
     return NextResponse.json({ suppliers })
