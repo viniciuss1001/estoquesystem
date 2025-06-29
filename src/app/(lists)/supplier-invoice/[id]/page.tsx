@@ -90,7 +90,7 @@ const SupplierInvoicePage = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Título */}
+      {/* title */}
       <div className="flex items-center gap-2 justify-between ">
         <div className="flex gap-2 items-center">
           <FileText className="w-6 h-6 text-primary" />
@@ -102,7 +102,7 @@ const SupplierInvoicePage = () => {
         </div>
       </div>
 
-      {/* Detalhes principais */}
+      {/* principal details */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Informações Gerais</CardTitle>
@@ -148,7 +148,7 @@ const SupplierInvoicePage = () => {
         </CardContent>
       </Card>
 
-      {/* Datas */}
+      {/* date */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Datas</CardTitle>

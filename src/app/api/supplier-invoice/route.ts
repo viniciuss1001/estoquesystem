@@ -1,5 +1,6 @@
 
 import { logAction } from "@/lib/audit";
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { writeFile } from "fs/promises";
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
 
 		let fileUrl: string | null = null
 
-		if(file) {
+		if (file) {
 			const bytes = await file.arrayBuffer()
 			const buffer = Buffer.from(bytes)
 
@@ -65,27 +66,49 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
-		
+
+		const { error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+
+		const { searchParams } = new URL(req.url)
+
+		const supplierId = searchParams.get("supplierId") || undefined
+		const status = searchParams.get("status") as "PENDING" | "PAID" | "CANCELED" | undefined
+		const dueDateFrom = searchParams.get("dueDateFrom")
+		const dueDateTo = searchParams.get("dueDateTo")
+
 		const invoices = await prisma.supplierInvoice.findMany({
-			orderBy: {dueDate: "asc"},
+			where: {
+				...(supplierId && { supplierId }),
+				...(status && { status }),
+				...(dueDateFrom || dueDateTo
+					? {
+						dueDate: {
+							...(dueDateFrom && { gte: new Date(dueDateFrom) }),
+							...(dueDateTo && { lte: new Date(dueDateTo) }),
+						},
+					}
+					: {}),
+			},
+			orderBy: { dueDate: "asc" },
 			select: {
-				id: true, 
+				id: true,
 				title: true,
 				description: true,
 				amount: true,
 				dueDate: true,
 				status: true,
-				createdAt: true, 
-				supplier: {select: {name: true}}
+				createdAt: true,
+				supplier: { select: { name: true } }
 			}
 		})
 
 		return NextResponse.json(invoices)
 
 	} catch (error) {
-		 console.error("Erro ao buscar boletos:", error)
-    return NextResponse.json({ error: "Erro ao buscar boletos" }, { status: 500 })
+		console.error("Erro ao buscar boletos:", error)
+		return NextResponse.json({ error: "Erro ao buscar boletos" }, { status: 500 })
 	}
 }

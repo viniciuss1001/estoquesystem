@@ -1,6 +1,7 @@
 import { Category, Delivery, Movement, Product, Supplier, SupplierInvoice, Warehouse, WarehouseProduct } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import api from "./axios"
+import { format } from "date-fns"
 
 type ProductFilters = {
     categoryId?: string
@@ -25,6 +26,13 @@ interface FilteredDeliveriesParams {
 
 interface FilteredWarehouseParams {
     location?: string
+}
+
+export type InvoiceFilters = {
+  supplierId?: string
+  status?: "PENDING" | "PAID" | "CANCELED"
+  dueDateFrom?: Date
+  dueDateTo?: Date
 }
 
 export function useCategories() {
@@ -184,7 +192,7 @@ export function useFilteredMovements(filters: MovementFilters) {
         queryKey: ["movements", filters],
         queryFn: async () => {
             const params = new URLSearchParams()
-            
+
             if (filters.productId) params.append("productId", filters.productId)
             if (filters.type) params.append("type", filters.type)
             if (filters.status) params.append("status", filters.status)
@@ -216,6 +224,23 @@ export function useMovement(id: string) {
         },
         enabled: !!id
     })
+}
+
+export function useFilteredSupplierInvoices(filters: InvoiceFilters) {
+  return useQuery({
+    queryKey: ["invoices", filters],
+    queryFn: async () => {
+      const params = new URLSearchParams()
+
+      if (filters.supplierId) params.append("supplierId", filters.supplierId)
+      if (filters.status) params.append("status", filters.status)
+      if (filters.dueDateFrom) params.append("dueDateFrom", format(filters.dueDateFrom, "yyyy-MM-dd"))
+      if (filters.dueDateTo) params.append("dueDateTo", format(filters.dueDateTo, "yyyy-MM-dd"))
+
+      const response = await api.get(`/supplier-invoice?${params.toString()}`)
+      return response.data as SupplierInvoice[]
+    }
+  })
 }
 
 export function useSupplierInvoices() {

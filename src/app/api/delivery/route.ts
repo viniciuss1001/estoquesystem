@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 			action: "create",
 			entity: "delivery",
 			entityId: delivery.id,
-			description: `Entrega criada para o produto ${body.productId} com quantidade ${body.quantity}`
+			description: `Entrega criada para o produto ${body.productId.name} com quantidade ${body.quantity}`
 		})
 
 		return NextResponse.json(delivery, { status: 201 })

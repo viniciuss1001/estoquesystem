@@ -1,8 +1,8 @@
 "use client"
 
 import CreateSupplierInvoiceForm from "@/components/pages/supplier-invoice/CreateSupplierInvoiceForm"
+import SupplierInvoiceFilterModal from "@/components/pages/supplier-invoice/SupplierInvoiceFilterModal"
 import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
 import {
 	Table,
 	TableBody,
@@ -11,9 +11,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
-import { useSupplierInvoices } from "@/lib/queries"
-import { format, isValid } from "date-fns"
+import { useFilteredSupplierInvoices } from "@/lib/queries"
+import { useQueryClient } from "@tanstack/react-query"
+import { format, isValid, parse } from "date-fns"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 
 const statusColor = {
@@ -23,12 +26,40 @@ const statusColor = {
 }
 
 const SupplierInvoicesPage = () => {
-	const { data: invoices = [], isLoading } = useSupplierInvoices()
-	
-	if (isLoading) {
-		return <Skeleton className="h-40 w-full" />
-	}
 
+	const queryClient = useQueryClient()
+	const searchParams = useSearchParams()
+
+	// verify status
+	const validStatuses = ["PENDING", "PAID", "CANCELED"] as const
+	const rawStatus = searchParams.get("status")
+	const status = validStatuses.includes(rawStatus as any)
+		? (rawStatus as typeof validStatuses[number])
+		: undefined
+
+	// supplier
+	const supplierId = searchParams.get("supplierId") || undefined
+
+	// duedate range
+	const dueDateFromParam = searchParams.get("dueDateFrom")
+	const dueDateToParam = searchParams.get("dueDateTo")
+	const dueDateFrom = dueDateFromParam ? parse(dueDateFromParam, "yyyy-MM-dd", new Date()) : undefined
+	const dueDateTo = dueDateToParam ? parse(dueDateToParam, "yyyy-MM-dd", new Date()) : undefined
+
+	const { data: invoices = [], isLoading } = useFilteredSupplierInvoices({
+		supplierId,
+		status,
+		dueDateFrom,
+		dueDateTo
+	})
+
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center w-full h-full">
+				<Loader2 className="w-6 h-6 animate-spin" />
+			</div>
+		)
+	}
 
 
 	return (
@@ -36,6 +67,7 @@ const SupplierInvoicesPage = () => {
 			<div className="flex p-2">
 				<h2 className="text-2xl font-bold mb-4">Boletos de Fornecedores</h2>
 				<div className="flex ml-auto">
+					<SupplierInvoiceFilterModal />
 					<CreateSupplierInvoiceForm />
 				</div>
 			</div>
@@ -61,34 +93,34 @@ const SupplierInvoicesPage = () => {
 						</TableRow>
 					) : (
 						invoices.map((invoice) => (
-							
-								<TableRow key={invoice.id}>
-									<TableCell>{invoice.supplier?.name || "-"}</TableCell>
-									<TableCell>{invoice.title}</TableCell>
-									<TableCell>R$ {Number(invoice.amount).toFixed(2) || "-"}</TableCell>
-									<TableCell>
-										{invoice.dueDate && isValid(new Date(invoice.dueDate))
-											? format(new Date(invoice.dueDate), "dd/MM/yyyy")
-											: "-"}
-									</TableCell>
-									<TableCell>
-										<Badge className={statusColor[invoice.status]}>
-											{invoice.status === "PENDING"
-												? "Pendente"
-												: invoice.status === "PAID"
-													? "Pago"
-													: "Cancelado"}
-										</Badge>
-									</TableCell>
-									<TableCell>
-										{invoice.createdAt ? format(new Date(invoice.createdAt), "dd/MM/yyyy") : "-"}
-									</TableCell>
-									<TableCell>
-										<Link href={`/supplier-invoice/${invoice.id}`} className="text-blue-600 underline">
-											Detalhes
-										</Link>
-									</TableCell>
-								</TableRow>
+
+							<TableRow key={invoice.id}>
+								<TableCell>{invoice.supplier?.name || "-"}</TableCell>
+								<TableCell>{invoice.title}</TableCell>
+								<TableCell>R$ {Number(invoice.amount).toFixed(2) || "-"}</TableCell>
+								<TableCell>
+									{invoice.dueDate && isValid(new Date(invoice.dueDate))
+										? format(new Date(invoice.dueDate), "dd/MM/yyyy")
+										: "-"}
+								</TableCell>
+								<TableCell>
+									<Badge className={statusColor[invoice.status]}>
+										{invoice.status === "PENDING"
+											? "Pendente"
+											: invoice.status === "PAID"
+												? "Pago"
+												: "Cancelado"}
+									</Badge>
+								</TableCell>
+								<TableCell>
+									{invoice.createdAt ? format(new Date(invoice.createdAt), "dd/MM/yyyy") : "-"}
+								</TableCell>
+								<TableCell>
+									<Link href={`/supplier-invoice/${invoice.id}`} className="text-blue-600 underline">
+										Detalhes
+									</Link>
+								</TableCell>
+							</TableRow>
 						))
 					)}
 				</TableBody>
