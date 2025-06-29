@@ -236,8 +236,6 @@ export async function POST(req: NextRequest) {
       },
     })
 
-
-
     await logAction({
       userId: session?.user.id,
       action: "create",
@@ -255,6 +253,8 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Erro interno do servidor", { status: 500 });
   }
 }
+
+
 export async function GET(req: NextRequest) {
   try {
 

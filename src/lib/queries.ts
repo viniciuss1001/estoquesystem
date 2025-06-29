@@ -16,6 +16,12 @@ type MovementFilters = {
     originWarehouseId?: string
     destinationWarehouseId?: string
 }
+interface FilteredDeliveriesParams {
+    productId?: string
+    supplierId?: string
+    warehouseId?: string
+    status?: "PENDING" | "COMPLETED" | "CANCELED" | "LATE"
+}
 
 interface FilteredWarehouseParams {
     location?: string
@@ -134,6 +140,24 @@ export function useWarehouseProduct() {
     })
 }
 
+export function useFilteredDeliveries(filters: FilteredDeliveriesParams) {
+    return useQuery({
+        queryKey: ["deliveries", filters],
+        queryFn: async () => {
+            const params = new URLSearchParams()
+
+            if (filters.productId) params.append("productId", filters.productId)
+            if (filters.supplierId) params.append("supplierId", filters.supplierId)
+            if (filters.warehouseId) params.append("warehouseId", filters.warehouseId)
+            if (filters.status) params.append("status", filters.status)
+
+            const response = await api.get(`/delivery?${params.toString()}`)
+            return response.data as Delivery[]
+        },
+    })
+
+}
+
 export function useDeliveries() {
     return useQuery({
         queryKey: ["deliveries"],
@@ -160,6 +184,7 @@ export function useFilteredMovements(filters: MovementFilters) {
         queryKey: ["movements", filters],
         queryFn: async () => {
             const params = new URLSearchParams()
+            
             if (filters.productId) params.append("productId", filters.productId)
             if (filters.type) params.append("type", filters.type)
             if (filters.status) params.append("status", filters.status)

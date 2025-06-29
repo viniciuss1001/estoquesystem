@@ -1,4 +1,5 @@
 import { logAction } from "@/lib/audit";
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -48,19 +49,63 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
+
+		const { session, error: sessionError } = await requireSession()
+
+		if (sessionError) {
+			return sessionError
+		}
+
+		const { searchParams } = new URL(req.url)
+
+		const productId = searchParams.get("productId") || undefined
+		const supplierId = searchParams.get("supplierId") || undefined
+		const warehouseId = searchParams.get("warehouseId") || undefined
+		const status = searchParams.get("status") as "PENDING" | "COMPLETED" | "CANCELED" | "LATE" | undefined
+
+		const where: any = {
+			...(productId && { productId }),
+			...(supplierId && { supplierId }),
+			...(warehouseId && { warehouseId }),
+			...(status && { status }),
+		}
+
 		const deliveries = await prisma.delivery.findMany({
+			where,
 			orderBy: { createdAt: "desc" },
 			include: {
-				product: true,
-				supplier: true,
-				warehouse: true,
-				supplierInvoice: true
+				product: {
+					select: {
+						id: true,
+						name: true
+					}
+				},
+				supplier: {
+					select: {
+						id: true,
+						name: true
+
+					}
+				},
+				warehouse: {
+					select: {
+						id: true,
+						name: true
+					}
+				},
+				supplierInvoice: {
+					select: {
+						id: true,
+						title: true
+					}
+				}
 			}
 		})
 
 		return NextResponse.json(deliveries)
+
 	} catch (error) {
 		console.error(error)
 		return NextResponse.json({ error: "Erro ao buscar entregas" }, { status: 500 })

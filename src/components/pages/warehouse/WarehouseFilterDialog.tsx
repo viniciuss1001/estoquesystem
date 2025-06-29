@@ -18,8 +18,9 @@ const WarehouseFilterDialog = ({ onFilter }: WarehouseFilterDialogProps) => {
 		<div>
 			<Dialog>
 				<DialogTrigger asChild>
-					<Button variant="ghost" className="cursor-pointer">
+					<Button variant="ghost" className="cursor-pointer flex gap-1">
 						<Filter className="size-4" />
+						Filtros
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[400px]">

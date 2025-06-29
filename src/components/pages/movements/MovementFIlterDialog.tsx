@@ -56,7 +56,7 @@ const MovementFilterDialog = () => {
 			<DialogTrigger asChild>
 				<Button
 					variant={hasFilters ? "default" : "ghost"}
-					className="flex items-center gap-2 justify-center"
+					className="flex items-center gap-2 justify-center cursor-pointer"
 					disabled={isPending}
 				>
 					<Filter className="w-4 h-4" />

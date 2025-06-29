@@ -10,7 +10,7 @@ const CollapsibleAside = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<aside
-			className={`flex flex-col border-l border-card/50 bg-card/50 rounded-sm mt-4 mb-4 p-2 transition-all duration-300 ease-in-out ${open ? "w-1/4 p-4" : "w-12"
+			className={`flex flex-col border-l bg-card dark:border-card/50 dark:bg-card/50 rounded-sm mt-4 mb-4 p-2 transition-all duration-300 ease-in-out ${open ? "w-1/4 p-4" : "w-12"
 				} overflow-hidden`}>
 			<Button
 				variant='ghost'
