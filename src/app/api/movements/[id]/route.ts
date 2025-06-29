@@ -26,7 +26,7 @@ export async function GET(
     );
   }
 
-  return NextResponse.json({ movement });
+  return NextResponse.json(movement)
 }
 
 export async function PATCH(

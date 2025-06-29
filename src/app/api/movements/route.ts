@@ -1,4 +1,5 @@
 import { logAction } from "@/lib/audit";
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -29,14 +30,14 @@ export async function POST(req: NextRequest) {
         status: 400,
       })
     }
-    
+
     let quantityBefore = 0
     let quantityAfter = 0
 
     //types needs stock
     if (status === "COMPLETED" && (type === "OUT" || type === "TRANSFER")) {
       if (!originWarehouseId) {
-        return new NextResponse("Armazém de origem obigatório.", { status: 400})
+        return new NextResponse("Armazém de origem obigatório.", { status: 400 })
       }
 
       const stock = await prisma.warehouseProduct.findUnique({
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest) {
           }
 
           const destStock = await prisma.warehouseProduct.findUnique({
-            where:{
+            where: {
               warehouseId_productId: {
                 warehouseId: destinationWarehouseId,
                 productId
@@ -113,14 +114,14 @@ export async function POST(req: NextRequest) {
 
           const originStock = await prisma.warehouseProduct.findUnique({
             where: {
-              warehouseId_productId:{
+              warehouseId_productId: {
                 warehouseId: originWarehouseId,
                 productId
               }
             }
           })
 
-          if(!originStock || originStock.quantity < quantity){
+          if (!originStock || originStock.quantity < quantity) {
             return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 })
           }
 
@@ -166,12 +167,12 @@ export async function POST(req: NextRequest) {
             }
           })
 
-          if(!originStock || originStock.quantity < quantity) {
+          if (!originStock || originStock.quantity < quantity) {
             return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 })
           }
 
           const detinationStock = await prisma.warehouseProduct.findUnique({
-            where:{
+            where: {
               warehouseId_productId: {
                 warehouseId: destinationWarehouseId,
                 productId
@@ -182,7 +183,7 @@ export async function POST(req: NextRequest) {
           quantityBefore = originStock.quantity
           quantityAfter = quantityBefore - quantity
 
-        
+
           // Decrementa origem
           await prisma.warehouseProduct.update({
             where: {
@@ -254,26 +255,44 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Erro interno do servidor", { status: 500 });
   }
 }
-export async function GET() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return new NextResponse("Não autorizado", { status: 401 });
-  }
-
+export async function GET(req: NextRequest) {
   try {
+
+    const { session, error: sessionError } = await requireSession()
+
+    if (sessionError) {
+      return sessionError
+    }
+
+    const { searchParams } = new URL(req.url)
+
+    const productId = searchParams.get("productId") || undefined
+    const type = searchParams.get("type") || undefined
+    const status = searchParams.get("status") || undefined
+    const originWarehouseId = searchParams.get("originWarehouseId") || undefined
+    const destinationWarehouseId = searchParams.get("destinationWarehouseId") || undefined
+
+    const where: any = {
+      productId,
+      type,
+      status,
+      originWarehouseId,
+      destinationWarehouseId
+    }
+
     const movements = await prisma.stockMovement.findMany({
+      where,
       orderBy: { createdAt: "desc" },
       include: {
-        product: true,
-        originWareHouse: true,
-        destinationWarehouse: true,
+        product: { select: { id: true, name: true } },
+        originWareHouse: { select: { id: true, name: true } },
+        destinationWarehouse: { select: { id: true, name: true } },
       },
     });
 
-    return NextResponse.json({ movements });
+    return NextResponse.json(movements)
   } catch (error) {
-    console.error("Erro ao buscar movimentações.", error);
+    console.error("Erro ao buscar movimentações.", error)
     return new NextResponse("Erro interno do servidor", { status: 500 });
   }
 }

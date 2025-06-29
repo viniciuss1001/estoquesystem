@@ -9,6 +9,14 @@ type ProductFilters = {
     usageStatus?: string
 }
 
+type MovementFilters = {
+    productId?: string
+    type?: "IN" | "OUT" | "TRANSFER"
+    status?: "PENDING" | "COMPLETED" | "CANCELED"
+    originWarehouseId?: string
+    destinationWarehouseId?: string
+}
+
 interface FilteredWarehouseParams {
     location?: string
 }
@@ -147,12 +155,29 @@ export function useDelivery(id: string) {
     })
 }
 
+export function useFilteredMovements(filters: MovementFilters) {
+    return useQuery({
+        queryKey: ["movements", filters],
+        queryFn: async () => {
+            const params = new URLSearchParams()
+            if (filters.productId) params.append("productId", filters.productId)
+            if (filters.type) params.append("type", filters.type)
+            if (filters.status) params.append("status", filters.status)
+            if (filters.originWarehouseId) params.append("originWarehouseId", filters.originWarehouseId)
+            if (filters.destinationWarehouseId) params.append("destinationWarehouseId", filters.destinationWarehouseId)
+
+            const response = await api.get(`/movements?${params.toString()}`)
+            return response.data as Movement[]
+        },
+    })
+}
+
 export function useMovements() {
     return useQuery({
         queryKey: ["movements"],
         queryFn: async () => {
             const response = await api.get('/movements')
-            return response.data.movements as Movement[]
+            return response.data as Movement[]
         }
     })
 }
@@ -162,7 +187,7 @@ export function useMovement(id: string) {
         queryKey: ["movement", id],
         queryFn: async () => {
             const response = await api.get(`/movements/${id}`)
-            return response.data.movement as Movement
+            return response.data as Movement
         },
         enabled: !!id
     })

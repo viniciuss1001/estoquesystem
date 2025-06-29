@@ -1,16 +1,38 @@
 "use client"
 
 import CreateMovementForm from '@/components/pages/movements/create-movement-form'
+import MovementFilterDialog from '@/components/pages/movements/MovementFIlterDialog'
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useMovements } from '@/lib/queries'
+import { useFilteredMovements } from '@/lib/queries'
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 const MovementsPage = () => {
 
-  const { data: movements = [], isLoading } = useMovements()
+  const searchParams = useSearchParams()
+
+  const validTypes = ["IN", "OUT", "TRANSFER"] as const
+  const validStatuses = ["PENDING", "COMPLETED", "CANCELED"] as const
+
+  const rawType = searchParams.get("type")
+  const type = validTypes.includes(rawType as any) ? (rawType as typeof validTypes[number]) : undefined
+
+  const rawStatus = searchParams.get("status")
+  const status = validStatuses.includes(rawStatus as any) ? (rawStatus as typeof validStatuses[number]) : undefined
+
+  
+  const productId = searchParams.get("productId") || undefined
+  const originWarehouseId = searchParams.get("originWarehouseId") || undefined
+  const destinationWarehouseId = searchParams.get("destinationWarehouseId") || undefined
+
+  const { data: movements = [], isLoading } = useFilteredMovements({
+    productId, type, status, originWarehouseId, destinationWarehouseId
+  })
+
+  console.log(movements)
 
   const statusColor = {
     PENDING: "bg-yellow-100 text-yellow-800",
@@ -19,7 +41,7 @@ const MovementsPage = () => {
   }
 
   if (isLoading) {
-    return <Skeleton className="h-40 w-full" />
+    return <Skeleton className="h-40 w-full pt-10" />
   }
 
 
@@ -27,7 +49,9 @@ const MovementsPage = () => {
     <div className='p-6 w-full h-full'>
       <div className='flex  p-2'>
         <h2 className="text-2xl font-bold mb-4">Histórico de Movimentações</h2>
-        <div className='flex ml-auto'>
+        <div className='flex ml-auto gap-2 items-center justify-end'>
+          <MovementFilterDialog />
+
           <CreateMovementForm />
         </div>
       </div>
