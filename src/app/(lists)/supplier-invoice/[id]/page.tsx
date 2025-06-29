@@ -1,56 +1,59 @@
 "use client"
 
-import { useParams } from "next/navigation"
-import { useSession } from "next-auth/react"
-import { useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
 import {
-  Loader2,
-  FileText,
-  CalendarDays,
   BadgeCheck,
   Ban,
+  CalendarDays,
   Clock,
   FileDown,
+  FileText,
+  Loader2,
 } from "lucide-react"
-import api from "@/lib/axios"
+import { useSession } from "next-auth/react"
+import { useParams } from "next/navigation"
 
+import EditSupplierInvoiceForm from "@/components/pages/supplier-invoice/EditSupplierInvoiceForm"
+import { Badge } from "@/components/ui/badge"
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import EditSupplierInvoiceForm from "@/components/pages/supplier-invoice/EditSupplierInvoiceForm"
 import { useSupplierInvoice } from "@/lib/queries"
 
 const statusMap = {
   PENDING: {
     label: "Pendente",
-    color: "yellow",
+    bgColor: "bg-yellow-100",
+    textColor: "text-yellow-800",
     icon: <Clock className="w-4 h-4 mr-1" />,
   },
   PAID: {
     label: "Pago",
-    color: "green",
+    bgColor: "bg-green-100",
+    textColor: "text-green-800",
     icon: <BadgeCheck className="w-4 h-4 mr-1" />,
   },
   CANCELED: {
     label: "Cancelado",
-    color: "destructive",
+    bgColor: "bg-red-100",
+    textColor: "text-red-800",
     icon: <Ban className="w-4 h-4 mr-1" />,
   },
 }
+
+
 
 const SupplierInvoicePage = () => {
   const { id } = useParams()
   const { data: session } = useSession()
 
   const { data: invoice, isLoading } = useSupplierInvoice(id as string)
-  
+
   if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
@@ -69,7 +72,8 @@ const SupplierInvoicePage = () => {
 
   const statusInfo = statusMap[invoice.status] || {
     label: invoice.status,
-    color: "secondary",
+    bgColor: "bg-gray-100",
+    textColor: "text-gray-800",
     icon: null,
   }
 
@@ -90,11 +94,11 @@ const SupplierInvoicePage = () => {
       <div className="flex items-center gap-2 justify-between ">
         <div className="flex gap-2 items-center">
           <FileText className="w-6 h-6 text-primary" />
-        <h1 className="text-2xl font-bold">Detalhes do Boleto</h1>
+          <h1 className="text-2xl font-bold">Detalhes do Boleto</h1>
         </div>
 
         <div className="flex items-center ml-auto">
-          <EditSupplierInvoiceForm invoiceId={id as string}/>
+          <EditSupplierInvoiceForm invoiceId={id as string} />
         </div>
       </div>
 
@@ -121,9 +125,9 @@ const SupplierInvoicePage = () => {
             </p>
             <p className="flex items-center gap-2">
               <span className="font-medium text-foreground">Status:</span>
-              <Badge variant={statusInfo.color as any} className="flex items-center gap-1">
+              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-sm font-medium ${statusInfo.bgColor} ${statusInfo.textColor}`}>
                 {statusInfo.icon} {statusInfo.label}
-              </Badge>
+              </span>
             </p>
             <p>
               <span className="font-medium text-foreground">Arquivo:</span>{" "}

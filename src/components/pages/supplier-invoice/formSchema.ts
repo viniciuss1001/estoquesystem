@@ -1,4 +1,4 @@
-import {z} from 'zod'
+import { z } from 'zod'
 
 export const supplierInvoiceSchema = z.object({
 	supplierId: z.string().min(1, 'Fornecedor obrigatório.'),
@@ -12,12 +12,11 @@ export const supplierInvoiceSchema = z.object({
 export type SupplierInvoiceFormValues = z.infer<typeof supplierInvoiceSchema>
 
 export const editInvoiceSchema = z.object({
-	title: z.string().min(1, "Título é obrigatório"),
-  description: z.string().optional(),
-  amount: z.coerce.number().positive("Valor inválido"),
-  dueDate: z.string().min(1, "Data de vencimento obrigatória"),
-  status: z.enum(["PENDING", "PAID", "CANCELED"]),
-  supplierId: z.string().uuid("Fornecedor inválido"),
+	title: z.string().min(1, "Título obrigatório"),
+	description: z.string().optional(),
+	amount: z.coerce.number().min(0.01, "Valor inválido"),
+	dueDate: z.string().min(1, "Data obrigatória"),
+	status: z.enum(["PENDING", "PAID", "CANCELED"]),
 })
 
 export type EditInvoiceFormData = z.infer<typeof editInvoiceSchema>

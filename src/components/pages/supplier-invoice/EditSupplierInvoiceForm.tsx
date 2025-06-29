@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { EditInvoiceFormData, editInvoiceSchema } from "./formSchema"
@@ -25,6 +25,9 @@ interface EditSupplierInvoiceModalProps {
 
 
 const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) => {
+
+	const [open, setOpen] = useState(false)
+
 	const router = useRouter()
 	const queryClient = useQueryClient()
 
@@ -39,7 +42,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 		}
 	})
 
-	const { data: invoice, isLoading } = useSupplierInvoice(invoiceId)
+	const { data: invoice, isLoading } = useSupplierInvoice(invoiceId as string)
 
 	useEffect(() => {
 		if (invoice) {
@@ -53,7 +56,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 		}
 	}, [invoice, form])
 
-	const updateInvoice = useMutation({
+	const { mutate: updateInvoice, isPending } = useMutation({
 		mutationFn: (data: EditInvoiceFormData) =>
 			api.patch(`/supplier-invoice/${invoiceId}`, {
 				...data,
@@ -63,6 +66,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 		onSuccess: () => {
 			toast.success("Boleto atualizado com sucesso.")
 			queryClient.invalidateQueries({ queryKey: ["supplierInvoice", invoiceId] })
+			setOpen(false)
 		},
 		onError: () => toast.error("Erro ao atualizar boleto."),
 	})
@@ -77,7 +81,8 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 	})
 
 	const onSubmit = (data: EditInvoiceFormData) => {
-		updateInvoice.mutate(data)
+		console.log("dados enviados", data)
+		updateInvoice(data)
 	}
 
 	const onDelete = () => {
@@ -94,10 +99,19 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 
 	return (
 		<div className="p-6 max-w-2xl mx-auto">
-			<Dialog>
-				<DialogTrigger className="p-2 m-0 cursor-pointer flex items-center border rounded-sm bg-card/50 hover:bg-card shadow-sm">
-					<Pencil className="size-4 ml-2 mr-2" />
-					<span>Editar Boleto</span>
+			<Dialog open={open} onOpenChange={setOpen}>
+				<DialogTrigger asChild>
+					<Button
+						variant="ghost"
+						onClick={() => {
+							if (invoice) setOpen(true)
+						}}
+						disabled={!invoice}
+						className="p-2 m-0 cursor-pointer flex items-center shadow-sm"
+					>
+						<Pencil className="size-4 ml-2 mr-2" />
+						<span>Editar Boleto</span>
+					</Button>
 				</DialogTrigger>
 				<DialogContent>
 					<DialogHeader className="flex justify-start items-center gap-3">
@@ -105,7 +119,12 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 					</DialogHeader>
 
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+						<form
+							onSubmit={form.handleSubmit(onSubmit, (errors) => {
+								console.log("erros de validação:", errors)
+							})}
+							className="space-y-4">
+							{/* title */}
 							<FormField
 								control={form.control}
 								name="title"
@@ -120,6 +139,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 								)}
 							/>
 
+							{/* description */}
 							<FormField
 								control={form.control}
 								name="description"
@@ -135,6 +155,8 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 							/>
 
 							<div className="grid grid-cols-2 gap-4">
+
+								{/* amount */}
 								<FormField
 									control={form.control}
 									name="amount"
@@ -142,13 +164,19 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 										<FormItem>
 											<FormLabel>Valor</FormLabel>
 											<FormControl>
-												<Input type="number" step="0.01" {...field} />
+												<Input
+													type="number"
+													step="0.01"
+													value={field.value}
+													onChange={(e) => field.onChange(Number(e.target.value))}
+												/>
 											</FormControl>
 											<FormMessage />
 										</FormItem>
 									)}
 								/>
 
+								{/* dueDate */}
 								<FormField
 									control={form.control}
 									name="dueDate"
@@ -164,6 +192,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 								/>
 							</div>
 
+							{/* status */}
 							<FormField
 								control={form.control}
 								name="status"
@@ -189,8 +218,15 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 
 							<DialogFooter className="flex items-center justify-between pt-4 gap-2">
 								<AlertDialogDelete type="Boleto" onDelete={onDelete} />
-								<Button type="submit" className="w-2/4">
-									Salvar
+								<Button
+									type="submit"
+									className="w-2/4 cursor-pointer"
+									disabled={isPending}
+								>
+									{isPending ? (
+										<Loader2 className="animate-spin size-4 mr-2" />
+									) : "Atualizar Boleto"}
+
 								</Button>
 							</DialogFooter>
 						</form>
