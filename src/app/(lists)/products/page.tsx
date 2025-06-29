@@ -4,9 +4,7 @@ import EditProductModal from "@/components/pages/product/product-edit-modal"
 import ProductFilters from "@/components/pages/product/ProductFilters"
 import ProductListActions from "@/components/pages/product/ProductListActions"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
-import { Product } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
+import { useFilteredProducts } from "@/lib/queries"
 import { Boxes, PackageCheck, PackageX } from "lucide-react"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
@@ -23,19 +21,8 @@ const ProductsPage = () => {
   const warehouseId = searchParams.get("warehouseId") || undefined
   const usageStatus = searchParams.get("usageStatus") || undefined
 
-  const { data: products = [], isLoading, isError } = useQuery({
-    queryKey: ['products', { categoryId, supplierId, warehouseId, usageStatus }],
-    queryFn: async () => {
-      const params = new URLSearchParams()
-
-      if (categoryId) params.append("categoryId", categoryId)
-      if (supplierId) params.append("supplierId", supplierId)
-      if (warehouseId) params.append("warehouseId", warehouseId)
-      if (usageStatus) params.append("usageStatus", usageStatus)
-
-      const response = await api.get(`/product?${params.toString()}`)
-      return response.data as Product[]
-    },
+  const { data: products = [], isLoading, isError } = useFilteredProducts({
+    categoryId, supplierId, warehouseId, usageStatus
   })
 
   const usageStatusMap = {

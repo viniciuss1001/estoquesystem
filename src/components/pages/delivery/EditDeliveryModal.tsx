@@ -26,10 +26,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import api from "@/lib/axios"
-import { useDelivery, useSupplierInvoices, useWarehouses } from "@/lib/queries"
-import { Product, SupplierInvoice, Warehouse } from "@/types/types"
+import { useDelivery, useProducts, useSupplierInvoices, useWarehouses } from "@/lib/queries"
+import { Product } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -73,13 +73,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
 
   const { data: delivery } = useDelivery(deliveryId)
 
-  const { data: products = [] } = useQuery({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const response = await api.get("/product")
-      return response.data
-    }
-  })
+  const { data: products = [] } = useProducts()
 
   const { data: warehouses = [] } =useWarehouses()
 

@@ -8,9 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { useWarehouseProductQuantity } from "@/hooks/useWarehouseProductQuantity"
 import api from "@/lib/axios"
-import { useWarehouses } from "@/lib/queries"
+import { useProducts, useWarehouses } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -62,18 +62,6 @@ const movementSchema = z.object({
 
 type MovementFormType = z.infer<typeof movementSchema>
 
-interface Product {
-	id: string
-	name: string
-
-}
-
-interface Warehouse {
-	id: string
-	name: string
-	location?: string | null
-	description: string
-}
 
 const CreateMovementForm = () => {
 	const [open, setOpen] = useState(false)
@@ -99,13 +87,7 @@ const CreateMovementForm = () => {
 	const destinationWarehouseId = form.watch("destinationWarehouseId")
 
 
-	const { data: products = [] } = useQuery({
-		queryKey: ['products'],
-		queryFn: async () => {
-			const response = await api.get('/product')
-			return response.data as Product[]
-		},
-	})
+	const { data: products = [] } = useProducts()
 
 	const { data: warehouses = [] } = useWarehouses()
 

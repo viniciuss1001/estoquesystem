@@ -41,13 +41,21 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
+
+		const { searchParams, } = new URL(req.url)
+
+		const location = searchParams.get("location") || undefined
+
 		const warehouses = await prisma.wareHouse.findMany({
+			where: {
+				location: location ? { contains: location, mode: "insensitive" } : undefined
+			},
 			orderBy: { createdAt: "desc" },
-			select: { 
-				id: true, 
-				name: true, 
+			select: {
+				id: true,
+				name: true,
 				location: true,
 				description: true
 			}

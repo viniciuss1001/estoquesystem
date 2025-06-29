@@ -8,9 +8,7 @@ import {
 	Breadcrumb, BreadcrumbLink, BreadcrumbList,
 	BreadcrumbPage, BreadcrumbSeparator
 } from "@/components/ui/breadcrumb"
-import api from "@/lib/axios"
-import { Product } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
+import { useProduct } from "@/lib/queries"
 import {
 	AlertCircle,
 	AlertTriangle,
@@ -30,15 +28,7 @@ const ProductPage = () => {
 	const { id } = useParams()
 	const {data: session} = useSession()
 
-	const { data: product, isLoading } = useQuery({
-		queryKey: ['product', id],
-		queryFn: async () => {
-			const response = await api.get(`/product/${id}`)
-			return response.data as Product
-		},
-		enabled: !!id,
-
-	})
+	const { data: product, isLoading } = useProduct(id as string)
 
 	if (isLoading) {
 		return (

@@ -6,10 +6,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
-import { useSupplierInvoices, useWarehouses } from "@/lib/queries"
-import { Product, SupplierInvoice, Warehouse } from "@/types/types"
+import { useProducts, useSupplierInvoices, useWarehouses } from "@/lib/queries"
+import { Product } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -45,13 +45,7 @@ const CreateDeliveryForm = () => {
 		}
 	})
 
-	const { data: products = [] } = useQuery({
-		queryKey: ["products"],
-		queryFn: async () => {
-			const response = await api.get("/product")
-			return response.data
-		}
-	})
+	const { data: products = [] } = useProducts()
 
 	const { data: warehouses = [] } = useWarehouses()
 

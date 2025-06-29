@@ -6,8 +6,9 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
+import { useProducts } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -48,13 +49,7 @@ const CreateSupplierModal = () => {
 	})
 
 	//load products
-	const { data: products = [], isLoading: isLoadingProducts } = useQuery({
-		queryKey: ['products'],
-		queryFn: async () => {
-			const response = await api.get('/product')
-			return response.data as Product[]
-		}
-	})
+	const { data: products = [], isLoading: isLoadingProducts } = useProducts()
 
 	const createSupplier = useMutation({
 		mutationFn: async (data: z.infer<typeof formSchema>) => {

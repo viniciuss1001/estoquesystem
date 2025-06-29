@@ -1,6 +1,17 @@
-import { Category, Delivery, Movement, Supplier, SupplierInvoice, Warehouse, WarehouseProduct } from "@/types/types"
+import { Category, Delivery, Movement, Product, Supplier, SupplierInvoice, Warehouse, WarehouseProduct } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import api from "./axios"
+
+type ProductFilters = {
+    categoryId?: string
+    supplierId?: string
+    warehouseId?: string
+    usageStatus?: string
+}
+
+interface FilteredWarehouseParams {
+    location?: string
+}
 
 export function useCategories() {
     return useQuery({
@@ -9,6 +20,44 @@ export function useCategories() {
             const response = await api.get("/categories")
             return response.data as Category[]
         }
+    })
+}
+
+export function useFilteredProducts(filters: ProductFilters) {
+    return useQuery({
+        queryKey: ['products', filters],
+        queryFn: async () => {
+            const params = new URLSearchParams()
+            if (filters.categoryId) params.append("categoryId", filters.categoryId)
+            if (filters.supplierId) params.append("supplierId", filters.supplierId)
+            if (filters.warehouseId) params.append("warehouseId", filters.warehouseId)
+            if (filters.usageStatus) params.append("usageStatus", filters.usageStatus)
+
+            const response = await api.get(`/product?${params.toString()}`)
+            return response.data as Product[]
+        },
+    })
+
+}
+
+export function useProducts() {
+    return useQuery({
+        queryKey: ["products"],
+        queryFn: async () => {
+            const response = await api.get("/product")
+            return response.data as Product[]
+        }
+    })
+}
+
+export function useProduct(id: string) {
+    return useQuery({
+        queryKey: ['product', id],
+        queryFn: async () => {
+            const response = await api.get(`/product/${id}`)
+            return response.data as Product
+        },
+        enabled: !!id,
     })
 }
 
@@ -33,6 +82,19 @@ export function useSupplier(id: string) {
     })
 }
 
+export function useFilteredWarehouses({ location }: FilteredWarehouseParams) {
+    return useQuery({
+        queryKey: ["warehouses", { location }],
+        queryFn: async () => {
+            const params = new URLSearchParams()
+            if (location) params.append("location", location)
+
+            const response = await api.get(`/warehouse?${params.toString()}`)
+            return response.data as Warehouse[]
+        },
+    })
+}
+
 export function useWarehouses() {
     return useQuery({
         queryKey: ["warehouses"],
@@ -49,7 +111,7 @@ export function useWarehouse(id: string) {
         queryFn: async () => {
             const response = await api.get(`/warehouse/${id}`)
             return response.data as Warehouse
-        }, 
+        },
         enabled: !!id
     })
 }

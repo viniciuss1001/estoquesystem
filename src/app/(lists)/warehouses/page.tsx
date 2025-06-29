@@ -2,14 +2,19 @@
 
 import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseModal"
 import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
+import WarehouseFilterDialog from "@/components/pages/warehouse/WarehouseFilterDialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useWarehouses } from "@/lib/queries"
+import { useFilteredWarehouses } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 const WarehousePage = () => {
+  const [locationFilter, setLocationFilter] = useState<string | undefined>(undefined)
 
-  const { data: warehouses = [], isLoading } = useWarehouses()
+  const { data: warehouses = [], isLoading } = useFilteredWarehouses({ location: locationFilter })
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-full"><Loader2 className="w-6 h-6 animate-spin" /></div>
@@ -19,7 +24,21 @@ const WarehousePage = () => {
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Armazéns</h2>
-        <CreateWarehouseModal />
+
+        <div className="flex gap-2">
+          <div className="flex gap-1">
+            <WarehouseFilterDialog onFilter={setLocationFilter} />
+            <Button
+              variant="ghost"
+              onClick={() => setLocationFilter(undefined)}
+              disabled={!locationFilter}
+              className="cursor-pointer"
+            >
+              Limpar Filtros
+            </Button>
+          </div>
+          <CreateWarehouseModal />
+        </div>
       </div>
 
       {warehouses.length === 0 ? (
