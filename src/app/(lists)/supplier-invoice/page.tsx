@@ -65,8 +65,15 @@ const SupplierInvoicesPage = () => {
 	return (
 		<div className="p-6 w-full h-full">
 			<div className="flex p-2">
-				<h2 className="text-2xl font-bold mb-4">Boletos de Fornecedores</h2>
-				<div className="flex ml-auto">
+				<div className="flex flex-col">
+
+					<h2 className="text-2xl font-bold mb-2">Boletos de Fornecedores</h2>
+
+					{ invoices.length > 0 && (
+						<p className="text-xs text-muted-foreground mb-4 ">Exibindo {invoices.length} boleto (s) com os filtros aplicados.</p>
+					)}
+				</div>
+				<div className="flex ml-auto justify-center items-center">
 					<SupplierInvoiceFilterModal />
 					<CreateSupplierInvoiceForm />
 				</div>

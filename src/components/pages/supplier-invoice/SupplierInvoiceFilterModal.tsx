@@ -23,6 +23,8 @@ const SupplierInvoiceFilterModal = () => {
 	const router = useRouter()
 	const [isPending, startTransition] = useTransition()
 
+	const [open, setOpen] = useState(false)
+
 	// local state
 	const [supplierId, setSupplierId] = useState<string | undefined>(
 		searchParams.get("supplierId") || undefined
@@ -31,16 +33,16 @@ const SupplierInvoiceFilterModal = () => {
 		searchParams.get("status") || undefined
 	)
 	const [dueDate, setDueDate] = useState<DateRange | undefined>(() => {
-	const from = searchParams.get("dueDateFrom")
-	const to = searchParams.get("dueDateTo")
-	if (from && to) {
-		return {
-			from: parse(from, "yyyy-MM-dd", new Date()),
-			to: parse(to, "yyyy-MM-dd", new Date()),
+		const from = searchParams.get("dueDateFrom")
+		const to = searchParams.get("dueDateTo")
+		if (from && to) {
+			return {
+				from: parse(from, "yyyy-MM-dd", new Date()),
+				to: parse(to, "yyyy-MM-dd", new Date()),
+			}
 		}
-	}
-	return undefined
-})
+		return undefined
+	})
 
 	const { data: suppliers = [] } = useSuppliers()
 
@@ -52,11 +54,11 @@ const SupplierInvoiceFilterModal = () => {
 		if (supplierId) params.set("supplierId", supplierId)
 		if (status) params.set("status", status)
 		if (dueDate?.from) {
-	params.set("dueDateFrom", dueDate.from.toISOString().split("T")[0])
-}
-if (dueDate?.to) {
-	params.set("dueDateTo", dueDate.to.toISOString().split("T")[0])
-}
+			params.set("dueDateFrom", dueDate.from.toISOString().split("T")[0])
+		}
+		if (dueDate?.to) {
+			params.set("dueDateTo", dueDate.to.toISOString().split("T")[0])
+		}
 
 		startTransition(() => router.push(`?${params.toString()}`))
 	}
@@ -70,7 +72,7 @@ if (dueDate?.to) {
 	}
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button
 					variant={hasFilters ? "default" : "ghost"}
@@ -83,58 +85,62 @@ if (dueDate?.to) {
 			</DialogTrigger>
 
 			<DialogContent className="sm:max-w-[480px]">
-        <DialogHeader>
-          <DialogTitle>Filtrar Boletos</DialogTitle>
-        </DialogHeader>
+				<DialogHeader>
+					<DialogTitle>Filtrar Boletos</DialogTitle>
+				</DialogHeader>
 
-        <div className="flex flex-col gap-4 py-2 w-full">
-          <Select value={supplierId} onValueChange={setSupplierId}>
-            <SelectTrigger>
-              <SelectValue placeholder="Fornecedor" />
-            </SelectTrigger>
-            <SelectContent>
-              {suppliers.map((s) => (
-                <SelectItem key={s.id} value={s.id}>
-                  {s.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+				<div className="flex flex-col gap-4 py-2 w-full">
 
-          <Select value={status} onValueChange={setStatus}>
-            <SelectTrigger>
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.map((s) => (
-                <SelectItem key={s.value} value={s.value}>
-                  {s.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+					{/* supplier */}
+					<Select value={supplierId} onValueChange={setSupplierId}>
+						<SelectTrigger>
+							<SelectValue placeholder="Fornecedor" />
+						</SelectTrigger>
+						<SelectContent>
+							{suppliers.map((s) => (
+								<SelectItem key={s.id} value={s.id}>
+									{s.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 
-          <DateRangePicker 
-			 date={dueDate}
-			 onChange={setDueDate}
-			 placeholder="Data de Vencimento"
-			 />
+					{/* status */}
 
-        </div>
+					<Select value={status} onValueChange={setStatus}>
+						<SelectTrigger>
+							<SelectValue placeholder="Status" />
+						</SelectTrigger>
+						<SelectContent>
+							{statusOptions.map((s) => (
+								<SelectItem key={s.value} value={s.value}>
+									{s.label}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 
-        <DialogFooter className="flex justify-end gap-2">
-          <Button
-            variant="destructive"
-            onClick={clearFilters}
-            disabled={!hasFilters}
-          >
-            Limpar filtros
-          </Button>
-          <Button onClick={applyFilters} disabled={isPending}>
-            Aplicar filtros
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+					<DateRangePicker
+						date={dueDate}
+						onChange={setDueDate}
+						placeholder="Data de vencimento"
+					/>
+
+				</div>
+
+				<DialogFooter className="flex justify-end gap-2">
+					<Button
+						variant="destructive"
+						onClick={clearFilters}
+						disabled={!hasFilters}
+					>
+						Limpar filtros
+					</Button>
+					<Button onClick={applyFilters} disabled={isPending}>
+						Aplicar filtros
+					</Button>
+				</DialogFooter>
+			</DialogContent>
 		</Dialog>
 	)
 }

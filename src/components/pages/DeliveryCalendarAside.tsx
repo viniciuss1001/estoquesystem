@@ -3,6 +3,7 @@
 import { Calendar } from "@/components/ui/calendar"
 import { Separator } from "@/components/ui/separator"
 import api from "@/lib/axios"
+import { useDeliveries } from "@/lib/queries"
 import { Delivery, SupplierInvoice } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { format, isAfter, isSameDay, parseISO } from "date-fns"
@@ -14,13 +15,7 @@ import { useState } from "react"
 const DeliveryCalendarAside = () => {
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
 
-	const { data: calendarDeliveries = [], isLoading, isError } = useQuery<Delivery[]>({
-		queryKey: ['calendarDeliveries'],
-		queryFn: async () => {
-			const response = await api.get('/delivery')
-			return response.data
-		}
-	})
+	const { data: calendarDeliveries = [], isLoading, isError } = useDeliveries()
 
 	const { data: upcomingInvoices = [], isLoading: upcomingInvoicesLoading } = useQuery<SupplierInvoice[]>({
 		queryKey: ["upcomingInvoices"],
