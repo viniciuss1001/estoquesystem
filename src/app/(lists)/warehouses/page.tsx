@@ -17,13 +17,20 @@ const WarehousePage = () => {
   const { data: warehouses = [], isLoading } = useFilteredWarehouses({ location: locationFilter })
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-full"><Loader2 className="w-6 h-6 animate-spin" /></div>
+    return <div className="flex justify-center items-center h-full">
+      <Loader2 className="w-6 h-6 animate-spin" />
+    </div>
   }
 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col gap-2">
         <h2 className="text-2xl font-bold">Armazéns</h2>
+          <p className="text-sm text-muted-foreground">
+            Total de {warehouses.length} armazén (s) com os filtros aplicados.
+          </p>
+        </div>
 
         <div className="flex gap-2">
           <div className="flex gap-1">
@@ -41,19 +48,19 @@ const WarehousePage = () => {
         </div>
       </div>
 
-      {warehouses.length === 0 ? (
-        <p>Nenhum armazém cadastrado.</p>
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Localização</TableHead>
-              <TableHead>Descrição</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
-              <TableHead>Detalhes</TableHead>
-            </TableRow>
-          </TableHeader>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nome</TableHead>
+            <TableHead>Localização</TableHead>
+            <TableHead>Descrição</TableHead>
+            <TableHead className="text-right">Ações</TableHead>
+            <TableHead>Detalhes</TableHead>
+          </TableRow>
+        </TableHeader>
+        {warehouses.length === 0 ? (
+          <p>Nenhum armazém cadastrado.</p>
+        ) : (
           <TableBody>
             {warehouses.map((w) => (
               <TableRow key={w.id}>
@@ -71,8 +78,8 @@ const WarehousePage = () => {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
-      )}
+        )}
+      </Table>
     </div>
   )
 }

@@ -23,7 +23,7 @@ const MovementsPage = () => {
   const rawStatus = searchParams.get("status")
   const status = validStatuses.includes(rawStatus as any) ? (rawStatus as typeof validStatuses[number]) : undefined
 
-  
+
   const productId = searchParams.get("productId") || undefined
   const originWarehouseId = searchParams.get("originWarehouseId") || undefined
   const destinationWarehouseId = searchParams.get("destinationWarehouseId") || undefined
@@ -38,15 +38,19 @@ const MovementsPage = () => {
     CANCELED: "bg-red-100 text-red-800",
   }
 
-  if (isLoading) {
-    return <Skeleton className="h-40 w-full pt-10" />
-  }
-
 
   return (
     <div className='p-6 w-full h-full'>
       <div className='flex  p-2'>
-        <h2 className="text-2xl font-bold mb-4">Histórico de Movimentações</h2>
+
+        <div className='flex flex-col gap-2'>
+          <h2 className="text-2xl font-bold">Histórico de Movimentações</h2>
+
+          <p className='text-sm text-muted-foreground'>
+            Total de {movements.length} movimentações sendo exibidas.
+          </p>
+        </div>
+
         <div className='flex ml-auto gap-2 items-center justify-end'>
           <MovementFilterDialog />
 
@@ -70,70 +74,78 @@ const MovementsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {movements.length === 0 ? (
+          {isLoading ? (
             <TableRow>
               <TableCell colSpan={7} className="text-center">
-                Nenhuma movimentação registrada.
+                Carregando...
               </TableCell>
             </TableRow>
-          ) : (
-            movements.map((movement) => (
-              <TableRow key={movement.id}>
-                <TableCell>
-                  <Link href={`/products/${movement.product.id}`}>
-                    {movement.product?.name ?? "-"}
-                  </Link>
-                </TableCell>
-                <TableCell>
-                  {/* type transfer */}
-                  {movement.type === "TRANSFER" && (
-                    <div className="flex items-center gap-1">
-                      <Repeat2 className="w-4 h-4 text-blue-600" />
-                      <span>Transferência</span>
-                    </div>
-                  )}
-
-                  {/* type in */}
-                  {movement.type === "IN" && (
-                    <div className="flex items-center gap-1">
-                      <ArrowDownWideNarrow className="w-4 h-4 text-green-800" />
-                      <span>Entrada</span>
-                    </div>
-                  )}
-
-                  {/* type out */}
-                  {movement.type === "OUT" && (
-                    <div className="flex items-center gap-1">
-                      <ArrowUpNarrowWide className="w-4 h-4 text-red-900" />
-                      <span>Saída</span>
-                    </div>
-                  )}
-
-                </TableCell>
-                <TableCell>
-                  <Badge className={statusColor[movement.status]}>
-                    {movement.status === "PENDING"
-                      ? "Pendente"
-                      : movement.status === "COMPLETED"
-                        ? "Concluída"
-                        : "Cancelada"}
-                  </Badge>
-                </TableCell>
-                <TableCell>{movement.quantity}</TableCell>
-                <TableCell>{movement.originWareHouse?.name || "-"}</TableCell>
-                <TableCell>{movement.destinationWarehouse?.name || "-"}</TableCell>
-                <TableCell>{movement.notes || "-"}</TableCell>
-                <TableCell>
-                  {new Date(movement.createdAt).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <Link href={`/movements/${movement.id}`}>
-                    Detalhes
-                  </Link>
+          ) :
+            movements.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center">
+                  Nenhuma movimentação registrada.
                 </TableCell>
               </TableRow>
-            ))
-          )}
+            ) : (
+              movements.map((movement) => (
+                <TableRow key={movement.id}>
+                  <TableCell>
+                    <Link href={`/products/${movement.product.id}`}>
+                      {movement.product?.name ?? "-"}
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    {/* type transfer */}
+                    {movement.type === "TRANSFER" && (
+                      <div className="flex items-center gap-1">
+                        <Repeat2 className="w-4 h-4 text-blue-600" />
+                        <span>Transferência</span>
+                      </div>
+                    )}
+
+                    {/* type in */}
+                    {movement.type === "IN" && (
+                      <div className="flex items-center gap-1">
+                        <ArrowDownWideNarrow className="w-4 h-4 text-green-800" />
+                        <span>Entrada</span>
+                      </div>
+                    )}
+
+                    {/* type out */}
+                    {movement.type === "OUT" && (
+                      <div className="flex items-center gap-1">
+                        <ArrowUpNarrowWide className="w-4 h-4 text-red-900" />
+                        <span>Saída</span>
+                      </div>
+                    )}
+
+                  </TableCell>
+                  <TableCell>
+                    <Badge className={statusColor[movement.status]}>
+                      {movement.status === "PENDING"
+                        ? "Pendente"
+                        : movement.status === "COMPLETED"
+                          ? "Concluída"
+                          : "Cancelada"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{movement.quantity}</TableCell>
+                  <TableCell>{movement.originWareHouse?.name || "-"}</TableCell>
+                  <TableCell>{movement.destinationWarehouse?.name || "-"}</TableCell>
+                  <TableCell>{movement.notes || "-"}</TableCell>
+                  <TableCell>
+                    {new Date(movement.createdAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/movements/${movement.id}`}>
+                      Detalhes
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))
+            )
+          }
         </TableBody>
       </Table>
     </div>

@@ -21,7 +21,12 @@ const SupplierPage = () => {
 	return (
 		<div className="p-6">
 			<div className="flex justify-between items-center mb-4">
-				<h2 className="text-2xl font-bold mb-6">Lista de Fornecedores</h2>
+				<div className="flex flex-col gap-2">
+				<h2 className="text-2xl font-bold ">Lista de Fornecedores</h2>
+				<p className="text-sm text-muted-foreground">
+					Total de {suppliers.length} fornecedor (es) sendo exibidos.
+				</p>
+				</div>
 				<CreateSupplierModal />
 			</div>
 

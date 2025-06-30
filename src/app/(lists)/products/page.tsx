@@ -60,8 +60,8 @@ const ProductsPage = () => {
           <h2 className="text-2xl font-bold mb-2">Lista de Produtos</h2>
 
           {products.length > 0 && (
-            <p className="text-xs text-muted-foreground mb-4 ">
-              Exibindo {products.length} produto (s) com os filtros aplicados.
+            <p className="text-sm text-muted-foreground mb-4 ">
+              Total de {products.length} produto (s) sendo exibidos.
             </p>
           )}
         </div>

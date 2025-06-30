@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -39,6 +39,9 @@ const CategoryList = () => {
     <Card>
       <CardHeader>
         <CardTitle>Categorias</CardTitle>
+        <CardDescription>
+          Total de {categories.length} categoria (s) registradas.
+        </CardDescription>
       </CardHeader>
 
       <div className="overflow-x-auto p-4">

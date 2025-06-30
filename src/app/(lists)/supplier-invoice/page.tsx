@@ -70,7 +70,7 @@ const SupplierInvoicesPage = () => {
 					<h2 className="text-2xl font-bold mb-2">Boletos de Fornecedores</h2>
 
 					{ invoices.length > 0 && (
-						<p className="text-xs text-muted-foreground mb-4 ">Exibindo {invoices.length} boleto (s) com os filtros aplicados.</p>
+						<p className="text-sm text-muted-foreground mb-4 ">Total de  {invoices.length} boleto (s) sendo exibidos.</p>
 					)}
 				</div>
 				<div className="flex ml-auto justify-center items-center">
