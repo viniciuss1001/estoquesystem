@@ -1,14 +1,24 @@
 "use client"
 
+import UserFilterDialog from "@/components/pages/user/UserFilterDialog"
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useUsers } from "@/lib/queries"
+import { useFilteredUsers, useUsers } from "@/lib/queries"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 
 const UsersPage = () => {
-	const { data: users = [] } = useUsers()
+	const [officeFilter, setOfficeFilter] = useState<string | undefined>(undefined)
 
+	const { data: users = [], isLoading } = useFilteredUsers(officeFilter as "ADMIN" | "GESTOR" | undefined)
 
+	if (isLoading) {
+		return <div className="flex justify-center items-center h-full">
+			<Loader2 className="w-6 h-6 animate-spin" />
+		</div>
+	}
 
 	return (
 		<div className="p-6">
@@ -27,7 +37,18 @@ const UsersPage = () => {
 
 				{/* filter and form of user creation */}
 				<div className="flex gap-2">
+					<UserFilterDialog
+						onFilter={setOfficeFilter}
+					/>
 
+					<Button
+						variant="ghost"
+						onClick={() => setOfficeFilter(undefined)}
+						disabled={!officeFilter}
+						className="cursor-pointer"
+					>
+						Limpar Filtros
+					</Button>
 				</div>
 
 			</div>

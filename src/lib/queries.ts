@@ -45,13 +45,27 @@ export function useUsers() {
     })
 }
 
+export function useFilteredUsers(office?: "ADMIN" | "GESTOR") {
+    return useQuery({
+        queryKey: ["users", { office }],
+        queryFn: async () => {
+            const params = new URLSearchParams()
+            if (office) params.set("office", office)
+
+            const response = await api.get(`/user?${params.toString()}`)
+
+            return response.data as ThisUser[]
+        }
+    })
+}
+
 export function useUser(id: string) {
     return useQuery({
         queryKey: ["user"],
         queryFn: async () => {
             const response = await api.get(`/user/${id}`)
             return response.data as ThisUser
-        }, 
+        },
         enabled: !!id
     })
 }
@@ -62,7 +76,7 @@ export function useCategories() {
         queryFn: async () => {
             const response = await api.get("/categories")
             return response.data as Category[]
-        }, 
+        },
     })
 }
 

@@ -4,7 +4,6 @@ import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseMo
 import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
 import WarehouseFilterDialog from "@/components/pages/warehouse/WarehouseFilterDialog"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredWarehouses } from "@/lib/queries"
 import { Loader2 } from "lucide-react"

@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
 		const { error: adminError, ok: adminPermission } = await requireAdmin(session)
 		if (adminError) return adminError
-		if (adminPermission) return adminPermission
+	
 
 		const { searchParams } = new URL(req.url)
 
@@ -17,11 +17,11 @@ export async function GET(req: NextRequest) {
 
 		const users = await prisma.user.findMany({
 			where: office ? { office } : undefined,
-			orderBy: { createdAt: "desc" }
+			orderBy: { createdAt: "desc" }, 
+			
 		})
 
 		return NextResponse.json(users)
-
 
 	} catch (error) {
 		console.log(error)
