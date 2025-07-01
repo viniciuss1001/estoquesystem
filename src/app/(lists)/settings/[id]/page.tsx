@@ -14,16 +14,8 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import api from "@/lib/axios"
 import { toast } from "sonner"
+import { ThisUser } from "@/types/types"
 
-interface ThisUser {
-  id: string
-  name: string
-  email: string
-  office: "Admin" | "Gestor"
-  department: string
-  phone: string
-  description: string
-}
 
 const SettingsPage = () => {
 
@@ -40,7 +32,7 @@ const SettingsPage = () => {
   useEffect(() => {
     api.get(`/user/${userId}`)
       .then((response) => {
-        setUser(response.data.user)
+        setUser(response.data)
 
       })
       .catch(() => {

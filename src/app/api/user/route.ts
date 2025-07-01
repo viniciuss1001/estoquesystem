@@ -1,21 +1,26 @@
-import { authOptions } from "@/lib/authOptions";
-import prisma from "@/lib/prisma"
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server"
+import { requireAdmin, requireSession } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
-		const session = await getServerSession(authOptions);
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Unauthorized", { status: 401 });
-		}
-		
+		const { error: adminError, ok: adminPermission } = await requireAdmin(session)
+		if (adminError) return adminError
+		if (adminPermission) return adminPermission
+
+		const { searchParams } = new URL(req.url)
+
+		const office = searchParams.get("office") as "ADMIN" | "GESTOR"
+
 		const users = await prisma.user.findMany({
+			where: office ? { office } : undefined,
 			orderBy: { createdAt: "desc" }
 		})
 
-		return NextResponse.json({ users })
+		return NextResponse.json(users)
 
 
 	} catch (error) {

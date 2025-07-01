@@ -1,38 +1,36 @@
 "use client"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+import { useUsers } from "@/lib/queries"
+import Link from "next/link"
 
-interface User {
-	id: string
-	name: string
-	email: string
-	office: string
-	createdAt: string
-}
 
 const UsersPage = () => {
-	const [users, setUser] = useState<User[]>([])
+	const { data: users = [] } = useUsers()
 
-	useEffect(() => {
-		api.get("/user")
-			.then((response) => {
-				setUser(response.data.users)
-				
-			})
-			.catch(() => {
-				toast.error("Erro ao carregar usuários.")
-			})
-	}, [])
+
 
 	return (
 		<div className="p-6">
-			<h2 className="text-2xl font-bold mb-6">
-				Lista de Usuários
-			</h2>
+			<div className="w-full flex items-center justify-between pb-4">
 
+				<div className="flex flex-col">
+
+					<h2 className="text-2xl font-bold mb-2">
+						Lista de Usuários
+					</h2>
+
+					<p className="text-sm text-muted-foreground">
+						Total de {users.length} usuário (s) sendo exibidos.
+					</p>
+				</div>
+
+				{/* filter and form of user creation */}
+				<div className="flex gap-2">
+
+				</div>
+
+			</div>
 			<Table>
 				<TableHeader>
 					<TableRow>
@@ -40,6 +38,7 @@ const UsersPage = () => {
 						<TableHead>Email</TableHead>
 						<TableHead>Cargo</TableHead>
 						<TableHead>Criado em</TableHead>
+						<TableHead>Detalhes</TableHead>
 					</TableRow>
 				</TableHeader>
 
@@ -55,6 +54,11 @@ const UsersPage = () => {
 								<TableCell>{user.email}</TableCell>
 								<TableCell>{user.office}</TableCell>
 								<TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
+								<TableCell>
+									<Link href={`/users/${user.id}`} className="text-blue-500 underline">
+										Detalhes
+									</Link>
+								</TableCell>
 							</TableRow>
 						))
 					)}

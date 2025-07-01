@@ -1,4 +1,4 @@
-import { Category, Delivery, Movement, Product, Supplier, SupplierInvoice, Warehouse, WarehouseProduct } from "@/types/types"
+import { Category, Delivery, Movement, Product, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import api from "./axios"
 import { format } from "date-fns"
@@ -29,10 +29,31 @@ interface FilteredWarehouseParams {
 }
 
 export type InvoiceFilters = {
-  supplierId?: string
-  status?: "PENDING" | "PAID" | "CANCELED"
-  dueDateFrom?: Date
-  dueDateTo?: Date
+    supplierId?: string
+    status?: "PENDING" | "PAID" | "CANCELED"
+    dueDateFrom?: Date
+    dueDateTo?: Date
+}
+
+export function useUsers() {
+    return useQuery({
+        queryKey: ["users"],
+        queryFn: async () => {
+            const response = await api.get("/user")
+            return response.data as ThisUser[]
+        }
+    })
+}
+
+export function useUser(id: string) {
+    return useQuery({
+        queryKey: ["user"],
+        queryFn: async () => {
+            const response = await api.get(`/user/${id}`)
+            return response.data as ThisUser
+        }, 
+        enabled: !!id
+    })
 }
 
 export function useCategories() {
@@ -41,7 +62,7 @@ export function useCategories() {
         queryFn: async () => {
             const response = await api.get("/categories")
             return response.data as Category[]
-        }
+        }, 
     })
 }
 
@@ -227,20 +248,20 @@ export function useMovement(id: string) {
 }
 
 export function useFilteredSupplierInvoices(filters: InvoiceFilters) {
-  return useQuery({
-    queryKey: ["invoices", filters],
-    queryFn: async () => {
-      const params = new URLSearchParams()
+    return useQuery({
+        queryKey: ["invoices", filters],
+        queryFn: async () => {
+            const params = new URLSearchParams()
 
-      if (filters.supplierId) params.append("supplierId", filters.supplierId)
-      if (filters.status) params.append("status", filters.status)
-      if (filters.dueDateFrom) params.append("dueDateFrom", format(filters.dueDateFrom, "yyyy-MM-dd"))
-      if (filters.dueDateTo) params.append("dueDateTo", format(filters.dueDateTo, "yyyy-MM-dd"))
+            if (filters.supplierId) params.append("supplierId", filters.supplierId)
+            if (filters.status) params.append("status", filters.status)
+            if (filters.dueDateFrom) params.append("dueDateFrom", format(filters.dueDateFrom, "yyyy-MM-dd"))
+            if (filters.dueDateTo) params.append("dueDateTo", format(filters.dueDateTo, "yyyy-MM-dd"))
 
-      const response = await api.get(`/supplier-invoice?${params.toString()}`)
-      return response.data as SupplierInvoice[]
-    }
-  })
+            const response = await api.get(`/supplier-invoice?${params.toString()}`)
+            return response.data as SupplierInvoice[]
+        }
+    })
 }
 
 export function useSupplierInvoices() {

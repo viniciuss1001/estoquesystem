@@ -41,7 +41,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 			return NextResponse.json({ error: "Usuário não encontrado." }, { status: 404 })
 		}
 
-		return NextResponse.json({ user })
+		return NextResponse.json( user )
 	} catch (error) {
 		console.error("[GET USER ERROR]", error)
 		return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 })

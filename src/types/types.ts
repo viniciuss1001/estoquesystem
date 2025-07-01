@@ -1,3 +1,14 @@
+export interface ThisUser {
+  id: string
+  name: string
+  email: string
+  office: "Admin" | "Gestor"
+  department: string
+  phone: string
+  description: string
+  createdAt: Date
+}
+
 export interface Delivery {
   id: string
   product: {
