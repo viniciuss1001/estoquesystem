@@ -97,10 +97,10 @@ const LoginPage = () => {
 					</Form>
 				</CardContent>
 				<CardFooter className='flex gap-2 items-center justify-between'>
-					<span className='text-muted-foreground text-sm'>
+					<span className='text-muted-foreground text-sm flex gap-1'>
 						Não tem conta? {" "} <Link href='/register' className='text-blue-500'> Registre-se</Link>
 					</span>
-					<span className='text-sm text-muted-foreground'>
+					<span className='text-sm text-muted-foreground flex gap-1'>
 						Esqueceu sua senha?
 						<Link href="/forgot-password" className="text-blue-500">
 							Redefinir

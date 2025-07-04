@@ -1,5 +1,6 @@
 
 import prisma from "@/lib/prisma"
+import { resend } from "@/lib/resend"
 import { randomUUID } from "crypto"
 import { NextResponse } from "next/server"
 import { z } from "zod"
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     where: { email },
   })
 
-  // Sempre retorna OK, por segurança
+
   if (!user) {
     return NextResponse.json({ message: "Se o email existir, enviaremos um link." }, { status: 200 })
   }
@@ -33,6 +34,17 @@ export async function POST(req: Request) {
 
   const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`
   console.log("🔗 Link de redefinição:", resetUrl)
+
+  await resend.emails.send({
+    from: "Stockly <onboarding@resend.dev>", // ou domínio verificado
+    to: [email],
+    subject: "Redefinição de senha",
+    html: `
+    <p>Você solicitou a redefinição de senha.</p>
+    <p>Clique no link abaixo para redefinir sua senha. Este link expira em 15 minutos.</p>
+    <a href="${resetUrl}" target="_blank">${resetUrl}</a>
+  `
+  })
 
   return NextResponse.json({ message: "Link enviado." }, { status: 200 })
 }
