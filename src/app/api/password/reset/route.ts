@@ -1,45 +1,37 @@
-import prisma from "@/lib/prisma";
-import bcrypt from "bcryptjs";
-import { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
+// src/app/api/password/reset/route.ts
+import prisma from "@/lib/prisma"
+import bcrypt from "bcryptjs"
+import { NextResponse } from "next/server"
+import { z } from "zod"
 
 const schema = z.object({
-	password: z.string().min(6),
-	token: z.string().uuid()
+  password: z.string().min(6),
+  token: z.string().uuid(),
 })
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-	if(req.method !== "POST") return res.status(405).end()
+export async function POST(req: Request) {
+  const body = await req.json()
 
-	const {password, token} = schema.parse(req.body)
+  const { password, token } = schema.parse(body)
 
-	const tokenRecord = await prisma.passwordResetToken.findUnique({
-		where: {
-			token
-		}
-	})
+  const tokenRecord = await prisma.passwordResetToken.findUnique({
+    where: { token }
+  })
 
-	if(!tokenRecord || tokenRecord.expiresAt < new Date()){
-		return res.status(400).json({error: "Token inválido ou expirado"})
-	}
+  if (!tokenRecord || tokenRecord.expiresAt < new Date()) {
+    return NextResponse.json({ error: "Token inválido ou expirado" }, { status: 400 })
+  }
 
-	const hashed = await bcrypt.hash(password, 10)
+  const hashed = await bcrypt.hash(password, 10)
 
-	await prisma.user.update({
-		where: {
-			id: tokenRecord.userId
-		}, 
-		data: {
-			password: hashed
-		}
-	})
-	
-	await prisma.passwordResetToken.delete({
-		where: {
-			token
-		}
-	})
+  await prisma.user.update({
+    where: { id: tokenRecord.userId },
+    data: { password: hashed },
+  })
 
-	return res.status(200).json({message: "Senha redefinida com sucesso!"})
+  await prisma.passwordResetToken.delete({
+    where: { token }
+  })
 
+  return NextResponse.json({ message: "Senha redefinida com sucesso!" }, { status: 200 })
 }

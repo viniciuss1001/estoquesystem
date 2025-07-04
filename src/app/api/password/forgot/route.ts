@@ -1,47 +1,38 @@
-import prisma from "@/lib/prisma";
-import { randomUUID } from "crypto";
-import { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
+
+import prisma from "@/lib/prisma"
+import { randomUUID } from "crypto"
+import { NextResponse } from "next/server"
+import { z } from "zod"
 
 const schema = z.object({
-	email: z.string().email()
+  email: z.string().email()
 })
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-	if(req.method !== "POST") return res.status(405).end()
+export async function POST(req: Request) {
+  const body = await req.json()
 
-	const {email} = schema.parse(req.body)
+  const { email } = schema.parse(body)
 
-	const user = await prisma.user.findUnique({
-		where: {
-			email
-		}
-	})
+  const user = await prisma.user.findUnique({
+    where: { email },
+  })
 
-	if(!user){
-		 return res.status(200).json({message: "Se o email existir, enviaremos um link."})
-	}
+  // Sempre retorna OK, por segurança
+  if (!user) {
+    return NextResponse.json({ message: "Se o email existir, enviaremos um link." }, { status: 200 })
+  }
 
-	const token = randomUUID()
-	const expires = new Date(Date.now() + 15 *60 *1000) //15min
+  const token = randomUUID()
+  const expires = new Date(Date.now() + 15 * 60 * 1000)
 
-	await prisma.passwordResetToken.upsert({
-		where: {
-			userId: user.id
-		}, 
-		update:{
-			token, expiresAt: expires
-		},
-		create: {
-			token, 
-			userId: user.id, 
-			expiresAt: expires
-		}
-	})
+  await prisma.passwordResetToken.upsert({
+    where: { userId: user.id },
+    update: { token, expiresAt: expires },
+    create: { token, userId: user.id, expiresAt: expires },
+  })
 
-	const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`
+  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`
+  console.log("🔗 Link de redefinição:", resetUrl)
 
-	console.log("reset link:", resetUrl)
-
-	return res.status(200).json({message: "Link Enviado"})
+  return NextResponse.json({ message: "Link enviado." }, { status: 200 })
 }
