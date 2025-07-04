@@ -61,7 +61,7 @@ const UserInfoDialog = ({ userId }: UserInfoDialogProps) => {
 					<Info className="size-5" />
 				</Button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="bg-card ">
 				<DialogTitle>
 					Informações do Usuário
 				</DialogTitle>
@@ -69,7 +69,7 @@ const UserInfoDialog = ({ userId }: UserInfoDialogProps) => {
 					Veja abaixo a descrição do usuário selecionado
 				</DialogDescription>
 
-				<Card className="shadow-xl rounded-2xl border-none">
+				<Card className="border-none">
 					<CardHeader className="flex flex-col items-center gap-2">
 						<Avatar className="h-20 w-20">
 							<AvatarFallback className="text-xl">
@@ -80,7 +80,7 @@ const UserInfoDialog = ({ userId }: UserInfoDialogProps) => {
 							{user.name}
 						</CardTitle>
 					</CardHeader>
-					<CardContent className="space-y-4">
+					<CardContent className="space-y-4 border-none">
 						<div className="flex items-center gap-2">
 							<User size={18} className="text-muted-foreground" />
 							<span className="text-sm text-muted-foreground">Cargo:</span>

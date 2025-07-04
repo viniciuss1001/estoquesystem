@@ -48,7 +48,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 	}
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
 	try {
 		const session = await getServerSession(authOptions)
 
