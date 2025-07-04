@@ -59,21 +59,22 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String
-  email         String     @unique
-  office        Office     @default(GESTOR)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  emailVerified DateTime?
-  image         String?
-  password      String
-  department    String?
-  description   String?
-  phone         String?
-  accounts      Account[]
-  AuditLog      AuditLog[]
-  sessions      Session[]
+  id                 String              @id @default(cuid())
+  name               String
+  email              String              @unique
+  office             Office              @default(GESTOR)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  emailVerified      DateTime?
+  image              String?
+  password           String
+  department         String?
+  description        String?
+  phone              String?
+  accounts           Account[]
+  AuditLog           AuditLog[]
+  sessions           Session[]
+  PasswordResetToken PasswordResetToken?
 }
 
 model WareHouse {
@@ -186,6 +187,13 @@ model Delivery {
 
   warehouse       WareHouse        @relation(fields: [warehouseId], references: [id])
   supplierInvoice SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+}
+
+model PasswordResetToken {
+  token     String   @id
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
 }
 
 enum Office {

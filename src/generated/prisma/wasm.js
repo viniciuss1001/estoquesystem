@@ -257,6 +257,12 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   supplierInvoiceId: 'supplierInvoiceId'
 };
 
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  token: 'token',
+  userId: 'userId',
+  expiresAt: 'expiresAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -327,7 +333,8 @@ exports.Prisma.ModelName = {
   SupplierInvoice: 'SupplierInvoice',
   AuditLog: 'AuditLog',
   Category: 'Category',
-  Delivery: 'Delivery'
+  Delivery: 'Delivery',
+  PasswordResetToken: 'PasswordResetToken'
 };
 
 /**
