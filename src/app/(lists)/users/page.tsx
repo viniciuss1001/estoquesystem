@@ -2,6 +2,7 @@
 
 import CreateUserDialog from "@/components/pages/user/CreateUserDialog"
 import UserFilterDialog from "@/components/pages/user/UserFilterDialog"
+import UserInfoDialog from "@/components/pages/user/UserInforDialog"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredUsers, useUsers } from "@/lib/queries"
@@ -85,9 +86,7 @@ const UsersPage = () => {
 								<TableCell>{user.office}</TableCell>
 								<TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
 								<TableCell>
-									<Link href={`/users/${user.id}`} className="text-blue-500 underline">
-										Detalhes
-									</Link>
+									<UserInfoDialog userId={user.id}/>
 								</TableCell>
 							</TableRow>
 						))

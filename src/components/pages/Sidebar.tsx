@@ -2,7 +2,8 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarHeader
+  SidebarHeader,
+  SidebarTrigger
 } from '@/components/ui/sidebar'
 import {
   Archive,
@@ -13,10 +14,12 @@ import {
   Package2,
   RefreshCw,
   Settings,
+  SidebarClose,
   Timer,
   Truck,
   Users,
-  Warehouse
+  Warehouse,
+  X
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -78,9 +81,17 @@ const SidebarComponent = () => {
   return (
     <Sidebar className="flex items-center gap-4">
       <SidebarHeader className="h-auto p-6 flex items-start justify-center">
-        <Link href="/">
-          <Image src={logo} alt="Stockly" width={128} height={64} className="bg-none" />
-        </Link>
+        <div className="flex items-center gap-3 justify-around w-full">
+
+          <Link href="/">
+            <Image src={logo} alt="Stockly" width={128} height={64} className="bg-none" />
+          </Link>
+          <SidebarTrigger className="size-8 ml-auto flex mb-auto cursor-pointer rounded p-2" />
+          
+
+        </div>
+
+
       </SidebarHeader>
 
       <SidebarContent className="space-y-4 pl-3 pr-3 w-full">
