@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import {Loader} from 'lucide-react'
+import { Loader } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
@@ -88,17 +88,23 @@ const LoginPage = () => {
 							/>
 
 							<Button type='submit' variant='default' className='w-full mt-4 cursor-pointer hover:brightness-95'
-							disabled={loading}
+								disabled={loading}
 							>
-								{loading ? <Loader className='animate-spin'/> : "Entrar"}
+								{loading ? <Loader className='animate-spin' /> : "Entrar"}
 							</Button>
 
 						</form>
 					</Form>
 				</CardContent>
-				<CardFooter>
-					<span>
-						Ainda não tem conta? {" "} <Link href='/register' className='text-blue-500'> Registre-se</Link>
+				<CardFooter className='flex gap-2 items-center justify-between'>
+					<span className='text-muted-foreground text-sm'>
+						Não tem conta? {" "} <Link href='/register' className='text-blue-500'> Registre-se</Link>
+					</span>
+					<span className='text-sm text-muted-foreground'>
+						Esqueceu sua senha?
+						<Link href="/forgot-password" className="text-blue-500">
+							Redefinir
+						</Link>
 					</span>
 				</CardFooter>
 			</Card>
