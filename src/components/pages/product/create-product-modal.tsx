@@ -128,7 +128,9 @@ const CreateProductModal = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Nome</FormLabel>
-									<FormControl><Input {...field} /></FormControl>
+									<FormControl>
+										<Input {...field} />
+										</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

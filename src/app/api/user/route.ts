@@ -7,9 +7,6 @@ export async function GET(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
-		const { error: adminError, ok: adminPermission } = await requireAdmin(session)
-		if (adminError) return adminError
-	
 
 		const { searchParams } = new URL(req.url)
 

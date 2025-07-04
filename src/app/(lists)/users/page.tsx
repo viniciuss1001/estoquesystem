@@ -1,15 +1,20 @@
 "use client"
 
+import CreateUserDialog from "@/components/pages/user/CreateUserDialog"
 import UserFilterDialog from "@/components/pages/user/UserFilterDialog"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredUsers, useUsers } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useState } from "react"
 
 
 const UsersPage = () => {
+
+	const { data: session } = useSession()
+
 	const [officeFilter, setOfficeFilter] = useState<string | undefined>(undefined)
 
 	const { data: users = [], isLoading } = useFilteredUsers(officeFilter as "ADMIN" | "GESTOR" | undefined)
@@ -49,6 +54,10 @@ const UsersPage = () => {
 					>
 						Limpar Filtros
 					</Button>
+
+					{session?.user.office === "ADMIN" && (
+						<CreateUserDialog />
+					)}
 				</div>
 
 			</div>
