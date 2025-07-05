@@ -15,7 +15,7 @@ const AsideSheet = ({ children }: AsideSheetProps) => {
 
 	return (
 		<div className="fixed top-4 right-4 z-50 ">
-			<Sheet open={open} onOpenChange={setOpen}>
+			<Sheet open={open} onOpenChange={setOpen} >
 				<SheetTrigger asChild>
 					<Button variant="ghost" size="icon" aria-label="Abrir painel lateral"
 						className="cursor-pointer"
