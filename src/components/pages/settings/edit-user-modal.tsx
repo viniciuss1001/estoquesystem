@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useEffect, useId } from "react"
+import { useEffect, useId, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -36,6 +36,7 @@ interface ThisUserId {
 
 const EditUserModal = ({ userId }: ThisUserId) => {
 
+	const [open, setOpen] = useState(false)
 	const { data: session } = useSession()
 	const router = useRouter()
 	const queryClient = useQueryClient()
@@ -83,6 +84,7 @@ const EditUserModal = ({ userId }: ThisUserId) => {
 		onSuccess: () => {
 			toast.success("Usuário atualizado com sucesso!")
 			router.refresh()
+			setOpen(false)
 			queryClient.invalidateQueries({ queryKey: ["user", userId] })
 		},
 		onError: (error) => {
@@ -98,7 +100,7 @@ const EditUserModal = ({ userId }: ThisUserId) => {
 
 	return (
 
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button
 					variant="ghost"

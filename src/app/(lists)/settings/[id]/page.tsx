@@ -29,6 +29,7 @@ import { ThisUser } from "@/types/types"
 import { toast } from "sonner"
 import api from "@/lib/axios"
 import EditUserModal from "@/components/pages/settings/edit-user-modal"
+import ChangePasswordForm from "@/components/pages/settings/ChangePasswordForm"
 
 const SettingsPage = () => {
   const { data: session } = useSession()
@@ -78,6 +79,7 @@ const SettingsPage = () => {
           Olá, <span className="text-primary">{user.name}</span>!
         </h1>
         <EditUserModal userId={user.id} />
+        <ChangePasswordForm />
       </div>
 
       {/* Card de Informações */}
