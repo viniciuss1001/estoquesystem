@@ -1,5 +1,6 @@
 import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
+import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -23,6 +24,18 @@ export async function POST(req: NextRequest) {
 			data: {
 				name, description, location
 			}
+		})
+
+		await notifyByUserRole({
+			title: "Novo armazém adicionado.",
+			message: `Novo armazém criado ${warehouse.name}`,
+			roles: ["GESTOR"]
+		})
+
+		await notifyByUserRole({
+			title: "Armazém adicionado por gestor.",
+			message: `${session.user.name} criou o armazém ${warehouse.name}`,
+			roles: ["ADMIN"]
 		})
 
 		await logAction({

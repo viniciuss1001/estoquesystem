@@ -1,5 +1,6 @@
 import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
+import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma"
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server"
@@ -59,6 +60,18 @@ export async function POST(req: NextRequest) {
 				status: "COMPLETED",
 
 			}
+		})
+
+		await notifyByUserRole({
+			title: "Novo produto criado",
+			message: `Produto ${product.name} criado.`,
+			roles: ["GESTOR"]
+		})
+
+		await notifyByUserRole({
+			title: "Produto criado por gestor",
+			message: `${session.user.name} criou um produto.`,
+			roles: ["ADMIN"]
 		})
 
 		await logAction({

@@ -1,5 +1,6 @@
 import { logAction } from "@/lib/audit";
 import { authOptions } from "@/lib/authOptions";
+import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -22,10 +23,10 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const json = await req.json();
-    const parsed = supplierSchema.parse(json); // <-- valida aqui
+    const json = await req.json()
+    const parsed = supplierSchema.parse(json)
 
-    const { name, email, contactPhone, deliveryTime, description, products } = parsed;
+    const { name, email, contactPhone, deliveryTime, description, products } = parsed
 
     const supplier = await prisma.supplier.create({
       data: {
@@ -50,6 +51,18 @@ export async function POST(req: Request) {
       });
     }
 
+    await notifyByUserRole({
+      title: "Novo fornecedor adicionado", 
+      message: `Novo fornecedor adicionado ${supplier.name}.`,
+      roles: ["GESTOR"]
+    })
+
+    await notifyByUserRole({
+      title: "Fornecedor criado por gestor.",
+      message: `${session.user.name} criou o fornecedor: ${supplier.name}`,
+      roles: ["ADMIN"]
+    })
+
     await logAction({
       userId: session.user.id,
       action: "create",
@@ -61,8 +74,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Fornecedor criado com sucesso", supplier })
 
   } catch (error) {
-    console.error("Erro ao criar fornecedor:", error);
-    return new NextResponse("Erro ao criar fornecedor", { status: 500 });
+    console.error("Erro ao criar fornecedor:", error)
+    return new NextResponse("Erro ao criar fornecedor", { status: 500 })
   }
 }
 

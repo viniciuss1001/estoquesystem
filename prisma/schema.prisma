@@ -196,6 +196,16 @@ model PasswordResetToken {
   expiresAt DateTime
 }
 
+model Notification {
+  id        String           @id @default(cuid())
+  title     String
+  message   String
+  type      NotificationType
+  read      Boolean          @default(false)
+  userId    String
+  createdAt DateTime         @default(now())
+}
+
 enum Office {
   ADMIN
   GESTOR
@@ -238,4 +248,11 @@ enum UnitType {
   KILOGRAM
   LITER
   SQUARE_METER
+}
+
+enum NotificationType {
+  SYSTEM
+  WARNING
+  INFO
+  ERROR
 }

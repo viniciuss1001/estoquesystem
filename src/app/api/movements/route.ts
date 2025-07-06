@@ -1,6 +1,7 @@
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
+import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -55,9 +56,6 @@ export async function POST(req: NextRequest) {
         });
       }
     }
-
-
-
 
     if (status === "COMPLETED") {
       switch (type) {
@@ -236,18 +234,31 @@ export async function POST(req: NextRequest) {
       },
     })
 
+    await notifyByUserRole({
+      title: "Nova movimentação criada.",
+      message: `Movimentação criada com destino para ${movement.destinationWarehouseId}`,
+      roles: ["GESTOR"]
+    })
+
+    await notifyByUserRole({
+      title: "Movimentação criada por gestor",
+      message: `${session.user.name} criou uma movimentação`,
+      roles: ["ADMIN"]
+    })
+
     await logAction({
       userId: session?.user.id,
       action: "create",
       entity: "movement",
       entityId: movement.id,
       description: `Movimentação criada: ${type} de ${quantity} unidades`,
-    });
+    })
 
     return NextResponse.json({
       message: "Movimentação registrada com sucesso",
       movement,
-    });
+    })
+
   } catch (error) {
     console.error("Erro ao registrar movimentação:", error);
     return new NextResponse("Erro interno do servidor", { status: 500 });

@@ -1,6 +1,7 @@
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
+import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -31,6 +32,19 @@ export async function POST(req: NextRequest) {
 				supplierInvoice: body.supplierInvoiceId ? { connect: { id: body.supplierInvoiceId }, } : undefined
 			}
 		})
+
+		await notifyByUserRole({
+			title: "Nova entrega adicionada",
+			message: `Entrega prevista para ${delivery.expectedAt}`,
+			roles: ["GESTOR"]
+		})
+
+		await notifyByUserRole({
+			title: "Entrega registrada por Gestor", 
+			message: `${session.user.name} criou uma nova entrega.`,
+			roles: ["ADMIN"]
+		})
+
 
 		await logAction({
 			userId: session.user.id,

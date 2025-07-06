@@ -263,6 +263,16 @@ exports.Prisma.PasswordResetTokenScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  read: 'read',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -321,6 +331,13 @@ exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
   LATE: 'LATE'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  SYSTEM: 'SYSTEM',
+  WARNING: 'WARNING',
+  INFO: 'INFO',
+  ERROR: 'ERROR'
+};
+
 exports.Prisma.ModelName = {
   Product: 'Product',
   Account: 'Account',
@@ -334,7 +351,8 @@ exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   Category: 'Category',
   Delivery: 'Delivery',
-  PasswordResetToken: 'PasswordResetToken'
+  PasswordResetToken: 'PasswordResetToken',
+  Notification: 'Notification'
 };
 
 /**

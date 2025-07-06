@@ -146,3 +146,12 @@ export interface Category {
   id: string
   name: string
 }
+
+export interface Notification {
+  id?: string, 
+  title: string
+  message: string
+  type?: "SYSTEM" | "WARNING" | "INFO" | "ERROR"
+  userId: string
+  read?: Boolean
+}

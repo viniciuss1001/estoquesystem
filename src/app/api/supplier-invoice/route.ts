@@ -2,6 +2,7 @@
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
+import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
 import { writeFile } from "fs/promises";
 import { getServerSession } from "next-auth";
@@ -47,6 +48,18 @@ export async function POST(req: NextRequest) {
 				fileUrl: fileUrl ?? undefined,
 				status: "PENDING"
 			},
+		})
+
+		await notifyByUserRole({
+			title: "Novo boleto adicionado", 
+			message: `Novo boleto adicionado: ${invoice.title} com vencimento para: ${invoice.dueDate}`,
+			roles: ["GESTOR"]
+		})
+
+		await notifyByUserRole({
+			title: "Novo boleto criado por gestor.",
+			message: `${session.user.name} criou o boleto ${invoice.title}`,
+			roles: ["ADMIN"]
 		})
 
 		await logAction({
