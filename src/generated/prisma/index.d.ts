@@ -5996,6 +5996,7 @@ export namespace Prisma {
     department: string | null
     description: string | null
     phone: string | null
+    lastLogin: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -6011,6 +6012,7 @@ export namespace Prisma {
     department: string | null
     description: string | null
     phone: string | null
+    lastLogin: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -6026,6 +6028,7 @@ export namespace Prisma {
     department: number
     description: number
     phone: number
+    lastLogin: number
     _all: number
   }
 
@@ -6043,6 +6046,7 @@ export namespace Prisma {
     department?: true
     description?: true
     phone?: true
+    lastLogin?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -6058,6 +6062,7 @@ export namespace Prisma {
     department?: true
     description?: true
     phone?: true
+    lastLogin?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -6073,6 +6078,7 @@ export namespace Prisma {
     department?: true
     description?: true
     phone?: true
+    lastLogin?: true
     _all?: true
   }
 
@@ -6161,6 +6167,7 @@ export namespace Prisma {
     department: string | null
     description: string | null
     phone: string | null
+    lastLogin: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -6193,6 +6200,7 @@ export namespace Prisma {
     department?: boolean
     description?: boolean
     phone?: boolean
+    lastLogin?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     AuditLog?: boolean | User$AuditLogArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -6213,6 +6221,7 @@ export namespace Prisma {
     department?: boolean
     description?: boolean
     phone?: boolean
+    lastLogin?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6228,6 +6237,7 @@ export namespace Prisma {
     department?: boolean
     description?: boolean
     phone?: boolean
+    lastLogin?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -6243,9 +6253,10 @@ export namespace Prisma {
     department?: boolean
     description?: boolean
     phone?: boolean
+    lastLogin?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "office" | "createdAt" | "updatedAt" | "emailVerified" | "image" | "password" | "department" | "description" | "phone", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "office" | "createdAt" | "updatedAt" | "emailVerified" | "image" | "password" | "department" | "description" | "phone" | "lastLogin", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     AuditLog?: boolean | User$AuditLogArgs<ExtArgs>
@@ -6277,6 +6288,7 @@ export namespace Prisma {
       department: string | null
       description: string | null
       phone: string | null
+      lastLogin: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6716,6 +6728,7 @@ export namespace Prisma {
     readonly department: FieldRef<"User", 'String'>
     readonly description: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
+    readonly lastLogin: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -18506,7 +18519,8 @@ export namespace Prisma {
     password: 'password',
     department: 'department',
     description: 'description',
-    phone: 'phone'
+    phone: 'phone',
+    lastLogin: 'lastLogin'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -19133,6 +19147,7 @@ export namespace Prisma {
     department?: StringNullableFilter<"User"> | string | null
     description?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    lastLogin?: DateTimeNullableFilter<"User"> | Date | string | null
     accounts?: AccountListRelationFilter
     AuditLog?: AuditLogListRelationFilter
     sessions?: SessionListRelationFilter
@@ -19152,6 +19167,7 @@ export namespace Prisma {
     department?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    lastLogin?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     AuditLog?: AuditLogOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
@@ -19174,6 +19190,7 @@ export namespace Prisma {
     department?: StringNullableFilter<"User"> | string | null
     description?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    lastLogin?: DateTimeNullableFilter<"User"> | Date | string | null
     accounts?: AccountListRelationFilter
     AuditLog?: AuditLogListRelationFilter
     sessions?: SessionListRelationFilter
@@ -19193,6 +19210,7 @@ export namespace Prisma {
     department?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    lastLogin?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -19214,6 +19232,7 @@ export namespace Prisma {
     department?: StringNullableWithAggregatesFilter<"User"> | string | null
     description?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lastLogin?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type WareHouseWhereInput = {
@@ -20197,6 +20216,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -20216,6 +20236,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -20235,6 +20256,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -20254,6 +20276,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -20273,6 +20296,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -20288,6 +20312,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -20303,6 +20328,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WareHouseCreateInput = {
@@ -21492,6 +21518,7 @@ export namespace Prisma {
     department?: SortOrder
     description?: SortOrder
     phone?: SortOrder
+    lastLogin?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -21507,6 +21534,7 @@ export namespace Prisma {
     department?: SortOrder
     description?: SortOrder
     phone?: SortOrder
+    lastLogin?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -21522,6 +21550,7 @@ export namespace Prisma {
     department?: SortOrder
     description?: SortOrder
     phone?: SortOrder
+    lastLogin?: SortOrder
   }
 
   export type EnumOfficeWithAggregatesFilter<$PrismaModel = never> = {
@@ -23712,6 +23741,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -23730,6 +23760,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -23764,6 +23795,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -23782,6 +23814,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -23800,6 +23833,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -23818,6 +23852,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -23852,6 +23887,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -23870,6 +23906,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -24979,6 +25016,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -24997,6 +25035,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -25031,6 +25070,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -25049,6 +25089,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -25417,6 +25458,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -25435,6 +25477,7 @@ export namespace Prisma {
     department?: string | null
     description?: string | null
     phone?: string | null
+    lastLogin?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -25469,6 +25512,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -25487,6 +25531,7 @@ export namespace Prisma {
     department?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput

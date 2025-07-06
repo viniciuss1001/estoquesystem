@@ -14,6 +14,15 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Email ou senha inválida." }, { status: 401 })
 	}
 
+	await prisma.user.update({
+		where: {
+			id: user.id
+		}, 
+		data: {
+			lastLogin: new Date()
+		}
+	})
+
 	const token = jwt.sign(
 		{
 			id: user.id,

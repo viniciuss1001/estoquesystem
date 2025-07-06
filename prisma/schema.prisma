@@ -71,6 +71,7 @@ model User {
   department         String?
   description        String?
   phone              String?
+  lastLogin          DateTime?
   accounts           Account[]
   AuditLog           AuditLog[]
   sessions           Session[]

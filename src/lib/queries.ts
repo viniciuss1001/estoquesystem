@@ -45,6 +45,16 @@ export function useNotifications() {
     })
 }
 
+export function useActiveUsers() {
+    return useQuery({
+        queryKey: ["activeUsers"],
+        queryFn: async () => {
+            const { data } = await api.get("/dashboard/active-users")
+            return data.count as number
+        }
+    })
+}
+
 export function useUsers() {
     return useQuery({
         queryKey: ["users"],
@@ -107,6 +117,16 @@ export function useFilteredProducts(filters: ProductFilters) {
 
 }
 
+export function useTotalProducts() {
+    return useQuery({
+        queryKey: ["total-products"],
+        queryFn: async () => {
+            const response = await api.get("/dashboard/total-products")
+            return response.data.count as number
+        }
+    })
+}
+
 export function useProducts() {
     return useQuery({
         queryKey: ["products"],
@@ -162,6 +182,15 @@ export function useFilteredWarehouses({ location }: FilteredWarehouseParams) {
     })
 }
 
+export function useTotalWarehouses() {
+    return useQuery({
+        queryKey: ["total-warehouses"],
+        queryFn: async () => {
+            const response = await api.get("/dashboard/total-warehouses")
+            return response.data.count as number
+        }
+    })
+}
 export function useWarehouses() {
     return useQuery({
         queryKey: ["warehouses"],
@@ -171,6 +200,7 @@ export function useWarehouses() {
         }
     })
 }
+
 
 export function useWarehouse(id: string) {
     return useQuery({
@@ -209,6 +239,26 @@ export function useFilteredDeliveries(filters: FilteredDeliveriesParams) {
         },
     })
 
+}
+
+export function useUpcomingDeliveries() {
+    return useQuery({
+        queryKey: ["upcomingDeliveries"],
+        queryFn: async () => {
+            const { data } = await api.get("/dashboard/upcoming-deliveries")
+            return data
+        }
+    })
+}
+
+export function useLateDeliveries() {
+    return useQuery({
+        queryKey: ["lateDeliveries"],
+        queryFn: async () => {
+            const { data } = await api.get("/dashboard/late-deliveries")
+            return data
+        }
+    })
 }
 
 export function useDeliveries() {
@@ -250,6 +300,16 @@ export function useFilteredMovements(filters: MovementFilters) {
     })
 }
 
+export function useRecentMovements() {
+    return useQuery({
+        queryKey: ["recentMovements"],
+        queryFn: async () => {
+            const { data } = await api.get("/dashboard/recent-movements")
+            return data as Movement[]
+        }
+    })
+}
+
 export function useMovements() {
     return useQuery({
         queryKey: ["movements"],
@@ -284,6 +344,16 @@ export function useFilteredSupplierInvoices(filters: InvoiceFilters) {
 
             const response = await api.get(`/supplier-invoice?${params.toString()}`)
             return response.data as SupplierInvoice[]
+        }
+    })
+}
+
+export function useOverdueInvoices() {
+    return useQuery({
+        queryKey: ["overdueInvoices"],
+        queryFn: async () => {
+            const { data } = await api.get("/dashboard/overdue-invoices")
+            return data
         }
     })
 }
