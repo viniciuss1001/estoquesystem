@@ -1,15 +1,15 @@
 "use client"
 
+import { LogoutButton } from "@/components/shared/logout-button"
 import SearchInput from "@/components/shared/SearchInput"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { CalendarClock, CalendarSearch, User } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { ReactNode, useState } from "react"
-import { LogoutButton } from "@/components/shared/logout-button"
-import { Separator } from "@/components/ui/separator"
 
 interface AsideSheetProps {
 	children: ReactNode
@@ -18,7 +18,7 @@ interface AsideSheetProps {
 const AsideSheet = ({ children }: AsideSheetProps) => {
 	const { data: session } = useSession()
 
-	const [open, setOpen] = useState<boolean>(true)
+	const [open, setOpen] = useState<boolean>(false)
 
 	return (
 		<div className="z-50 ">
@@ -58,10 +58,12 @@ const AsideSheet = ({ children }: AsideSheetProps) => {
 						</Card>
 						<LogoutButton />
 					</div>
-					<Separator />
+					<Separator  className="mb-2 rounded-full "/>
 					<div className="ml-6">
 						<SearchInput />
 					</div>
+
+					<Separator className="mb-2 rounded-full"/>
 
 					<div className="flex flex-col items-start mb-2 mr-auto p-2 pl-6 gap-2">
 						<h2 className="text-xl font-semibold flex gap-2">
