@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { useSupplier } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -32,6 +32,7 @@ interface EditSupplierModalProps {
 const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 	const router = useRouter()
 	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -60,6 +61,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 		mutationFn: (data: FormValues) => api.patch(`/supplier/${supplierId}`, data),
 		onSuccess: () => {
 			toast.success('Fornecedor atualizado com sucesso!')
+			setOpen(false)
 			queryClient.invalidateQueries({ queryKey: ['supplier', supplierId] })
 		},
 		onError: () => toast.error('Erro ao atualizar fornecedor.'),
@@ -93,7 +95,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 
 	return (
 		<div className="p-6 max-w-2xl mx-auto">
-			<Dialog>
+			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger className="p-0 m-0 cursor-pointer">
 					<Pencil className="size-4" />
 				</DialogTrigger>

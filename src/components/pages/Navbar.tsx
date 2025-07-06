@@ -22,6 +22,9 @@ import {
 	UserLock,
 	Menu,
 } from "lucide-react"
+import AsideSheet from "./AsideSheet"
+import DeliveryCalendarAside from "./DeliveryCalendarAside"
+import LowStockAlert from "./LowStockAlert"
 
 const NavbarComponents = () => {
 	const { data: session } = useSession()
@@ -49,35 +52,11 @@ const NavbarComponents = () => {
 				<NotificationComponent />
 				<ModeThemeToggle />
 
-				{/* User menu */}
-				<MenubarMenu>
-					<MenubarTrigger asChild>
-						<Button variant="ghost" size="icon">
-							<User className="size-5" />
-						</Button>
-					</MenubarTrigger>
-					<MenubarContent className="z-50 w-72 p-0 border-none">
-						<Card>
-							<CardContent className="pt-4 pb-2 space-y-3 border-none">
-								<div className="flex items-center gap-2">
-									<User className="size-4 text-muted-foreground" />
-									<span className="text-sm">{session?.user.name}</span>
-								</div>
-								<div className="flex items-center gap-2">
-									<Mail className="size-4 text-muted-foreground" />
-									<span className="text-sm">{session?.user.email}</span>
-								</div>
-								<div className="flex items-center gap-2 bg-blue-100 text-blue-900 rounded-md px-3 py-2">
-									<UserLock className="size-4" />
-									<span className="text-sm">{session?.user.office}</span>
-								</div>
-							</CardContent>
-							<CardFooter className="pt-0">
-								<LogoutButton />
-							</CardFooter>
-						</Card>
-					</MenubarContent>
-				</MenubarMenu>
+				<AsideSheet>
+					<DeliveryCalendarAside />
+					<LowStockAlert />
+				</AsideSheet>
+
 			</div>
 		</Menubar>
 	)

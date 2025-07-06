@@ -92,6 +92,7 @@ export interface Supplier {
       name: string
     } | null
   }[]
+  createdAt: string
 }
 
 export interface SupplierInvoice {

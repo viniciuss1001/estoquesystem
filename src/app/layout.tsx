@@ -44,7 +44,7 @@ export default function RootLayout({
                 {children}
               </ReactQueryProvider>
             </Providers>
-            <Toaster  position="bottom-right" closeButton/>
+            <Toaster  position="top-center" />
           </SidebarProvider>
         </ThemeProvider>
 

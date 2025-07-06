@@ -9,7 +9,9 @@ export function LogoutButton() {
 		<Button
 			onClick={() => signOut({callbackUrl: "/"})}
 			variant='ghost'
-			className='flex text-red-500  pt-2 cursor-pointer w-full'>
+			className='flex text-red-500  pt-2 cursor-pointer 1/4'
+			>
+				
 			<LogOut />
 			Sair
 		</Button>

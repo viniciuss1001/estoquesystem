@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken"
-import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import prisma from "@/lib/prisma";
+import jwt from "jsonwebtoken";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
 	try {

@@ -4,7 +4,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Separator } from "@/components/ui/separator"
 import api from "@/lib/axios"
 import { useDeliveries } from "@/lib/queries"
-import { Delivery, SupplierInvoice } from "@/types/types"
+import { SupplierInvoice } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { format, isAfter, isSameDay, parseISO } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -40,12 +40,11 @@ const DeliveryCalendarAside = () => {
 
 	return (
 		<div className="max-w-sm space-y-4">
-			<h2 className="text-lg font-bold flex gap-2">
+			<h2 className="text-lg font-bold flex gap-2 ">
 				<ChevronsDown className="text-xl text-blue-500 " />
-
 				Próximos acontecimentos
 			</h2>
-			<div className="flex items-center justify-center p-2">
+			<div className="flex items-center justify-center p-2 z-30">
 				<Calendar
 					mode="single"
 					selected={selectedDate}

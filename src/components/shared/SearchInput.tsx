@@ -6,10 +6,10 @@ import { useQuery } from "@tanstack/react-query"
 import { FileText, Package, SearchIcon, Tag, Truck, User, Warehouse, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { Button } from "../ui/button"
-import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command"
-import { Input } from "../ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { Button } from "@/components/ui/button"
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { Input } from "@/components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 interface SearchResults {
 	id: string
@@ -38,7 +38,7 @@ const SearchInput = () => {
 	})
 
 	return (
-		<div>
+		<div className="z-100">
 			<Popover open={!!query}>
 				<PopoverTrigger asChild>
 					<div className="relative w-full max-w-sm">
@@ -59,7 +59,7 @@ const SearchInput = () => {
 					</div>
 				</PopoverTrigger>
 
-				<PopoverContent className="w-[300px] p-0">
+				<PopoverContent className="w-[300px] p-0 z-500" >
 					<Command>
 						<CommandInput placeholder="Buscando..." disabled />
 						<CommandList>
@@ -93,7 +93,9 @@ const SearchInput = () => {
 								}
 
 								return (
-									<CommandGroup key={type} heading={typeLabelMap[type]}>
+									<CommandGroup key={type} heading={typeLabelMap[type]}
+									className="z-100"
+									>
 										{items.map((item) => (
 											<CommandItem
 												key={item.id}

@@ -22,10 +22,10 @@ const SupplierPage = () => {
 		<div className="p-6">
 			<div className="flex justify-between items-center mb-4">
 				<div className="flex flex-col gap-2">
-				<h2 className="text-2xl font-bold ">Lista de Fornecedores</h2>
-				<p className="text-sm text-muted-foreground">
-					Total de {suppliers.length} fornecedor (es) sendo exibidos.
-				</p>
+					<h2 className="text-2xl font-bold ">Lista de Fornecedores</h2>
+					<p className="text-sm text-muted-foreground">
+						Total de {suppliers.length} fornecedor (es) sendo exibidos.
+					</p>
 				</div>
 				<CreateSupplierModal />
 			</div>
@@ -36,8 +36,8 @@ const SupplierPage = () => {
 						<TableHead>Nome</TableHead>
 						<TableHead>Email</TableHead>
 						<TableHead>Telefone</TableHead>
-						<TableHead>Prazo de Entrega</TableHead>
 						<TableHead>Descrição</TableHead>
+						<TableHead>Criado em</TableHead>
 						<TableHead>Ações</TableHead>
 						<TableHead>Detalhes</TableHead>
 					</TableRow>
@@ -57,10 +57,10 @@ const SupplierPage = () => {
 							<TableCell>{supplier.name}</TableCell>
 							<TableCell>{supplier.email}</TableCell>
 							<TableCell>{supplier.contactPhone}</TableCell>
-							<TableCell>
-								{new Date(supplier.deliveryTime).toLocaleDateString()}
-							</TableCell>
 							<TableCell>{supplier.description || "-"}</TableCell>
+							<TableCell>
+								{new Date(supplier.createdAt).toLocaleDateString()  ?? "-"}
+							</TableCell>
 							<TableCell>
 								<EditSupplierModal supplierId={supplier.id} />
 							</TableCell>

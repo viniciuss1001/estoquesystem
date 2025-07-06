@@ -88,7 +88,8 @@ export async function GET() {
         email: true,
         contactPhone: true,
         description: true,
-        deliveryTime: true
+        deliveryTime: true, 
+        createdAt: true
       }
     })
 

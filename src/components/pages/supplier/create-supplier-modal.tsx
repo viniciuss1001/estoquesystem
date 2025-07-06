@@ -118,7 +118,7 @@ const CreateSupplierModal = () => {
 								</FormItem>
 							)}
 						/>
-						<FormField
+						{/* <FormField
 							control={form.control}
 							name="deliveryTime"
 							render={({ field }) => {
@@ -142,7 +142,7 @@ const CreateSupplierModal = () => {
 									</FormItem>
 								);
 							}}
-						/>
+						/> */}
 						<FormField
 							control={form.control}
 							name="description"
