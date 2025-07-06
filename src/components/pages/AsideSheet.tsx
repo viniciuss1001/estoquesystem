@@ -59,7 +59,10 @@ const AsideSheet = ({ children }: AsideSheetProps) => {
 						<LogoutButton />
 					</div>
 					<Separator  className="mb-2 rounded-full "/>
-					<div className="ml-6">
+					<div className="ml-6 h-16">
+						<p className="text-sm text-muted-foreground pb-1">
+							Painel de Buscas
+						</p>
 						<SearchInput />
 					</div>
 

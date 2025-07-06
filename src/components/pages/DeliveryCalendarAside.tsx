@@ -1,5 +1,6 @@
 "use client"
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Calendar } from "@/components/ui/calendar"
 import { Separator } from "@/components/ui/separator"
 import api from "@/lib/axios"
@@ -8,7 +9,7 @@ import { SupplierInvoice } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { format, isAfter, isSameDay, parseISO } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { CalendarDays, ChevronRight, ChevronsDown, DollarSign, FileText, Package, Truck } from "lucide-react"
+import { CalendarDays, ChevronRight, ChevronsDown, DollarSign, File, FileText, Package, Truck } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -41,8 +42,8 @@ const DeliveryCalendarAside = () => {
 	return (
 		<div className="max-w-sm space-y-4">
 			<h2 className="text-lg font-bold flex gap-2 ">
-				<ChevronsDown className="text-xl text-blue-500 " />
-				Próximos acontecimentos
+			
+				Próximas Entregas e Boletos
 			</h2>
 			<div className="flex items-center justify-center p-2 z-30">
 				<Calendar
@@ -59,104 +60,128 @@ const DeliveryCalendarAside = () => {
 					}}
 				/>
 			</div>
-			<div className="space-y-2 ">
-				<h2 className="text-sm font-semibold text-muted-foreground">
-					Entregas em {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '...'}
-				</h2>
+			<Accordion type="single" collapsible>
+				<AccordionItem value="deliveries">
 
-				{isLoading && <p className="text-xs text-muted-foreground">Carregando entregas...</p>}
-				{isError && <p className="text-xs text-red-500">Erro ao carregar entregas</p>}
+					<AccordionTrigger>
 
-				{!isLoading && deliveriesOnSelectedDate.length > 0 ? (
-					deliveriesOnSelectedDate.map((delivery) => (
-						<div
-							key={delivery.id}
-							className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2"
-						>
-							<Separator className="w-2 rounded-full h-1 bg-blue-600" />
-							<div className="flex items-center gap-2">
-								<Package className="w-4 h-4 text-primary" />
-								<p className="text-base font-semibold text-foreground">
-									{delivery.product.name}
-								</p>
-							</div>
+						<h2 className="text-sm font-semibold flex gap-1">
+							<Truck className="w-5 h-5 mr-2"/>
+							Entregas em {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '...'}
+						</h2>
+					</AccordionTrigger>
+					<AccordionContent className="space-y-2">
 
-							<div className="flex items-center gap-2">
-								<Truck className="w-4 h-4 text-muted-foreground" />
-								<p className="text-sm text-muted-foreground">
-									{delivery.supplier.name}
-								</p>
-							</div>
+						{isLoading && <p className="text-xs text-muted-foreground">Carregando entregas...</p>}
+						{isError && <p className="text-xs text-red-500">Erro ao carregar entregas</p>}
 
-							<div className="flex items-center gap-2">
-								<CalendarDays className="w-4 h-4 text-muted-foreground" />
-								<p className="text-sm text-muted-foreground">
-									{format(parseISO(delivery.expectedAt), "dd/MM/yyyy")}
-								</p>
-							</div>
+						{!isLoading && deliveriesOnSelectedDate.length > 0 ? (
+							deliveriesOnSelectedDate.map((delivery) => (
+								<div
+									key={delivery.id}
+									className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2"
+								>
+									<Separator className="w-2 rounded-full h-1 bg-blue-600" />
+									<div className="flex items-center gap-2">
+										<Package className="w-4 h-4 text-primary" />
+										<p className="text-base font-semibold text-foreground">
+											{delivery.product.name}
+										</p>
+									</div>
 
-							<Link href={`/delivery/${delivery.id}`} className="flex gap-2 items-center justify-end">
-								<ChevronRight className="w-4 h-4 text-blue-400" />
-								<p className="text-sm text-blue-400 undeline">Ver entrega</p>
-							</Link>
-						</div>
-					))
-				) : (
-					!isLoading && <p className="text-md border border-card rounded-md p-2">Nenhuma entrega nesta data.</p>
-				)}
-			</div>
+									<div className="flex items-center gap-2">
+										<Truck className="w-4 h-4 text-muted-foreground" />
+										<p className="text-sm text-muted-foreground">
+											{delivery.supplier.name}
+										</p>
+									</div>
 
-			<div className=" space-y-2">
-				<h2 className="text-sm font-semibold text-muted-foreground">
-					Boletos em: {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '...'}
-				</h2>
+									<div className="flex items-center gap-2">
+										<CalendarDays className="w-4 h-4 text-muted-foreground" />
+										<p className="text-sm text-muted-foreground">
+											{format(parseISO(delivery.expectedAt), "dd/MM/yyyy")}
+										</p>
+									</div>
 
-				{upcomingInvoicesLoading && <p className="text-xs text-muted-foreground">Carregando boletos...</p>}
+									<Link href={`/delivery/${delivery.id}`} className="flex gap-2 items-center justify-end">
+										<ChevronRight className="w-4 h-4 text-blue-400" />
+										<p className="text-sm text-blue-400 undeline">Ver entrega</p>
+									</Link>
+								</div>
+							))
+						) : (
+							!isLoading && <p className="text-md border border-card rounded-md p-2">Nenhuma entrega nesta data.</p>
+						)}
+
+					</AccordionContent>
+				</AccordionItem>
+			</Accordion>
+			
+			<Separator />
+
+			<Accordion type="single" collapsible >
+				<AccordionItem value="supplier-invoice">
+					<AccordionTrigger>
+
+						<h2 className="text-sm font-semibold  flex gap-1">
+							<File className="w-5 h-5 mr-2" />
+							Boletos em: {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '...'}
+						</h2>
+					</AccordionTrigger>
+					<AccordionContent>
+
+						{upcomingInvoicesLoading && <p className="text-xs text-muted-foreground">Carregando boletos...</p>}
 
 
-				{!upcomingInvoicesLoading && invoicesOnSelectedDate.length > 0 ? (
-					invoicesOnSelectedDate.map((invoice) => (
-						<div
-							key={invoice.id}
-							className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2 dark:text-gray-400"
-						>
-							<Separator className="w-2 rounded-full h-1 bg-yellow-500" />
-							<div className="flex items-center gap-2">
-								<FileText className="w-4 h-4 " />
-								<p className="text-base font-semibold ">
-									{invoice.title}
-								</p>
-							</div>
+						{!upcomingInvoicesLoading && invoicesOnSelectedDate.length > 0 ? (
+							invoicesOnSelectedDate.map((invoice) => (
+								<div
+									key={invoice.id}
+									className="p-4 rounded-xl border bg-muted/20 shadow-sm flex flex-col gap-2 dark:text-gray-400"
+								>
+									<Separator className="w-2 rounded-full h-1 bg-yellow-500" />
+									<div className="flex items-center gap-2">
+										<FileText className="w-4 h-4 " />
+										<p className="text-base font-semibold ">
+											{invoice.title}
+										</p>
+									</div>
 
-							<div className="flex items-center gap-2">
-								<Truck className="w-4 h-4" />
-								<p className="text-sm ">{invoice.supplier.name}</p>
-							</div>
+									<div className="flex items-center gap-2">
+										<Truck className="w-4 h-4" />
+										<p className="text-sm ">{invoice.supplier.name}</p>
+									</div>
 
-							<div className="flex items-center gap-2">
-								<CalendarDays className="w-4 h-4 " />
-								<p className="text-sm ">
-									{format(parseISO(invoice.dueDate), "dd/MM/yyyy")}
-								</p>
-							</div>
+									<div className="flex items-center gap-2">
+										<CalendarDays className="w-4 h-4 " />
+										<p className="text-sm ">
+											{format(parseISO(invoice.dueDate), "dd/MM/yyyy")}
+										</p>
+									</div>
 
-							<div className="flex items-center gap-2">
-								<DollarSign className="w-4 h-4" />
-								<p className="text-sm">
-									{Number(invoice.amount).toFixed(2)} {" "}
-								</p>
-							</div>
+									<div className="flex items-center gap-2">
+										<DollarSign className="w-4 h-4" />
+										<p className="text-sm">
+											{Number(invoice.amount).toFixed(2)} {" "}
+										</p>
+									</div>
 
-							<Link href={`/supplier-invoice/${invoice.id}`} className="flex gap-2 items-center justify-end">
-								<ChevronRight className="w-4 h-4 text-yellow-500" />
-								<p className="text-sm text-yellow-500 ">Ver boleto</p>
-							</Link>
-						</div>
-					))
-				) : (
-					!upcomingInvoicesLoading && <p className="text-md border border-card rounded-md p-2">Nenhuma pagamento nesta data.</p>
-				)}
-			</div>
+									<Link href={`/supplier-invoice/${invoice.id}`} className="flex gap-2 items-center justify-end">
+										<ChevronRight className="w-4 h-4 text-yellow-500" />
+										<p className="text-sm text-yellow-500 ">Ver boleto</p>
+									</Link>
+								</div>
+							))
+						) : (
+							!upcomingInvoicesLoading && <p className="text-md border border-card rounded-md p-2">Nenhuma pagamento nesta data.</p>
+						)}
+
+					</AccordionContent>
+
+				</AccordionItem>
+			</Accordion>
+
+			<Separator />
 
 		</div>
 	)
