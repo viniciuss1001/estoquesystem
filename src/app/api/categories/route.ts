@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
-		const { error: adminError } = await requireAdmin(session)
-		if (adminError) return adminError
 
 		const body = await req.json()
 

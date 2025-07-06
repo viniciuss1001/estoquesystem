@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { ModeThemeToggle } from "../shared/theme-toggle"
 import CreatorGenericModal from "../shared/More-creator-modal"
-import NotificationComponent from "../shared/notify"
+import NotificationComponent from "../shared/NotificationComponent"
 import { LogoutButton } from "../shared/logout-button"
 
 import { useSession } from "next-auth/react"

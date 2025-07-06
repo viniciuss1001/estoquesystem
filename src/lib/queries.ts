@@ -1,4 +1,4 @@
-import { Category, Delivery, Movement, Product, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
+import { Category, Delivery, Movement, Notification, Product, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import api from "./axios"
 import { format } from "date-fns"
@@ -33,6 +33,16 @@ export type InvoiceFilters = {
     status?: "PENDING" | "PAID" | "CANCELED"
     dueDateFrom?: Date
     dueDateTo?: Date
+}
+
+export function useNotifications() {
+    return useQuery({
+        queryKey: ["notifications"],
+        queryFn: async () => {
+            const response = await api.get("/notification")
+            return response.data as Notification[]
+        }
+    })
 }
 
 export function useUsers() {

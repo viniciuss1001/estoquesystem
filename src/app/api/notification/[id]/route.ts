@@ -8,12 +8,18 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
 	const { id } = await params
 
-	const deleted = await prisma.notification.delete({
-		where: { 
-			id, 
-			userId: session.user.id
-		}
+	const notification = await prisma.notification.findUnique({
+		where: { id },
 	})
 
-	return NextResponse.json(deleted)
+	if (!notification || notification.userId !== session.user.id) {
+		return new NextResponse("Not found or forbidden", { status: 404 })
+	}
+
+	await prisma.notification.delete({
+		where: { id },
+	})
+
+	return NextResponse.json({ message: "Notification deleted" })
+
 }
