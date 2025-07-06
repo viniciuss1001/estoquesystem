@@ -1,9 +1,13 @@
+import { requireSession } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 import { NextResponse } from "next/server"
 
 
 export async function GET() {
 	try {
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+
 		const now = new Date()
 		const next7Days = new Date()
 		next7Days.setDate(now.getDate() + 7)

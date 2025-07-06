@@ -1,8 +1,7 @@
 import { logAction } from "@/lib/audit";
-import { authOptions } from "@/lib/authOptions";
+import { requireSession } from "@/lib/auth";
 import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -17,11 +16,8 @@ const supplierSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session || session.user.office !== "ADMIN") {
-      return new Response("Unauthorized", { status: 401 });
-    }
+    const { session, error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
 
     const json = await req.json()
     const parsed = supplierSchema.parse(json)
@@ -52,7 +48,7 @@ export async function POST(req: Request) {
     }
 
     await notifyByUserRole({
-      title: "Novo fornecedor adicionado", 
+      title: "Novo fornecedor adicionado",
       message: `Novo fornecedor adicionado ${supplier.name}.`,
       roles: ["GESTOR"]
     })
@@ -81,14 +77,17 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
+    const { session, error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
+
     const suppliers = await prisma.supplier.findMany({
       orderBy: { createdAt: "desc" },
-      select: { 
-        id: true, 
+      select: {
+        id: true,
         name: true,
-        email: true, 
+        email: true,
         contactPhone: true,
-        description: true, 
+        description: true,
         deliveryTime: true
       }
     })

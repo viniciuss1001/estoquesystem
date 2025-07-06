@@ -8,11 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return new NextResponse("Não autorizado", { status: 401 });
-    }
+    const { session, error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
 
     const data = await req.json();
     const {
@@ -269,7 +266,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
 
-    const { session, error: sessionError } = await requireSession()
+    const { error: sessionError } = await requireSession()
 
     if (sessionError) {
       return sessionError

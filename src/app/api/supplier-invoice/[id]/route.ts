@@ -1,17 +1,13 @@
 import { logAction } from "@/lib/audit";
-import { authOptions } from "@/lib/authOptions";
+import { requireSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
 	try {
-		const session = await getServerSession(authOptions)
-
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Não autorizado", { status: 401 })
-		}
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
 		const { id } = await params
 
@@ -34,15 +30,11 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 	}
 }
 
-
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 
-		const session = await getServerSession(authOptions)
-
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Não autorizado", { status: 401 })
-		}
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
 		const { id } = await params
 
@@ -79,11 +71,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
-		const session = await getServerSession(authOptions)
-
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Unauthorized", { status: 401 })
-		}
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
 		const { id } = await params
 

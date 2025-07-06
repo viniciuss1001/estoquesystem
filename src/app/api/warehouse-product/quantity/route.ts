@@ -1,17 +1,21 @@
 
+import { requireSession } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: Request) {
-	const { searchParams } = new URL(req.url)
-	const productId = searchParams.get("productId")
-	const warehouseId = searchParams.get("warehouseId")
-
-	if (!productId || !warehouseId) {
-		return new NextResponse("Parâmetros obrigatórios ausentes", { status: 400 });
-	}
-
 	try {
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+
+		const { searchParams } = new URL(req.url)
+		const productId = searchParams.get("productId")
+		const warehouseId = searchParams.get("warehouseId")
+
+		if (!productId || !warehouseId) {
+			return new NextResponse("Parâmetros obrigatórios ausentes", { status: 400 });
+		}
+
 		const warehouseProduct = await prisma.warehouseProduct.findUnique({
 			where: {
 				warehouseId_productId: {
@@ -29,21 +33,24 @@ export async function GET(req: Request) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { warehouseId, productId, quantity } = await req.json();
 
-  if (!warehouseId || !productId || quantity == null) {
-    return new NextResponse("Dados inválidos", { status: 400 });
-  }
+	const { session, error: sessionError } = await requireSession()
+	if (sessionError) return sessionError
+	const { warehouseId, productId, quantity } = await req.json();
 
-  const updated = await prisma.warehouseProduct.update({
-    where: {
-      warehouseId_productId: {
-        warehouseId,
-        productId,
-      },
-    },
-    data: { quantity },
-  });
+	if (!warehouseId || !productId || quantity == null) {
+		return new NextResponse("Dados inválidos", { status: 400 });
+	}
 
-  return NextResponse.json(updated);
+	const updated = await prisma.warehouseProduct.update({
+		where: {
+			warehouseId_productId: {
+				warehouseId,
+				productId,
+			},
+		},
+		data: { quantity },
+	});
+
+	return NextResponse.json(updated);
 }

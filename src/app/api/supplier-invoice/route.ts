@@ -1,20 +1,16 @@
 
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
 import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
 import { writeFile } from "fs/promises";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 
 export async function POST(req: NextRequest) {
 	try {
-		const session = await getServerSession(authOptions)
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Não autorizado", { status: 401 })
-		}
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
 		const formData = await req.formData()
 

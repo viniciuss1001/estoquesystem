@@ -1,17 +1,13 @@
-import { authOptions } from "@/lib/authOptions";
+import { requireSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
 
 	try {
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
-		const session = await getServerSession(authOptions)
-
-		if (!session) {
-			return new NextResponse("Não autorizado", { status: 401 })
-		}
 		const {id} = await params
 
 		const productsInWarehouse = await prisma.warehouseProduct.findMany({

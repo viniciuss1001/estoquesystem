@@ -1,4 +1,5 @@
 import { logAction } from "@/lib/audit";
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -8,6 +9,10 @@ export async function GET(
   _: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+
+  const { session, error: sessionError } = await requireSession()
+  if (sessionError) return sessionError
+
   const { id } = await params
 
   const movement = await prisma.stockMovement.findUnique({
@@ -34,12 +39,11 @@ export async function PATCH(
   { params }: { params: { id: string } },
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const { session, error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
 
-    if (!session || session.user.office !== "ADMIN") {
-      return new Response("Unauthorized", { status: 401 });
-    }
     const { id } = params;
+
     const body = await req.json();
 
     const {
@@ -192,11 +196,8 @@ export async function DELETE(
   { params }: { params: { id: string } },
 ) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session || session.user.office !== "ADMIN") {
-      return new Response("Unauthorized", { status: 401 });
-    }
+    const { session, error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
 
     await prisma.stockMovement.delete({
       where: { id: params.id },

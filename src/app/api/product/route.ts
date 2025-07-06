@@ -88,6 +88,10 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
 	try {
+
+		const { error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+
 		const { searchParams } = new URL(req.url)
 
 		const categoryId = searchParams.get("categoryId")

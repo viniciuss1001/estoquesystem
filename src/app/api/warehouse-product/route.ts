@@ -1,3 +1,4 @@
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -5,11 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
 	try {
-		const session = await getServerSession(authOptions)
-
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Unauthorized", { status: 401 })
-		}
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
 		const body = await req.json()
 
@@ -38,11 +36,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
 	try {
-		const session = await getServerSession(authOptions)
-
-		if (!session || session.user.office !== "ADMIN") {
-			return new Response("Unauthorized", { status: 401 })
-		}
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
 		const warehouseProducts = await prisma.warehouseProduct.findMany({
 			include: {

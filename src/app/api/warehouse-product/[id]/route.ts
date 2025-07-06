@@ -1,3 +1,4 @@
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -6,11 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session || session.user.office !== "ADMIN") {
-      return new Response("Unauthorized", { status: 401 });
-    }
+    const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
     const { searchParams } = new URL(req.url);
     const warehouseId = searchParams.get("warehouseId");
@@ -45,14 +43,15 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const { searchParams } = new URL(req.url);
-    const warehouseId = searchParams.get("warehouseId");
-    const productId = searchParams.get("productId");
+    const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
 
-    if (!session || session.user.office !== "ADMIN") {
-      return new Response("Unauthorized", { status: 401 });
-    }
+    const { searchParams } = new URL(req.url)
+
+    const warehouseId = searchParams.get("warehouseId")
+    
+    const productId = searchParams.get("productId");
+    
 
     if (!warehouseId || !productId) {
       return new Response("Parâmetros inválidos", { status: 400 });
