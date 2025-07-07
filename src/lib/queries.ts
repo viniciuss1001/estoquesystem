@@ -65,8 +65,8 @@ export function useActiveUsers() {
     return useQuery({
         queryKey: ["activeUsers"],
         queryFn: async () => {
-            const { data } = await api.get("/dashboard/active-users")
-            return data.count as number
+            const response = await api.get("/dashboard/active-users")
+            return response.data
         }
     })
 }

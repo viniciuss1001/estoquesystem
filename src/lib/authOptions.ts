@@ -26,6 +26,11 @@ export const authOptions: NextAuthOptions = {
         const valid = await comparePasswords(credentials?.password || "", user.password)
         if (!valid) return null
 
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLogin: new Date() },
+        })
+
         return {
           id: user.id,
           name: user.name,
@@ -44,7 +49,7 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-     if (session?.user && token?.sub) {
+      if (session?.user && token?.sub) {
         const userInDb = await prisma.user.findUnique({
           where: { id: token.sub },
           select: {

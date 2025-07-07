@@ -1,16 +1,16 @@
 "use client"
-import { z } from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { signIn } from 'next-auth/react'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader } from 'lucide-react'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
 const formSchema = z.object({
 	email: z.string().email({ message: "Email inválido" }),
@@ -38,7 +38,7 @@ const LoginPage = () => {
 			toast.success("Login bem sucedido!")
 			router.push("/dashboard")
 		} else {
-			alert("Credenciais inválidas")
+			toast.error("Credenciais inválidas")
 		}
 	}
 

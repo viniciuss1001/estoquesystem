@@ -13,11 +13,11 @@ const DeliveryLineChart = () => {
 
 
 	return (
-		<Card className="w-1/3">
+		<Card className="w-1/3 bg-background">
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle>Últimas e Próximas Entregas</CardTitle>
 				<Select value={String(days)} onValueChange={(v) => setDays(Number(v))}>
-					<SelectTrigger className="w-[160px]">
+					<SelectTrigger className="w-[160px] ">
 						<SelectValue placeholder="Dias" />
 					</SelectTrigger>
 					<SelectContent>

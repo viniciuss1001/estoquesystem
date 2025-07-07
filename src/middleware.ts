@@ -33,7 +33,7 @@ export const config = {
 		// Protege todas essas rotas
 		"/dashboard/:path*",
 		"/admin/:path*",
-		"/gestor/:path*",
+		"/deliveries/:path*",
 		"/products/:path*",
 		"/movements/:path*",
 		"/suppliers/:path*",

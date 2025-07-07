@@ -19,7 +19,7 @@ export function MovementLineChart() {
 	const { data = [] } = useMovementHistory(days)
 
 	return (
-		<Card className="w-1/3">
+		<Card className="w-1/3 bg-background">
 			<CardHeader className="flex flex-row items-center justify-between">
 				<CardTitle>Movimentações por tipo</CardTitle>
 				<Select value={String(days)} onValueChange={(v) => setDays(Number(v))}>

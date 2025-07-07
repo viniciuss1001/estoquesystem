@@ -15,7 +15,7 @@ const DashboardPage = () => {
 
   const { data: totalProducts = [] } = useTotalProducts()
   const { data: totalWarehouses } = useTotalWarehouses()
-  const { data: activeUsers } = useActiveUsers()
+  const { data: activeUsers = [] } = useActiveUsers()
   const { data: overdueInvoices } = useOverdueInvoices()
 
   console.log(activeUsers)
@@ -42,7 +42,7 @@ const DashboardPage = () => {
           />
           <DashboardCard
             title="Usuários Ativos"
-            value={activeUsers}
+            value={activeUsers.length}
             icon={Users}
             color="default"
           />

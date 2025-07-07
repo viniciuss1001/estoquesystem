@@ -14,14 +14,18 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Email ou senha inválida." }, { status: 401 })
 	}
 
-	await prisma.user.update({
-		where: {
-			id: user.id
-		}, 
-		data: {
-			lastLogin: new Date()
-		}
-	})
+	try {
+		console.log("Updating lastLogin...")
+
+		await prisma.user.update({
+			where: { id: user.id },
+			data: { lastLogin: new Date() },
+		})
+
+		console.log("lastLogin updated!")
+	} catch (error) {
+		console.error("Erro to update lastLogin:", error)
+	}
 
 	const token = jwt.sign(
 		{
