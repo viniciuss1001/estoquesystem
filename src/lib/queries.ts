@@ -35,6 +35,22 @@ export type InvoiceFilters = {
     dueDateTo?: Date
 }
 
+type OverdueInvoice = {
+	id: string
+	amount: number
+	dueDate: string
+	status: "PENDING" | "PAID" | "CANCELED"
+	supplier: {
+		name: string
+	}
+}
+interface LowStockProduc {
+	id: string
+	name: string
+	quantity: number
+	minimumStock: number | null
+}
+
 export function useNotifications() {
     return useQuery({
         queryKey: ["notifications"],
@@ -97,6 +113,16 @@ export function useCategories() {
             const response = await api.get("/categories")
             return response.data as Category[]
         },
+    })
+}
+
+export function useLowStockProducts(){
+    return useQuery({
+        queryKey: ["lowStockProduct"], 
+        queryFn: async () => {
+			const respone = await api.get('/product/low-stock')
+			return respone.data as LowStockProduc[]
+		}
     })
 }
 
@@ -201,7 +227,6 @@ export function useWarehouses() {
     })
 }
 
-
 export function useWarehouse(id: string) {
     return useQuery({
         queryKey: ['warehouse', id],
@@ -246,7 +271,7 @@ export function useUpcomingDeliveries() {
         queryKey: ["upcomingDeliveries"],
         queryFn: async () => {
             const { data } = await api.get("/dashboard/upcoming-deliveries")
-            return data
+            return data as Delivery[]
         }
     })
 }
@@ -256,7 +281,7 @@ export function useLateDeliveries() {
         queryKey: ["lateDeliveries"],
         queryFn: async () => {
             const { data } = await api.get("/dashboard/late-deliveries")
-            return data
+            return data as Delivery[]
         }
     })
 }
@@ -353,7 +378,7 @@ export function useOverdueInvoices() {
         queryKey: ["overdueInvoices"],
         queryFn: async () => {
             const { data } = await api.get("/dashboard/overdue-invoices")
-            return data
+            return data as OverdueInvoice[]
         }
     })
 }

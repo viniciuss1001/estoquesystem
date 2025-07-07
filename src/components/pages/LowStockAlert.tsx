@@ -1,28 +1,16 @@
 "use client"
 
-import api from "@/lib/axios"
-import { useQuery } from "@tanstack/react-query"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useLowStockProducts } from "@/lib/queries"
 import clsx from "clsx"
 import { AlertCircle, AlertTriangle, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-interface LowStockProduc {
-	id: string
-	name: string
-	quantity: number
-	minimumStock: number | null
-}
+
 
 const LowStockAlert = () => {
 
-	const { data = [], isLoading, isError } = useQuery<LowStockProduc[]>({
-		queryKey: ["lowStockProducts"],
-		queryFn: async () => {
-			const respone = await api.get('/product/low-stock')
-			return respone.data
-		}
-	})
+	const { data = [], isLoading, isError } = useLowStockProducts()
 
 	if (isLoading) {
 		return (
