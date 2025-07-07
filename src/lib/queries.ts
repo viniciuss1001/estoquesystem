@@ -36,19 +36,19 @@ export type InvoiceFilters = {
 }
 
 type OverdueInvoice = {
-	id: string
-	amount: number
-	dueDate: string
-	status: "PENDING" | "PAID" | "CANCELED"
-	supplier: {
-		name: string
-	}
+    id: string
+    amount: number
+    dueDate: string
+    status: "PENDING" | "PAID" | "CANCELED"
+    supplier: {
+        name: string
+    }
 }
 interface LowStockProduc {
-	id: string
-	name: string
-	quantity: number
-	minimumStock: number | null
+    id: string
+    name: string
+    quantity: number
+    minimumStock: number | null
 }
 
 export function useNotifications() {
@@ -116,13 +116,13 @@ export function useCategories() {
     })
 }
 
-export function useLowStockProducts(){
+export function useLowStockProducts() {
     return useQuery({
-        queryKey: ["lowStockProduct"], 
+        queryKey: ["lowStockProduct"],
         queryFn: async () => {
-			const respone = await api.get('/product/low-stock')
-			return respone.data as LowStockProduc[]
-		}
+            const respone = await api.get('/product/low-stock')
+            return respone.data as LowStockProduc[]
+        }
     })
 }
 
@@ -266,6 +266,17 @@ export function useFilteredDeliveries(filters: FilteredDeliveriesParams) {
 
 }
 
+export function useDeliveryHistory(days: number) {
+    return useQuery({
+        queryKey: ["deliveryHistory", days],
+        queryFn: async () => {
+            const respone = await api.get(`/dashboard/deliveries-history?days=${days}`)
+
+            return respone.data as { date: string, count: number }[]
+        }
+    })
+}
+
 export function useUpcomingDeliveries() {
     return useQuery({
         queryKey: ["upcomingDeliveries"],
@@ -331,6 +342,21 @@ export function useRecentMovements() {
         queryFn: async () => {
             const { data } = await api.get("/dashboard/recent-movements")
             return data as Movement[]
+        }
+    })
+}
+
+export function useMovementHistory(days: number) {
+    return useQuery({
+        queryKey: ["movementHistory", days],
+        queryFn: async () => {
+            const respone = await api.get(`/dashboard/stock-movements-history?days=${days}`)
+            return respone.data as {
+                date: string
+                IN: number
+                OUT: number
+                TRASNFER: number
+            }
         }
     })
 }

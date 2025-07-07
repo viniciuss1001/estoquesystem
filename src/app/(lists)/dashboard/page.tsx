@@ -1,8 +1,10 @@
 "use client"
 
 import DashboardCard from "@/components/pages/dashboard/DashboardCard"
+import DeliveryLineChart from "@/components/pages/dashboard/DeliveryLineChart"
 import LateDeliveries from "@/components/pages/dashboard/LateDeliveries"
 import LowStockProduct from "@/components/pages/dashboard/LowStockProduct"
+import { MovementLineChart } from "@/components/pages/dashboard/MovementsLineChart"
 import OverdueInvoices from "@/components/pages/dashboard/OverdueInvoices"
 import RecentStockMovement from "@/components/pages/dashboard/RecentStockMovement"
 import UpcomingDeliveries from "@/components/pages/dashboard/UpcomingDeliveries"
@@ -57,23 +59,34 @@ const DashboardPage = () => {
       <div className="flex gap-3 justify-between">
         <div className="w-2/5">
 
-        <RecentStockMovement />
+          <RecentStockMovement />
         </div>
 
         <div className="w-full p-0">
           <div className="flex items-start justify-around gap-2  h-1/2 w-full pl-6 pr-6">
-          <OverdueInvoices />
+            <OverdueInvoices />
 
-        </div>
-        <div className="flex items-start justify-around gap-2  h-1/2 w-full pl-6 pr-6">
-          <UpcomingDeliveries />
+          </div>
+          <div className="flex items-start justify-around gap-2  h-1/2 w-full pl-6 pr-6">
+            <UpcomingDeliveries />
 
-          <LateDeliveries />
-          <LowStockProduct />
+            <LateDeliveries />
+            <LowStockProduct />
+          </div>
         </div>
       </div>
-        </div>
 
+      {/* charts */}
+      <div className=" gap-3 w-full p-1">
+        <h2 className="text-2xl font-semibold mb-4">
+          Histórico de Entregas e Movimentações
+        </h2>
+        <div className="flex gap-2 items-start w-full">
+
+          <DeliveryLineChart />
+          <MovementLineChart />
+        </div>
+      </div>
     </div>
   )
 }
