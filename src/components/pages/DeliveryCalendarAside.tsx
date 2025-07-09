@@ -9,7 +9,7 @@ import { SupplierInvoice } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import { format, isAfter, isSameDay, parseISO } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { CalendarDays, ChevronRight, ChevronsDown, DollarSign, File, FileText, Package, Truck } from "lucide-react"
+import { CalendarDays, ChevronRight, DollarSign, File, FileText, Package, Truck } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 

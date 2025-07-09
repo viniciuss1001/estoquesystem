@@ -274,6 +274,24 @@ exports.Prisma.NotificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ServiceScalarFieldEnum = {
+  id: 'id',
+  providerName: 'providerName',
+  email: 'email',
+  phone: 'phone',
+  serviceType: 'serviceType',
+  serviceDate: 'serviceDate',
+  cost: 'cost',
+  status: 'status',
+  location: 'location',
+  description: 'description',
+  attachmentUrl: 'attachmentUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByUserId: 'createdByUserId',
+  invoiceId: 'invoiceId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -339,6 +357,12 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   ERROR: 'ERROR'
 };
 
+exports.ServiceStatus = exports.$Enums.ServiceStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED'
+};
+
 exports.Prisma.ModelName = {
   Product: 'Product',
   Account: 'Account',
@@ -353,7 +377,8 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Delivery: 'Delivery',
   PasswordResetToken: 'PasswordResetToken',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  Service: 'Service'
 };
 
 /**

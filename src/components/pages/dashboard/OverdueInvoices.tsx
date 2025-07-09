@@ -33,7 +33,7 @@ const OverdueInvoices = () => {
 										<Badge variant="destructive">Vencido</Badge>
 									</div>
 									<div className="text-sm text-muted-foreground">
-										Valor:{" "}
+										Valor: R${" "}
 										<strong>
 											{invoice.amount.toLocaleString("pt-BR", {
 												style: "currency",

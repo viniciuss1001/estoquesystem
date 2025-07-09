@@ -76,6 +76,7 @@ model User {
   AuditLog           AuditLog[]
   sessions           Session[]
   PasswordResetToken PasswordResetToken?
+  Service            Service[]
 }
 
 model WareHouse {
@@ -147,6 +148,7 @@ model SupplierInvoice {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   Delivery    Delivery[]
+  Service     Service[]
 }
 
 model AuditLog {
@@ -207,6 +209,29 @@ model Notification {
   createdAt DateTime         @default(now())
 }
 
+model Service {
+  id              String        @id @default(uuid())
+  providerName    String
+  email           String
+  phone           String
+  serviceType     String
+  serviceDate     DateTime
+  cost            Decimal       @default(0.00)
+  status          ServiceStatus @default(PENDING)
+  location        String
+  description     String
+  attachmentUrl   String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  createdByUser   User          @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+
+  invoice   SupplierInvoice? @relation(fields: [invoiceId], references: [id])
+  invoiceId String?
+
+  @@index([serviceDate])
+}
+
 enum Office {
   ADMIN
   GESTOR
@@ -256,4 +281,10 @@ enum NotificationType {
   WARNING
   INFO
   ERROR
+}
+
+enum ServiceStatus {
+  PENDING
+  COMPLETED
+  CANCELED
 }
