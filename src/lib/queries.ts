@@ -54,6 +54,9 @@ interface LowStockProduc {
 interface ServiceFilters {
     status?: "PENDING" | "COMPLETED" | "CANCELED"
     serviceType?: string
+    providerId?: string
+    location?: string
+    invoiceId?: string
     fromDate?: string
     toDate?: string
 }
@@ -442,6 +445,10 @@ export function useFilteredServices(filters: ServiceFilters) {
         queryKey: ["services", filters],
         queryFn: async () => {
             const params = new URLSearchParams()
+
+            if (filters.providerId) params.append("provider", filters.providerId)
+            if (filters.location) params.append("location", filters.location)
+            if (filters.invoiceId) params.append("invoiceId", filters.invoiceId)
             if (filters.status) params.append("status", filters.status)
             if (filters.serviceType) params.append("serviceType", filters.serviceType)
             if (filters.fromDate) params.append("fromDate", filters.fromDate)

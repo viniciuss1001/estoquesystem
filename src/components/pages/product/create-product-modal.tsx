@@ -32,6 +32,7 @@ const formSchema = z.object({
 	unit: z.enum(["UNIT", "KILOGRAM", "LITER", "SQUARE_METER"])
 })
 
+type FormData = z.infer<typeof formSchema>
 
 const CreateProductModal = () => {
 
@@ -79,12 +80,12 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const { data: suppliers = [], isLoading: supplierLoading } =useSuppliers()
+	const { data: suppliers = [], isLoading: supplierLoading } = useSuppliers()
 
 	const { data: warehouses = [] } = useWarehouses()
 
 	const createProduct = useMutation({
-		mutationFn: async (data: z.infer<typeof formSchema>) => {
+		mutationFn: async (data: FormData) => {
 			await api.post('/product', data)
 		},
 		onSuccess: () => {
@@ -100,7 +101,7 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+	const onSubmit = async (data: FormData) => {
 		createProduct.mutate(data)
 
 	}
@@ -130,7 +131,7 @@ const CreateProductModal = () => {
 									<FormLabel>Nome</FormLabel>
 									<FormControl>
 										<Input {...field} />
-										</FormControl>
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
