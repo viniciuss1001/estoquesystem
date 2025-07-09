@@ -156,3 +156,30 @@ export interface Notification {
   userId: string
   read?: Boolean
 }
+
+export interface Service {
+  id: string
+  providerName: string
+  email: string
+  phone: string
+  serviceType: string
+  serviceDate: string
+  cost: number
+  status: "PENDING" | "COMPLETED" | "CANCELED"
+  location?: string | null
+  description?: string | null
+  attachmentUrl?: string | null
+  invoice?: {
+    id: string
+    title: string
+    dueDate: string
+    status: "PENDING" | "PAID" | "CANCELED"
+  } | null
+  createdByUser?: {
+    id: string
+    name: string
+    email: string
+  } | null
+  createdAt: string
+  updatedAt: string
+}

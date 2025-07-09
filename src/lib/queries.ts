@@ -1,4 +1,4 @@
-import { Category, Delivery, Movement, Notification, Product, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
+import { Category, Delivery, Movement, Notification, Product, Service, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import api from "./axios"
 import { format } from "date-fns"
@@ -49,6 +49,13 @@ interface LowStockProduc {
     name: string
     quantity: number
     minimumStock: number | null
+}
+
+interface ServiceFilters {
+    status?: "PENDING" | "COMPLETED" | "CANCELED"
+    serviceType?: string
+    fromDate?: string
+    toDate?: string
 }
 
 export function useNotifications() {
@@ -430,3 +437,39 @@ export function useSupplierInvoice(id: string) {
     })
 }
 
+export function useFilteredServices(filters: ServiceFilters) {
+    return useQuery({
+        queryKey: ["services", filters],
+        queryFn: async () => {
+            const params = new URLSearchParams()
+            if (filters.status) params.append("status", filters.status)
+            if (filters.serviceType) params.append("serviceType", filters.serviceType)
+            if (filters.fromDate) params.append("fromDate", filters.fromDate)
+            if (filters.toDate) params.append("toDate", filters.toDate)
+
+            const response = await api.get(`/service?${params.toString()}`)
+            return response.data as Service[]
+        }
+    })
+}
+
+export function useServices() {
+    return useQuery({
+        queryKey: ["services"],
+        queryFn: async () => {
+            const response = await api.get("/service")
+            return response.data as Service[]
+        }
+    })
+}
+
+export function useService(id: string) {
+    return useQuery({
+        queryKey: ["service", id],
+        queryFn: async () => {
+            const response = await api.get(`/service/${id}`)
+            return response.data as Service
+        },
+        enabled: !!id
+    })
+}
