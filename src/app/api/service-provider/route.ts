@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
 
 		const body = await req.json()
 
-		const { name, email, phone, cnpj } = body
+		const { name, email, phone, cnpj, description } = body
 
 		const newProvider = await prisma.serviceProvider.create({
 			data: {
-				name, email, phone, cnpj
+				name, email, phone, cnpj, description
 			}
 		})
 
@@ -47,6 +47,8 @@ export async function GET() {
 		const providers = await prisma.serviceProvider.findMany({
 			orderBy: { name: "asc" }
 		})
+
+		return NextResponse.json(providers)
 
 
 	} catch (error) {

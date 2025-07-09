@@ -1,10 +1,10 @@
 "use client"
 import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
 import { Button } from "@/components/ui/button"
-import { CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { useSupplier } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -102,7 +102,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 				<DialogContent >
 					<DialogHeader className="flex justify-start items-center gap-3">
 
-						<CardTitle>Detalhes do Fornecedor</CardTitle>
+						<DialogTitle>Detalhes do Fornecedor</DialogTitle>
 					</DialogHeader>
 
 					<Form {...form} >
@@ -158,7 +158,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 									<FormItem className="mt-4">
 										<FormLabel>Descrição</FormLabel>
 										<FormControl>
-											<Input  {...field} />
+											<Textarea  {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>

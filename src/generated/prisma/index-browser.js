@@ -296,6 +296,7 @@ exports.Prisma.ServiceProviderScalarFieldEnum = {
   email: 'email',
   phone: 'phone',
   cnpj: 'cnpj',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -191,6 +191,7 @@ export interface ServiceProvider{
   email?: string
   phone?: string
   cnpj?: string
+  description?: string
   createdAt: string
   updatedAt: string
 }

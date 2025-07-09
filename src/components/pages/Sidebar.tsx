@@ -56,7 +56,7 @@ const SidebarComponent = () => {
       items: [
         { label: "Serviços", icon: LayoutList, href: "/services" },
         { label: "Locais de Serviço", icon: MapPin, href: "/service-locations" },
-        { label: "Prestadores de Serviço", icon: Users2, href: "/services/providers" },
+        { label: "Prestadores de Serviço", icon: Users2, href: "/service-providers" },
         { label: "Tipos de Serviço", icon: Tag, href: "/service-types" },
       ]
     },

@@ -16,6 +16,8 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			where: { id }
 		})
 
+		return NextResponse.json(provider)
+
 
 	} catch (error) {
 		console.log(error)
@@ -31,7 +33,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const { id } = await params
 
 		const body = await req.json()
-		const { name, email, phone, cnpj } = body
+		const { name, email, phone, cnpj, description } = body
 
 		const updatedServiceProvider = await prisma.serviceProvider.update({
 			where: { id },
@@ -39,7 +41,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 				name,
 				email,
 				phone,
-				cnpj
+				cnpj, 
+				description
 			}
 		})
 
