@@ -217,17 +217,17 @@ const CreateServiceModal = () => {
 							)}
 						/>
 						{/* Upload opcional */}
-						{/* <FormField
-              control={form.control}
-              name="attachmentUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Anexo (URL)</FormLabel>
-                  <FormControl><Input {...field} /></FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+						<FormField
+							control={form.control}
+							name="attachmentUrl"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Anexo (URL)</FormLabel>
+									<FormControl><Input {...field} /></FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 						<DialogFooter className="flex items-center justify-end gap-2">
 							<DialogClose>
 								<Button variant="ghost" className="cursor-pointer">

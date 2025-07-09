@@ -183,3 +183,29 @@ export interface Service {
   createdAt: string
   updatedAt: string
 }
+
+
+export interface ServiceProvider{
+  id: string
+  name: string
+  email?: string
+  phone?: string
+  cnpj?: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface ServiceType {
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface ServiceLocation {
+  id: string
+  name: string
+  address?: string | null
+  createdAt: string
+  updatedAt: string
+}

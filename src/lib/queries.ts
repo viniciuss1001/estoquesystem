@@ -1,4 +1,4 @@
-import { Category, Delivery, Movement, Notification, Product, Service, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
+import { Category, Delivery, Movement, Notification, Product, Service, ServiceLocation, ServiceProvider, ServiceType, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 import api from "./axios"
 import { format } from "date-fns"
@@ -478,5 +478,68 @@ export function useService(id: string) {
             return response.data as Service
         },
         enabled: !!id
+    })
+}
+
+export function useServiceProviders(){
+    return useQuery({
+        queryKey: ["serviceproviders"],
+        queryFn: async () => {
+            const response= await api.get("/service-provider")
+            return response.data as ServiceProvider[]
+        }
+    })
+}
+
+export function useServiceProvider(id: string){
+    return useQuery({
+        queryKey: ["serviceProvider", id], 
+        queryFn: async () => {
+            const response = await api.get(`/service-provider/${id}`)
+
+            return response.data as ServiceProvider
+        }, 
+        enabled: !!id
+    })
+}
+
+export function useServiceLocations(){
+    return useQuery({
+        queryKey: ["serviceLocations"], 
+        queryFn: async () => {
+            const respone = await api.get("/service-location")
+            return respone.data as ServiceLocation[]
+        }
+    })
+}
+
+export function useServiceLocation(id: string){
+    return useQuery({
+        queryKey: ["serviceLocation", id], 
+        queryFn: async () => {
+            const response = await api.get(`/service-location/${id}`)
+            return response.data as ServiceLocation
+        }, 
+        enabled: !!id
+    })
+}
+
+export function useServiceTypes(){
+    return useQuery({
+        queryKey: ["servicetypes"], 
+        queryFn: async () => {
+            const response = await api.get("/service-type")
+            return response.data as ServiceType[]
+        }
+    })
+}
+
+export function useServiceType(id: string){
+    return useQuery({
+        queryKey: ["serviceType", id], 
+        queryFn: async () => {
+            const response = await api.get(`/service-type/${id}`)
+            return response.data as ServiceType
+        }
     })
 }
