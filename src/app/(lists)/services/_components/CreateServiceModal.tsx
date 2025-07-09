@@ -1,35 +1,31 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
-import { cn } from "@/lib/utils"
+import { useServiceLocations, useServiceProviders, useServiceTypes, useSupplierInvoices } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { format } from "date-fns"
-import { CalendarIcon, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 const formSchema = z.object({
-	providerName: z.string().min(1, "Nome é obrigatório."),
-	email: z.string().email("E-mail inválido."),
-	phone: z.string().min(8, "Telefone inválido."),
-	serviceType: z.string().min(1, "Tipo de serviço é obrigatório."),
-	serviceDate: z.date(),
-	cost: z.coerce.number().min(0),
+	serviceProviderId: z.string().min(1, "Prestador é obrigatório."),
+	serviceTypeId: z.string().min(1, "Tipo de serviço é obrigatório."),
+	serviceLocationId: z.string().min(1, "Local de serviço é obrigatório."),
+	serviceDate: z.date({ required_error: "Data obrigatória" }),
+	cost: z.coerce.number().min(0, "Custo deve ser zero ou maior."),
 	status: z.enum(["PENDING", "COMPLETED", "CANCELED"]),
-	location: z.string().optional(),
 	description: z.string().optional(),
-	attachmentUrl: z.string().url().optional().or(z.literal(""))
+	attachmentUrl: z.string().optional(),
+	invoiceId: z.string().optional()
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -42,18 +38,22 @@ const CreateServiceModal = () => {
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			providerName: "",
-			email: "",
-			phone: "",
-			serviceType: "",
+			serviceProviderId: "",
+			serviceTypeId: "",
 			serviceDate: new Date(),
 			cost: 0,
 			status: "PENDING",
-			location: "",
+			serviceLocationId: "",
 			description: "",
 			attachmentUrl: "",
+			invoiceId: ""
 		},
 	})
+
+	const { data: serviceProviders = [] } = useServiceProviders()
+	const { data: serviceTypes = [] } = useServiceTypes()
+	const { data: serviceLocations = [] } = useServiceLocations()
+	const {data: invoices = []} = useSupplierInvoices()
 
 	const createService = useMutation({
 		mutationFn: async (data: FormData) => {
@@ -91,46 +91,49 @@ const CreateServiceModal = () => {
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<FormField
 							control={form.control}
-							name="providerName"
+							name="serviceProviderId"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Nome do Prestador</FormLabel>
-									<FormControl>
-										<Input {...field} />
-									</FormControl>
+									<FormLabel>Produto</FormLabel>
+									<Select onValueChange={field.onChange} value={field.value} >
+										<FormControl className="w-full">
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Selecione o Prestador" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{serviceProviders.map(serviceProvider => (
+												<SelectItem key={serviceProvider.id} value={serviceProvider.id}>
+													{serviceProvider.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
+
 						<FormField
 							control={form.control}
-							name="email"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>E-mail</FormLabel>
-									<FormControl><Input type="email" {...field} /></FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="phone"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Telefone</FormLabel>
-									<FormControl><Input {...field} /></FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="serviceType"
+							name="serviceTypeId"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Tipo de Serviço</FormLabel>
-									<FormControl><Input {...field} /></FormControl>
+									<Select onValueChange={field.onChange} value={field.value} >
+										<FormControl className="w-full">
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Selecione o tipo de serviço" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{serviceTypes.map(serviceType => (
+												<SelectItem key={serviceType.id} value={serviceType.id}>
+													{serviceType.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -138,28 +141,27 @@ const CreateServiceModal = () => {
 						<FormField
 							control={form.control}
 							name="serviceDate"
-							render={({ field }) => (
-								<FormItem className="flex flex-col">
-									<FormLabel>Data do Serviço</FormLabel>
-									<Popover>
-										<PopoverTrigger asChild>
-											<FormControl>
-												<Button
-													variant="outline"
-													className={cn("w-full justify-start text-left font-normal", !field.value && "text-muted-foreground")}
-												>
-													<CalendarIcon className="mr-2 h-4 w-4" />
-													{field.value ? format(field.value, "dd/MM/yyyy") : <span>Escolha uma data</span>}
-												</Button>
-											</FormControl>
-										</PopoverTrigger>
-										<PopoverContent className="w-auto p-0" align="start">
-											<Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-										</PopoverContent>
-									</Popover>
-									<FormMessage />
-								</FormItem>
-							)}
+							render={({ field }) => {
+								const formattedDate = field.value ? field.value.toISOString().substring(0, 10) : "";
+
+								return (
+									<FormItem className="mt-4">
+										<FormLabel>Data do serviço</FormLabel>
+										<FormControl>
+											<Input
+												className="w-full flex gap-4"
+												type="date"
+												value={formattedDate}
+												onChange={(e) => {
+													const date = e.target.value ? new Date(e.target.value) : null;
+													field.onChange(date);
+												}}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								);
+							}}
 						/>
 						<FormField
 							control={form.control}
@@ -167,7 +169,9 @@ const CreateServiceModal = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Custo</FormLabel>
-									<FormControl><Input type="number" step="0.01" {...field} /></FormControl>
+									<FormControl>
+										<Input type="number" step="0.01" {...field} />
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -176,7 +180,7 @@ const CreateServiceModal = () => {
 							control={form.control}
 							name="status"
 							render={({ field }) => (
-								<FormItem>
+								<FormItem className="w-full">
 									<FormLabel>Status</FormLabel>
 									<Select onValueChange={field.onChange} value={field.value}>
 										<FormControl>
@@ -196,11 +200,24 @@ const CreateServiceModal = () => {
 						/>
 						<FormField
 							control={form.control}
-							name="location"
+							name="serviceLocationId"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Localização</FormLabel>
-									<FormControl><Input {...field} /></FormControl>
+									<FormLabel>Local do serviço</FormLabel>
+									<Select onValueChange={field.onChange} value={field.value} >
+										<FormControl className="w-full">
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Selecione o local do serviço" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{serviceLocations.map(serviceLocation => (
+												<SelectItem key={serviceLocation.id} value={serviceLocation.id}>
+													{serviceLocation.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -216,6 +233,32 @@ const CreateServiceModal = () => {
 								</FormItem>
 							)}
 						/>
+
+						<FormField
+							control={form.control}
+							name="invoiceId"
+							render={({ field }) => (
+								<FormItem className="mt-4">
+									<FormLabel>Boleto (opcional)</FormLabel>
+									<Select onValueChange={field.onChange} value={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Selecione o boleto ou deixe em branco" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{invoices.map((invoice) => (
+												<SelectItem key={invoice.id} value={invoice.id}>
+													{invoice.title}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						{/* Upload opcional */}
 						<FormField
 							control={form.control}
@@ -223,7 +266,9 @@ const CreateServiceModal = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Anexo (URL)</FormLabel>
-									<FormControl><Input {...field} /></FormControl>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

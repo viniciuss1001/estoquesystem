@@ -1,6 +1,6 @@
 "use client"
 
-import EditTransferModal from "@/components/pages/movements/edit-movement-modal"
+import EditTransferModal from "@/app/(lists)/movements/_components/edit-movement-modal"
 import { Badge } from "@/components/ui/badge"
 import {
   Breadcrumb,

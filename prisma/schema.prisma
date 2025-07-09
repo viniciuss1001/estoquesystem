@@ -221,7 +221,7 @@ model Service {
   serviceDate     DateTime
   cost            Float
   status          ServiceStatus    @default(PENDING)
-  description     String
+  description     String?
   attachmentUrl   String?
   invoice         SupplierInvoice? @relation(fields: [invoiceId], references: [id])
   invoiceId       String?

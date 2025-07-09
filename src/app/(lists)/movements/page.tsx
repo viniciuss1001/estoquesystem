@@ -1,7 +1,7 @@
 "use client"
 
-import CreateMovementForm from '@/components/pages/movements/create-movement-form'
-import MovementFilterDialog from '@/components/pages/movements/MovementFIlterDialog'
+import CreateMovementForm from '@/app/(lists)/movements/_components/create-movement-form'
+import MovementFilterDialog from '@/app/(lists)/movements/_components/MovementFIlterDialog'
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'

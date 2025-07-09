@@ -90,10 +90,30 @@ export async function GET(req: NextRequest) {
 		const services = await prisma.service.findMany({
 			where,
 			include: {
-				provider: true,
-				type: true,
-				location: true,
-				invoice: true,
+				provider: {
+					select: {
+						id: true, 
+						name: true
+					}
+				},
+				type: {
+					select: {
+						id: true, 
+						name: true
+					}
+				},
+				location: {
+					select: {
+						id: true, 
+						name: true
+					}
+				},
+				invoice: {
+					select: {
+						id: true, 
+						title: true
+					}
+				},
 				createdByUser: {
 					select: {
 						id: true,

@@ -2,7 +2,7 @@ import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { PlusCircle } from 'lucide-react'
 import CreateProductModal from '../pages/product/create-product-modal'
-import CreateMovementForm from '../pages/movements/create-movement-form'
+import CreateMovementForm from '../../app/(lists)/movements/_components/create-movement-form'
 import CreateSupplierModal from '../pages/supplier/create-supplier-modal'
 import CreateDeliveryForm from '../pages/delivery/CreateDeliveryForm'
 

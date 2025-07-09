@@ -149,7 +149,7 @@ export interface Category {
 }
 
 export interface Notification {
-  id?: string, 
+  id?: string,
   title: string
   message: string
   type?: "SYSTEM" | "WARNING" | "INFO" | "ERROR"
@@ -159,14 +159,23 @@ export interface Notification {
 
 export interface Service {
   id: string
-  providerName: string
+  provider: {
+    id: string,
+    name: string
+  }
   email: string
   phone: string
-  serviceType: string
+  type: {
+    id: string,
+    name: string
+  }
   serviceDate: string
   cost: number
   status: "PENDING" | "COMPLETED" | "CANCELED"
-  location?: string | null
+  location: {
+    id: string
+    name: string
+  }
   description?: string | null
   attachmentUrl?: string | null
   invoice?: {
@@ -185,7 +194,7 @@ export interface Service {
 }
 
 
-export interface ServiceProvider{
+export interface ServiceProvider {
   id: string
   name: string
   email?: string

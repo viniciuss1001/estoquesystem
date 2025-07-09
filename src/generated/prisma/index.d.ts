@@ -19210,7 +19210,7 @@ export namespace Prisma {
     serviceDate: Date
     cost: number
     status: $Enums.ServiceStatus
-    description: string
+    description: string | null
     attachmentUrl: string | null
     invoiceId: string | null
     createdByUserId: string
@@ -19356,7 +19356,7 @@ export namespace Prisma {
       serviceDate: Date
       cost: number
       status: $Enums.ServiceStatus
-      description: string
+      description: string | null
       attachmentUrl: string | null
       invoiceId: string | null
       createdByUserId: string
@@ -25034,7 +25034,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFilter<"Service"> | Date | string
     cost?: FloatFilter<"Service"> | number
     status?: EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
-    description?: StringFilter<"Service"> | string
+    description?: StringNullableFilter<"Service"> | string | null
     attachmentUrl?: StringNullableFilter<"Service"> | string | null
     invoiceId?: StringNullableFilter<"Service"> | string | null
     createdByUserId?: StringFilter<"Service"> | string
@@ -25055,7 +25055,7 @@ export namespace Prisma {
     serviceDate?: SortOrder
     cost?: SortOrder
     status?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     attachmentUrl?: SortOrderInput | SortOrder
     invoiceId?: SortOrderInput | SortOrder
     createdByUserId?: SortOrder
@@ -25079,7 +25079,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFilter<"Service"> | Date | string
     cost?: FloatFilter<"Service"> | number
     status?: EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
-    description?: StringFilter<"Service"> | string
+    description?: StringNullableFilter<"Service"> | string | null
     attachmentUrl?: StringNullableFilter<"Service"> | string | null
     invoiceId?: StringNullableFilter<"Service"> | string | null
     createdByUserId?: StringFilter<"Service"> | string
@@ -25100,7 +25100,7 @@ export namespace Prisma {
     serviceDate?: SortOrder
     cost?: SortOrder
     status?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     attachmentUrl?: SortOrderInput | SortOrder
     invoiceId?: SortOrderInput | SortOrder
     createdByUserId?: SortOrder
@@ -25124,7 +25124,7 @@ export namespace Prisma {
     serviceDate?: DateTimeWithAggregatesFilter<"Service"> | Date | string
     cost?: FloatWithAggregatesFilter<"Service"> | number
     status?: EnumServiceStatusWithAggregatesFilter<"Service"> | $Enums.ServiceStatus
-    description?: StringWithAggregatesFilter<"Service"> | string
+    description?: StringNullableWithAggregatesFilter<"Service"> | string | null
     attachmentUrl?: StringNullableWithAggregatesFilter<"Service"> | string | null
     invoiceId?: StringNullableWithAggregatesFilter<"Service"> | string | null
     createdByUserId?: StringWithAggregatesFilter<"Service"> | string
@@ -26446,7 +26446,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26465,7 +26465,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -26478,7 +26478,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26497,7 +26497,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -26513,7 +26513,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -26526,7 +26526,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26540,7 +26540,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -30203,7 +30203,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30221,7 +30221,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdAt?: Date | string
@@ -30376,7 +30376,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFilter<"Service"> | Date | string
     cost?: FloatFilter<"Service"> | number
     status?: EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
-    description?: StringFilter<"Service"> | string
+    description?: StringNullableFilter<"Service"> | string | null
     attachmentUrl?: StringNullableFilter<"Service"> | string | null
     invoiceId?: StringNullableFilter<"Service"> | string | null
     createdByUserId?: StringFilter<"Service"> | string
@@ -31213,7 +31213,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31231,7 +31231,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdByUserId: string
     createdAt?: Date | string
@@ -32188,7 +32188,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32205,7 +32205,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -32244,7 +32244,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32261,7 +32261,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -32300,7 +32300,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32317,7 +32317,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -32509,7 +32509,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdAt?: Date | string
@@ -32611,7 +32611,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32629,7 +32629,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32644,7 +32644,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33009,7 +33009,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     createdByUserId: string
     createdAt?: Date | string
@@ -33057,7 +33057,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33075,7 +33075,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33090,7 +33090,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33170,7 +33170,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -33183,7 +33183,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33200,7 +33200,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -33215,7 +33215,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -33230,7 +33230,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -33243,7 +33243,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33260,7 +33260,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -33275,7 +33275,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -33290,7 +33290,7 @@ export namespace Prisma {
     serviceDate: Date | string
     cost: number
     status?: $Enums.ServiceStatus
-    description: string
+    description?: string | null
     attachmentUrl?: string | null
     invoiceId?: string | null
     createdByUserId: string
@@ -33303,7 +33303,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33320,7 +33320,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
@@ -33335,7 +33335,7 @@ export namespace Prisma {
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
     cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string

@@ -1,7 +1,7 @@
 "use client"
 
-import CreateServiceModal from "@/components/pages/services/CreateServiceModal"
-import ServiceFilterModal from "@/components/pages/services/ServiceFilterModal"
+import CreateServiceModal from "@/app/(lists)/services/_components/CreateServiceModal"
+import ServiceFilterModal from "@/app/(lists)/services/_components/ServiceFilterModal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredServices } from "@/lib/queries"
 import { parse } from "date-fns"
@@ -28,10 +28,10 @@ const ServicesPage = () => {
 	const location = searchParams.get("location") || undefined
 	const invoiceId = searchParams.get("invoiceId") || undefined
 	const fromDateParam = searchParams.get("fromDate")
-const toDateParam = searchParams.get("toDate")
+	const toDateParam = searchParams.get("toDate")
 
-const fromDate = fromDateParam ? parse(fromDateParam, "yyyy-MM-dd", new Date()) : undefined
-const toDate = toDateParam ? parse(toDateParam, "yyyy-MM-dd", new Date()) : undefined
+	const fromDate = fromDateParam ? parse(fromDateParam, "yyyy-MM-dd", new Date()) : undefined
+	const toDate = toDateParam ? parse(toDateParam, "yyyy-MM-dd", new Date()) : undefined
 
 	const { data: services = [], isLoading } = useFilteredServices({
 		providerId,
@@ -39,9 +39,15 @@ const toDate = toDateParam ? parse(toDateParam, "yyyy-MM-dd", new Date()) : unde
 		status,
 		location,
 		invoiceId,
-		fromDate: fromDateParam || undefined, 
+		fromDate: fromDateParam || undefined,
 		toDate: toDateParam || undefined
 	})
+
+	const statusColor = {
+		PENDING: "bg-yellow-100 text-yellow-800",
+		COMPLETED: "bg-green-100 text-green-800",
+		CANCELED: "bg-red-100 text-red-800",
+	}
 
 	const statusLabels: Record<string, string> = {
 		PENDING: "Pendente",
@@ -72,66 +78,76 @@ const toDate = toDateParam ? parse(toDateParam, "yyyy-MM-dd", new Date()) : unde
 				</div>
 			</div>
 
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Prestador</TableHead>
-						<TableHead>Tipo</TableHead>
-						<TableHead>Local</TableHead>
-						<TableHead>Status</TableHead>
-						<TableHead>Data</TableHead>
-						<TableHead>Boleto</TableHead>
-						<TableHead>Ações</TableHead>
-						<TableHead>Detalhes</TableHead>
-					</TableRow>
-				</TableHeader>
-
-				<TableBody>
-					{isLoading ? (
+			<div className="w-full p-3 flex items-center justify-center">
+				<Table className="ml-auto mr-auto">
+					<TableHeader>
 						<TableRow>
-							<TableCell colSpan={9} className="text-center">
-								Carregando...
-							</TableCell>
+							<TableHead>Prestador</TableHead>
+							<TableHead>Tipo</TableHead>
+							<TableHead>Local</TableHead>
+							<TableHead>Status</TableHead>
+							<TableHead>Data</TableHead>
+							<TableHead>Boleto</TableHead>
+							<TableHead>Ações</TableHead>
+							<TableHead>Detalhes</TableHead>
 						</TableRow>
-					) : (
-						services.map((service) => (
-							<TableRow key={service.id}>
-								<TableCell>{service.providerName}</TableCell>
-								<TableCell>{service.serviceType}</TableCell>
-								<TableCell>{service.location ?? "Não informado"}</TableCell>
-								<TableCell>{statusLabels[service.status]}</TableCell>
-								<TableCell>
-									{new Date(service.createdAt).toLocaleDateString()}
+					</TableHeader>
 
-								</TableCell>
-
-								<TableCell>
-									{service.invoice ? (
-										// <Link
-										// 	href={service.invoice.fileUrl}
-										// 	target="_blank"
-										// 	className="text-blue-600 underline"
-										// >
-										// 	Visualizar
-										// </Link>
-										"em processo"
-									) : (
-										"-"
-									)}
-								</TableCell>
-								<TableCell>
-									{/* <EditServiceModal serviceId={service.id} /> */}
-								</TableCell>
-								<TableCell>
-									<Link href={`/services/${service.id}`} className="text-blue-500 underline">
-										Detalhes
-									</Link>
+					<TableBody>
+						{services.length === 0 && (
+							<TableRow>
+								<TableCell colSpan={8} className="text-center">
+									Nenhum prestador encontrado.
 								</TableCell>
 							</TableRow>
-						))
-					)}
-				</TableBody>
-			</Table>
+						)}
+
+						{isLoading ? (
+							<TableRow>
+								<TableCell colSpan={9} className="text-center">
+									Carregando...
+								</TableCell>
+							</TableRow>
+						) : (
+							services.map((service) => (
+								<TableRow key={service.id}>
+									<TableCell>{service.provider.name}</TableCell>
+									<TableCell>{service.type.name}</TableCell>
+									<TableCell>{service.location.name ?? "Não informado"}</TableCell>
+									<TableCell>{statusLabels[service.status]}</TableCell>
+									<TableCell>
+										{new Date(service.createdAt).toLocaleDateString()}
+
+									</TableCell>
+
+									<TableCell>
+										{service.invoice ? (
+											// <Link
+											// 	href={service.invoice.fileUrl}
+											// 	target="_blank"
+											// 	className="text-blue-600 underline"
+											// >
+											// 	Visualizar
+											// </Link>
+											"em processo"
+										) : (
+											"-"
+										)}
+									</TableCell>
+									<TableCell>
+										{/* <EditServiceModal serviceId={service.id} /> */}
+									</TableCell>
+									<TableCell>
+										<Link href={`/services/${service.id}`} className="text-blue-500 underline">
+											Detalhes
+										</Link>
+									</TableCell>
+								</TableRow>
+							))
+						)}
+					</TableBody>
+				</Table>
+			</div>
 
 		</div>
 	)

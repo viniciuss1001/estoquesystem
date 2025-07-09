@@ -18,7 +18,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 
-import { useSuppliers } from "@/lib/queries"
+import { useServiceLocations, useServiceProviders, useServiceTypes, useSuppliers } from "@/lib/queries"
 import { parse } from "date-fns"
 import { Filter } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -27,21 +27,10 @@ import { DateRange } from "react-day-picker"
 
 const statusOptions = [
   { value: "PENDING", label: "Pendente" },
-  { value: "IN_PROGRESS", label: "Em andamento" },
   { value: "COMPLETED", label: "Concluído" },
   { value: "CANCELED", label: "Cancelado" },
 ]
 
-const typeOptions = [
-  { value: "INSTALLATION", label: "Instalação" },
-  { value: "MAINTENANCE", label: "Manutenção" },
-  { value: "INSPECTION", label: "Inspeção" },
-]
-
-const locationOptions = [
-  { value: "ONSITE", label: "No local" },
-  { value: "REMOTE", label: "Remoto" },
-]
 
 const ServiceFilterModal = () => {
   const searchParams = useSearchParams()
@@ -77,7 +66,9 @@ const ServiceFilterModal = () => {
     return undefined
   })
 
-  const { data: suppliers = [] } = useSuppliers()
+  const { data: serviceProviders = [] } = useServiceProviders()
+  const { data: serviceTypes = [] } = useServiceTypes()
+  const { data: serviceLocations = [] } = useServiceLocations()
 
   const hasFilters = supplierId || status || type || location || hasInvoice || dateRange
 
@@ -130,13 +121,13 @@ const ServiceFilterModal = () => {
 
         <div className="flex flex-col gap-4 py-2 w-full">
 
-          {/* Fornecedor */}
-          <Select value={supplierId} onValueChange={setSupplierId}>
-            <SelectTrigger>
-              <SelectValue placeholder="Fornecedor" />
+          {/* service provider */}
+          <Select value={supplierId} onValueChange={setSupplierId} >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Prestador" />
             </SelectTrigger>
             <SelectContent>
-              {suppliers.map((s) => (
+              {serviceProviders.map((s) => (
                 <SelectItem key={s.id} value={s.id}>
                   {s.name}
                 </SelectItem>
@@ -146,7 +137,7 @@ const ServiceFilterModal = () => {
 
           {/* Status */}
           <Select value={status} onValueChange={setStatus}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -160,13 +151,13 @@ const ServiceFilterModal = () => {
 
           {/* Tipo */}
           <Select value={type} onValueChange={setType}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Tipo de Serviço" />
             </SelectTrigger>
             <SelectContent>
-              {typeOptions.map((t) => (
-                <SelectItem key={t.value} value={t.value}>
-                  {t.label}
+              {serviceTypes.map((types) => (
+                <SelectItem key={types.id} value={types.id}>
+                  {types.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -174,26 +165,15 @@ const ServiceFilterModal = () => {
 
           {/* Local */}
           <Select value={location} onValueChange={setLocation}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Local" />
             </SelectTrigger>
             <SelectContent>
-              {locationOptions.map((l) => (
-                <SelectItem key={l.value} value={l.value}>
-                  {l.label}
+              {serviceLocations.map((location) => (
+                <SelectItem key={location.id} value={location.id}>
+                  {location.name}
                 </SelectItem>
               ))}
-            </SelectContent>
-          </Select>
-
-          {/* Tem boleto? */}
-          <Select value={hasInvoice} onValueChange={setHasInvoice}>
-            <SelectTrigger>
-              <SelectValue placeholder="Tem boleto?" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="true">Sim</SelectItem>
-              <SelectItem value="false">Não</SelectItem>
             </SelectContent>
           </Select>
 

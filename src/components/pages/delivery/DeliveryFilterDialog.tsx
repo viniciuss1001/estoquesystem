@@ -66,7 +66,7 @@ const DeliveryFilterDialog = () => {
 
 				<div className="flex flex-col gap-4 py-2 w-full">
 					<Select value={productId} onValueChange={setProductId}>
-						<SelectTrigger>
+						<SelectTrigger className="w-full">
 							<SelectValue placeholder="Produto" />
 						</SelectTrigger>
 						<SelectContent>
@@ -79,7 +79,9 @@ const DeliveryFilterDialog = () => {
 					</Select>
 
 					<Select value={supplierId} onValueChange={setSupplierId}>
-						<SelectTrigger><SelectValue placeholder="Fornecedor" /></SelectTrigger>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Fornecedor" />
+							</SelectTrigger>
 						<SelectContent>
 							{suppliers.map((s) => (
 								<SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
@@ -88,7 +90,9 @@ const DeliveryFilterDialog = () => {
 					</Select>
 
 					<Select value={warehouseId} onValueChange={setWarehouseId}>
-						<SelectTrigger><SelectValue placeholder="Armazém" /></SelectTrigger>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Armazém" />
+							</SelectTrigger>
 						<SelectContent>
 							{warehouses.map((w) => (
 								<SelectItem key={w.id} value={w.id}>{w.name}</SelectItem>
@@ -97,7 +101,9 @@ const DeliveryFilterDialog = () => {
 					</Select>
 
 					<Select value={status} onValueChange={setStatus}>
-						<SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Status" />
+							</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="PENDING">Pendente</SelectItem>
 							<SelectItem value="COMPLETED">Concluído</SelectItem>
