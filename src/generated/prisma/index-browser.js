@@ -276,16 +276,18 @@ exports.Prisma.NotificationScalarFieldEnum = {
 
 exports.Prisma.ServiceScalarFieldEnum = {
   id: 'id',
-  providerId: 'providerId',
-  typeId: 'typeId',
-  locationId: 'locationId',
-  description: 'description',
-  scheduledAt: 'scheduledAt',
+  serviceProviderId: 'serviceProviderId',
+  serviceTypeId: 'serviceTypeId',
+  serviceLocationId: 'serviceLocationId',
+  serviceDate: 'serviceDate',
+  cost: 'cost',
   status: 'status',
+  description: 'description',
+  attachmentUrl: 'attachmentUrl',
+  invoiceId: 'invoiceId',
+  createdByUserId: 'createdByUserId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId',
-  supplierInvoiceId: 'supplierInvoiceId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ServiceProviderScalarFieldEnum = {

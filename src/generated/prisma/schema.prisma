@@ -210,24 +210,26 @@ model Notification {
 }
 
 model Service {
-  id          String        @id @default(uuid())
-  providerId  String
-  typeId      String
-  locationId  String
-  description String?
-  scheduledAt DateTime
-  status      ServiceStatus @default(PENDING)
+  id                String          @id @default(uuid())
+  provider          ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  serviceProviderId String
+  type              ServiceType     @relation(fields: [serviceTypeId], references: [id])
+  serviceTypeId     String
+  location          ServiceLocation @relation(fields: [serviceLocationId], references: [id])
+  serviceLocationId String
 
-  provider ServiceProvider @relation(fields: [providerId], references: [id])
-  type     ServiceType     @relation(fields: [typeId], references: [id])
-  location ServiceLocation @relation(fields: [locationId], references: [id])
+  serviceDate     DateTime
+  cost            Float
+  status          ServiceStatus    @default(PENDING)
+  description     String
+  attachmentUrl   String?
+  invoice         SupplierInvoice? @relation(fields: [invoiceId], references: [id])
+  invoiceId       String?
+  createdByUser   User             @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
 
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  User              User?            @relation(fields: [userId], references: [id])
-  userId            String?
-  SupplierInvoice   SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
-  supplierInvoiceId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ServiceProvider {

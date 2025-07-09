@@ -18995,94 +18995,124 @@ export namespace Prisma {
 
   export type AggregateService = {
     _count: ServiceCountAggregateOutputType | null
+    _avg: ServiceAvgAggregateOutputType | null
+    _sum: ServiceSumAggregateOutputType | null
     _min: ServiceMinAggregateOutputType | null
     _max: ServiceMaxAggregateOutputType | null
   }
 
+  export type ServiceAvgAggregateOutputType = {
+    cost: number | null
+  }
+
+  export type ServiceSumAggregateOutputType = {
+    cost: number | null
+  }
+
   export type ServiceMinAggregateOutputType = {
     id: string | null
-    providerId: string | null
-    typeId: string | null
-    locationId: string | null
-    description: string | null
-    scheduledAt: Date | null
+    serviceProviderId: string | null
+    serviceTypeId: string | null
+    serviceLocationId: string | null
+    serviceDate: Date | null
+    cost: number | null
     status: $Enums.ServiceStatus | null
+    description: string | null
+    attachmentUrl: string | null
+    invoiceId: string | null
+    createdByUserId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    userId: string | null
-    supplierInvoiceId: string | null
   }
 
   export type ServiceMaxAggregateOutputType = {
     id: string | null
-    providerId: string | null
-    typeId: string | null
-    locationId: string | null
-    description: string | null
-    scheduledAt: Date | null
+    serviceProviderId: string | null
+    serviceTypeId: string | null
+    serviceLocationId: string | null
+    serviceDate: Date | null
+    cost: number | null
     status: $Enums.ServiceStatus | null
+    description: string | null
+    attachmentUrl: string | null
+    invoiceId: string | null
+    createdByUserId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    userId: string | null
-    supplierInvoiceId: string | null
   }
 
   export type ServiceCountAggregateOutputType = {
     id: number
-    providerId: number
-    typeId: number
-    locationId: number
-    description: number
-    scheduledAt: number
+    serviceProviderId: number
+    serviceTypeId: number
+    serviceLocationId: number
+    serviceDate: number
+    cost: number
     status: number
+    description: number
+    attachmentUrl: number
+    invoiceId: number
+    createdByUserId: number
     createdAt: number
     updatedAt: number
-    userId: number
-    supplierInvoiceId: number
     _all: number
   }
 
 
+  export type ServiceAvgAggregateInputType = {
+    cost?: true
+  }
+
+  export type ServiceSumAggregateInputType = {
+    cost?: true
+  }
+
   export type ServiceMinAggregateInputType = {
     id?: true
-    providerId?: true
-    typeId?: true
-    locationId?: true
-    description?: true
-    scheduledAt?: true
+    serviceProviderId?: true
+    serviceTypeId?: true
+    serviceLocationId?: true
+    serviceDate?: true
+    cost?: true
     status?: true
+    description?: true
+    attachmentUrl?: true
+    invoiceId?: true
+    createdByUserId?: true
     createdAt?: true
     updatedAt?: true
-    userId?: true
-    supplierInvoiceId?: true
   }
 
   export type ServiceMaxAggregateInputType = {
     id?: true
-    providerId?: true
-    typeId?: true
-    locationId?: true
-    description?: true
-    scheduledAt?: true
+    serviceProviderId?: true
+    serviceTypeId?: true
+    serviceLocationId?: true
+    serviceDate?: true
+    cost?: true
     status?: true
+    description?: true
+    attachmentUrl?: true
+    invoiceId?: true
+    createdByUserId?: true
     createdAt?: true
     updatedAt?: true
-    userId?: true
-    supplierInvoiceId?: true
   }
 
   export type ServiceCountAggregateInputType = {
     id?: true
-    providerId?: true
-    typeId?: true
-    locationId?: true
-    description?: true
-    scheduledAt?: true
+    serviceProviderId?: true
+    serviceTypeId?: true
+    serviceLocationId?: true
+    serviceDate?: true
+    cost?: true
     status?: true
+    description?: true
+    attachmentUrl?: true
+    invoiceId?: true
+    createdByUserId?: true
     createdAt?: true
     updatedAt?: true
-    userId?: true
-    supplierInvoiceId?: true
     _all?: true
   }
 
@@ -19124,6 +19154,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ServiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ServiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ServiceMinAggregateInputType
@@ -19154,23 +19196,29 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ServiceCountAggregateInputType | true
+    _avg?: ServiceAvgAggregateInputType
+    _sum?: ServiceSumAggregateInputType
     _min?: ServiceMinAggregateInputType
     _max?: ServiceMaxAggregateInputType
   }
 
   export type ServiceGroupByOutputType = {
     id: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description: string | null
-    scheduledAt: Date
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date
+    cost: number
     status: $Enums.ServiceStatus
+    description: string
+    attachmentUrl: string | null
+    invoiceId: string | null
+    createdByUserId: string
     createdAt: Date
     updatedAt: Date
-    userId: string | null
-    supplierInvoiceId: string | null
     _count: ServiceCountAggregateOutputType | null
+    _avg: ServiceAvgAggregateOutputType | null
+    _sum: ServiceSumAggregateOutputType | null
     _min: ServiceMinAggregateOutputType | null
     _max: ServiceMaxAggregateOutputType | null
   }
@@ -19191,96 +19239,104 @@ export namespace Prisma {
 
   export type ServiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    providerId?: boolean
-    typeId?: boolean
-    locationId?: boolean
-    description?: boolean
-    scheduledAt?: boolean
+    serviceProviderId?: boolean
+    serviceTypeId?: boolean
+    serviceLocationId?: boolean
+    serviceDate?: boolean
+    cost?: boolean
     status?: boolean
+    description?: boolean
+    attachmentUrl?: boolean
+    invoiceId?: boolean
+    createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    supplierInvoiceId?: boolean
     provider?: boolean | ServiceProviderDefaultArgs<ExtArgs>
     type?: boolean | ServiceTypeDefaultArgs<ExtArgs>
     location?: boolean | ServiceLocationDefaultArgs<ExtArgs>
-    User?: boolean | Service$UserArgs<ExtArgs>
-    SupplierInvoice?: boolean | Service$SupplierInvoiceArgs<ExtArgs>
+    invoice?: boolean | Service$invoiceArgs<ExtArgs>
+    createdByUser?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    providerId?: boolean
-    typeId?: boolean
-    locationId?: boolean
-    description?: boolean
-    scheduledAt?: boolean
+    serviceProviderId?: boolean
+    serviceTypeId?: boolean
+    serviceLocationId?: boolean
+    serviceDate?: boolean
+    cost?: boolean
     status?: boolean
+    description?: boolean
+    attachmentUrl?: boolean
+    invoiceId?: boolean
+    createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    supplierInvoiceId?: boolean
     provider?: boolean | ServiceProviderDefaultArgs<ExtArgs>
     type?: boolean | ServiceTypeDefaultArgs<ExtArgs>
     location?: boolean | ServiceLocationDefaultArgs<ExtArgs>
-    User?: boolean | Service$UserArgs<ExtArgs>
-    SupplierInvoice?: boolean | Service$SupplierInvoiceArgs<ExtArgs>
+    invoice?: boolean | Service$invoiceArgs<ExtArgs>
+    createdByUser?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    providerId?: boolean
-    typeId?: boolean
-    locationId?: boolean
-    description?: boolean
-    scheduledAt?: boolean
+    serviceProviderId?: boolean
+    serviceTypeId?: boolean
+    serviceLocationId?: boolean
+    serviceDate?: boolean
+    cost?: boolean
     status?: boolean
+    description?: boolean
+    attachmentUrl?: boolean
+    invoiceId?: boolean
+    createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    supplierInvoiceId?: boolean
     provider?: boolean | ServiceProviderDefaultArgs<ExtArgs>
     type?: boolean | ServiceTypeDefaultArgs<ExtArgs>
     location?: boolean | ServiceLocationDefaultArgs<ExtArgs>
-    User?: boolean | Service$UserArgs<ExtArgs>
-    SupplierInvoice?: boolean | Service$SupplierInvoiceArgs<ExtArgs>
+    invoice?: boolean | Service$invoiceArgs<ExtArgs>
+    createdByUser?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectScalar = {
     id?: boolean
-    providerId?: boolean
-    typeId?: boolean
-    locationId?: boolean
-    description?: boolean
-    scheduledAt?: boolean
+    serviceProviderId?: boolean
+    serviceTypeId?: boolean
+    serviceLocationId?: boolean
+    serviceDate?: boolean
+    cost?: boolean
     status?: boolean
+    description?: boolean
+    attachmentUrl?: boolean
+    invoiceId?: boolean
+    createdByUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userId?: boolean
-    supplierInvoiceId?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "providerId" | "typeId" | "locationId" | "description" | "scheduledAt" | "status" | "createdAt" | "updatedAt" | "userId" | "supplierInvoiceId", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceProviderId" | "serviceTypeId" | "serviceLocationId" | "serviceDate" | "cost" | "status" | "description" | "attachmentUrl" | "invoiceId" | "createdByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     provider?: boolean | ServiceProviderDefaultArgs<ExtArgs>
     type?: boolean | ServiceTypeDefaultArgs<ExtArgs>
     location?: boolean | ServiceLocationDefaultArgs<ExtArgs>
-    User?: boolean | Service$UserArgs<ExtArgs>
-    SupplierInvoice?: boolean | Service$SupplierInvoiceArgs<ExtArgs>
+    invoice?: boolean | Service$invoiceArgs<ExtArgs>
+    createdByUser?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     provider?: boolean | ServiceProviderDefaultArgs<ExtArgs>
     type?: boolean | ServiceTypeDefaultArgs<ExtArgs>
     location?: boolean | ServiceLocationDefaultArgs<ExtArgs>
-    User?: boolean | Service$UserArgs<ExtArgs>
-    SupplierInvoice?: boolean | Service$SupplierInvoiceArgs<ExtArgs>
+    invoice?: boolean | Service$invoiceArgs<ExtArgs>
+    createdByUser?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     provider?: boolean | ServiceProviderDefaultArgs<ExtArgs>
     type?: boolean | ServiceTypeDefaultArgs<ExtArgs>
     location?: boolean | ServiceLocationDefaultArgs<ExtArgs>
-    User?: boolean | Service$UserArgs<ExtArgs>
-    SupplierInvoice?: boolean | Service$SupplierInvoiceArgs<ExtArgs>
+    invoice?: boolean | Service$invoiceArgs<ExtArgs>
+    createdByUser?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19289,21 +19345,23 @@ export namespace Prisma {
       provider: Prisma.$ServiceProviderPayload<ExtArgs>
       type: Prisma.$ServiceTypePayload<ExtArgs>
       location: Prisma.$ServiceLocationPayload<ExtArgs>
-      User: Prisma.$UserPayload<ExtArgs> | null
-      SupplierInvoice: Prisma.$SupplierInvoicePayload<ExtArgs> | null
+      invoice: Prisma.$SupplierInvoicePayload<ExtArgs> | null
+      createdByUser: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      providerId: string
-      typeId: string
-      locationId: string
-      description: string | null
-      scheduledAt: Date
+      serviceProviderId: string
+      serviceTypeId: string
+      serviceLocationId: string
+      serviceDate: Date
+      cost: number
       status: $Enums.ServiceStatus
+      description: string
+      attachmentUrl: string | null
+      invoiceId: string | null
+      createdByUserId: string
       createdAt: Date
       updatedAt: Date
-      userId: string | null
-      supplierInvoiceId: string | null
     }, ExtArgs["result"]["service"]>
     composites: {}
   }
@@ -19701,8 +19759,8 @@ export namespace Prisma {
     provider<T extends ServiceProviderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceProviderDefaultArgs<ExtArgs>>): Prisma__ServiceProviderClient<$Result.GetResult<Prisma.$ServiceProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     type<T extends ServiceTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceTypeDefaultArgs<ExtArgs>>): Prisma__ServiceTypeClient<$Result.GetResult<Prisma.$ServiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     location<T extends ServiceLocationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceLocationDefaultArgs<ExtArgs>>): Prisma__ServiceLocationClient<$Result.GetResult<Prisma.$ServiceLocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    User<T extends Service$UserArgs<ExtArgs> = {}>(args?: Subset<T, Service$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    SupplierInvoice<T extends Service$SupplierInvoiceArgs<ExtArgs> = {}>(args?: Subset<T, Service$SupplierInvoiceArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    invoice<T extends Service$invoiceArgs<ExtArgs> = {}>(args?: Subset<T, Service$invoiceArgs<ExtArgs>>): Prisma__SupplierInvoiceClient<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    createdByUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19733,16 +19791,18 @@ export namespace Prisma {
    */
   interface ServiceFieldRefs {
     readonly id: FieldRef<"Service", 'String'>
-    readonly providerId: FieldRef<"Service", 'String'>
-    readonly typeId: FieldRef<"Service", 'String'>
-    readonly locationId: FieldRef<"Service", 'String'>
-    readonly description: FieldRef<"Service", 'String'>
-    readonly scheduledAt: FieldRef<"Service", 'DateTime'>
+    readonly serviceProviderId: FieldRef<"Service", 'String'>
+    readonly serviceTypeId: FieldRef<"Service", 'String'>
+    readonly serviceLocationId: FieldRef<"Service", 'String'>
+    readonly serviceDate: FieldRef<"Service", 'DateTime'>
+    readonly cost: FieldRef<"Service", 'Float'>
     readonly status: FieldRef<"Service", 'ServiceStatus'>
+    readonly description: FieldRef<"Service", 'String'>
+    readonly attachmentUrl: FieldRef<"Service", 'String'>
+    readonly invoiceId: FieldRef<"Service", 'String'>
+    readonly createdByUserId: FieldRef<"Service", 'String'>
     readonly createdAt: FieldRef<"Service", 'DateTime'>
     readonly updatedAt: FieldRef<"Service", 'DateTime'>
-    readonly userId: FieldRef<"Service", 'String'>
-    readonly supplierInvoiceId: FieldRef<"Service", 'String'>
   }
     
 
@@ -20139,28 +20199,9 @@ export namespace Prisma {
   }
 
   /**
-   * Service.User
+   * Service.invoice
    */
-  export type Service$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
-   * Service.SupplierInvoice
-   */
-  export type Service$SupplierInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Service$invoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SupplierInvoice
      */
@@ -23630,16 +23671,18 @@ export namespace Prisma {
 
   export const ServiceScalarFieldEnum: {
     id: 'id',
-    providerId: 'providerId',
-    typeId: 'typeId',
-    locationId: 'locationId',
-    description: 'description',
-    scheduledAt: 'scheduledAt',
+    serviceProviderId: 'serviceProviderId',
+    serviceTypeId: 'serviceTypeId',
+    serviceLocationId: 'serviceLocationId',
+    serviceDate: 'serviceDate',
+    cost: 'cost',
     status: 'status',
+    description: 'description',
+    attachmentUrl: 'attachmentUrl',
+    invoiceId: 'invoiceId',
+    createdByUserId: 'createdByUserId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    userId: 'userId',
-    supplierInvoiceId: 'supplierInvoiceId'
+    updatedAt: 'updatedAt'
   };
 
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
@@ -24971,40 +25014,44 @@ export namespace Prisma {
     OR?: ServiceWhereInput[]
     NOT?: ServiceWhereInput | ServiceWhereInput[]
     id?: StringFilter<"Service"> | string
-    providerId?: StringFilter<"Service"> | string
-    typeId?: StringFilter<"Service"> | string
-    locationId?: StringFilter<"Service"> | string
-    description?: StringNullableFilter<"Service"> | string | null
-    scheduledAt?: DateTimeFilter<"Service"> | Date | string
+    serviceProviderId?: StringFilter<"Service"> | string
+    serviceTypeId?: StringFilter<"Service"> | string
+    serviceLocationId?: StringFilter<"Service"> | string
+    serviceDate?: DateTimeFilter<"Service"> | Date | string
+    cost?: FloatFilter<"Service"> | number
     status?: EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
+    description?: StringFilter<"Service"> | string
+    attachmentUrl?: StringNullableFilter<"Service"> | string | null
+    invoiceId?: StringNullableFilter<"Service"> | string | null
+    createdByUserId?: StringFilter<"Service"> | string
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    userId?: StringNullableFilter<"Service"> | string | null
-    supplierInvoiceId?: StringNullableFilter<"Service"> | string | null
     provider?: XOR<ServiceProviderScalarRelationFilter, ServiceProviderWhereInput>
     type?: XOR<ServiceTypeScalarRelationFilter, ServiceTypeWhereInput>
     location?: XOR<ServiceLocationScalarRelationFilter, ServiceLocationWhereInput>
-    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    SupplierInvoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
+    invoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
+    createdByUser?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ServiceOrderByWithRelationInput = {
     id?: SortOrder
-    providerId?: SortOrder
-    typeId?: SortOrder
-    locationId?: SortOrder
-    description?: SortOrderInput | SortOrder
-    scheduledAt?: SortOrder
+    serviceProviderId?: SortOrder
+    serviceTypeId?: SortOrder
+    serviceLocationId?: SortOrder
+    serviceDate?: SortOrder
+    cost?: SortOrder
     status?: SortOrder
+    description?: SortOrder
+    attachmentUrl?: SortOrderInput | SortOrder
+    invoiceId?: SortOrderInput | SortOrder
+    createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrderInput | SortOrder
-    supplierInvoiceId?: SortOrderInput | SortOrder
     provider?: ServiceProviderOrderByWithRelationInput
     type?: ServiceTypeOrderByWithRelationInput
     location?: ServiceLocationOrderByWithRelationInput
-    User?: UserOrderByWithRelationInput
-    SupplierInvoice?: SupplierInvoiceOrderByWithRelationInput
+    invoice?: SupplierInvoiceOrderByWithRelationInput
+    createdByUser?: UserOrderByWithRelationInput
   }
 
   export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -25012,38 +25059,44 @@ export namespace Prisma {
     AND?: ServiceWhereInput | ServiceWhereInput[]
     OR?: ServiceWhereInput[]
     NOT?: ServiceWhereInput | ServiceWhereInput[]
-    providerId?: StringFilter<"Service"> | string
-    typeId?: StringFilter<"Service"> | string
-    locationId?: StringFilter<"Service"> | string
-    description?: StringNullableFilter<"Service"> | string | null
-    scheduledAt?: DateTimeFilter<"Service"> | Date | string
+    serviceProviderId?: StringFilter<"Service"> | string
+    serviceTypeId?: StringFilter<"Service"> | string
+    serviceLocationId?: StringFilter<"Service"> | string
+    serviceDate?: DateTimeFilter<"Service"> | Date | string
+    cost?: FloatFilter<"Service"> | number
     status?: EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
+    description?: StringFilter<"Service"> | string
+    attachmentUrl?: StringNullableFilter<"Service"> | string | null
+    invoiceId?: StringNullableFilter<"Service"> | string | null
+    createdByUserId?: StringFilter<"Service"> | string
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    userId?: StringNullableFilter<"Service"> | string | null
-    supplierInvoiceId?: StringNullableFilter<"Service"> | string | null
     provider?: XOR<ServiceProviderScalarRelationFilter, ServiceProviderWhereInput>
     type?: XOR<ServiceTypeScalarRelationFilter, ServiceTypeWhereInput>
     location?: XOR<ServiceLocationScalarRelationFilter, ServiceLocationWhereInput>
-    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    SupplierInvoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
+    invoice?: XOR<SupplierInvoiceNullableScalarRelationFilter, SupplierInvoiceWhereInput> | null
+    createdByUser?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type ServiceOrderByWithAggregationInput = {
     id?: SortOrder
-    providerId?: SortOrder
-    typeId?: SortOrder
-    locationId?: SortOrder
-    description?: SortOrderInput | SortOrder
-    scheduledAt?: SortOrder
+    serviceProviderId?: SortOrder
+    serviceTypeId?: SortOrder
+    serviceLocationId?: SortOrder
+    serviceDate?: SortOrder
+    cost?: SortOrder
     status?: SortOrder
+    description?: SortOrder
+    attachmentUrl?: SortOrderInput | SortOrder
+    invoiceId?: SortOrderInput | SortOrder
+    createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrderInput | SortOrder
-    supplierInvoiceId?: SortOrderInput | SortOrder
     _count?: ServiceCountOrderByAggregateInput
+    _avg?: ServiceAvgOrderByAggregateInput
     _max?: ServiceMaxOrderByAggregateInput
     _min?: ServiceMinOrderByAggregateInput
+    _sum?: ServiceSumOrderByAggregateInput
   }
 
   export type ServiceScalarWhereWithAggregatesInput = {
@@ -25051,16 +25104,18 @@ export namespace Prisma {
     OR?: ServiceScalarWhereWithAggregatesInput[]
     NOT?: ServiceScalarWhereWithAggregatesInput | ServiceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Service"> | string
-    providerId?: StringWithAggregatesFilter<"Service"> | string
-    typeId?: StringWithAggregatesFilter<"Service"> | string
-    locationId?: StringWithAggregatesFilter<"Service"> | string
-    description?: StringNullableWithAggregatesFilter<"Service"> | string | null
-    scheduledAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
+    serviceProviderId?: StringWithAggregatesFilter<"Service"> | string
+    serviceTypeId?: StringWithAggregatesFilter<"Service"> | string
+    serviceLocationId?: StringWithAggregatesFilter<"Service"> | string
+    serviceDate?: DateTimeWithAggregatesFilter<"Service"> | Date | string
+    cost?: FloatWithAggregatesFilter<"Service"> | number
     status?: EnumServiceStatusWithAggregatesFilter<"Service"> | $Enums.ServiceStatus
+    description?: StringWithAggregatesFilter<"Service"> | string
+    attachmentUrl?: StringNullableWithAggregatesFilter<"Service"> | string | null
+    invoiceId?: StringNullableWithAggregatesFilter<"Service"> | string | null
+    createdByUserId?: StringWithAggregatesFilter<"Service"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
-    userId?: StringNullableWithAggregatesFilter<"Service"> | string | null
-    supplierInvoiceId?: StringNullableWithAggregatesFilter<"Service"> | string | null
   }
 
   export type ServiceProviderWhereInput = {
@@ -25532,7 +25587,7 @@ export namespace Prisma {
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
-    Service?: ServiceCreateNestedManyWithoutUserInput
+    Service?: ServiceCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -25553,7 +25608,7 @@ export namespace Prisma {
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserUpdateInput = {
@@ -25574,7 +25629,7 @@ export namespace Prisma {
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
-    Service?: ServiceUpdateManyWithoutUserNestedInput
+    Service?: ServiceUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -25595,7 +25650,7 @@ export namespace Prisma {
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -25961,7 +26016,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
     Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
-    Service?: ServiceCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateInput = {
@@ -25976,7 +26031,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceUpdateInput = {
@@ -25991,7 +26046,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
     Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
-    Service?: ServiceUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateInput = {
@@ -26006,7 +26061,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceCreateManyInput = {
@@ -26369,95 +26424,109 @@ export namespace Prisma {
 
   export type ServiceCreateInput = {
     id?: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: ServiceProviderCreateNestedOneWithoutServicesInput
     type: ServiceTypeCreateNestedOneWithoutServicesInput
     location: ServiceLocationCreateNestedOneWithoutServicesInput
-    User?: UserCreateNestedOneWithoutServiceInput
-    SupplierInvoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    invoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    createdByUser: UserCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
     id?: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: ServiceProviderUpdateOneRequiredWithoutServicesNestedInput
     type?: ServiceTypeUpdateOneRequiredWithoutServicesNestedInput
     location?: ServiceLocationUpdateOneRequiredWithoutServicesNestedInput
-    User?: UserUpdateOneWithoutServiceNestedInput
-    SupplierInvoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    invoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    createdByUser?: UserUpdateOneRequiredWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceCreateManyInput = {
     id?: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceProviderCreateInput = {
@@ -27707,51 +27776,60 @@ export namespace Prisma {
     isNot?: ServiceLocationWhereInput
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type ServiceCountOrderByAggregateInput = {
     id?: SortOrder
-    providerId?: SortOrder
-    typeId?: SortOrder
-    locationId?: SortOrder
-    description?: SortOrder
-    scheduledAt?: SortOrder
+    serviceProviderId?: SortOrder
+    serviceTypeId?: SortOrder
+    serviceLocationId?: SortOrder
+    serviceDate?: SortOrder
+    cost?: SortOrder
     status?: SortOrder
+    description?: SortOrder
+    attachmentUrl?: SortOrder
+    invoiceId?: SortOrder
+    createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrder
-    supplierInvoiceId?: SortOrder
+  }
+
+  export type ServiceAvgOrderByAggregateInput = {
+    cost?: SortOrder
   }
 
   export type ServiceMaxOrderByAggregateInput = {
     id?: SortOrder
-    providerId?: SortOrder
-    typeId?: SortOrder
-    locationId?: SortOrder
-    description?: SortOrder
-    scheduledAt?: SortOrder
+    serviceProviderId?: SortOrder
+    serviceTypeId?: SortOrder
+    serviceLocationId?: SortOrder
+    serviceDate?: SortOrder
+    cost?: SortOrder
     status?: SortOrder
+    description?: SortOrder
+    attachmentUrl?: SortOrder
+    invoiceId?: SortOrder
+    createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrder
-    supplierInvoiceId?: SortOrder
   }
 
   export type ServiceMinOrderByAggregateInput = {
     id?: SortOrder
-    providerId?: SortOrder
-    typeId?: SortOrder
-    locationId?: SortOrder
-    description?: SortOrder
-    scheduledAt?: SortOrder
+    serviceProviderId?: SortOrder
+    serviceTypeId?: SortOrder
+    serviceLocationId?: SortOrder
+    serviceDate?: SortOrder
+    cost?: SortOrder
     status?: SortOrder
+    description?: SortOrder
+    attachmentUrl?: SortOrder
+    invoiceId?: SortOrder
+    createdByUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userId?: SortOrder
-    supplierInvoiceId?: SortOrder
+  }
+
+  export type ServiceSumOrderByAggregateInput = {
+    cost?: SortOrder
   }
 
   export type EnumServiceStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -28100,10 +28178,10 @@ export namespace Prisma {
     connect?: PasswordResetTokenWhereUniqueInput
   }
 
-  export type ServiceCreateNestedManyWithoutUserInput = {
-    create?: XOR<ServiceCreateWithoutUserInput, ServiceUncheckedCreateWithoutUserInput> | ServiceCreateWithoutUserInput[] | ServiceUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutUserInput | ServiceCreateOrConnectWithoutUserInput[]
-    createMany?: ServiceCreateManyUserInputEnvelope
+  export type ServiceCreateNestedManyWithoutCreatedByUserInput = {
+    create?: XOR<ServiceCreateWithoutCreatedByUserInput, ServiceUncheckedCreateWithoutCreatedByUserInput> | ServiceCreateWithoutCreatedByUserInput[] | ServiceUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutCreatedByUserInput | ServiceCreateOrConnectWithoutCreatedByUserInput[]
+    createMany?: ServiceCreateManyCreatedByUserInputEnvelope
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
@@ -28134,10 +28212,10 @@ export namespace Prisma {
     connect?: PasswordResetTokenWhereUniqueInput
   }
 
-  export type ServiceUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<ServiceCreateWithoutUserInput, ServiceUncheckedCreateWithoutUserInput> | ServiceCreateWithoutUserInput[] | ServiceUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutUserInput | ServiceCreateOrConnectWithoutUserInput[]
-    createMany?: ServiceCreateManyUserInputEnvelope
+  export type ServiceUncheckedCreateNestedManyWithoutCreatedByUserInput = {
+    create?: XOR<ServiceCreateWithoutCreatedByUserInput, ServiceUncheckedCreateWithoutCreatedByUserInput> | ServiceCreateWithoutCreatedByUserInput[] | ServiceUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutCreatedByUserInput | ServiceCreateOrConnectWithoutCreatedByUserInput[]
+    createMany?: ServiceCreateManyCreatedByUserInputEnvelope
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
@@ -28197,17 +28275,17 @@ export namespace Prisma {
     update?: XOR<XOR<PasswordResetTokenUpdateToOneWithWhereWithoutUserInput, PasswordResetTokenUpdateWithoutUserInput>, PasswordResetTokenUncheckedUpdateWithoutUserInput>
   }
 
-  export type ServiceUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ServiceCreateWithoutUserInput, ServiceUncheckedCreateWithoutUserInput> | ServiceCreateWithoutUserInput[] | ServiceUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutUserInput | ServiceCreateOrConnectWithoutUserInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutUserInput | ServiceUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ServiceCreateManyUserInputEnvelope
+  export type ServiceUpdateManyWithoutCreatedByUserNestedInput = {
+    create?: XOR<ServiceCreateWithoutCreatedByUserInput, ServiceUncheckedCreateWithoutCreatedByUserInput> | ServiceCreateWithoutCreatedByUserInput[] | ServiceUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutCreatedByUserInput | ServiceCreateOrConnectWithoutCreatedByUserInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutCreatedByUserInput | ServiceUpsertWithWhereUniqueWithoutCreatedByUserInput[]
+    createMany?: ServiceCreateManyCreatedByUserInputEnvelope
     set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutUserInput | ServiceUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutUserInput | ServiceUpdateManyWithWhereWithoutUserInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutCreatedByUserInput | ServiceUpdateWithWhereUniqueWithoutCreatedByUserInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutCreatedByUserInput | ServiceUpdateManyWithWhereWithoutCreatedByUserInput[]
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
@@ -28263,17 +28341,17 @@ export namespace Prisma {
     update?: XOR<XOR<PasswordResetTokenUpdateToOneWithWhereWithoutUserInput, PasswordResetTokenUpdateWithoutUserInput>, PasswordResetTokenUncheckedUpdateWithoutUserInput>
   }
 
-  export type ServiceUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ServiceCreateWithoutUserInput, ServiceUncheckedCreateWithoutUserInput> | ServiceCreateWithoutUserInput[] | ServiceUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutUserInput | ServiceCreateOrConnectWithoutUserInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutUserInput | ServiceUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ServiceCreateManyUserInputEnvelope
+  export type ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput = {
+    create?: XOR<ServiceCreateWithoutCreatedByUserInput, ServiceUncheckedCreateWithoutCreatedByUserInput> | ServiceCreateWithoutCreatedByUserInput[] | ServiceUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutCreatedByUserInput | ServiceCreateOrConnectWithoutCreatedByUserInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutCreatedByUserInput | ServiceUpsertWithWhereUniqueWithoutCreatedByUserInput[]
+    createMany?: ServiceCreateManyCreatedByUserInputEnvelope
     set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutUserInput | ServiceUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutUserInput | ServiceUpdateManyWithWhereWithoutUserInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutCreatedByUserInput | ServiceUpdateWithWhereUniqueWithoutCreatedByUserInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutCreatedByUserInput | ServiceUpdateManyWithWhereWithoutCreatedByUserInput[]
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
@@ -28666,10 +28744,10 @@ export namespace Prisma {
     connect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
   }
 
-  export type ServiceCreateNestedManyWithoutSupplierInvoiceInput = {
-    create?: XOR<ServiceCreateWithoutSupplierInvoiceInput, ServiceUncheckedCreateWithoutSupplierInvoiceInput> | ServiceCreateWithoutSupplierInvoiceInput[] | ServiceUncheckedCreateWithoutSupplierInvoiceInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutSupplierInvoiceInput | ServiceCreateOrConnectWithoutSupplierInvoiceInput[]
-    createMany?: ServiceCreateManySupplierInvoiceInputEnvelope
+  export type ServiceCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<ServiceCreateWithoutInvoiceInput, ServiceUncheckedCreateWithoutInvoiceInput> | ServiceCreateWithoutInvoiceInput[] | ServiceUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutInvoiceInput | ServiceCreateOrConnectWithoutInvoiceInput[]
+    createMany?: ServiceCreateManyInvoiceInputEnvelope
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
@@ -28680,10 +28758,10 @@ export namespace Prisma {
     connect?: DeliveryWhereUniqueInput | DeliveryWhereUniqueInput[]
   }
 
-  export type ServiceUncheckedCreateNestedManyWithoutSupplierInvoiceInput = {
-    create?: XOR<ServiceCreateWithoutSupplierInvoiceInput, ServiceUncheckedCreateWithoutSupplierInvoiceInput> | ServiceCreateWithoutSupplierInvoiceInput[] | ServiceUncheckedCreateWithoutSupplierInvoiceInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutSupplierInvoiceInput | ServiceCreateOrConnectWithoutSupplierInvoiceInput[]
-    createMany?: ServiceCreateManySupplierInvoiceInputEnvelope
+  export type ServiceUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<ServiceCreateWithoutInvoiceInput, ServiceUncheckedCreateWithoutInvoiceInput> | ServiceCreateWithoutInvoiceInput[] | ServiceUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutInvoiceInput | ServiceCreateOrConnectWithoutInvoiceInput[]
+    createMany?: ServiceCreateManyInvoiceInputEnvelope
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
@@ -28721,17 +28799,17 @@ export namespace Prisma {
     deleteMany?: DeliveryScalarWhereInput | DeliveryScalarWhereInput[]
   }
 
-  export type ServiceUpdateManyWithoutSupplierInvoiceNestedInput = {
-    create?: XOR<ServiceCreateWithoutSupplierInvoiceInput, ServiceUncheckedCreateWithoutSupplierInvoiceInput> | ServiceCreateWithoutSupplierInvoiceInput[] | ServiceUncheckedCreateWithoutSupplierInvoiceInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutSupplierInvoiceInput | ServiceCreateOrConnectWithoutSupplierInvoiceInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutSupplierInvoiceInput | ServiceUpsertWithWhereUniqueWithoutSupplierInvoiceInput[]
-    createMany?: ServiceCreateManySupplierInvoiceInputEnvelope
+  export type ServiceUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<ServiceCreateWithoutInvoiceInput, ServiceUncheckedCreateWithoutInvoiceInput> | ServiceCreateWithoutInvoiceInput[] | ServiceUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutInvoiceInput | ServiceCreateOrConnectWithoutInvoiceInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutInvoiceInput | ServiceUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: ServiceCreateManyInvoiceInputEnvelope
     set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutSupplierInvoiceInput | ServiceUpdateWithWhereUniqueWithoutSupplierInvoiceInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutSupplierInvoiceInput | ServiceUpdateManyWithWhereWithoutSupplierInvoiceInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutInvoiceInput | ServiceUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutInvoiceInput | ServiceUpdateManyWithWhereWithoutInvoiceInput[]
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
@@ -28749,17 +28827,17 @@ export namespace Prisma {
     deleteMany?: DeliveryScalarWhereInput | DeliveryScalarWhereInput[]
   }
 
-  export type ServiceUncheckedUpdateManyWithoutSupplierInvoiceNestedInput = {
-    create?: XOR<ServiceCreateWithoutSupplierInvoiceInput, ServiceUncheckedCreateWithoutSupplierInvoiceInput> | ServiceCreateWithoutSupplierInvoiceInput[] | ServiceUncheckedCreateWithoutSupplierInvoiceInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutSupplierInvoiceInput | ServiceCreateOrConnectWithoutSupplierInvoiceInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutSupplierInvoiceInput | ServiceUpsertWithWhereUniqueWithoutSupplierInvoiceInput[]
-    createMany?: ServiceCreateManySupplierInvoiceInputEnvelope
+  export type ServiceUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<ServiceCreateWithoutInvoiceInput, ServiceUncheckedCreateWithoutInvoiceInput> | ServiceCreateWithoutInvoiceInput[] | ServiceUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutInvoiceInput | ServiceCreateOrConnectWithoutInvoiceInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutInvoiceInput | ServiceUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: ServiceCreateManyInvoiceInputEnvelope
     set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutSupplierInvoiceInput | ServiceUpdateWithWhereUniqueWithoutSupplierInvoiceInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutSupplierInvoiceInput | ServiceUpdateManyWithWhereWithoutSupplierInvoiceInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutInvoiceInput | ServiceUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutInvoiceInput | ServiceUpdateManyWithWhereWithoutInvoiceInput[]
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
@@ -28921,16 +28999,16 @@ export namespace Prisma {
     connect?: ServiceLocationWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutServiceInput = {
-    create?: XOR<UserCreateWithoutServiceInput, UserUncheckedCreateWithoutServiceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutServiceInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type SupplierInvoiceCreateNestedOneWithoutServiceInput = {
     create?: XOR<SupplierInvoiceCreateWithoutServiceInput, SupplierInvoiceUncheckedCreateWithoutServiceInput>
     connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutServiceInput
     connect?: SupplierInvoiceWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutServiceInput = {
+    create?: XOR<UserCreateWithoutServiceInput, UserUncheckedCreateWithoutServiceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutServiceInput
+    connect?: UserWhereUniqueInput
   }
 
   export type EnumServiceStatusFieldUpdateOperationsInput = {
@@ -28961,16 +29039,6 @@ export namespace Prisma {
     update?: XOR<XOR<ServiceLocationUpdateToOneWithWhereWithoutServicesInput, ServiceLocationUpdateWithoutServicesInput>, ServiceLocationUncheckedUpdateWithoutServicesInput>
   }
 
-  export type UserUpdateOneWithoutServiceNestedInput = {
-    create?: XOR<UserCreateWithoutServiceInput, UserUncheckedCreateWithoutServiceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutServiceInput
-    upsert?: UserUpsertWithoutServiceInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutServiceInput, UserUpdateWithoutServiceInput>, UserUncheckedUpdateWithoutServiceInput>
-  }
-
   export type SupplierInvoiceUpdateOneWithoutServiceNestedInput = {
     create?: XOR<SupplierInvoiceCreateWithoutServiceInput, SupplierInvoiceUncheckedCreateWithoutServiceInput>
     connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutServiceInput
@@ -28979,6 +29047,14 @@ export namespace Prisma {
     delete?: SupplierInvoiceWhereInput | boolean
     connect?: SupplierInvoiceWhereUniqueInput
     update?: XOR<XOR<SupplierInvoiceUpdateToOneWithWhereWithoutServiceInput, SupplierInvoiceUpdateWithoutServiceInput>, SupplierInvoiceUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutServiceNestedInput = {
+    create?: XOR<UserCreateWithoutServiceInput, UserUncheckedCreateWithoutServiceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutServiceInput
+    upsert?: UserUpsertWithoutServiceInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutServiceInput, UserUpdateWithoutServiceInput>, UserUncheckedUpdateWithoutServiceInput>
   }
 
   export type ServiceCreateNestedManyWithoutProviderInput = {
@@ -29813,7 +29889,7 @@ export namespace Prisma {
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
-    Service?: ServiceCreateNestedManyWithoutUserInput
+    Service?: ServiceCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -29833,7 +29909,7 @@ export namespace Prisma {
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -29869,7 +29945,7 @@ export namespace Prisma {
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
-    Service?: ServiceUpdateManyWithoutUserNestedInput
+    Service?: ServiceUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -29889,7 +29965,7 @@ export namespace Prisma {
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -29909,7 +29985,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
-    Service?: ServiceCreateNestedManyWithoutUserInput
+    Service?: ServiceCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -29929,7 +30005,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -29965,7 +30041,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
-    Service?: ServiceUpdateManyWithoutUserNestedInput
+    Service?: ServiceUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -29985,7 +30061,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -30093,39 +30169,43 @@ export namespace Prisma {
     create: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
   }
 
-  export type ServiceCreateWithoutUserInput = {
+  export type ServiceCreateWithoutCreatedByUserInput = {
     id?: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: ServiceProviderCreateNestedOneWithoutServicesInput
     type: ServiceTypeCreateNestedOneWithoutServicesInput
     location: ServiceLocationCreateNestedOneWithoutServicesInput
-    SupplierInvoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    invoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
   }
 
-  export type ServiceUncheckedCreateWithoutUserInput = {
+  export type ServiceUncheckedCreateWithoutCreatedByUserInput = {
     id?: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    supplierInvoiceId?: string | null
   }
 
-  export type ServiceCreateOrConnectWithoutUserInput = {
+  export type ServiceCreateOrConnectWithoutCreatedByUserInput = {
     where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutUserInput, ServiceUncheckedCreateWithoutUserInput>
+    create: XOR<ServiceCreateWithoutCreatedByUserInput, ServiceUncheckedCreateWithoutCreatedByUserInput>
   }
 
-  export type ServiceCreateManyUserInputEnvelope = {
-    data: ServiceCreateManyUserInput | ServiceCreateManyUserInput[]
+  export type ServiceCreateManyCreatedByUserInputEnvelope = {
+    data: ServiceCreateManyCreatedByUserInput | ServiceCreateManyCreatedByUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -30240,20 +30320,20 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ServiceUpsertWithWhereUniqueWithoutUserInput = {
+  export type ServiceUpsertWithWhereUniqueWithoutCreatedByUserInput = {
     where: ServiceWhereUniqueInput
-    update: XOR<ServiceUpdateWithoutUserInput, ServiceUncheckedUpdateWithoutUserInput>
-    create: XOR<ServiceCreateWithoutUserInput, ServiceUncheckedCreateWithoutUserInput>
+    update: XOR<ServiceUpdateWithoutCreatedByUserInput, ServiceUncheckedUpdateWithoutCreatedByUserInput>
+    create: XOR<ServiceCreateWithoutCreatedByUserInput, ServiceUncheckedCreateWithoutCreatedByUserInput>
   }
 
-  export type ServiceUpdateWithWhereUniqueWithoutUserInput = {
+  export type ServiceUpdateWithWhereUniqueWithoutCreatedByUserInput = {
     where: ServiceWhereUniqueInput
-    data: XOR<ServiceUpdateWithoutUserInput, ServiceUncheckedUpdateWithoutUserInput>
+    data: XOR<ServiceUpdateWithoutCreatedByUserInput, ServiceUncheckedUpdateWithoutCreatedByUserInput>
   }
 
-  export type ServiceUpdateManyWithWhereWithoutUserInput = {
+  export type ServiceUpdateManyWithWhereWithoutCreatedByUserInput = {
     where: ServiceScalarWhereInput
-    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutUserInput>
+    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutCreatedByUserInput>
   }
 
   export type ServiceScalarWhereInput = {
@@ -30261,16 +30341,18 @@ export namespace Prisma {
     OR?: ServiceScalarWhereInput[]
     NOT?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
     id?: StringFilter<"Service"> | string
-    providerId?: StringFilter<"Service"> | string
-    typeId?: StringFilter<"Service"> | string
-    locationId?: StringFilter<"Service"> | string
-    description?: StringNullableFilter<"Service"> | string | null
-    scheduledAt?: DateTimeFilter<"Service"> | Date | string
+    serviceProviderId?: StringFilter<"Service"> | string
+    serviceTypeId?: StringFilter<"Service"> | string
+    serviceLocationId?: StringFilter<"Service"> | string
+    serviceDate?: DateTimeFilter<"Service"> | Date | string
+    cost?: FloatFilter<"Service"> | number
     status?: EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
+    description?: StringFilter<"Service"> | string
+    attachmentUrl?: StringNullableFilter<"Service"> | string | null
+    invoiceId?: StringNullableFilter<"Service"> | string | null
+    createdByUserId?: StringFilter<"Service"> | string
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    userId?: StringNullableFilter<"Service"> | string | null
-    supplierInvoiceId?: StringNullableFilter<"Service"> | string | null
   }
 
   export type StockMovementCreateWithoutDestinationWarehouseInput = {
@@ -30922,7 +31004,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
-    Service?: ServiceCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateWithoutSupplierInput = {
@@ -30936,7 +31018,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceCreateOrConnectWithoutSupplierInput = {
@@ -31097,39 +31179,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ServiceCreateWithoutSupplierInvoiceInput = {
+  export type ServiceCreateWithoutInvoiceInput = {
     id?: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: ServiceProviderCreateNestedOneWithoutServicesInput
     type: ServiceTypeCreateNestedOneWithoutServicesInput
     location: ServiceLocationCreateNestedOneWithoutServicesInput
-    User?: UserCreateNestedOneWithoutServiceInput
+    createdByUser: UserCreateNestedOneWithoutServiceInput
   }
 
-  export type ServiceUncheckedCreateWithoutSupplierInvoiceInput = {
+  export type ServiceUncheckedCreateWithoutInvoiceInput = {
     id?: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
   }
 
-  export type ServiceCreateOrConnectWithoutSupplierInvoiceInput = {
+  export type ServiceCreateOrConnectWithoutInvoiceInput = {
     where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutSupplierInvoiceInput, ServiceUncheckedCreateWithoutSupplierInvoiceInput>
+    create: XOR<ServiceCreateWithoutInvoiceInput, ServiceUncheckedCreateWithoutInvoiceInput>
   }
 
-  export type ServiceCreateManySupplierInvoiceInputEnvelope = {
-    data: ServiceCreateManySupplierInvoiceInput | ServiceCreateManySupplierInvoiceInput[]
+  export type ServiceCreateManyInvoiceInputEnvelope = {
+    data: ServiceCreateManyInvoiceInput | ServiceCreateManyInvoiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -31186,20 +31272,20 @@ export namespace Prisma {
     data: XOR<DeliveryUpdateManyMutationInput, DeliveryUncheckedUpdateManyWithoutSupplierInvoiceInput>
   }
 
-  export type ServiceUpsertWithWhereUniqueWithoutSupplierInvoiceInput = {
+  export type ServiceUpsertWithWhereUniqueWithoutInvoiceInput = {
     where: ServiceWhereUniqueInput
-    update: XOR<ServiceUpdateWithoutSupplierInvoiceInput, ServiceUncheckedUpdateWithoutSupplierInvoiceInput>
-    create: XOR<ServiceCreateWithoutSupplierInvoiceInput, ServiceUncheckedCreateWithoutSupplierInvoiceInput>
+    update: XOR<ServiceUpdateWithoutInvoiceInput, ServiceUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<ServiceCreateWithoutInvoiceInput, ServiceUncheckedCreateWithoutInvoiceInput>
   }
 
-  export type ServiceUpdateWithWhereUniqueWithoutSupplierInvoiceInput = {
+  export type ServiceUpdateWithWhereUniqueWithoutInvoiceInput = {
     where: ServiceWhereUniqueInput
-    data: XOR<ServiceUpdateWithoutSupplierInvoiceInput, ServiceUncheckedUpdateWithoutSupplierInvoiceInput>
+    data: XOR<ServiceUpdateWithoutInvoiceInput, ServiceUncheckedUpdateWithoutInvoiceInput>
   }
 
-  export type ServiceUpdateManyWithWhereWithoutSupplierInvoiceInput = {
+  export type ServiceUpdateManyWithWhereWithoutInvoiceInput = {
     where: ServiceScalarWhereInput
-    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutSupplierInvoiceInput>
+    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutInvoiceInput>
   }
 
   export type UserCreateWithoutAuditLogInput = {
@@ -31219,7 +31305,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
-    Service?: ServiceCreateNestedManyWithoutUserInput
+    Service?: ServiceCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogInput = {
@@ -31239,7 +31325,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     PasswordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogInput = {
@@ -31275,7 +31361,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
-    Service?: ServiceUpdateManyWithoutUserNestedInput
+    Service?: ServiceUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogInput = {
@@ -31295,7 +31381,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -31472,7 +31558,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
-    Service?: ServiceCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateWithoutDeliveryInput = {
@@ -31486,7 +31572,7 @@ export namespace Prisma {
     fileUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Service?: ServiceUncheckedCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceCreateOrConnectWithoutDeliveryInput = {
@@ -31635,7 +31721,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
-    Service?: ServiceUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateWithoutDeliveryInput = {
@@ -31649,7 +31735,7 @@ export namespace Prisma {
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Service?: ServiceUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type UserCreateWithoutPasswordResetTokenInput = {
@@ -31669,7 +31755,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    Service?: ServiceCreateNestedManyWithoutUserInput
+    Service?: ServiceCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
@@ -31689,7 +31775,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     AuditLog?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    Service?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutCreatedByUserInput
   }
 
   export type UserCreateOrConnectWithoutPasswordResetTokenInput = {
@@ -31725,7 +31811,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    Service?: ServiceUpdateManyWithoutUserNestedInput
+    Service?: ServiceUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
@@ -31745,7 +31831,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     AuditLog?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput
   }
 
   export type ServiceProviderCreateWithoutServicesInput = {
@@ -31813,6 +31899,39 @@ export namespace Prisma {
     create: XOR<ServiceLocationCreateWithoutServicesInput, ServiceLocationUncheckedCreateWithoutServicesInput>
   }
 
+  export type SupplierInvoiceCreateWithoutServiceInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
+  }
+
+  export type SupplierInvoiceUncheckedCreateWithoutServiceInput = {
+    id?: string
+    supplierId: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    status?: $Enums.InvoiceStatus
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
+  }
+
+  export type SupplierInvoiceCreateOrConnectWithoutServiceInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    create: XOR<SupplierInvoiceCreateWithoutServiceInput, SupplierInvoiceUncheckedCreateWithoutServiceInput>
+  }
+
   export type UserCreateWithoutServiceInput = {
     id?: string
     name: string
@@ -31856,39 +31975,6 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutServiceInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutServiceInput, UserUncheckedCreateWithoutServiceInput>
-  }
-
-  export type SupplierInvoiceCreateWithoutServiceInput = {
-    id?: string
-    title: string
-    description: string
-    amount: Decimal | DecimalJsLike | number | string
-    dueDate: Date | string
-    status?: $Enums.InvoiceStatus
-    fileUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
-    Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
-  }
-
-  export type SupplierInvoiceUncheckedCreateWithoutServiceInput = {
-    id?: string
-    supplierId: string
-    title: string
-    description: string
-    amount: Decimal | DecimalJsLike | number | string
-    dueDate: Date | string
-    status?: $Enums.InvoiceStatus
-    fileUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
-  }
-
-  export type SupplierInvoiceCreateOrConnectWithoutServiceInput = {
-    where: SupplierInvoiceWhereUniqueInput
-    create: XOR<SupplierInvoiceCreateWithoutServiceInput, SupplierInvoiceUncheckedCreateWithoutServiceInput>
   }
 
   export type ServiceProviderUpsertWithoutServicesInput = {
@@ -31974,6 +32060,45 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SupplierInvoiceUpsertWithoutServiceInput = {
+    update: XOR<SupplierInvoiceUpdateWithoutServiceInput, SupplierInvoiceUncheckedUpdateWithoutServiceInput>
+    create: XOR<SupplierInvoiceCreateWithoutServiceInput, SupplierInvoiceUncheckedCreateWithoutServiceInput>
+    where?: SupplierInvoiceWhereInput
+  }
+
+  export type SupplierInvoiceUpdateToOneWithWhereWithoutServiceInput = {
+    where?: SupplierInvoiceWhereInput
+    data: XOR<SupplierInvoiceUpdateWithoutServiceInput, SupplierInvoiceUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type SupplierInvoiceUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
+    Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
+  }
+
+  export type SupplierInvoiceUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
+  }
+
   export type UserUpsertWithoutServiceInput = {
     update: XOR<UserUpdateWithoutServiceInput, UserUncheckedUpdateWithoutServiceInput>
     create: XOR<UserCreateWithoutServiceInput, UserUncheckedCreateWithoutServiceInput>
@@ -32025,69 +32150,34 @@ export namespace Prisma {
     PasswordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
-  export type SupplierInvoiceUpsertWithoutServiceInput = {
-    update: XOR<SupplierInvoiceUpdateWithoutServiceInput, SupplierInvoiceUncheckedUpdateWithoutServiceInput>
-    create: XOR<SupplierInvoiceCreateWithoutServiceInput, SupplierInvoiceUncheckedCreateWithoutServiceInput>
-    where?: SupplierInvoiceWhereInput
-  }
-
-  export type SupplierInvoiceUpdateToOneWithWhereWithoutServiceInput = {
-    where?: SupplierInvoiceWhereInput
-    data: XOR<SupplierInvoiceUpdateWithoutServiceInput, SupplierInvoiceUncheckedUpdateWithoutServiceInput>
-  }
-
-  export type SupplierInvoiceUpdateWithoutServiceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
-    Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
-  }
-
-  export type SupplierInvoiceUncheckedUpdateWithoutServiceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    supplierId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
-  }
-
   export type ServiceCreateWithoutProviderInput = {
     id?: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     type: ServiceTypeCreateNestedOneWithoutServicesInput
     location: ServiceLocationCreateNestedOneWithoutServicesInput
-    User?: UserCreateNestedOneWithoutServiceInput
-    SupplierInvoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    invoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    createdByUser: UserCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutProviderInput = {
     id?: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceCreateOrConnectWithoutProviderInput = {
@@ -32118,28 +32208,32 @@ export namespace Prisma {
 
   export type ServiceCreateWithoutTypeInput = {
     id?: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: ServiceProviderCreateNestedOneWithoutServicesInput
     location: ServiceLocationCreateNestedOneWithoutServicesInput
-    User?: UserCreateNestedOneWithoutServiceInput
-    SupplierInvoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    invoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    createdByUser: UserCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutTypeInput = {
     id?: string
-    providerId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceCreateOrConnectWithoutTypeInput = {
@@ -32170,28 +32264,32 @@ export namespace Prisma {
 
   export type ServiceCreateWithoutLocationInput = {
     id?: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: ServiceProviderCreateNestedOneWithoutServicesInput
     type: ServiceTypeCreateNestedOneWithoutServicesInput
-    User?: UserCreateNestedOneWithoutServiceInput
-    SupplierInvoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    invoice?: SupplierInvoiceCreateNestedOneWithoutServiceInput
+    createdByUser: UserCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutLocationInput = {
     id?: string
-    providerId: string
-    typeId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceCreateOrConnectWithoutLocationInput = {
@@ -32370,17 +32468,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type ServiceCreateManyUserInput = {
+  export type ServiceCreateManyCreatedByUserInput = {
     id?: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    supplierInvoiceId?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -32473,43 +32573,49 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ServiceUpdateWithoutUserInput = {
+  export type ServiceUpdateWithoutCreatedByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: ServiceProviderUpdateOneRequiredWithoutServicesNestedInput
     type?: ServiceTypeUpdateOneRequiredWithoutServicesNestedInput
     location?: ServiceLocationUpdateOneRequiredWithoutServicesNestedInput
-    SupplierInvoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    invoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
   }
 
-  export type ServiceUncheckedUpdateWithoutUserInput = {
+  export type ServiceUncheckedUpdateWithoutCreatedByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ServiceUncheckedUpdateManyWithoutUserInput = {
+  export type ServiceUncheckedUpdateManyWithoutCreatedByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StockMovementCreateManyDestinationWarehouseInput = {
@@ -32821,7 +32927,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
-    Service?: ServiceUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateWithoutSupplierInput = {
@@ -32835,7 +32941,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
-    Service?: ServiceUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateManyWithoutSupplierInput = {
@@ -32862,17 +32968,19 @@ export namespace Prisma {
     warehouseId: string
   }
 
-  export type ServiceCreateManySupplierInvoiceInput = {
+  export type ServiceCreateManyInvoiceInput = {
     id?: string
-    providerId: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
   }
 
   export type DeliveryUpdateWithoutSupplierInvoiceInput = {
@@ -32911,43 +33019,49 @@ export namespace Prisma {
     warehouseId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ServiceUpdateWithoutSupplierInvoiceInput = {
+  export type ServiceUpdateWithoutInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: ServiceProviderUpdateOneRequiredWithoutServicesNestedInput
     type?: ServiceTypeUpdateOneRequiredWithoutServicesNestedInput
     location?: ServiceLocationUpdateOneRequiredWithoutServicesNestedInput
-    User?: UserUpdateOneWithoutServiceNestedInput
+    createdByUser?: UserUpdateOneRequiredWithoutServiceNestedInput
   }
 
-  export type ServiceUncheckedUpdateWithoutSupplierInvoiceInput = {
+  export type ServiceUncheckedUpdateWithoutInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ServiceUncheckedUpdateManyWithoutSupplierInvoiceInput = {
+  export type ServiceUncheckedUpdateManyWithoutInvoiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProductCreateManyCategoryInput = {
@@ -33018,158 +33132,182 @@ export namespace Prisma {
 
   export type ServiceCreateManyProviderInput = {
     id?: string
-    typeId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceTypeId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceUpdateWithoutProviderInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: ServiceTypeUpdateOneRequiredWithoutServicesNestedInput
     location?: ServiceLocationUpdateOneRequiredWithoutServicesNestedInput
-    User?: UserUpdateOneWithoutServiceNestedInput
-    SupplierInvoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    invoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    createdByUser?: UserUpdateOneRequiredWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutProviderInput = {
     id?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceUncheckedUpdateManyWithoutProviderInput = {
     id?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceCreateManyTypeInput = {
     id?: string
-    providerId: string
-    locationId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceLocationId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: ServiceProviderUpdateOneRequiredWithoutServicesNestedInput
     location?: ServiceLocationUpdateOneRequiredWithoutServicesNestedInput
-    User?: UserUpdateOneWithoutServiceNestedInput
-    SupplierInvoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    invoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    createdByUser?: UserUpdateOneRequiredWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceUncheckedUpdateManyWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceLocationId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceCreateManyLocationInput = {
     id?: string
-    providerId: string
-    typeId: string
-    description?: string | null
-    scheduledAt: Date | string
+    serviceProviderId: string
+    serviceTypeId: string
+    serviceDate: Date | string
+    cost: number
     status?: $Enums.ServiceStatus
+    description: string
+    attachmentUrl?: string | null
+    invoiceId?: string | null
+    createdByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    userId?: string | null
-    supplierInvoiceId?: string | null
   }
 
   export type ServiceUpdateWithoutLocationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: ServiceProviderUpdateOneRequiredWithoutServicesNestedInput
     type?: ServiceTypeUpdateOneRequiredWithoutServicesNestedInput
-    User?: UserUpdateOneWithoutServiceNestedInput
-    SupplierInvoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    invoice?: SupplierInvoiceUpdateOneWithoutServiceNestedInput
+    createdByUser?: UserUpdateOneRequiredWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutLocationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceUncheckedUpdateManyWithoutLocationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    providerId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProviderId?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: StringFieldUpdateOperationsInput | string
+    serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    cost?: FloatFieldUpdateOperationsInput | number
     status?: EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+    description?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

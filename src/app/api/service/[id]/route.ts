@@ -14,6 +14,9 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 		const service = await prisma.service.findUnique({
 			where: { id },
 			include: {
+				provider: true,
+				type: true,
+				location: true,
 				invoice: true,
 				createdByUser: {
 					select: {
@@ -24,6 +27,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 				}
 			}
 		})
+
 
 		if (!service) {
 			return NextResponse.json({ error: "Service not found" }, { status: 404 })
@@ -47,18 +51,17 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const body = await req.json()
 
 		const updatedData: any = {
-			providerName: body.providerName,
-			email: body.email,
-			phone: body.phone,
-			serviceType: body.serviceType,
+			serviceProviderId: body.serviceProviderId,
+			serviceTypeId: body.serviceTypeId,
+			serviceLocationId: body.serviceLocationId,
 			serviceDate: new Date(body.serviceDate),
 			cost: Number(body.cost),
 			status: body.status,
-			location: body.location,
 			description: body.description,
 			attachmentUrl: body.attachmentUrl || null,
 			invoiceId: body.invoiceId || null
 		}
+
 
 		const updatedService = await prisma.service.update({
 			where: { id },
@@ -70,7 +73,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 			action: "update",
 			entity: "service",
 			entityId: id,
-			description: `Serviço atualizado: ${updatedService.serviceType} - ${updatedService.providerName}`
+			description: `Serviço atualizado: ${updatedService.serviceTypeId} - ${updatedService.serviceProviderId}`
 		})
 
 		return NextResponse.json(updatedService)
