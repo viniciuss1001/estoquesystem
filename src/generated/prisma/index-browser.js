@@ -276,20 +276,41 @@ exports.Prisma.NotificationScalarFieldEnum = {
 
 exports.Prisma.ServiceScalarFieldEnum = {
   id: 'id',
-  providerName: 'providerName',
-  email: 'email',
-  phone: 'phone',
-  serviceType: 'serviceType',
-  serviceDate: 'serviceDate',
-  cost: 'cost',
-  status: 'status',
-  location: 'location',
+  providerId: 'providerId',
+  typeId: 'typeId',
+  locationId: 'locationId',
   description: 'description',
-  attachmentUrl: 'attachmentUrl',
+  scheduledAt: 'scheduledAt',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdByUserId: 'createdByUserId',
-  invoiceId: 'invoiceId'
+  userId: 'userId',
+  supplierInvoiceId: 'supplierInvoiceId'
+};
+
+exports.Prisma.ServiceProviderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  cnpj: 'cnpj',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceLocationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -378,7 +399,10 @@ exports.Prisma.ModelName = {
   Delivery: 'Delivery',
   PasswordResetToken: 'PasswordResetToken',
   Notification: 'Notification',
-  Service: 'Service'
+  Service: 'Service',
+  ServiceProvider: 'ServiceProvider',
+  ServiceType: 'ServiceType',
+  ServiceLocation: 'ServiceLocation'
 };
 
 /**

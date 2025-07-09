@@ -95,7 +95,9 @@ const CreateServiceModal = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Nome do Prestador</FormLabel>
-									<FormControl><Input {...field} /></FormControl>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

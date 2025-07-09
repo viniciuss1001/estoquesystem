@@ -13,10 +13,8 @@ export async function POST(req: NextRequest) {
 
 		const service = await prisma.service.create({
 			data: {
-				providerName: body.providerName,
-				email: body.email,
-				phone: body.phone,
-				serviceType: body.serviceType,
+				provider: body.providerName,
+				type: body.serviceType,
 				serviceDate: new Date(body.serviceDate),
 				cost: body.cost || 0,
 				status: body.status || "PENDING",

@@ -210,26 +210,52 @@ model Notification {
 }
 
 model Service {
-  id              String        @id @default(uuid())
-  providerName    String
-  email           String
-  phone           String
-  serviceType     String
-  serviceDate     DateTime
-  cost            Decimal       @default(0.00)
-  status          ServiceStatus @default(PENDING)
-  location        String
-  description     String
-  attachmentUrl   String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  createdByUser   User          @relation(fields: [createdByUserId], references: [id])
-  createdByUserId String
+  id          String        @id @default(uuid())
+  providerId  String
+  typeId      String
+  locationId  String
+  description String?
+  scheduledAt DateTime
+  status      ServiceStatus @default(PENDING)
 
-  invoice   SupplierInvoice? @relation(fields: [invoiceId], references: [id])
-  invoiceId String?
+  provider ServiceProvider @relation(fields: [providerId], references: [id])
+  type     ServiceType     @relation(fields: [typeId], references: [id])
+  location ServiceLocation @relation(fields: [locationId], references: [id])
 
-  @@index([serviceDate])
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  User              User?            @relation(fields: [userId], references: [id])
+  userId            String?
+  SupplierInvoice   SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+  supplierInvoiceId String?
+}
+
+model ServiceProvider {
+  id        String    @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  cnpj      String?
+  services  Service[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model ServiceType {
+  id        String    @id @default(uuid())
+  name      String
+  services  Service[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model ServiceLocation {
+  id        String    @id @default(uuid())
+  name      String
+  address   String?
+  services  Service[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 enum Office {
