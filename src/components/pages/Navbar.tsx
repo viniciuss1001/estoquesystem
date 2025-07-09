@@ -1,27 +1,16 @@
 "use client"
 
 import {
-	Menubar,
-	MenubarMenu,
-	MenubarTrigger,
-	MenubarContent,
+	Menubar
 } from "@/components/ui/menubar"
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { ModeThemeToggle } from "../shared/theme-toggle"
 import CreatorGenericModal from "../shared/More-creator-modal"
 import NotificationComponent from "../shared/NotificationComponent"
-import { LogoutButton } from "../shared/logout-button"
+import { ModeThemeToggle } from "../shared/theme-toggle"
 
 import { useSession } from "next-auth/react"
-import {
-	User,
-	Mail,
-	UserLock,
-	Menu,
-} from "lucide-react"
 import AsideSheet from "./AsideSheet"
 import DeliveryCalendarAside from "./DeliveryCalendarAside"
 import LowStockAlert from "./LowStockAlert"

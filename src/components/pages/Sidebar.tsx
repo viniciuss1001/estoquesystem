@@ -5,28 +5,30 @@ import {
   SidebarHeader,
   SidebarTrigger
 } from '@/components/ui/sidebar'
+import clsx from 'clsx'
 import {
   Archive,
   FileText,
   Home,
+  LayoutList,
   List,
+  MapPin,
   Package,
   Package2,
   RefreshCw,
   Settings,
-  SidebarClose,
+  Tag,
   Timer,
   Truck,
   Users,
-  Warehouse,
-  X
+  Users2,
+  Warehouse
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import logo from '../../../public/logo-rbg.png'
 import { usePathname } from 'next/navigation'
-import clsx from 'clsx'
+import logo from '../../../public/logo-rbg.png'
 
 const SidebarComponent = () => {
   const { data: session } = useSession()
@@ -47,6 +49,15 @@ const SidebarComponent = () => {
         { label: "Categorias", icon: List, href: "/categories" },
         { label: "Armazéns", icon: Warehouse, href: "/warehouses" },
         { label: "Produtos e Armazém", icon: Archive, href: "/warehouse-product" }
+      ]
+    },
+    {
+      title: "Serviços",
+      items: [
+        { label: "Serviços", icon: LayoutList, href: "/services" },
+        { label: "Locais de Serviço", icon: MapPin, href: "/services/locations" },
+        { label: "Prestadores de Serviço", icon: Users2, href: "/services/providers" },
+        { label: "Tipos de Serviço", icon: Tag, href: "/service-types" },
       ]
     },
     {
@@ -87,7 +98,7 @@ const SidebarComponent = () => {
             <Image src={logo} alt="Stockly" width={128} height={64} className="bg-none" />
           </Link>
           <SidebarTrigger className="size-8 ml-auto flex mb-auto cursor-pointer rounded p-2" />
-          
+
 
         </div>
 

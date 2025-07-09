@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
+
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-
 
 const formSchema = z.object({
 	name: z.string().min(2, "Precisa ter no mínimo 2 caracteres")
@@ -18,7 +18,8 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-const CategoryCreateForm = () => {
+
+const ServiceTypeCreateForm = () => {
 
 	const queryClient = useQueryClient()
 
@@ -31,27 +32,26 @@ const CategoryCreateForm = () => {
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: async (values: FormValues) => {
-			const response = await api.post("/categories", values);
+			const response = await api.post("/service-type", values);
 			return response;
 		},
 		onSuccess: () => {
-			toast.success("Categoria criada com sucesso");
-			queryClient.invalidateQueries({ queryKey: ["categories"] })
+			toast.success("TIpo de serviço criado com sucesso");
+			queryClient.invalidateQueries({ queryKey: ["servicetypes"] })
 			form.reset()
 		},
 		onError: (error) => {
-			toast.error("Erro ao criar categoria")
+			toast.error("Erro ao criar Tipo de serviço")
 			console.log(error)
 		}
 	})
-
 
 	return (
 		<div>
 			<Card className="border-none max-w-2xl ml-auto mr-auto">
 				<CardHeader>
 					<CardTitle>
-						Criar nova Categoria
+						Criar novo Tipo de Serviço
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
@@ -68,7 +68,7 @@ const CategoryCreateForm = () => {
 										<FormLabel>Nome</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="Nome da categoria"
+												placeholder="Nome do tipo de serviço"
 												{...field}
 												disabled={isPending}
 											/>
@@ -78,7 +78,7 @@ const CategoryCreateForm = () => {
 								)}
 							/>
 							<Button type="submit" disabled={isPending}
-							className="cursor-pointer"
+								className="cursor-pointer"
 							>
 								{isPending ? "Criando..." : "Criar"}
 							</Button>
@@ -90,4 +90,4 @@ const CategoryCreateForm = () => {
 	)
 }
 
-export default CategoryCreateForm
+export default ServiceTypeCreateForm

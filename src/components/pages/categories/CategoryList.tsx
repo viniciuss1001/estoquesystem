@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -9,13 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCategories } from "@/lib/queries";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import CategoryEditDialog from "./CategoryEditDialog";
-import { Trash2 } from "lucide-react";
-import { useCategories } from "@/lib/queries";
 
 const CategoryList = () => {
   const queryClient = useQueryClient();
@@ -36,7 +36,8 @@ const CategoryList = () => {
   })
 
   return (
-    <Card>
+    <Card className="border-none max-w-2xl ml-auto mr-auto">
+
       <CardHeader>
         <CardTitle>Categorias</CardTitle>
         <CardDescription>

@@ -1,11 +1,12 @@
 "use client"
 
+import { AlertDialogHeader } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
-import { Category } from "@/types/types"
+import { ServiceType } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
@@ -20,33 +21,32 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-interface CategoryEditDialogProps {
-	category: Category
+interface ServiceTypeEditDialogProps {
+	serviceType: ServiceType
 }
 
-
-const CategoryEditDialog = ({ category }: CategoryEditDialogProps) => {
+const ServiceTypeEditDialog = ({ serviceType }: ServiceTypeEditDialogProps) => {
 	const [open, setOpen] = useState(false)
 	const queryClient = useQueryClient()
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: category.name
+			name: serviceType.name
 		}
 	})
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: async (values: FormValues) => {
-			await api.patch(`/categories/${category.id}`, values)
+			await api.patch(`/service-type/${serviceType.id}`, values)
 		},
 		onSuccess: () => {
-			toast.success("Categoria atualizada com sucesso")
-			queryClient.invalidateQueries({ queryKey: ["categories"] });
+			toast.success("Tipo de serviço atualizado com sucesso")
+			queryClient.invalidateQueries({ queryKey: ["servicetypes"] });
 			setOpen(false)
 		},
 		onError: () => {
-			toast.error("Falha ao atualizar categoria")
+			toast.error("Falha ao atualizar tipo de serviço")
 		}
 	})
 
@@ -57,11 +57,11 @@ const CategoryEditDialog = ({ category }: CategoryEditDialogProps) => {
 			</DialogTrigger>
 
 			<DialogContent>
-				<DialogHeader>
+				<AlertDialogHeader>
 					<DialogTitle>
-						Editar Categoria
+						Editar tipo de serviço
 					</DialogTitle>
-				</DialogHeader>
+				</AlertDialogHeader>
 
 				<Form {...form}>
 					<form
@@ -99,4 +99,4 @@ const CategoryEditDialog = ({ category }: CategoryEditDialogProps) => {
 	)
 }
 
-export default CategoryEditDialog
+export default ServiceTypeEditDialog

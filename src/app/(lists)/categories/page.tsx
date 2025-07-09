@@ -14,7 +14,9 @@ const CategoryPage = () => {
 			<CategoryCreateForm />
 
 			<CategoryList />
+
 		</div>
+
 	)
 }
 
