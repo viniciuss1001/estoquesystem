@@ -1,9 +1,9 @@
 "use client"
 
-import CreateDeliveryForm from '@/components/pages/delivery/CreateDeliveryForm'
-import DeliveryFilterDialog from '@/components/pages/delivery/DeliveryFilterDialog'
-import DeliveryStatusBadge from '@/components/pages/delivery/DeliveryStatusBadge'
-import EditDeliveryModal from '@/components/pages/delivery/EditDeliveryModal'
+import CreateDeliveryForm from '@/app/(lists)/delivery/_components/CreateDeliveryForm'
+import DeliveryFilterDialog from '@/app/(lists)/delivery/_components/DeliveryFilterDialog'
+import DeliveryStatusBadge from '@/app/(lists)/delivery/_components/DeliveryStatusBadge'
+import EditDeliveryModal from '@/app/(lists)/delivery/_components/EditDeliveryModal'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import api from '@/lib/axios'

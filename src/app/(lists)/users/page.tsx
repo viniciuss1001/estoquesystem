@@ -1,8 +1,8 @@
 "use client"
 
-import CreateUserDialog from "@/components/pages/user/CreateUserDialog"
-import UserFilterDialog from "@/components/pages/user/UserFilterDialog"
-import UserInfoDialog from "@/components/pages/user/UserInforDialog"
+import CreateUserDialog from "@/app/(lists)/users/_components/CreateUserDialog"
+import UserFilterDialog from "@/app/(lists)/users/_components/UserFilterDialog"
+import UserInfoDialog from "@/app/(lists)/users/_components/UserInforDialog"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredUsers, useUsers } from "@/lib/queries"

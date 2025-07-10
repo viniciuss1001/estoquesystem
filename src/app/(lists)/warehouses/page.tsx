@@ -1,8 +1,8 @@
 "use client"
 
-import CreateWarehouseModal from "@/components/pages/warehouse/CreateWarehouseModal"
-import EditWarehouseModal from "@/components/pages/warehouse/EditWarehouseModal"
-import WarehouseFilterDialog from "@/components/pages/warehouse/WarehouseFilterDialog"
+import CreateWarehouseModal from "@/app/(lists)/warehouses/_components/CreateWarehouseModal"
+import EditWarehouseModal from "@/app/(lists)/warehouses/_components/EditWarehouseModal"
+import WarehouseFilterDialog from "@/app/(lists)/warehouses/_components/WarehouseFilterDialog"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredWarehouses } from "@/lib/queries"

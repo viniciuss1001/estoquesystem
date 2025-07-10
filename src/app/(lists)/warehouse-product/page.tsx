@@ -1,12 +1,11 @@
 "use client"
 
-import CreateWarehouseProductModal from "@/components/pages/warehouse-product/CreateWarehouseProductModal"
+import CreateWarehouseProductModal from "@/app/(lists)/warehouse-product/_components/CreateWarehouseProductModal"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
 import { useWarehouseProduct } from "@/lib/queries"
-import { WarehouseProduct } from "@/types/types"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
 import { toast } from "sonner"
 

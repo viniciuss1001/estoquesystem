@@ -1,8 +1,8 @@
 "use client"
 
-import ProductMovementsComponent from "@/components/pages/product/ProductMovements"
-import ProductPDFDetails from "@/components/pages/product/ProductPDFDetails"
-import ProductWarehouseDistribuition from "@/components/pages/product/ProductWarehouseDistribuition"
+import ProductMovementsComponent from "@/app/(lists)/products/_components/ProductMovements"
+import ProductPDFDetails from "@/app/(lists)/products/_components/ProductPDFDetails"
+import ProductWarehouseDistribuition from "@/app/(lists)/products/_components/ProductWarehouseDistribuition"
 import { Badge } from "@/components/ui/badge"
 import {
 	Breadcrumb, BreadcrumbLink, BreadcrumbList,

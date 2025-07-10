@@ -1,8 +1,7 @@
 "use client"
-import ServiceTypeCreateForm from '@/components/pages/service-types/ServiceTypeCreateForm'
-import ServiceTypeList from '@/components/pages/service-types/ServiceTypeList'
 
-
+import ServiceTypeCreateForm from '@/app/(lists)/service-types/_components/ServiceTypeCreateForm'
+import ServiceTypeList from '@/app/(lists)/service-types/_components/ServiceTypeList'
 
 const ServiceTypePage = () => {
 	

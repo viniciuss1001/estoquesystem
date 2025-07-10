@@ -1,7 +1,7 @@
 "use client"
 
-import WarehouseMovementHistory from "@/components/pages/warehouse/WarehouseMovementHistory"
-import WarehouseProductsList from "@/components/pages/warehouse/WarehouseProductsList"
+import WarehouseMovementHistory from "@/app/(lists)/warehouses/_components/WarehouseMovementHistory"
+import WarehouseProductsList from "@/app/(lists)/warehouses/_components/WarehouseProductsList"
 import { Badge } from "@/components/ui/badge"
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"

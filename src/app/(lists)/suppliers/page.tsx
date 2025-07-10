@@ -1,7 +1,7 @@
 "use client"
 
-import CreateSupplierModal from "@/components/pages/supplier/create-supplier-modal"
-import EditSupplierModal from "@/components/pages/supplier/edit-supplier-modal"
+import CreateSupplierModal from "@/app/(lists)/suppliers/_components/create-supplier-modal"
+import EditSupplierModal from "@/app/(lists)/suppliers/_components/edit-supplier-modal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useSuppliers } from "@/lib/queries"
 import { Loader2 } from "lucide-react"

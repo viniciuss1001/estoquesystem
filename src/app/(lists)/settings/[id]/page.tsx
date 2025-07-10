@@ -1,5 +1,15 @@
 "use client"
 
+import ChangePasswordForm from "@/app/(lists)/settings/_components/ChangePasswordForm"
+import EditUserModal from "@/app/(lists)/settings/_components/edit-user-modal"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import {
+  Breadcrumb,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb"
 import {
   Card,
   CardContent,
@@ -7,29 +17,19 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+import api from "@/lib/axios"
+import { ThisUser } from "@/types/types"
 import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage
-} from "@/components/ui/breadcrumb"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import {
+  Building2,
   Mail,
   Phone,
   User,
-  UserCog,
-  Building2
+  UserCog
 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ThisUser } from "@/types/types"
 import { toast } from "sonner"
-import api from "@/lib/axios"
-import EditUserModal from "@/components/pages/settings/edit-user-modal"
-import ChangePasswordForm from "@/components/pages/settings/ChangePasswordForm"
 
 const SettingsPage = () => {
   const { data: session } = useSession()

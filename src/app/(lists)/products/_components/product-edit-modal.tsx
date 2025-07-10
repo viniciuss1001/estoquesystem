@@ -16,7 +16,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import AlertDialogDelete from "../../shared/alert-dialog-delete-product"
+import AlertDialogDelete from "../../../../components/shared/alert-dialog-delete-product"
 
 
 const formSchema = z.object({

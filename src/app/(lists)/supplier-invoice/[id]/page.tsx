@@ -13,8 +13,7 @@ import {
 import { useSession } from "next-auth/react"
 import { useParams } from "next/navigation"
 
-import EditSupplierInvoiceForm from "@/components/pages/supplier-invoice/EditSupplierInvoiceForm"
-import { Badge } from "@/components/ui/badge"
+import EditSupplierInvoiceForm from "@/app/(lists)/supplier-invoice/_components/EditSupplierInvoiceForm"
 import {
   Breadcrumb,
   BreadcrumbLink,

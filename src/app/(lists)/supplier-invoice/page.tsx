@@ -1,7 +1,7 @@
 "use client"
 
-import CreateSupplierInvoiceForm from "@/components/pages/supplier-invoice/CreateSupplierInvoiceForm"
-import SupplierInvoiceFilterModal from "@/components/pages/supplier-invoice/SupplierInvoiceFilterModal"
+import CreateSupplierInvoiceForm from "@/app/(lists)/supplier-invoice/_components/CreateSupplierInvoiceForm"
+import SupplierInvoiceFilterModal from "@/app/(lists)/supplier-invoice/_components/SupplierInvoiceFilterModal"
 import { Badge } from "@/components/ui/badge"
 import {
 	Table,

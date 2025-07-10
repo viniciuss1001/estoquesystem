@@ -1,7 +1,7 @@
 "use client"
 
-import CategoryCreateForm from "@/components/pages/categories/CategoryCreateForm"
-import CategoryList from "@/components/pages/categories/CategoryList"
+import CategoryCreateForm from "@/app/(lists)/categories/_components/CategoryCreateForm"
+import CategoryList from "@/app/(lists)/categories/_components/CategoryList"
 
 
 const CategoryPage = () => {

@@ -1,7 +1,7 @@
 "use client"
 
-import ServiceLocationCreateForm from "@/components/pages/service-location/ServiceLocationCreateForm"
-import ServiceLocationList from "@/components/pages/service-location/ServiceLocationList"
+import ServiceLocationCreateForm from "@/app/(lists)/service-locations/_components/ServiceLocationCreateForm"
+import ServiceLocationList from "@/app/(lists)/service-locations/_components/ServiceLocationList"
 
 const ServiceLocalePage = () => {
 	return (
