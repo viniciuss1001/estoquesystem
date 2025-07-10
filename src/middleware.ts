@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		// Protege todas essas rotas
+		// protect all routes
 		"/audit-log/:path*",
 		"/categories/:path*",
 		"/dashboard/:path*",

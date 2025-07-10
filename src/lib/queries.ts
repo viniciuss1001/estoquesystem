@@ -409,6 +409,16 @@ export function useFilteredSupplierInvoices(filters: InvoiceFilters) {
     })
 }
 
+export function useOpenSupplierInvoices(){
+    return useQuery({
+        queryKey: ["openSupplierInvoices"], 
+        queryFn: async () => {
+            const response = await api.get("/supplier-invoice/need-pay")
+            return response.data as SupplierInvoice[]
+        }
+    })
+}
+
 export function useOverdueInvoices() {
     return useQuery({
         queryKey: ["overdueInvoices"],

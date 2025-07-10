@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
-import { useServiceLocations, useServiceProviders, useServiceTypes, useSupplierInvoices } from "@/lib/queries"
+import { useOpenSupplierInvoices, useServiceLocations, useServiceProviders, useServiceTypes } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
@@ -53,7 +53,7 @@ const CreateServiceModal = () => {
 	const { data: serviceProviders = [] } = useServiceProviders()
 	const { data: serviceTypes = [] } = useServiceTypes()
 	const { data: serviceLocations = [] } = useServiceLocations()
-	const {data: invoices = []} = useSupplierInvoices()
+	const {data: invoices = []} = useOpenSupplierInvoices()
 
 	const createService = useMutation({
 		mutationFn: async (data: FormData) => {

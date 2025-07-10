@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
-import { useProducts, useSupplierInvoices, useWarehouses } from "@/lib/queries"
+import { useOpenSupplierInvoices, useProducts, useWarehouses } from "@/lib/queries"
 import { Product } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -49,7 +49,7 @@ const CreateDeliveryForm = () => {
 
 	const { data: warehouses = [] } = useWarehouses()
 
-	const { data: invoices = [] } = useSupplierInvoices()
+	const { data: invoices = [] } = useOpenSupplierInvoices()
 
 	const createDelivery = useMutation({
 		mutationFn: async (data: FormValues) => {
