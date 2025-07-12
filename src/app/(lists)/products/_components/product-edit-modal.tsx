@@ -41,7 +41,7 @@ interface EditProductModalProps {
 }
 
 const EditProductModal = ({ productId }: EditProductModalProps) => {
-
+	const [open, setOpen] = useState(false)
 	const queryClient = useQueryClient()
 
 	const router = useRouter()
@@ -56,7 +56,9 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 			quantity: 0,
 			price: 0,
 			category: '',
-			minimumStock: 0
+			minimumStock: 0,
+			usageStatus: "IN_STOCK",
+			unit: "UNIT"
 		}
 	})
 
@@ -88,7 +90,9 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 				quantity: product.quantity,
 				price: product.price,
 				category: product.category.id,
-				minimumStock: product.minimumStock ?? 0
+				minimumStock: product.minimumStock ?? 0, 
+				unit: product.unit, 
+				usageStatus: product.usageStatus || "IN_STOCK"
 			})
 
 			return response.data
@@ -119,6 +123,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 		},
 		onSuccess: () => {
 			toast.success('Produto atualizado com sucesso!')
+			setOpen(false)
 			queryClient.invalidateQueries({ queryKey: ['products'] })
 
 		},
@@ -160,7 +165,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 
 	return (
 		<div className="p-6 max-w-2xl mx-auto">
-			<Dialog >
+			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger className="p-0 m-0 cursor-pointer">
 					<Pencil className="size-4" />
 				</DialogTrigger>
@@ -240,7 +245,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 											<FormLabel>Unidade do Produto</FormLabel>
 											<Select onValueChange={field.onChange} value={field.value}>
 												<FormControl>
-													<SelectTrigger>
+													<SelectTrigger className="w-full">
 														<SelectValue placeholder="Selecione Unidade" />
 													</SelectTrigger>
 												</FormControl>
@@ -286,7 +291,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 													<FormLabel>Fornecedor</FormLabel>
 													<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
 														<FormControl>
-															<SelectTrigger>
+															<SelectTrigger className="w-full">
 																<SelectValue placeholder="Selecione o fornecedor" />
 															</SelectTrigger>
 														</FormControl>
@@ -309,7 +314,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 													<FormLabel>Categoria</FormLabel>
 													<Select onValueChange={field.onChange} value={field.value} disabled={isLoading}>
 														<FormControl>
-															<SelectTrigger>
+															<SelectTrigger className="w-full">
 																<SelectValue placeholder="Selecione uma categoria" />
 															</SelectTrigger>
 														</FormControl>
@@ -346,7 +351,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 												<FormLabel>Status de uso</FormLabel>
 												<Select onValueChange={field.onChange} value={field.value}>
 													<FormControl>
-														<SelectTrigger>
+														<SelectTrigger className="w-full mb-4">
 															<SelectValue placeholder="Selecione o status" />
 														</SelectTrigger>
 													</FormControl>

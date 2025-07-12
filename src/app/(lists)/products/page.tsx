@@ -1,7 +1,7 @@
 "use client"
 import CreateProductModal from "@/app/(lists)/products/_components/create-product-modal"
 import EditProductModal from "@/app/(lists)/products/_components/product-edit-modal"
-import ProductFilters from "@/components/pages/product/ProductFilters"
+import ProductFilters from "@/app/(lists)/products/_components/ProductFilters"
 import ProductListActions from "@/app/(lists)/products/_components/ProductListActions"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredProducts } from "@/lib/queries"
