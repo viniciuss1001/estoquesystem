@@ -4,7 +4,7 @@ import DateRangePicker from "@/components/shared/DateRangePicker"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useSuppliers } from "@/lib/queries"
+import { useServiceProviders, useSuppliers } from "@/lib/queries"
 import { parse } from "date-fns"
 import { Filter } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -45,6 +45,12 @@ const SupplierInvoiceFilterModal = () => {
 	})
 
 	const { data: suppliers = [] } = useSuppliers()
+	const { data: serviceProviders = [] } = useServiceProviders()
+
+	const allProviders = [
+		...suppliers.map(s => ({ ...s, type: "SUPPLIER" as const })),
+		...serviceProviders.map(sp => ({ ...sp, type: "SERVICE_PROVIDER" as const }))
+	]
 
 	const hasFilters = supplierId || status || dueDate
 
@@ -93,11 +99,11 @@ const SupplierInvoiceFilterModal = () => {
 
 					{/* supplier */}
 					<Select value={supplierId} onValueChange={setSupplierId}>
-						<SelectTrigger>
-							<SelectValue placeholder="Fornecedor" />
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Fornecedor/Prestador" />
 						</SelectTrigger>
 						<SelectContent>
-							{suppliers.map((s) => (
+							{allProviders.map((s) => (
 								<SelectItem key={s.id} value={s.id}>
 									{s.name}
 								</SelectItem>
@@ -108,7 +114,7 @@ const SupplierInvoiceFilterModal = () => {
 					{/* status */}
 
 					<Select value={status} onValueChange={setStatus}>
-						<SelectTrigger>
+						<SelectTrigger className="w-full">
 							<SelectValue placeholder="Status" />
 						</SelectTrigger>
 						<SelectContent>

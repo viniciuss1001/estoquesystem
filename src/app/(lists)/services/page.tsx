@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { EditServiceModal } from "./_components/EditServiceModal"
-import { Service } from "@/types/types"
+import { FileText } from "lucide-react"
 
 
 const ServicesPage = () => {
@@ -124,14 +124,14 @@ const ServicesPage = () => {
 
 									<TableCell>
 										{service.invoice ? (
-											// <Link
-											// 	href={service.invoice.fileUrl}
-											// 	target="_blank"
-											// 	className="text-blue-600 underline"
-											// >
-											// 	Visualizar
-											// </Link>
-											"em processo"
+											<Link
+												href={`/supplier-invoice/${service.invoice.id}`}
+												className="hover:text-blue-600  flex text-sm gap-1"
+											>
+												<FileText className="size-4"/>
+												Visualizar boleto 
+											</Link>
+											
 										) : (
 											"-"
 										)}

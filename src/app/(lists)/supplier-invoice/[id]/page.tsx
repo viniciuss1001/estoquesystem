@@ -108,7 +108,7 @@ const SupplierInvoicePage = () => {
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
           <div className="flex flex-col gap-2">
-            <p><span className="font-medium text-foreground">Fornecedor:</span> {invoice.supplier?.name || "-"}</p>
+            <p><span className="font-medium text-foreground">Fornecedor/Prestador:</span> {invoice.supplier?.name || invoice.serviceProvider?.name || "-"}</p>
             <p><span className="font-medium text-foreground">Título:</span> {invoice.title}</p>
             <p><span className="font-medium text-foreground">Descrição:</span> {invoice.description || "-"}</p>
             <p>

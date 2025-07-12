@@ -4,7 +4,6 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-
 	try {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
@@ -15,6 +14,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			where: { id },
 			include: {
 				supplier: true,
+				serviceProvider: true,
 			},
 		})
 
@@ -23,12 +23,12 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 		}
 
 		return NextResponse.json(invoice)
-
 	} catch (error) {
 		console.error("Erro ao buscar boleto:", error)
 		return NextResponse.json({ error: "Erro ao buscar boleto." }, { status: 500 })
 	}
 }
+
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
