@@ -4,7 +4,7 @@ import CreateWarehouseProductModal from "@/app/(lists)/warehouse-product/_compon
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
-import { useWarehouseProduct } from "@/lib/queries"
+import { useWarehouseProduct } from "@/app/(lists)/warehouse-product/_hooks/queries"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
 import { toast } from "sonner"

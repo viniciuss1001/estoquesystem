@@ -248,15 +248,6 @@ export function useWarehouse(id: string) {
     })
 }
 
-export function useWarehouseProduct() {
-    return useQuery({
-        queryKey: ['warehouseProducts'],
-        queryFn: async () => {
-            const response = await api.get('/warehouse-product')
-            return response.data as WarehouseProduct[]
-        }
-    })
-}
 
 export function useFilteredDeliveries(filters: FilteredDeliveriesParams) {
     return useQuery({

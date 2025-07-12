@@ -1,13 +1,15 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import api from "@/lib/axios"
+import { useProducts, useWarehouses } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Select } from "@radix-ui/react-select"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -40,9 +42,7 @@ interface Warehouse {
 const CreateWarehouseProductModal = () => {
 
 	const [open, setOpen] = useState(false)
-	const [loading, setLoading] = useState(true)
-	const [products, setProducts] = useState<Product[]>([])
-	const [warehouses, setWarehouses] = useState<Warehouse[]>([])
+	const queryClient = useQueryClient()
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
@@ -53,39 +53,26 @@ const CreateWarehouseProductModal = () => {
 		}
 	})
 
-	const fetchOptions = async () => {
-		try {
-			const [productsRes, warehousesRes] = await Promise.all([
-				api.get("/product"),
-				api.get("/warehouse"),
-			])
+	const { data: products = [] } = useProducts()
+	const { data: warehouses = [] } = useWarehouses()
 
-			setProducts(productsRes.data)
+	const createWarehouseProduct = useMutation({
+		mutationFn: (data: FormData) => api.post(`/warehouse-product`, data),
+		onSuccess: () => {
+			toast.success("Produto por Armazém criado!")
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ["warehouseProducts"] })
+		},
+		onError: () => {
+			toast.error("Erro ao atualizar armazém.")
+		},
+	})
 
-			setWarehouses(warehousesRes.data)
-			setLoading(false)
-
-		} catch (error) {
-			toast.error("Erro ao carregar produtos ou armazéns")
-			setLoading(false)
-		}
-	}
 
 	const onSubmit = async (data: FormData) => {
-		try {
-			await api.post("/warehouse-product", data)
-			toast.success("Produto vinculado ao armazém com sucesso.")
-			form.reset()
-			setOpen(false)
-		} catch (error) {
-			toast.error("Erro ao criar relação produto/armazém")
-			setLoading(false)
-		}
+		createWarehouseProduct.mutate(data)
 	}
 
-	useEffect(() => {
-		if (open) fetchOptions()
-	}, [open])
 
 	return (
 		<div>
@@ -114,7 +101,7 @@ const CreateWarehouseProductModal = () => {
 										<FormLabel>Produto</FormLabel>
 										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
-												<SelectTrigger>
+												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Selecione o produto" />
 												</SelectTrigger>
 											</FormControl>
@@ -140,7 +127,7 @@ const CreateWarehouseProductModal = () => {
 										<FormLabel>Armazém</FormLabel>
 										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
-												<SelectTrigger>
+												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Selecione o armazém" />
 												</SelectTrigger>
 											</FormControl>
@@ -171,11 +158,16 @@ const CreateWarehouseProductModal = () => {
 									</FormItem>
 								)}
 							/>
-							
+
 
 							<DialogFooter>
-								<Button type="submit" disabled={loading}>
-									{loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
+								<DialogClose asChild>
+									<Button className="cursor-pointer" variant="ghost">
+										Cancelar
+									</Button>
+								</DialogClose>
+								<Button type="submit" disabled={createWarehouseProduct.isPending}>
+									{createWarehouseProduct.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar"}
 								</Button>
 							</DialogFooter>
 						</form>
