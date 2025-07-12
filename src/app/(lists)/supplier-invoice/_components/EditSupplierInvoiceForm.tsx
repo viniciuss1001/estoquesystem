@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
-import { useSupplierInvoice } from "@/lib/queries"
+import { useServiceProviders, useSupplierInvoice, useSuppliers } from "@/lib/queries"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Pencil } from "lucide-react"
@@ -27,6 +27,7 @@ interface EditSupplierInvoiceModalProps {
 const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) => {
 
 	const [open, setOpen] = useState(false)
+	const [file, setFile] = useState<File | null>(null)
 
 	const router = useRouter()
 	const queryClient = useQueryClient()
@@ -34,6 +35,8 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 	const form = useForm<EditInvoiceFormData>({
 		resolver: zodResolver(editInvoiceSchema),
 		defaultValues: {
+			providerType: "SUPPLIER",
+			supplierId: "",
 			title: "",
 			description: "",
 			amount: 0,
@@ -44,11 +47,21 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 
 	const { data: invoice, isLoading } = useSupplierInvoice(invoiceId as string)
 
+	const { data: suppliers = [] } = useSuppliers()
+	const { data: serviceProviders = [] } = useServiceProviders()
+
+	const allProviders = [
+		...suppliers.map(s => ({ ...s, type: "SUPPLIER" as const })),
+		...serviceProviders.map(sp => ({ ...sp, type: "SERVICE_PROVIDER" as const }))
+	]
+
 	useEffect(() => {
 		if (invoice) {
 			form.reset({
+				supplierId: invoice.supplier?.id || invoice.serviceProvider?.id,
+				providerType: invoice.supplier ? "SUPPLIER" : "SERVICE_PROVIDER",
 				title: invoice.title,
-				description: invoice.description,
+				description: invoice.description ?? "",
 				amount: invoice.amount,
 				dueDate: invoice.dueDate.slice(0, 10),
 				status: invoice.status,
@@ -124,7 +137,41 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 								console.log("erros de validação:", errors)
 							})}
 							className="space-y-4">
-							{/* title */}
+							<FormField
+								control={form.control}
+								name="supplierId"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Fornecedor/Prestador de Serviço</FormLabel>
+										<Select onValueChange={(value) => {
+											const selected = allProviders.find(p => p.id === value)
+											if (selected) {
+												form.setValue("supplierId", selected.id)
+												form.setValue("providerType", selected.type)
+											}
+										}}
+											value={form.watch("supplierId")}
+										>
+											<SelectTrigger>
+												<SelectValue placeholder="Selecione um fornecedor ou prestador" />
+											</SelectTrigger>
+											<SelectContent>
+												{allProviders.map((provider) => (
+													<SelectItem
+														key={provider.id}
+														value={provider.id}
+														data-type={provider.type}
+													>
+														{provider.name} ({provider.type === "SUPPLIER" ? "Fornecedor" : "Prestador"})
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
 							<FormField
 								control={form.control}
 								name="title"
@@ -139,60 +186,49 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 								)}
 							/>
 
-							{/* description */}
 							<FormField
 								control={form.control}
-								name="description"
+								name="amount"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Descrição</FormLabel>
+										<FormLabel>Valor</FormLabel>
 										<FormControl>
-											<Textarea {...field} />
+											<Input type="number" step="0.01" min={1} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
 
-							<div className="grid grid-cols-2 gap-4">
+							<FormField
+								control={form.control}
+								name="dueDate"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Data de vencimento</FormLabel>
+										<FormControl>
+											<Input type="date" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
-								{/* amount */}
-								<FormField
-									control={form.control}
-									name="amount"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Valor</FormLabel>
-											<FormControl>
-												<Input
-													type="number"
-													step="0.01"
-													value={field.value}
-													onChange={(e) => field.onChange(Number(e.target.value))}
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
+							<div className="space-y-2">
+								<label className="text-sm font-medium">Upload do boleto (PDF)</label>
+								<Input
+									type="file"
+									accept="application/pdf"
+									onChange={(e) => {
+										const f = e.target.files?.[0]
+										if (f && f.type === "application/pdf") {
+											setFile(f)
+										}
+									}}
 								/>
-
-								{/* dueDate */}
-								<FormField
-									control={form.control}
-									name="dueDate"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Data de vencimento</FormLabel>
-											<FormControl>
-												<Input type="date" {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+								{file && <p className="text-sm text-muted-foreground">Arquivo selecionado: {file.name}</p>}
 							</div>
 
-							{/* status */}
 							<FormField
 								control={form.control}
 								name="status"
@@ -216,6 +252,20 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 								)}
 							/>
 
+
+							<FormField
+								control={form.control}
+								name="description"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Descrição</FormLabel>
+										<FormControl>
+											<Textarea {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 							<DialogFooter className="flex items-center justify-between pt-4 gap-2">
 								<AlertDialogDelete type="Boleto" onDelete={onDelete} />
 								<Button

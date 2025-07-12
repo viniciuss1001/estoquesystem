@@ -47,6 +47,7 @@ const CreateSupplierInvoiceForm = () => {
 	const { mutate: createInvoice, isPending } = useMutation({
 		mutationFn: async (data: FormData) => {
 			const response = await api.post('/supplier-invoice', data)
+			console.log(response)
 
 		},
 		onSuccess: () => {
@@ -60,14 +61,17 @@ const CreateSupplierInvoiceForm = () => {
 			toast.error("Erro ao criar boleto.")
 		}
 	})
+	console.log(form.watch("providerType"))
+
 	function onSubmit(data: SupplierInvoiceFormValues) {
 		const formData = new FormData()
 		formData.append("title", data.title)
 		formData.append("description", data.description || "")
 		formData.append("amount", data.amount.toString())
 		formData.append("dueDate", data.dueDate)
-		formData.append("providerId", data.supplierId)          
-		formData.append("providerType", data.providerType)      
+		formData.append("providerId", data.supplierId)
+		formData.append("providerType", data.providerType ?? "SUPPLIER")
+
 		if (file) formData.append("file", file)
 
 		createInvoice(formData)
@@ -119,6 +123,7 @@ const CreateSupplierInvoiceForm = () => {
 													{provider.name} ({provider.type === "SUPPLIER" ? "Fornecedor" : "Prestador"})
 												</SelectItem>
 											))}
+
 										</SelectContent>
 									</Select>
 									<FormMessage />
@@ -182,6 +187,29 @@ const CreateSupplierInvoiceForm = () => {
 							/>
 							{file && <p className="text-sm text-muted-foreground">Arquivo selecionado: {file.name}</p>}
 						</div>
+						<FormField
+								control={form.control}
+								name="status"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Status</FormLabel>
+										<Select value={field.value} onValueChange={field.onChange}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Selecione o status" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="PENDING">Pendente</SelectItem>
+												<SelectItem value="PAID">Pago</SelectItem>
+												<SelectItem value="CANCELED">Cancelado</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
 
 						<FormField
 							control={form.control}

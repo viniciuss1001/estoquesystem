@@ -40,18 +40,28 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 		const body = await req.json()
 
+		if (body.providerType === "SUPPLIER") {
+			const exists = await prisma.supplier.findUnique({ where: { id: body.supplierId } })
+			if (!exists) throw new Error("Fornecedor não encontrado.")
+		} else {
+			const exists = await prisma.serviceProvider.findUnique({ where: { id: body.supplierId } })
+			if (!exists) throw new Error("Prestador de serviço não encontrado.")
+		}
+
 		const updatedInvoice = await prisma.supplierInvoice.update({
-			where: { id },
-			data: {
-				title: body.title,
-				description: body.description,
-				amount: body.amount,
-				dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
-				fileUrl: body.fileUrl || undefined,
-				supplierId: body.supplierId || undefined,
-				status: body.status || undefined
-			}
-		})
+	where: { id },
+	data: {
+		title: body.title,
+		description: body.description,
+		amount: body.amount,
+		dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
+		fileUrl: body.fileUrl || undefined,
+		status: body.status || undefined,
+	
+		supplierId: body.providerType === "SUPPLIER" ? body.supplierId : null,
+		serviceProviderId: body.providerType === "SERVICE_PROVIDER" ? body.supplierId : null,
+	}
+})
 
 		await logAction({
 			userId: session.user.id,
