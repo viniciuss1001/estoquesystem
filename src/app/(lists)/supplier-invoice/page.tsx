@@ -69,7 +69,7 @@ const SupplierInvoicesPage = () => {
 
 					<h2 className="text-2xl font-bold mb-2">Boletos de Fornecedores</h2>
 
-					{ invoices.length > 0 && (
+					{invoices.length > 0 && (
 						<p className="text-sm text-muted-foreground mb-4 ">Total de  {invoices.length} boleto (s) sendo exibidos.</p>
 					)}
 				</div>
@@ -82,7 +82,8 @@ const SupplierInvoicesPage = () => {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead>Fornecedor</TableHead>
+						<TableHead>Fornecedor/Prestador</TableHead>
+						<TableHead>Tipo</TableHead>
 						<TableHead>Título</TableHead>
 						<TableHead>Valor</TableHead>
 						<TableHead>Vencimento</TableHead>
@@ -102,9 +103,19 @@ const SupplierInvoicesPage = () => {
 						invoices.map((invoice) => (
 
 							<TableRow key={invoice.id}>
-								<TableCell>{invoice.supplier?.name || "-"}</TableCell>
+								<TableCell>
+									{invoice.supplier?.name || invoice.serviceProvider?.name || "-"}
+								</TableCell>
+								<TableCell>
+									{invoice.supplier ? "Fornecedor" : invoice.serviceProvider ? "Prestador" : "-"}
+								</TableCell>
 								<TableCell>{invoice.title}</TableCell>
-								<TableCell>R$ {Number(invoice.amount).toFixed(2) || "-"}</TableCell>
+								<TableCell>
+									{Number(invoice.amount).toLocaleString("pt-BR", {
+										style: "currency",
+										currency: "BRL",
+									})}
+								</TableCell>
 								<TableCell>
 									{invoice.dueDate && isValid(new Date(invoice.dueDate))
 										? format(new Date(invoice.dueDate), "dd/MM/yyyy")

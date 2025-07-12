@@ -2827,10 +2827,12 @@ export namespace Prisma {
 
   export type ServiceProviderCountOutputType = {
     services: number
+    SupplierInvoice: number
   }
 
   export type ServiceProviderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     services?: boolean | ServiceProviderCountOutputTypeCountServicesArgs
+    SupplierInvoice?: boolean | ServiceProviderCountOutputTypeCountSupplierInvoiceArgs
   }
 
   // Custom InputTypes
@@ -2849,6 +2851,13 @@ export namespace Prisma {
    */
   export type ServiceProviderCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ServiceWhereInput
+  }
+
+  /**
+   * ServiceProviderCountOutputType without action
+   */
+  export type ServiceProviderCountOutputTypeCountSupplierInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupplierInvoiceWhereInput
   }
 
 
@@ -12402,39 +12411,42 @@ export namespace Prisma {
 
   export type SupplierInvoiceMinAggregateOutputType = {
     id: string | null
-    supplierId: string | null
     title: string | null
     description: string | null
     amount: Decimal | null
     dueDate: Date | null
-    status: $Enums.InvoiceStatus | null
     fileUrl: string | null
+    status: $Enums.InvoiceStatus | null
+    supplierId: string | null
+    serviceProviderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type SupplierInvoiceMaxAggregateOutputType = {
     id: string | null
-    supplierId: string | null
     title: string | null
     description: string | null
     amount: Decimal | null
     dueDate: Date | null
-    status: $Enums.InvoiceStatus | null
     fileUrl: string | null
+    status: $Enums.InvoiceStatus | null
+    supplierId: string | null
+    serviceProviderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type SupplierInvoiceCountAggregateOutputType = {
     id: number
-    supplierId: number
     title: number
     description: number
     amount: number
     dueDate: number
-    status: number
     fileUrl: number
+    status: number
+    supplierId: number
+    serviceProviderId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -12451,39 +12463,42 @@ export namespace Prisma {
 
   export type SupplierInvoiceMinAggregateInputType = {
     id?: true
-    supplierId?: true
     title?: true
     description?: true
     amount?: true
     dueDate?: true
-    status?: true
     fileUrl?: true
+    status?: true
+    supplierId?: true
+    serviceProviderId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type SupplierInvoiceMaxAggregateInputType = {
     id?: true
-    supplierId?: true
     title?: true
     description?: true
     amount?: true
     dueDate?: true
-    status?: true
     fileUrl?: true
+    status?: true
+    supplierId?: true
+    serviceProviderId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type SupplierInvoiceCountAggregateInputType = {
     id?: true
-    supplierId?: true
     title?: true
     description?: true
     amount?: true
     dueDate?: true
-    status?: true
     fileUrl?: true
+    status?: true
+    supplierId?: true
+    serviceProviderId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -12577,13 +12592,14 @@ export namespace Prisma {
 
   export type SupplierInvoiceGroupByOutputType = {
     id: string
-    supplierId: string
     title: string
     description: string
     amount: Decimal
     dueDate: Date
-    status: $Enums.InvoiceStatus
     fileUrl: string | null
+    status: $Enums.InvoiceStatus
+    supplierId: string | null
+    serviceProviderId: string | null
     createdAt: Date
     updatedAt: Date
     _count: SupplierInvoiceCountAggregateOutputType | null
@@ -12609,16 +12625,18 @@ export namespace Prisma {
 
   export type SupplierInvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    supplierId?: boolean
     title?: boolean
     description?: boolean
     amount?: boolean
     dueDate?: boolean
-    status?: boolean
     fileUrl?: boolean
+    status?: boolean
+    supplierId?: boolean
+    serviceProviderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierInvoice$supplierArgs<ExtArgs>
+    serviceProvider?: boolean | SupplierInvoice$serviceProviderArgs<ExtArgs>
     Delivery?: boolean | SupplierInvoice$DeliveryArgs<ExtArgs>
     Service?: boolean | SupplierInvoice$ServiceArgs<ExtArgs>
     _count?: boolean | SupplierInvoiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -12626,75 +12644,85 @@ export namespace Prisma {
 
   export type SupplierInvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    supplierId?: boolean
     title?: boolean
     description?: boolean
     amount?: boolean
     dueDate?: boolean
-    status?: boolean
     fileUrl?: boolean
+    status?: boolean
+    supplierId?: boolean
+    serviceProviderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierInvoice$supplierArgs<ExtArgs>
+    serviceProvider?: boolean | SupplierInvoice$serviceProviderArgs<ExtArgs>
   }, ExtArgs["result"]["supplierInvoice"]>
 
   export type SupplierInvoiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    supplierId?: boolean
     title?: boolean
     description?: boolean
     amount?: boolean
     dueDate?: boolean
-    status?: boolean
     fileUrl?: boolean
+    status?: boolean
+    supplierId?: boolean
+    serviceProviderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierInvoice$supplierArgs<ExtArgs>
+    serviceProvider?: boolean | SupplierInvoice$serviceProviderArgs<ExtArgs>
   }, ExtArgs["result"]["supplierInvoice"]>
 
   export type SupplierInvoiceSelectScalar = {
     id?: boolean
-    supplierId?: boolean
     title?: boolean
     description?: boolean
     amount?: boolean
     dueDate?: boolean
-    status?: boolean
     fileUrl?: boolean
+    status?: boolean
+    supplierId?: boolean
+    serviceProviderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplierId" | "title" | "description" | "amount" | "dueDate" | "status" | "fileUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["supplierInvoice"]>
+  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "amount" | "dueDate" | "fileUrl" | "status" | "supplierId" | "serviceProviderId" | "createdAt" | "updatedAt", ExtArgs["result"]["supplierInvoice"]>
   export type SupplierInvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierInvoice$supplierArgs<ExtArgs>
+    serviceProvider?: boolean | SupplierInvoice$serviceProviderArgs<ExtArgs>
     Delivery?: boolean | SupplierInvoice$DeliveryArgs<ExtArgs>
     Service?: boolean | SupplierInvoice$ServiceArgs<ExtArgs>
     _count?: boolean | SupplierInvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SupplierInvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierInvoice$supplierArgs<ExtArgs>
+    serviceProvider?: boolean | SupplierInvoice$serviceProviderArgs<ExtArgs>
   }
   export type SupplierInvoiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierInvoice$supplierArgs<ExtArgs>
+    serviceProvider?: boolean | SupplierInvoice$serviceProviderArgs<ExtArgs>
   }
 
   export type $SupplierInvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SupplierInvoice"
     objects: {
-      supplier: Prisma.$SupplierPayload<ExtArgs>
+      supplier: Prisma.$SupplierPayload<ExtArgs> | null
+      serviceProvider: Prisma.$ServiceProviderPayload<ExtArgs> | null
       Delivery: Prisma.$DeliveryPayload<ExtArgs>[]
       Service: Prisma.$ServicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      supplierId: string
       title: string
       description: string
       amount: Prisma.Decimal
       dueDate: Date
-      status: $Enums.InvoiceStatus
       fileUrl: string | null
+      status: $Enums.InvoiceStatus
+      supplierId: string | null
+      serviceProviderId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["supplierInvoice"]>
@@ -13091,7 +13119,8 @@ export namespace Prisma {
    */
   export interface Prisma__SupplierInvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    supplier<T extends SupplierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SupplierDefaultArgs<ExtArgs>>): Prisma__SupplierClient<$Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    supplier<T extends SupplierInvoice$supplierArgs<ExtArgs> = {}>(args?: Subset<T, SupplierInvoice$supplierArgs<ExtArgs>>): Prisma__SupplierClient<$Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    serviceProvider<T extends SupplierInvoice$serviceProviderArgs<ExtArgs> = {}>(args?: Subset<T, SupplierInvoice$serviceProviderArgs<ExtArgs>>): Prisma__ServiceProviderClient<$Result.GetResult<Prisma.$ServiceProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Delivery<T extends SupplierInvoice$DeliveryArgs<ExtArgs> = {}>(args?: Subset<T, SupplierInvoice$DeliveryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Service<T extends SupplierInvoice$ServiceArgs<ExtArgs> = {}>(args?: Subset<T, SupplierInvoice$ServiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -13124,13 +13153,14 @@ export namespace Prisma {
    */
   interface SupplierInvoiceFieldRefs {
     readonly id: FieldRef<"SupplierInvoice", 'String'>
-    readonly supplierId: FieldRef<"SupplierInvoice", 'String'>
     readonly title: FieldRef<"SupplierInvoice", 'String'>
     readonly description: FieldRef<"SupplierInvoice", 'String'>
     readonly amount: FieldRef<"SupplierInvoice", 'Decimal'>
     readonly dueDate: FieldRef<"SupplierInvoice", 'DateTime'>
-    readonly status: FieldRef<"SupplierInvoice", 'InvoiceStatus'>
     readonly fileUrl: FieldRef<"SupplierInvoice", 'String'>
+    readonly status: FieldRef<"SupplierInvoice", 'InvoiceStatus'>
+    readonly supplierId: FieldRef<"SupplierInvoice", 'String'>
+    readonly serviceProviderId: FieldRef<"SupplierInvoice", 'String'>
     readonly createdAt: FieldRef<"SupplierInvoice", 'DateTime'>
     readonly updatedAt: FieldRef<"SupplierInvoice", 'DateTime'>
   }
@@ -13526,6 +13556,44 @@ export namespace Prisma {
      * Limit how many SupplierInvoices to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SupplierInvoice.supplier
+   */
+  export type SupplierInvoice$supplierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supplier
+     */
+    select?: SupplierSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Supplier
+     */
+    omit?: SupplierOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInclude<ExtArgs> | null
+    where?: SupplierWhereInput
+  }
+
+  /**
+   * SupplierInvoice.serviceProvider
+   */
+  export type SupplierInvoice$serviceProviderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceProvider
+     */
+    select?: ServiceProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceProvider
+     */
+    omit?: ServiceProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceProviderInclude<ExtArgs> | null
+    where?: ServiceProviderWhereInput
   }
 
   /**
@@ -20425,6 +20493,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     services?: boolean | ServiceProvider$servicesArgs<ExtArgs>
+    SupplierInvoice?: boolean | ServiceProvider$SupplierInvoiceArgs<ExtArgs>
     _count?: boolean | ServiceProviderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["serviceProvider"]>
 
@@ -20464,6 +20533,7 @@ export namespace Prisma {
   export type ServiceProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "cnpj" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceProvider"]>
   export type ServiceProviderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     services?: boolean | ServiceProvider$servicesArgs<ExtArgs>
+    SupplierInvoice?: boolean | ServiceProvider$SupplierInvoiceArgs<ExtArgs>
     _count?: boolean | ServiceProviderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceProviderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20473,6 +20543,7 @@ export namespace Prisma {
     name: "ServiceProvider"
     objects: {
       services: Prisma.$ServicePayload<ExtArgs>[]
+      SupplierInvoice: Prisma.$SupplierInvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20878,6 +20949,7 @@ export namespace Prisma {
   export interface Prisma__ServiceProviderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     services<T extends ServiceProvider$servicesArgs<ExtArgs> = {}>(args?: Subset<T, ServiceProvider$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    SupplierInvoice<T extends ServiceProvider$SupplierInvoiceArgs<ExtArgs> = {}>(args?: Subset<T, ServiceProvider$SupplierInvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupplierInvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21324,6 +21396,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceProvider.SupplierInvoice
+   */
+  export type ServiceProvider$SupplierInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupplierInvoice
+     */
+    select?: SupplierInvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupplierInvoice
+     */
+    omit?: SupplierInvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupplierInvoiceInclude<ExtArgs> | null
+    where?: SupplierInvoiceWhereInput
+    orderBy?: SupplierInvoiceOrderByWithRelationInput | SupplierInvoiceOrderByWithRelationInput[]
+    cursor?: SupplierInvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupplierInvoiceScalarFieldEnum | SupplierInvoiceScalarFieldEnum[]
   }
 
   /**
@@ -23607,13 +23703,14 @@ export namespace Prisma {
 
   export const SupplierInvoiceScalarFieldEnum: {
     id: 'id',
-    supplierId: 'supplierId',
     title: 'title',
     description: 'description',
     amount: 'amount',
     dueDate: 'dueDate',
-    status: 'status',
     fileUrl: 'fileUrl',
+    status: 'status',
+    supplierId: 'supplierId',
+    serviceProviderId: 'serviceProviderId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -24627,32 +24724,36 @@ export namespace Prisma {
     OR?: SupplierInvoiceWhereInput[]
     NOT?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
     id?: StringFilter<"SupplierInvoice"> | string
-    supplierId?: StringFilter<"SupplierInvoice"> | string
     title?: StringFilter<"SupplierInvoice"> | string
     description?: StringFilter<"SupplierInvoice"> | string
     amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
-    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    supplierId?: StringNullableFilter<"SupplierInvoice"> | string | null
+    serviceProviderId?: StringNullableFilter<"SupplierInvoice"> | string | null
     createdAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
-    supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
+    supplier?: XOR<SupplierNullableScalarRelationFilter, SupplierWhereInput> | null
+    serviceProvider?: XOR<ServiceProviderNullableScalarRelationFilter, ServiceProviderWhereInput> | null
     Delivery?: DeliveryListRelationFilter
     Service?: ServiceListRelationFilter
   }
 
   export type SupplierInvoiceOrderByWithRelationInput = {
     id?: SortOrder
-    supplierId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     amount?: SortOrder
     dueDate?: SortOrder
-    status?: SortOrder
     fileUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    supplierId?: SortOrderInput | SortOrder
+    serviceProviderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     supplier?: SupplierOrderByWithRelationInput
+    serviceProvider?: ServiceProviderOrderByWithRelationInput
     Delivery?: DeliveryOrderByRelationAggregateInput
     Service?: ServiceOrderByRelationAggregateInput
   }
@@ -24662,29 +24763,32 @@ export namespace Prisma {
     AND?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
     OR?: SupplierInvoiceWhereInput[]
     NOT?: SupplierInvoiceWhereInput | SupplierInvoiceWhereInput[]
-    supplierId?: StringFilter<"SupplierInvoice"> | string
     title?: StringFilter<"SupplierInvoice"> | string
     description?: StringFilter<"SupplierInvoice"> | string
     amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
-    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    supplierId?: StringNullableFilter<"SupplierInvoice"> | string | null
+    serviceProviderId?: StringNullableFilter<"SupplierInvoice"> | string | null
     createdAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
-    supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
+    supplier?: XOR<SupplierNullableScalarRelationFilter, SupplierWhereInput> | null
+    serviceProvider?: XOR<ServiceProviderNullableScalarRelationFilter, ServiceProviderWhereInput> | null
     Delivery?: DeliveryListRelationFilter
     Service?: ServiceListRelationFilter
   }, "id">
 
   export type SupplierInvoiceOrderByWithAggregationInput = {
     id?: SortOrder
-    supplierId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     amount?: SortOrder
     dueDate?: SortOrder
-    status?: SortOrder
     fileUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    supplierId?: SortOrderInput | SortOrder
+    serviceProviderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SupplierInvoiceCountOrderByAggregateInput
@@ -24699,13 +24803,14 @@ export namespace Prisma {
     OR?: SupplierInvoiceScalarWhereWithAggregatesInput[]
     NOT?: SupplierInvoiceScalarWhereWithAggregatesInput | SupplierInvoiceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"SupplierInvoice"> | string
-    supplierId?: StringWithAggregatesFilter<"SupplierInvoice"> | string
     title?: StringWithAggregatesFilter<"SupplierInvoice"> | string
     description?: StringWithAggregatesFilter<"SupplierInvoice"> | string
     amount?: DecimalWithAggregatesFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
-    status?: EnumInvoiceStatusWithAggregatesFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    status?: EnumInvoiceStatusWithAggregatesFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    supplierId?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    serviceProviderId?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
   }
@@ -25145,6 +25250,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ServiceProvider"> | Date | string
     updatedAt?: DateTimeFilter<"ServiceProvider"> | Date | string
     services?: ServiceListRelationFilter
+    SupplierInvoice?: SupplierInvoiceListRelationFilter
   }
 
   export type ServiceProviderOrderByWithRelationInput = {
@@ -25157,6 +25263,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     services?: ServiceOrderByRelationAggregateInput
+    SupplierInvoice?: SupplierInvoiceOrderByRelationAggregateInput
   }
 
   export type ServiceProviderWhereUniqueInput = Prisma.AtLeast<{
@@ -25172,6 +25279,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ServiceProvider"> | Date | string
     updatedAt?: DateTimeFilter<"ServiceProvider"> | Date | string
     services?: ServiceListRelationFilter
+    SupplierInvoice?: SupplierInvoiceListRelationFilter
   }, "id">
 
   export type ServiceProviderOrderByWithAggregationInput = {
@@ -26029,24 +26137,26 @@ export namespace Prisma {
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    supplier?: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    serviceProvider?: ServiceProviderCreateNestedOneWithoutSupplierInvoiceInput
     Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
     Service?: ServiceCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateInput = {
     id?: string
-    supplierId: string
     title: string
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    supplierId?: string | null
+    serviceProviderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
@@ -26059,24 +26169,26 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
+    supplier?: SupplierUpdateOneWithoutSupplierInvoiceNestedInput
+    serviceProvider?: ServiceProviderUpdateOneWithoutSupplierInvoiceNestedInput
     Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
     Service?: ServiceUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    supplierId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    supplierId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
@@ -26085,13 +26197,14 @@ export namespace Prisma {
 
   export type SupplierInvoiceCreateManyInput = {
     id?: string
-    supplierId: string
     title: string
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    supplierId?: string | null
+    serviceProviderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -26102,21 +26215,22 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SupplierInvoiceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    supplierId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    supplierId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26558,6 +26672,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     services?: ServiceCreateNestedManyWithoutProviderInput
+    SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutServiceProviderInput
   }
 
   export type ServiceProviderUncheckedCreateInput = {
@@ -26570,6 +26685,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     services?: ServiceUncheckedCreateNestedManyWithoutProviderInput
+    SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutServiceProviderInput
   }
 
   export type ServiceProviderUpdateInput = {
@@ -26582,6 +26698,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: ServiceUpdateManyWithoutProviderNestedInput
+    SupplierInvoice?: SupplierInvoiceUpdateManyWithoutServiceProviderNestedInput
   }
 
   export type ServiceProviderUncheckedUpdateInput = {
@@ -26594,6 +26711,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: ServiceUncheckedUpdateManyWithoutProviderNestedInput
+    SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutServiceProviderNestedInput
   }
 
   export type ServiceProviderCreateManyInput = {
@@ -27504,20 +27622,21 @@ export namespace Prisma {
     not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
   }
 
-  export type SupplierScalarRelationFilter = {
-    is?: SupplierWhereInput
-    isNot?: SupplierWhereInput
+  export type ServiceProviderNullableScalarRelationFilter = {
+    is?: ServiceProviderWhereInput | null
+    isNot?: ServiceProviderWhereInput | null
   }
 
   export type SupplierInvoiceCountOrderByAggregateInput = {
     id?: SortOrder
-    supplierId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     amount?: SortOrder
     dueDate?: SortOrder
-    status?: SortOrder
     fileUrl?: SortOrder
+    status?: SortOrder
+    supplierId?: SortOrder
+    serviceProviderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27528,26 +27647,28 @@ export namespace Prisma {
 
   export type SupplierInvoiceMaxOrderByAggregateInput = {
     id?: SortOrder
-    supplierId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     amount?: SortOrder
     dueDate?: SortOrder
-    status?: SortOrder
     fileUrl?: SortOrder
+    status?: SortOrder
+    supplierId?: SortOrder
+    serviceProviderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type SupplierInvoiceMinOrderByAggregateInput = {
     id?: SortOrder
-    supplierId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     amount?: SortOrder
     dueDate?: SortOrder
-    status?: SortOrder
     fileUrl?: SortOrder
+    status?: SortOrder
+    supplierId?: SortOrder
+    serviceProviderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27638,6 +27759,11 @@ export namespace Prisma {
     in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumDeliveryStatusFilter<$PrismaModel> | $Enums.DeliveryStatus
+  }
+
+  export type SupplierScalarRelationFilter = {
+    is?: SupplierWhereInput
+    isNot?: SupplierWhereInput
   }
 
   export type SupplierInvoiceNullableScalarRelationFilter = {
@@ -28766,6 +28892,12 @@ export namespace Prisma {
     connect?: SupplierWhereUniqueInput
   }
 
+  export type ServiceProviderCreateNestedOneWithoutSupplierInvoiceInput = {
+    create?: XOR<ServiceProviderCreateWithoutSupplierInvoiceInput, ServiceProviderUncheckedCreateWithoutSupplierInvoiceInput>
+    connectOrCreate?: ServiceProviderCreateOrConnectWithoutSupplierInvoiceInput
+    connect?: ServiceProviderWhereUniqueInput
+  }
+
   export type DeliveryCreateNestedManyWithoutSupplierInvoiceInput = {
     create?: XOR<DeliveryCreateWithoutSupplierInvoiceInput, DeliveryUncheckedCreateWithoutSupplierInvoiceInput> | DeliveryCreateWithoutSupplierInvoiceInput[] | DeliveryUncheckedCreateWithoutSupplierInvoiceInput[]
     connectOrCreate?: DeliveryCreateOrConnectWithoutSupplierInvoiceInput | DeliveryCreateOrConnectWithoutSupplierInvoiceInput[]
@@ -28806,12 +28938,24 @@ export namespace Prisma {
     set?: $Enums.InvoiceStatus
   }
 
-  export type SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput = {
+  export type SupplierUpdateOneWithoutSupplierInvoiceNestedInput = {
     create?: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
     connectOrCreate?: SupplierCreateOrConnectWithoutSupplierInvoiceInput
     upsert?: SupplierUpsertWithoutSupplierInvoiceInput
+    disconnect?: SupplierWhereInput | boolean
+    delete?: SupplierWhereInput | boolean
     connect?: SupplierWhereUniqueInput
     update?: XOR<XOR<SupplierUpdateToOneWithWhereWithoutSupplierInvoiceInput, SupplierUpdateWithoutSupplierInvoiceInput>, SupplierUncheckedUpdateWithoutSupplierInvoiceInput>
+  }
+
+  export type ServiceProviderUpdateOneWithoutSupplierInvoiceNestedInput = {
+    create?: XOR<ServiceProviderCreateWithoutSupplierInvoiceInput, ServiceProviderUncheckedCreateWithoutSupplierInvoiceInput>
+    connectOrCreate?: ServiceProviderCreateOrConnectWithoutSupplierInvoiceInput
+    upsert?: ServiceProviderUpsertWithoutSupplierInvoiceInput
+    disconnect?: ServiceProviderWhereInput | boolean
+    delete?: ServiceProviderWhereInput | boolean
+    connect?: ServiceProviderWhereUniqueInput
+    update?: XOR<XOR<ServiceProviderUpdateToOneWithWhereWithoutSupplierInvoiceInput, ServiceProviderUpdateWithoutSupplierInvoiceInput>, ServiceProviderUncheckedUpdateWithoutSupplierInvoiceInput>
   }
 
   export type DeliveryUpdateManyWithoutSupplierInvoiceNestedInput = {
@@ -29093,11 +29237,25 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
+  export type SupplierInvoiceCreateNestedManyWithoutServiceProviderInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutServiceProviderInput, SupplierInvoiceUncheckedCreateWithoutServiceProviderInput> | SupplierInvoiceCreateWithoutServiceProviderInput[] | SupplierInvoiceUncheckedCreateWithoutServiceProviderInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutServiceProviderInput | SupplierInvoiceCreateOrConnectWithoutServiceProviderInput[]
+    createMany?: SupplierInvoiceCreateManyServiceProviderInputEnvelope
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+  }
+
   export type ServiceUncheckedCreateNestedManyWithoutProviderInput = {
     create?: XOR<ServiceCreateWithoutProviderInput, ServiceUncheckedCreateWithoutProviderInput> | ServiceCreateWithoutProviderInput[] | ServiceUncheckedCreateWithoutProviderInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutProviderInput | ServiceCreateOrConnectWithoutProviderInput[]
     createMany?: ServiceCreateManyProviderInputEnvelope
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+  }
+
+  export type SupplierInvoiceUncheckedCreateNestedManyWithoutServiceProviderInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutServiceProviderInput, SupplierInvoiceUncheckedCreateWithoutServiceProviderInput> | SupplierInvoiceCreateWithoutServiceProviderInput[] | SupplierInvoiceUncheckedCreateWithoutServiceProviderInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutServiceProviderInput | SupplierInvoiceCreateOrConnectWithoutServiceProviderInput[]
+    createMany?: SupplierInvoiceCreateManyServiceProviderInputEnvelope
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
   }
 
   export type ServiceUpdateManyWithoutProviderNestedInput = {
@@ -29114,6 +29272,20 @@ export namespace Prisma {
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
+  export type SupplierInvoiceUpdateManyWithoutServiceProviderNestedInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutServiceProviderInput, SupplierInvoiceUncheckedCreateWithoutServiceProviderInput> | SupplierInvoiceCreateWithoutServiceProviderInput[] | SupplierInvoiceUncheckedCreateWithoutServiceProviderInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutServiceProviderInput | SupplierInvoiceCreateOrConnectWithoutServiceProviderInput[]
+    upsert?: SupplierInvoiceUpsertWithWhereUniqueWithoutServiceProviderInput | SupplierInvoiceUpsertWithWhereUniqueWithoutServiceProviderInput[]
+    createMany?: SupplierInvoiceCreateManyServiceProviderInputEnvelope
+    set?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    disconnect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    delete?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    update?: SupplierInvoiceUpdateWithWhereUniqueWithoutServiceProviderInput | SupplierInvoiceUpdateWithWhereUniqueWithoutServiceProviderInput[]
+    updateMany?: SupplierInvoiceUpdateManyWithWhereWithoutServiceProviderInput | SupplierInvoiceUpdateManyWithWhereWithoutServiceProviderInput[]
+    deleteMany?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
+  }
+
   export type ServiceUncheckedUpdateManyWithoutProviderNestedInput = {
     create?: XOR<ServiceCreateWithoutProviderInput, ServiceUncheckedCreateWithoutProviderInput> | ServiceCreateWithoutProviderInput[] | ServiceUncheckedCreateWithoutProviderInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutProviderInput | ServiceCreateOrConnectWithoutProviderInput[]
@@ -29126,6 +29298,20 @@ export namespace Prisma {
     update?: ServiceUpdateWithWhereUniqueWithoutProviderInput | ServiceUpdateWithWhereUniqueWithoutProviderInput[]
     updateMany?: ServiceUpdateManyWithWhereWithoutProviderInput | ServiceUpdateManyWithWhereWithoutProviderInput[]
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  }
+
+  export type SupplierInvoiceUncheckedUpdateManyWithoutServiceProviderNestedInput = {
+    create?: XOR<SupplierInvoiceCreateWithoutServiceProviderInput, SupplierInvoiceUncheckedCreateWithoutServiceProviderInput> | SupplierInvoiceCreateWithoutServiceProviderInput[] | SupplierInvoiceUncheckedCreateWithoutServiceProviderInput[]
+    connectOrCreate?: SupplierInvoiceCreateOrConnectWithoutServiceProviderInput | SupplierInvoiceCreateOrConnectWithoutServiceProviderInput[]
+    upsert?: SupplierInvoiceUpsertWithWhereUniqueWithoutServiceProviderInput | SupplierInvoiceUpsertWithWhereUniqueWithoutServiceProviderInput[]
+    createMany?: SupplierInvoiceCreateManyServiceProviderInputEnvelope
+    set?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    disconnect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    delete?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    connect?: SupplierInvoiceWhereUniqueInput | SupplierInvoiceWhereUniqueInput[]
+    update?: SupplierInvoiceUpdateWithWhereUniqueWithoutServiceProviderInput | SupplierInvoiceUpdateWithWhereUniqueWithoutServiceProviderInput[]
+    updateMany?: SupplierInvoiceUpdateManyWithWhereWithoutServiceProviderInput | SupplierInvoiceUpdateManyWithWhereWithoutServiceProviderInput[]
+    deleteMany?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
   }
 
   export type ServiceCreateNestedManyWithoutTypeInput = {
@@ -31028,10 +31214,11 @@ export namespace Prisma {
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    serviceProvider?: ServiceProviderCreateNestedOneWithoutSupplierInvoiceInput
     Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
     Service?: ServiceCreateNestedManyWithoutInvoiceInput
   }
@@ -31042,8 +31229,9 @@ export namespace Prisma {
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    serviceProviderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
@@ -31132,13 +31320,14 @@ export namespace Prisma {
     OR?: SupplierInvoiceScalarWhereInput[]
     NOT?: SupplierInvoiceScalarWhereInput | SupplierInvoiceScalarWhereInput[]
     id?: StringFilter<"SupplierInvoice"> | string
-    supplierId?: StringFilter<"SupplierInvoice"> | string
     title?: StringFilter<"SupplierInvoice"> | string
     description?: StringFilter<"SupplierInvoice"> | string
     amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
-    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
+    supplierId?: StringNullableFilter<"SupplierInvoice"> | string | null
+    serviceProviderId?: StringNullableFilter<"SupplierInvoice"> | string | null
     createdAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
     updatedAt?: DateTimeFilter<"SupplierInvoice"> | Date | string
   }
@@ -31172,6 +31361,35 @@ export namespace Prisma {
   export type SupplierCreateOrConnectWithoutSupplierInvoiceInput = {
     where: SupplierWhereUniqueInput
     create: XOR<SupplierCreateWithoutSupplierInvoiceInput, SupplierUncheckedCreateWithoutSupplierInvoiceInput>
+  }
+
+  export type ServiceProviderCreateWithoutSupplierInvoiceInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    cnpj?: string | null
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    services?: ServiceCreateNestedManyWithoutProviderInput
+  }
+
+  export type ServiceProviderUncheckedCreateWithoutSupplierInvoiceInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    cnpj?: string | null
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    services?: ServiceUncheckedCreateNestedManyWithoutProviderInput
+  }
+
+  export type ServiceProviderCreateOrConnectWithoutSupplierInvoiceInput = {
+    where: ServiceProviderWhereUniqueInput
+    create: XOR<ServiceProviderCreateWithoutSupplierInvoiceInput, ServiceProviderUncheckedCreateWithoutSupplierInvoiceInput>
   }
 
   export type DeliveryCreateWithoutSupplierInvoiceInput = {
@@ -31283,6 +31501,41 @@ export namespace Prisma {
     deliveryTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     delivery?: DeliveryUncheckedUpdateManyWithoutSupplierNestedInput
     products?: ProductUncheckedUpdateManyWithoutSupplierNestedInput
+  }
+
+  export type ServiceProviderUpsertWithoutSupplierInvoiceInput = {
+    update: XOR<ServiceProviderUpdateWithoutSupplierInvoiceInput, ServiceProviderUncheckedUpdateWithoutSupplierInvoiceInput>
+    create: XOR<ServiceProviderCreateWithoutSupplierInvoiceInput, ServiceProviderUncheckedCreateWithoutSupplierInvoiceInput>
+    where?: ServiceProviderWhereInput
+  }
+
+  export type ServiceProviderUpdateToOneWithWhereWithoutSupplierInvoiceInput = {
+    where?: ServiceProviderWhereInput
+    data: XOR<ServiceProviderUpdateWithoutSupplierInvoiceInput, ServiceProviderUncheckedUpdateWithoutSupplierInvoiceInput>
+  }
+
+  export type ServiceProviderUpdateWithoutSupplierInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: ServiceUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ServiceProviderUncheckedUpdateWithoutSupplierInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: ServiceUncheckedUpdateManyWithoutProviderNestedInput
   }
 
   export type DeliveryUpsertWithWhereUniqueWithoutSupplierInvoiceInput = {
@@ -31582,23 +31835,25 @@ export namespace Prisma {
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    supplier?: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    serviceProvider?: ServiceProviderCreateNestedOneWithoutSupplierInvoiceInput
     Service?: ServiceCreateNestedManyWithoutInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateWithoutDeliveryInput = {
     id?: string
-    supplierId: string
     title: string
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    supplierId?: string | null
+    serviceProviderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Service?: ServiceUncheckedCreateNestedManyWithoutInvoiceInput
@@ -31745,23 +32000,25 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
+    supplier?: SupplierUpdateOneWithoutSupplierInvoiceNestedInput
+    serviceProvider?: ServiceProviderUpdateOneWithoutSupplierInvoiceNestedInput
     Service?: ServiceUpdateManyWithoutInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateWithoutDeliveryInput = {
     id?: StringFieldUpdateOperationsInput | string
-    supplierId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    supplierId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Service?: ServiceUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -31872,6 +32129,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    SupplierInvoice?: SupplierInvoiceCreateNestedManyWithoutServiceProviderInput
   }
 
   export type ServiceProviderUncheckedCreateWithoutServicesInput = {
@@ -31883,6 +32141,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    SupplierInvoice?: SupplierInvoiceUncheckedCreateNestedManyWithoutServiceProviderInput
   }
 
   export type ServiceProviderCreateOrConnectWithoutServicesInput = {
@@ -31936,23 +32195,25 @@ export namespace Prisma {
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    supplier: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    supplier?: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    serviceProvider?: ServiceProviderCreateNestedOneWithoutSupplierInvoiceInput
     Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
   }
 
   export type SupplierInvoiceUncheckedCreateWithoutServiceInput = {
     id?: string
-    supplierId: string
     title: string
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    supplierId?: string | null
+    serviceProviderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
@@ -32028,6 +32289,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    SupplierInvoice?: SupplierInvoiceUpdateManyWithoutServiceProviderNestedInput
   }
 
   export type ServiceProviderUncheckedUpdateWithoutServicesInput = {
@@ -32039,6 +32301,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    SupplierInvoice?: SupplierInvoiceUncheckedUpdateManyWithoutServiceProviderNestedInput
   }
 
   export type ServiceTypeUpsertWithoutServicesInput = {
@@ -32110,23 +32373,25 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    supplier?: SupplierUpdateOneRequiredWithoutSupplierInvoiceNestedInput
+    supplier?: SupplierUpdateOneWithoutSupplierInvoiceNestedInput
+    serviceProvider?: ServiceProviderUpdateOneWithoutSupplierInvoiceNestedInput
     Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
   }
 
   export type SupplierInvoiceUncheckedUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    supplierId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    supplierId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
@@ -32223,6 +32488,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SupplierInvoiceCreateWithoutServiceProviderInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    supplier?: SupplierCreateNestedOneWithoutSupplierInvoiceInput
+    Delivery?: DeliveryCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type SupplierInvoiceUncheckedCreateWithoutServiceProviderInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    supplierId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Delivery?: DeliveryUncheckedCreateNestedManyWithoutSupplierInvoiceInput
+    Service?: ServiceUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type SupplierInvoiceCreateOrConnectWithoutServiceProviderInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    create: XOR<SupplierInvoiceCreateWithoutServiceProviderInput, SupplierInvoiceUncheckedCreateWithoutServiceProviderInput>
+  }
+
+  export type SupplierInvoiceCreateManyServiceProviderInputEnvelope = {
+    data: SupplierInvoiceCreateManyServiceProviderInput | SupplierInvoiceCreateManyServiceProviderInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ServiceUpsertWithWhereUniqueWithoutProviderInput = {
     where: ServiceWhereUniqueInput
     update: XOR<ServiceUpdateWithoutProviderInput, ServiceUncheckedUpdateWithoutProviderInput>
@@ -32237,6 +32542,22 @@ export namespace Prisma {
   export type ServiceUpdateManyWithWhereWithoutProviderInput = {
     where: ServiceScalarWhereInput
     data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutProviderInput>
+  }
+
+  export type SupplierInvoiceUpsertWithWhereUniqueWithoutServiceProviderInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    update: XOR<SupplierInvoiceUpdateWithoutServiceProviderInput, SupplierInvoiceUncheckedUpdateWithoutServiceProviderInput>
+    create: XOR<SupplierInvoiceCreateWithoutServiceProviderInput, SupplierInvoiceUncheckedCreateWithoutServiceProviderInput>
+  }
+
+  export type SupplierInvoiceUpdateWithWhereUniqueWithoutServiceProviderInput = {
+    where: SupplierInvoiceWhereUniqueInput
+    data: XOR<SupplierInvoiceUpdateWithoutServiceProviderInput, SupplierInvoiceUncheckedUpdateWithoutServiceProviderInput>
+  }
+
+  export type SupplierInvoiceUpdateManyWithWhereWithoutServiceProviderInput = {
+    where: SupplierInvoiceScalarWhereInput
+    data: XOR<SupplierInvoiceUpdateManyMutationInput, SupplierInvoiceUncheckedUpdateManyWithoutServiceProviderInput>
   }
 
   export type ServiceCreateWithoutTypeInput = {
@@ -32856,8 +33177,9 @@ export namespace Prisma {
     description: string
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
-    status?: $Enums.InvoiceStatus
     fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    serviceProviderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32955,10 +33277,11 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceProvider?: ServiceProviderUpdateOneWithoutSupplierInvoiceNestedInput
     Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
     Service?: ServiceUpdateManyWithoutInvoiceNestedInput
   }
@@ -32969,8 +33292,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
@@ -32983,8 +33307,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33178,6 +33503,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type SupplierInvoiceCreateManyServiceProviderInput = {
+    id?: string
+    title: string
+    description: string
+    amount: Decimal | DecimalJsLike | number | string
+    dueDate: Date | string
+    fileUrl?: string | null
+    status?: $Enums.InvoiceStatus
+    supplierId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ServiceUpdateWithoutProviderInput = {
     id?: StringFieldUpdateOperationsInput | string
     serviceDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33219,6 +33557,49 @@ export namespace Prisma {
     attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
     createdByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupplierInvoiceUpdateWithoutServiceProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    supplier?: SupplierUpdateOneWithoutSupplierInvoiceNestedInput
+    Delivery?: DeliveryUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type SupplierInvoiceUncheckedUpdateWithoutServiceProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    supplierId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Delivery?: DeliveryUncheckedUpdateManyWithoutSupplierInvoiceNestedInput
+    Service?: ServiceUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type SupplierInvoiceUncheckedUpdateManyWithoutServiceProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { EditInvoiceFormData, editInvoiceSchema } from "./formSchema"
+import { EditInvoiceFormData, editInvoiceSchema } from "../_schema/formSchema"
 
 interface EditSupplierInvoiceModalProps {
 	invoiceId: string

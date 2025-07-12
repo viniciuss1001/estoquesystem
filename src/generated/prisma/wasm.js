@@ -217,13 +217,14 @@ exports.Prisma.SupplierScalarFieldEnum = {
 
 exports.Prisma.SupplierInvoiceScalarFieldEnum = {
   id: 'id',
-  supplierId: 'supplierId',
   title: 'title',
   description: 'description',
   amount: 'amount',
   dueDate: 'dueDate',
-  status: 'status',
   fileUrl: 'fileUrl',
+  status: 'status',
+  supplierId: 'supplierId',
+  serviceProviderId: 'serviceProviderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -53,7 +53,7 @@ const CreateServiceModal = () => {
 	const { data: serviceProviders = [] } = useServiceProviders()
 	const { data: serviceTypes = [] } = useServiceTypes()
 	const { data: serviceLocations = [] } = useServiceLocations()
-	const {data: invoices = []} = useOpenSupplierInvoices()
+	const { data: invoices = [] } = useOpenSupplierInvoices()
 
 	const createService = useMutation({
 		mutationFn: async (data: FormData) => {
@@ -94,7 +94,7 @@ const CreateServiceModal = () => {
 							name="serviceProviderId"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Produto</FormLabel>
+									<FormLabel>Prestador do Serviço</FormLabel>
 									<Select onValueChange={field.onChange} value={field.value} >
 										<FormControl className="w-full">
 											<SelectTrigger className="w-full">
@@ -138,6 +138,32 @@ const CreateServiceModal = () => {
 								</FormItem>
 							)}
 						/>
+
+						<FormField
+							control={form.control}
+							name="serviceLocationId"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Local do serviço</FormLabel>
+									<Select onValueChange={field.onChange} value={field.value} >
+										<FormControl className="w-full">
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Selecione o local do serviço" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{serviceLocations.map(serviceLocation => (
+												<SelectItem key={serviceLocation.id} value={serviceLocation.id}>
+													{serviceLocation.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<FormField
 							control={form.control}
 							name="serviceDate"
@@ -163,6 +189,7 @@ const CreateServiceModal = () => {
 								);
 							}}
 						/>
+
 						<FormField
 							control={form.control}
 							name="cost"
@@ -176,63 +203,6 @@ const CreateServiceModal = () => {
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="status"
-							render={({ field }) => (
-								<FormItem className="w-full">
-									<FormLabel>Status</FormLabel>
-									<Select onValueChange={field.onChange} value={field.value}>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Selecione um status" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											<SelectItem value="PENDING">Pendente</SelectItem>
-											<SelectItem value="COMPLETED">Concluído</SelectItem>
-											<SelectItem value="CANCELED">Cancelado</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="serviceLocationId"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Local do serviço</FormLabel>
-									<Select onValueChange={field.onChange} value={field.value} >
-										<FormControl className="w-full">
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="Selecione o local do serviço" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{serviceLocations.map(serviceLocation => (
-												<SelectItem key={serviceLocation.id} value={serviceLocation.id}>
-													{serviceLocation.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="description"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Descrição</FormLabel>
-									<FormControl><Textarea {...field} rows={3} /></FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
 
 						<FormField
 							control={form.control}
@@ -242,14 +212,26 @@ const CreateServiceModal = () => {
 									<FormLabel>Boleto (opcional)</FormLabel>
 									<Select onValueChange={field.onChange} value={field.value}>
 										<FormControl>
-											<SelectTrigger>
+											<SelectTrigger className="w-full">
 												<SelectValue placeholder="Selecione o boleto ou deixe em branco" />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
 											{invoices.map((invoice) => (
 												<SelectItem key={invoice.id} value={invoice.id}>
-													{invoice.title}
+													<span className="flex gap-2 items-center justify-between">
+														<span>
+
+															{invoice.title}{" | "} {invoice.status === "PENDING" ?
+																<span className="font-light text-muted-foreground p-1 rounded-full ml-auto">
+																	Pendente
+																</span> : (
+																	<span>
+																		{invoice.status === "CANCELED" ? "Cancelado" : ""}
+																	</span>
+																)}
+														</span>
+													</span>
 												</SelectItem>
 											))}
 										</SelectContent>
@@ -259,7 +241,6 @@ const CreateServiceModal = () => {
 							)}
 						/>
 
-						{/* Upload opcional */}
 						<FormField
 							control={form.control}
 							name="attachmentUrl"
@@ -273,6 +254,42 @@ const CreateServiceModal = () => {
 								</FormItem>
 							)}
 						/>
+
+						<FormField
+							control={form.control}
+							name="status"
+							render={({ field }) => (
+								<FormItem className="w-full">
+									<FormLabel>Status</FormLabel>
+									<Select onValueChange={field.onChange} value={field.value} >
+										<FormControl>
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Selecione um status" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value="PENDING">Pendente</SelectItem>
+											<SelectItem value="COMPLETED">Concluído</SelectItem>
+											<SelectItem value="CANCELED">Cancelado</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Descrição</FormLabel>
+									<FormControl><Textarea {...field} rows={3} /></FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>					
+
 						<DialogFooter className="flex items-center justify-end gap-2">
 							<DialogClose>
 								<Button variant="ghost" className="cursor-pointer">

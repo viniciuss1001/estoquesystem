@@ -63,7 +63,7 @@ const CreateSupplierModal = () => {
 			router.refresh()
 			form.reset()
 			setOpen(false)
-			queryClient.invalidateQueries({ queryKey: ['suppliers'] }) 
+			queryClient.invalidateQueries({ queryKey: ['suppliers'] })
 		},
 		onError: () => {
 			toast.error('Erro ao criar fornecedor.')
@@ -154,7 +154,7 @@ const CreateSupplierModal = () => {
 									<FormLabel>Descrição</FormLabel>
 									<FormControl>
 										<Textarea {...field} />
-										</FormControl>
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

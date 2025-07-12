@@ -12,14 +12,20 @@ export async function POST(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
-		const formData = await req.formData()
+		const body = await req.formData()
+		console.log("dados recebidos", body)
 
-		const title = formData.get("title") as string
-		const description = formData.get("description") as string
-		const amount = parseFloat(formData.get("amount") as string)
-		const dueDate = new Date(formData.get("dueDate") as string)
-		const supplierId = formData.get("supplierId") as string
-		const file = formData.get("file") as File | null
+		const title = body.get("title") as string
+		const description = body.get("description") as string
+		const amount = parseFloat(body.get("amount") as string)
+		const dueDate = new Date(body.get("dueDate") as string)
+		const providerId = body.get("providerId") as string
+		const providerType = body.get("providerType") as "SUPPLIER" | "SERVICE_PROVIDER"
+		const file = body.get("file") as File | null
+
+		if (!providerId || !providerType) {
+			return NextResponse.json({ error: "Dados do fornecedor inválidos" }, { status: 400 })
+		}
 
 		let fileUrl: string | null = null
 
@@ -34,26 +40,33 @@ export async function POST(req: NextRequest) {
 			fileUrl = `/uploads/${fileName}`
 		}
 
-		const invoice = await prisma.supplierInvoice.create({
-			data: {
-				title,
-				description,
-				amount,
-				dueDate,
-				supplierId,
-				fileUrl: fileUrl ?? undefined,
-				status: "PENDING"
-			},
-		})
+		const data: any = {
+			title,
+			description,
+			amount,
+			dueDate,
+			fileUrl: fileUrl ?? undefined,
+			status: "PENDING"
+		}
+
+		if (providerType === "SUPPLIER") {
+			data.supplierId = providerId
+		} else if (providerType === "SERVICE_PROVIDER") {
+			data.serviceProviderId = providerId
+		} else {
+			return NextResponse.json({ error: "Tipo de fornecedor inválido" }, { status: 400 })
+		}
+
+		const invoice = await prisma.supplierInvoice.create({ data })
 
 		await notifyByUserRole({
-			title: "Novo boleto adicionado", 
-			message: `Novo boleto adicionado: ${invoice.title} com vencimento para: ${invoice.dueDate}`,
+			title: "Novo boleto adicionado",
+			message: `Novo boleto: ${invoice.title} com vencimento para ${invoice.dueDate.toLocaleDateString()}`,
 			roles: ["GESTOR"]
 		})
 
 		await notifyByUserRole({
-			title: "Novo boleto criado por gestor.",
+			title: "Novo boleto criado por gestor",
 			message: `${session.user.name} criou o boleto ${invoice.title}`,
 			roles: ["ADMIN"]
 		})
@@ -68,16 +81,14 @@ export async function POST(req: NextRequest) {
 
 		return NextResponse.json(invoice)
 
-
 	} catch (error) {
-		console.error("Erro ao buscar boletos:", error)
-		return NextResponse.json({ error: "Erro ao buscar boletos" }, { status: 500 })
+		console.error("Erro ao criar boleto:", error)
+		return NextResponse.json({ error: "Erro ao criar boleto" }, { status: 500 })
 	}
 }
 
 export async function GET(req: NextRequest) {
 	try {
-
 		const { error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
@@ -90,15 +101,20 @@ export async function GET(req: NextRequest) {
 
 		const invoices = await prisma.supplierInvoice.findMany({
 			where: {
-				...(supplierId && { supplierId }),
+				...(supplierId && {
+					OR: [
+						{ supplierId: supplierId },
+						{ serviceProviderId: supplierId }
+					]
+				}),
 				...(status && { status }),
 				...(dueDateFrom || dueDateTo
 					? {
-						dueDate: {
-							...(dueDateFrom && { gte: new Date(dueDateFrom) }),
-							...(dueDateTo && { lte: new Date(dueDateTo) }),
-						},
-					}
+							dueDate: {
+								...(dueDateFrom && { gte: new Date(dueDateFrom) }),
+								...(dueDateTo && { lte: new Date(dueDateTo) }),
+							},
+					  }
 					: {}),
 			},
 			orderBy: { dueDate: "asc" },
@@ -110,12 +126,16 @@ export async function GET(req: NextRequest) {
 				dueDate: true,
 				status: true,
 				createdAt: true,
-				supplier: { select: { name: true } }
-			}
+				supplier: {
+					select: { id: true, name: true }
+				},
+				serviceProvider: {
+					select: { id: true, name: true }
+				},
+			},
 		})
 
 		return NextResponse.json(invoices)
-
 	} catch (error) {
 		console.error("Erro ao buscar boletos:", error)
 		return NextResponse.json({ error: "Erro ao buscar boletos" }, { status: 500 })

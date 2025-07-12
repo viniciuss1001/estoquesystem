@@ -135,20 +135,24 @@ model Supplier {
 }
 
 model SupplierInvoice {
-  id         String   @id @default(uuid())
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
-  supplierId String
-
+  id          String        @id @default(uuid())
   title       String
   description String
   amount      Decimal
   dueDate     DateTime
-  status      InvoiceStatus @default(PENDING)
   fileUrl     String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  Delivery    Delivery[]
-  Service     Service[]
+  status      InvoiceStatus @default(PENDING)
+
+  supplierId        String?
+  supplier          Supplier?        @relation(fields: [supplierId], references: [id])
+  serviceProviderId String?
+  serviceProvider   ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Delivery Delivery[]
+  Service  Service[]
 }
 
 model AuditLog {
@@ -233,15 +237,16 @@ model Service {
 }
 
 model ServiceProvider {
-  id          String    @id @default(uuid())
-  name        String
-  email       String?
-  phone       String?
-  cnpj        String?
-  description String?
-  services    Service[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id              String            @id @default(uuid())
+  name            String
+  email           String?
+  phone           String?
+  cnpj            String?
+  description     String?
+  services        Service[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  SupplierInvoice SupplierInvoice[]
 }
 
 model ServiceType {

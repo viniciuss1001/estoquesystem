@@ -105,10 +105,16 @@ export interface SupplierInvoice {
   createdAt: string
   updatedAt?: string
   fileUrl?: string | null
-  supplier: {
+
+  supplier?: {
     id: string
     name: string
-  }
+  } | null
+
+  serviceProvider?: {
+    id: string
+    name: string
+  } | null
 }
 
 

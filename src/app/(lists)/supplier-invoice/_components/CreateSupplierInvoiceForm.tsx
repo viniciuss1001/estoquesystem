@@ -1,21 +1,20 @@
 "use client"
 
-import { useForm } from "react-hook-form"
-import { SupplierInvoiceFormValues, supplierInvoiceSchema } from "./formSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
-import { toast } from "sonner"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Supplier } from "@/types/types"
-import { useSuppliers } from "@/lib/queries"
+import api from "@/lib/axios"
+import { useServiceProviders, useSuppliers } from "@/lib/queries"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { Plus } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { SupplierInvoiceFormValues, supplierInvoiceSchema } from "../_schema/formSchema"
 
 const CreateSupplierInvoiceForm = () => {
 
@@ -31,17 +30,24 @@ const CreateSupplierInvoiceForm = () => {
 			amount: 0,
 			dueDate: "",
 			supplierId: "",
+			providerType: "SUPPLIER",
 			file: undefined
 		}
 	})
 
 
 	const { data: suppliers = [] } = useSuppliers()
+	const { data: serviceProviders = [] } = useServiceProviders()
+
+	const allProviders = [
+		...suppliers.map(s => ({ ...s, type: "SUPPLIER" as const })),
+		...serviceProviders.map(sp => ({ ...sp, type: "SERVICE_PROVIDER" as const }))
+	]
 
 	const { mutate: createInvoice, isPending } = useMutation({
 		mutationFn: async (data: FormData) => {
 			const response = await api.post('/supplier-invoice', data)
-			
+
 		},
 		onSuccess: () => {
 			toast.success("Boleto criado com sucesso!")
@@ -54,19 +60,18 @@ const CreateSupplierInvoiceForm = () => {
 			toast.error("Erro ao criar boleto.")
 		}
 	})
-
 	function onSubmit(data: SupplierInvoiceFormValues) {
 		const formData = new FormData()
 		formData.append("title", data.title)
 		formData.append("description", data.description || "")
 		formData.append("amount", data.amount.toString())
 		formData.append("dueDate", data.dueDate)
-		formData.append("supplierId", data.supplierId)
+		formData.append("providerId", data.supplierId)          
+		formData.append("providerType", data.providerType)      
 		if (file) formData.append("file", file)
 
 		createInvoice(formData)
 	}
-
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger>
@@ -91,16 +96,28 @@ const CreateSupplierInvoiceForm = () => {
 							name="supplierId"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Fornecedor</FormLabel>
-									<Select onValueChange={field.onChange} value={field.value}>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Selecione o fornecedor" />
-											</SelectTrigger>
-										</FormControl>
+									<FormLabel>Fornecedor/Prestador de Serviço</FormLabel>
+									<Select onValueChange={(value) => {
+										const selected = allProviders.find(p => p.id === value)
+										if (selected) {
+											form.setValue("supplierId", selected.id)
+											form.setValue("providerType", selected.type)
+										}
+									}}
+										value={form.watch("supplierId")}
+									>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecione um fornecedor ou prestador" />
+										</SelectTrigger>
 										<SelectContent>
-											{suppliers?.map((supplier: any) => (
-												<SelectItem key={supplier.id} value={supplier.id}>{supplier.name}</SelectItem>
+											{allProviders.map((provider) => (
+												<SelectItem
+													key={provider.id}
+													value={provider.id}
+													data-type={provider.type}
+												>
+													{provider.name} ({provider.type === "SUPPLIER" ? "Fornecedor" : "Prestador"})
+												</SelectItem>
 											))}
 										</SelectContent>
 									</Select>
@@ -117,20 +134,6 @@ const CreateSupplierInvoiceForm = () => {
 									<FormLabel>Título</FormLabel>
 									<FormControl>
 										<Input {...field} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="description"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Descrição</FormLabel>
-									<FormControl>
-										<Textarea {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -180,11 +183,25 @@ const CreateSupplierInvoiceForm = () => {
 							{file && <p className="text-sm text-muted-foreground">Arquivo selecionado: {file.name}</p>}
 						</div>
 
+						<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Descrição</FormLabel>
+									<FormControl>
+										<Textarea {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<DialogFooter className="flex gap-4 items-center justify-end mt-4 p-2">
 							<DialogClose className="cursor-pointer p-2 hover:bg-card transition rounded-sm w-1/4">
 								Cancelar
 							</DialogClose>
-							
+
 							<Button type="submit" disabled={isPending} className="cursor-pointer">
 								{isPending ? "Salvando..." : "Criar Boleto"}
 							</Button>

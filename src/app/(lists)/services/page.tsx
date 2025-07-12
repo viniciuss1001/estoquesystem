@@ -8,6 +8,8 @@ import { parse } from "date-fns"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
+import { EditServiceModal } from "./_components/EditServiceModal"
+import { Service } from "@/types/types"
 
 
 const ServicesPage = () => {
@@ -135,7 +137,7 @@ const ServicesPage = () => {
 										)}
 									</TableCell>
 									<TableCell>
-										{/* <EditServiceModal serviceId={service.id} /> */}
+										 <EditServiceModal serviceId={service.id} /> 
 									</TableCell>
 									<TableCell>
 										<Link href={`/services/${service.id}`} className="text-blue-500 underline">
