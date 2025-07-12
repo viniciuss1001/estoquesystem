@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -31,6 +32,7 @@ type FormData = z.infer<typeof schema>
 
 export default function CreateWarehouseModal() {
 	const [open, setOpen] = useState(false)
+	const queryClient = useQueryClient()
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(schema),
@@ -42,6 +44,7 @@ export default function CreateWarehouseModal() {
 		onSuccess: () => {
 			toast.success('Armazém criado com sucesso!')
 			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ["warehouses"] })
 		},
 		onError: () => {
 			toast.error('Erro ao criar armazém.')
@@ -97,7 +100,7 @@ export default function CreateWarehouseModal() {
 								<FormItem>
 									<FormLabel>Descrição</FormLabel>
 									<FormControl>
-										<Input placeholder="Localização (opcional)" {...field} />
+										<Textarea placeholder="Descrição" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

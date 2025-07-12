@@ -19,6 +19,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -64,6 +65,7 @@ export default function EditWarehouseModal({ warehouse, }: EditWarehouseModalPro
 		mutationFn: (data: FormData) => api.patch(`/warehouse/${warehouse.id}`, data),
 		onSuccess: () => {
 			toast.success("Armazém atualizado com sucesso!")
+			setOpen(false)
 			queryClient.invalidateQueries({ queryKey: ["warehouse"] })
 		},
 		onError: () => {
@@ -75,7 +77,7 @@ export default function EditWarehouseModal({ warehouse, }: EditWarehouseModalPro
 		mutationFn: () => api.delete(`/warehouse/${warehouse.id}`),
 		onSuccess: () => {
 			toast.success("Armazém excluído com sucesso!")
-			queryClient.invalidateQueries({ queryKey: ["warehouse"] })
+			queryClient.invalidateQueries({ queryKey: ["warehouses"] })
 		},
 		onError: () => {
 			toast.error("Erro ao excluir armazém.")
@@ -93,7 +95,7 @@ export default function EditWarehouseModal({ warehouse, }: EditWarehouseModalPro
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline" size="icon" className="cursor-pointer">
+				<Button variant="ghost" size="icon" className="cursor-pointer">
 					<Pencil className="w-4 h-4" />
 				</Button>
 			</DialogTrigger>
@@ -136,7 +138,7 @@ export default function EditWarehouseModal({ warehouse, }: EditWarehouseModalPro
 								<FormItem>
 									<FormLabel>Descrição</FormLabel>
 									<FormControl>
-										<Input placeholder="Descrição (opcional)" {...field} />
+										<Textarea placeholder="Descrição (opcional)" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
