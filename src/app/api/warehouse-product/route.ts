@@ -1,54 +1,34 @@
-import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
-import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma"
+import { NextResponse } from "next/server"
 
-export async function POST(req: NextRequest) {
-	try {
-		const { session, error: sessionError } = await requireSession()
-		if (sessionError) return sessionError
-
-		const body = await req.json()
-
-		const { warehouseId, productId, quantity, } = body
-
-		if (!warehouseId || !productId) {
-			return new NextResponse("warehouseId e productId são obrigatórios", { status: 400 })
-		}
-
-		const warehouseProduct = await prisma.warehouseProduct.create({
-			data: {
-				warehouseId,
-				productId,
-				quantity: quantity ?? 0,
-
-			}
-		})
-
-		return NextResponse.json(warehouseProduct)
-
-	} catch (error) {
-		console.error(error)
-		return new NextResponse("Erro ao criar relação armazém-produto", { status: 500 })
-	}
-}
 
 export async function GET() {
 	try {
-		const { session, error: sessionError } = await requireSession()
-		if (sessionError) return sessionError
-
-		const warehouseProducts = await prisma.warehouseProduct.findMany({
+		const warehouses = await prisma.wareHouse.findMany({
 			include: {
-				warehouse: true,
-				product: true
+				warehouseProduct: {
+					include: {
+						product: true
+					}
+				}
 			}
 		})
 
-		return NextResponse.json(warehouseProducts)
+		const result = warehouses.map(warehouse => ({
+			warehouseId: warehouse.id,
+			warehouseName: warehouse.name,
+			location: warehouse.location,
+			products: warehouse.warehouseProduct.map(wp => ({
+				productId: wp.product.id,
+				name: wp.product.name,
+				sku: wp.product.sku,
+				quantity: wp.quantity
+			}))
+		}))
 
+		return NextResponse.json(result)
 	} catch (error) {
-
+		console.error("Erro ao listar produtos por armazém:", error)
+		return NextResponse.json({ error: "Erro ao buscar dados" }, { status: 500 })
 	}
 }

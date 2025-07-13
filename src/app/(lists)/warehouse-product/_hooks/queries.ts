@@ -1,5 +1,5 @@
 import api from "@/lib/axios"
-import { WarehouseProduct } from "@/types/types"
+import { WarehouseWithProducts } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
 
 export function useWarehouseProduct() {
@@ -7,7 +7,7 @@ export function useWarehouseProduct() {
         queryKey: ['warehouseProducts'],
         queryFn: async () => {
             const response = await api.get('/warehouse-product')
-            return response.data as WarehouseProduct[]
+            return response.data as WarehouseWithProducts[]
         }
     })
 }

@@ -14,8 +14,8 @@ const WarehouseProductsPage = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: warehouseProducts = [], isLoading } =  useWarehouseProduct()
-	
+	const { data: warehouseProducts = [], isLoading } = useWarehouseProduct()
+
 	const deleteMutation = useMutation({
 		mutationFn: async ({ warehouseId, productId }: { warehouseId: string, productId: string }) => {
 			api.delete(`/warehouse-product/${warehouseId}/${productId}`)
@@ -45,7 +45,7 @@ const WarehouseProductsPage = () => {
 		<div className="p-6">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-2xl font-bold">Produtos por Armazém</h2>
-				<CreateWarehouseProductModal />
+				
 			</div>
 
 			{warehouseProducts.length === 0 ? (
@@ -61,31 +61,22 @@ const WarehouseProductsPage = () => {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{warehouseProducts.map((wp) => (
-							<TableRow key={`${wp.warehouseId}-${wp.productId}`}>
-								<TableCell>{wp.product.name}</TableCell>
-								<TableCell>{wp.warehouse.name}</TableCell>
-								<TableCell>{wp.quantity}</TableCell>
-								<TableCell className="flex items-center justify-end gap-2">
-									<div className="cursor-no-drop blur">
-										{/* <EditWarehouseProductModal
-											productId={wp.productId}
-											currentQuantity={wp.quantity}
-											warehouseId={wp.warehouseId}
-											onUpdated={fetchWarehouseProducts}
-										/> */}
-									</div>
-									<Button
-										variant="destructive"
-										onClick={() => handleDelete(wp.warehouseId, wp.productId)}
-										className="flex gap-2"
-									>
-										<Trash className="w-4 h-4" />
-										Deletar
-									</Button>
-								</TableCell>
-							</TableRow>
-						))}
+
+						{warehouseProducts.map((warehouse) =>
+							warehouse.products.map((product) => (
+								<TableRow key={`${warehouse.warehouseId}-${product.productId}`}>
+									<TableCell>{product.name}</TableCell>
+									<TableCell>{warehouse.warehouseName}</TableCell>
+									<TableCell>{product.quantity}</TableCell>
+									<TableCell className="flex items-center justify-end gap-2">
+										-
+									</TableCell>
+								</TableRow>
+							))
+						)}
+
+
+
 					</TableBody>
 				</Table>
 			)}

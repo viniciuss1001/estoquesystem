@@ -110,7 +110,7 @@ const CreateSupplierInvoiceForm = () => {
 									}}
 										value={form.watch("supplierId")}
 									>
-										<SelectTrigger>
+										<SelectTrigger className="w-full">
 											<SelectValue placeholder="Selecione um fornecedor ou prestador" />
 										</SelectTrigger>
 										<SelectContent>

@@ -125,18 +125,16 @@ export interface Warehouse {
   description: string
 }
 
-export interface WarehouseProduct {
+export type WarehouseWithProducts = {
   warehouseId: string
-  productId: string
-  quantity: number
-  warehouse: {
-    id: string
+  warehouseName: string
+  location: string | null
+  products: {
+    productId: string
     name: string
-  }
-  product: {
-    id: string
-    name: string
-  }
+    sku: string
+    quantity: number
+  }[]
 }
 
 export interface WarehouseStock {
