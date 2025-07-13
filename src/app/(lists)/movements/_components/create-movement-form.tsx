@@ -333,7 +333,7 @@ const CreateMovementForm = () => {
 									<FormLabel>Status</FormLabel>
 									<Select onValueChange={field.onChange} value={field.value}>
 										<FormControl>
-											<SelectTrigger>
+											<SelectTrigger className="w-full">
 												<SelectValue placeholder="Selecione o status" />
 											</SelectTrigger>
 										</FormControl>

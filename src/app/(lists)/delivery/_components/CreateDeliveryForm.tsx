@@ -110,7 +110,7 @@ const CreateDeliveryForm = () => {
 										<FormLabel>Produto</FormLabel>
 										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
-												<SelectTrigger>
+												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Selecione o Produto" />
 												</SelectTrigger>
 											</FormControl>
@@ -140,7 +140,7 @@ const CreateDeliveryForm = () => {
 											disabled={true}
 										>
 											<FormControl>
-												<SelectTrigger>
+												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Fornecedor" />
 												</SelectTrigger>
 											</FormControl>
@@ -167,7 +167,7 @@ const CreateDeliveryForm = () => {
 										<FormLabel>Armazém de destino</FormLabel>
 										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
-												<SelectTrigger>
+												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Selecione o armazém" />
 												</SelectTrigger>
 											</FormControl>
@@ -193,7 +193,7 @@ const CreateDeliveryForm = () => {
 										<FormLabel>Boleto (opcional)</FormLabel>
 										<Select onValueChange={field.onChange} value={field.value}>
 											<FormControl>
-												<SelectTrigger>
+												<SelectTrigger className="w-full">
 													<SelectValue placeholder="Selecione o boleto ou deixe em branco" />
 												</SelectTrigger>
 											</FormControl>

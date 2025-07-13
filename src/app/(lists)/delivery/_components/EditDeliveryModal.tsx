@@ -75,7 +75,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
 
   const { data: products = [] } = useProducts()
 
-  const { data: warehouses = [] } =useWarehouses()
+  const { data: warehouses = [] } = useWarehouses()
 
   const { data: supplierInvoices = [] } = useSupplierInvoices()
 
@@ -133,7 +133,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon"
+        <Button variant="ghost" size="icon"
           className="cursor-pointer"
         >
           <Pencil className="w-4 h-4" />
@@ -157,7 +157,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                     <FormLabel>Produto</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecione o Produto" />
                         </SelectTrigger>
                       </FormControl>
@@ -216,7 +216,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                   <FormLabel>Armazém</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione o armazém" />
                       </SelectTrigger>
                     </FormControl>
@@ -242,7 +242,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
                   <FormLabel>Boleto (opcional)</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione um boleto" />
                       </SelectTrigger>
                     </FormControl>

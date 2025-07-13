@@ -1,29 +1,28 @@
 "use client"
 
+import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter
+  DialogTrigger
 } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Pencil, Loader2, ApertureIcon } from "lucide-react"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
-import api from "@/lib/axios"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { useRouter } from "next/navigation"
-import AlertDialogDelete from "@/components/shared/alert-dialog-delete-product"
+import api from "@/lib/axios"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { Loader2, Pencil } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 const formSchema = z.object({
   productId: z.string().min(1),
@@ -176,7 +175,7 @@ const EditTransferModal = ({ movementId }: Props) => {
                     <FormLabel>Produto</FormLabel>
                     <FormControl>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecione um produto" />
                         </SelectTrigger>
                         <SelectContent>
@@ -200,7 +199,7 @@ const EditTransferModal = ({ movementId }: Props) => {
                     <FormLabel>Armazém de origem</FormLabel>
                     <FormControl>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecione o armazém de origem" />
                         </SelectTrigger>
                         <SelectContent>
@@ -224,7 +223,7 @@ const EditTransferModal = ({ movementId }: Props) => {
                     <FormLabel>Armazém de destino</FormLabel>
                     <FormControl>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecione o armazém de destino" />
                         </SelectTrigger>
                         <SelectContent>
@@ -248,7 +247,7 @@ const EditTransferModal = ({ movementId }: Props) => {
                     <FormLabel>Status</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecione o status" />
                         </SelectTrigger>
                         <SelectContent>
