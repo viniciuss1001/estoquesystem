@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 		const data = await req.json()
 
-		const { name, email, contactPhone, deliveryTime, description } = data
+		const { name, email, contactPhone, deliveryTime, description, cnpj } = data
 
 
 		const { id } = await params
@@ -49,7 +49,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const updatedSupplier = await prisma.supplier.update({
 			where: { id: id },
 			data: {
-				name, email, contactPhone, deliveryTime, description
+				name, email, contactPhone, cnpj, deliveryTime, description
 			}
 		})
 

@@ -35,6 +35,7 @@ const SupplierPage = () => {
 					<TableRow>
 						<TableHead>Nome</TableHead>
 						<TableHead>Email</TableHead>
+						<TableHead>CNPJ</TableHead>
 						<TableHead>Telefone</TableHead>
 						<TableHead>Descrição</TableHead>
 						<TableHead>Criado em</TableHead>
@@ -56,6 +57,7 @@ const SupplierPage = () => {
 						<TableRow key={supplier.id}>
 							<TableCell>{supplier.name}</TableCell>
 							<TableCell>{supplier.email}</TableCell>
+							<TableCell>{supplier.cnpj}</TableCell>
 							<TableCell>{supplier.contactPhone}</TableCell>
 							<TableCell>{supplier.description || "-"}</TableCell>
 							<TableCell>

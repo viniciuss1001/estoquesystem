@@ -19,6 +19,7 @@ import { z } from "zod"
 const formSchema = z.object({
 	name: z.string().min(1, "Nome do fornecedor é obrigatório."),
 	email: z.string().email().min(1, "Email é obrigatório."),
+	cnpj: z.string().optional(),
 	contactPhone: z.string().min(8, "O telefone é obrigatório."),
 	description: z.string().optional()
 })
@@ -40,7 +41,8 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 			name: "",
 			email: "",
 			contactPhone: "",
-			description: ""
+			description: "",
+			cnpj: ""
 		}
 	})
 
@@ -53,6 +55,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 				email: supplier.email,
 				contactPhone: supplier.contactPhone,
 				description: supplier.description,
+				cnpj: supplier.cnpj
 			})
 		}
 	}, [supplier, form])
@@ -121,7 +124,7 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 								)}
 							/>
 
-							<div className="grid grid-cols-2 gap-4 mt-4">
+							<div className="grid grid-cols-2 gap-4 mt-4 mb-4">
 								<FormField
 									control={form.control}
 									name="email"
@@ -150,6 +153,21 @@ const EditSupplierModal = ({ supplierId }: EditSupplierModalProps) => {
 									)}
 								/>
 							</div>
+
+							<FormField
+								control={form.control}
+								name="cnpj"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>CNPJ</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
 							<FormField
 
 								control={form.control}

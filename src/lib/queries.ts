@@ -1,7 +1,7 @@
-import { Category, Delivery, Movement, Notification, Product, Service, ServiceLocation, ServiceProvider, ServiceType, Supplier, SupplierInvoice, ThisUser, Warehouse, WarehouseProduct } from "@/types/types"
+import { Category, Delivery, Movement, Notification, Product, Service, ServiceLocation, ServiceProvider, ServiceType, Supplier, SupplierInvoice, ThisUser, Warehouse } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
-import api from "./axios"
 import { format } from "date-fns"
+import api from "./axios"
 
 type ProductFilters = {
     categoryId?: string

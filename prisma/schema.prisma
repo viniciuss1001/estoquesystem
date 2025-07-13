@@ -125,7 +125,8 @@ model Supplier {
   name            String
   email           String
   contactPhone    String
-  description     String
+  description     String?
+  cnpj            String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deliveryTime    DateTime?

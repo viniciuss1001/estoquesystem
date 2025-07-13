@@ -83,6 +83,7 @@ export interface Supplier {
   name: string
   email: string
   contactPhone: string
+  cnpj: string
   deliveryTime: string
   description?: string
   products: {

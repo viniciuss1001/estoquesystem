@@ -27,6 +27,7 @@ const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
 	email: z.string().email().min(1, "Email é obrigatório."),
 	contactPhone: z.string().min(8, "O telefone é obrigatório."),
+	cnpj: z.string().optional(),
 	deliveryTime: z.coerce.date().optional(),
 	description: z.string().optional(),
 	products: z.array(z.string()).min(1, "Selecione pelo menos um produto"),
@@ -45,6 +46,7 @@ const CreateSupplierModal = () => {
 			name: '',
 			email: '',
 			contactPhone: '',
+			cnpj: "",
 			deliveryTime: new Date(),
 			description: '',
 			products: [],
@@ -117,6 +119,19 @@ const CreateSupplierModal = () => {
 								<FormItem>
 									<FormLabel>Telefone</FormLabel>
 									<FormControl><Input {...field} /></FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="cnpj"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>CNPJ</FormLabel>
+									<FormControl>
+										<Input {...field} />
+										</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

@@ -36,8 +36,8 @@ const ServiceProvidersPage = () => {
 					<TableRow>
 						<TableHead>Nome</TableHead>
 						<TableHead>Email</TableHead>
-						<TableHead>Telefone</TableHead>
 						<TableHead>CNPJ</TableHead>
+						<TableHead>Telefone</TableHead>
 						<TableHead>Descrição</TableHead>
 						<TableHead>Criado em</TableHead>
 						<TableHead>Ações</TableHead>
@@ -58,8 +58,8 @@ const ServiceProvidersPage = () => {
 						<TableRow key={serviceProvider.id}>
 							<TableCell>{serviceProvider.name}</TableCell>
 							<TableCell>{serviceProvider.email}</TableCell>
-							<TableCell>{serviceProvider.phone}</TableCell>
 							<TableCell>{serviceProvider.cnpj}</TableCell>
+							<TableCell>{serviceProvider.phone}</TableCell>
 							<TableCell>{serviceProvider.description || "-"}</TableCell>
 							<TableCell>
 								{new Date(serviceProvider.createdAt).toLocaleDateString()  ?? "-"}

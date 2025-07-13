@@ -9,6 +9,7 @@ const supplierSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   contactPhone: z.string().min(1),
+  cnpj: z.string().optional(),
   deliveryTime: z.coerce.date(),
   description: z.string().optional(),
   products: z.array(z.string()).optional().default([]),
@@ -22,13 +23,14 @@ export async function POST(req: Request) {
     const json = await req.json()
     const parsed = supplierSchema.parse(json)
 
-    const { name, email, contactPhone, deliveryTime, description, products } = parsed
+    const { name, email, contactPhone, deliveryTime, description, products, cnpj } = parsed
 
     const supplier = await prisma.supplier.create({
       data: {
         name,
         email,
         contactPhone,
+        cnpj,
         deliveryTime,
         description: description || "",
       },
@@ -87,8 +89,9 @@ export async function GET() {
         name: true,
         email: true,
         contactPhone: true,
+        cnpj: true,
         description: true,
-        deliveryTime: true, 
+        deliveryTime: true,
         createdAt: true
       }
     })
