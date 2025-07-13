@@ -55,6 +55,7 @@ const WarehouseProductsPage = () => {
 					<TableHeader>
 						<TableRow>
 							<TableHead>Produto</TableHead>
+							<TableHead>SKU</TableHead>
 							<TableHead>Armazém</TableHead>
 							<TableHead>Quantidade</TableHead>
 							<TableHead className="text-right">Ações</TableHead>
@@ -66,6 +67,7 @@ const WarehouseProductsPage = () => {
 							warehouse.products.map((product) => (
 								<TableRow key={`${warehouse.warehouseId}-${product.productId}`}>
 									<TableCell>{product.name}</TableCell>
+									<TableCell>{product.sku}</TableCell>
 									<TableCell>{warehouse.warehouseName}</TableCell>
 									<TableCell>{product.quantity}</TableCell>
 									<TableCell className="flex items-center justify-end gap-2">

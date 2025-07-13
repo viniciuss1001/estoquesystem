@@ -120,22 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.ProductScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  sku: 'sku',
-  quantity: 'quantity',
-  price: 'price',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  supplierId: 'supplierId',
-  categoryId: 'categoryId',
-  minimumStock: 'minimumStock',
-  unit: 'unit',
-  expirationDate: 'expirationDate',
-  usageStatus: 'usageStatus'
-};
-
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -159,6 +143,14 @@ exports.Prisma.SessionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CompanyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  cnpj: 'cnpj',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -172,7 +164,25 @@ exports.Prisma.UserScalarFieldEnum = {
   department: 'department',
   description: 'description',
   phone: 'phone',
-  lastLogin: 'lastLogin'
+  lastLogin: 'lastLogin',
+  companyId: 'companyId'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sku: 'sku',
+  quantity: 'quantity',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  supplierId: 'supplierId',
+  categoryId: 'categoryId',
+  minimumStock: 'minimumStock',
+  unit: 'unit',
+  expirationDate: 'expirationDate',
+  usageStatus: 'usageStatus',
+  companyId: 'companyId'
 };
 
 exports.Prisma.WareHouseScalarFieldEnum = {
@@ -181,7 +191,8 @@ exports.Prisma.WareHouseScalarFieldEnum = {
   location: 'location',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  description: 'description'
+  description: 'description',
+  companyId: 'companyId'
 };
 
 exports.Prisma.WarehouseProductScalarFieldEnum = {
@@ -201,7 +212,8 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   originWarehouseId: 'originWarehouseId',
   status: 'status',
   quantityAfter: 'quantityAfter',
-  quantityBefore: 'quantityBefore'
+  quantityBefore: 'quantityBefore',
+  companyId: 'companyId'
 };
 
 exports.Prisma.SupplierScalarFieldEnum = {
@@ -213,7 +225,8 @@ exports.Prisma.SupplierScalarFieldEnum = {
   cnpj: 'cnpj',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deliveryTime: 'deliveryTime'
+  deliveryTime: 'deliveryTime',
+  companyId: 'companyId'
 };
 
 exports.Prisma.SupplierInvoiceScalarFieldEnum = {
@@ -227,7 +240,8 @@ exports.Prisma.SupplierInvoiceScalarFieldEnum = {
   supplierId: 'supplierId',
   serviceProviderId: 'serviceProviderId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.AuditLogScalarFieldEnum = {
@@ -244,7 +258,8 @@ exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   createAt: 'createAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.DeliveryScalarFieldEnum = {
@@ -257,7 +272,8 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   warehouseId: 'warehouseId',
-  supplierInvoiceId: 'supplierInvoiceId'
+  supplierInvoiceId: 'supplierInvoiceId',
+  companyId: 'companyId'
 };
 
 exports.Prisma.PasswordResetTokenScalarFieldEnum = {
@@ -289,7 +305,8 @@ exports.Prisma.ServiceScalarFieldEnum = {
   invoiceId: 'invoiceId',
   createdByUserId: 'createdByUserId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.ServiceProviderScalarFieldEnum = {
@@ -300,14 +317,16 @@ exports.Prisma.ServiceProviderScalarFieldEnum = {
   cnpj: 'cnpj',
   description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.ServiceTypeScalarFieldEnum = {
   id: 'id',
   name: 'name',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.ServiceLocationScalarFieldEnum = {
@@ -315,7 +334,8 @@ exports.Prisma.ServiceLocationScalarFieldEnum = {
   name: 'name',
   address: 'address',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.SortOrder = {
@@ -332,6 +352,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Office = exports.$Enums.Office = {
+  ADMIN: 'ADMIN',
+  GESTOR: 'GESTOR'
+};
+
 exports.UnitType = exports.$Enums.UnitType = {
   UNIT: 'UNIT',
   KILOGRAM: 'KILOGRAM',
@@ -343,11 +368,6 @@ exports.UsageStatus = exports.$Enums.UsageStatus = {
   IN_STOCK: 'IN_STOCK',
   IN_USE: 'IN_USE',
   CONSUMED: 'CONSUMED'
-};
-
-exports.Office = exports.$Enums.Office = {
-  ADMIN: 'ADMIN',
-  GESTOR: 'GESTOR'
 };
 
 exports.MovementType = exports.$Enums.MovementType = {
@@ -390,10 +410,11 @@ exports.ServiceStatus = exports.$Enums.ServiceStatus = {
 };
 
 exports.Prisma.ModelName = {
-  Product: 'Product',
   Account: 'Account',
   Session: 'Session',
+  Company: 'Company',
   User: 'User',
+  Product: 'Product',
   WareHouse: 'WareHouse',
   WarehouseProduct: 'WarehouseProduct',
   StockMovement: 'StockMovement',
