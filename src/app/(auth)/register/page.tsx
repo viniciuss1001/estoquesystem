@@ -1,180 +1,110 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Loader } from "lucide-react"
+import api from "@/lib/axios"
+import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import RegisterUserDialog from "./_components/RegisterUserDialog"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
+interface Company {
+	id: string
+	name: string
+	cnpj: string
+}
 
-const formSchema = z.object({
-	name: z.string().min(2, "Nome Obrigatório."),
-	email: z.string().email("Email inválido."),
-	password: z.string().min(6, "Mínino de 6 caracteres."),
-	office: z.enum(["ADMIN", "Gestor"], {
-		required_error: "Selecione o cargo."
-	}).optional(),
-	phone: z.string().min(8, "Telegone é obigatório"),
-	department: z.string().min(1, "Departamento é obrigatório."),
-	description: z.string().optional()
+const cnpjScjema = z.object({
+	cnpj: z.string().min(14, "CNPJ Inválido").max(18)
 })
 
-type RegisterFormValues = z.infer<typeof formSchema>
+type CnpjFormData = z.infer<typeof cnpjScjema>
 
 const RegisterPage = () => {
 	const router = useRouter()
 
-	const form = useForm<RegisterFormValues>({
+	const form = useForm<CnpjFormData>({
 		defaultValues: {
-			name: "",
-			email: "",
-			password: "",
-			office: "Gestor",
-			phone: "",
-			department: "",
-			description: ""
+			cnpj: ""
 		}
 	})
 
-	const onSubmit = async (data: RegisterFormValues) => {
-		try {
-			const res = await fetch("/api/register", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(data)
-			})
+	const [company, setCompany] = useState<Company | null>(null)
 
-			if (!res.ok) {
-				const err = await res.json()
-				toast.error(err.message || "Erro ao registrar")
-				return
-			}
+	const { mutate: validateCnpj, isPending } = useMutation({
+		mutationFn: async (data: CnpjFormData) => {
+			const response = await api.post("/api/company/validate-cnpj", data)
+			return response.data
+		},
+		onSuccess: (data) => {
+			toast.success("Empresa encontrada!")
+			setCompany(data)
+		},
+		onError: () => {
+			toast.error("Empresa não encontrada.")
+			setCompany(null)
+		},
+	})
 
-			toast.success("Usuário Criado com sucesso.")
-			router.push("/login")
-
-		} catch (error) {
-			toast.error("Erro ao criar conta.")
-			console.log(error)
-		}
+	const onSubmit = async (data: CnpjFormData) => {
+		validateCnpj(data)
 	}
 	const loading = form.formState.isSubmitting
 
 	return (
-		<div className="min-h-screen flex items-center justify-center px-4 w-full">
-			<Card className='w-full max-w-md shadow-xl rounded-sm'>
+		<div className="w-1/2 mx-auto py-10  flex items-center justify-center">
+			<Card className="max-w-1/2 w-1/2  border-none">
 				<CardHeader>
-					<CardTitle className="text-2xl text-center font-semibold">
-						Crie sua conta e aproveite!
+					<CardTitle>
+
+						<h1 className="text-2xl font-bold mb-6 text-center">Cadastro de Usuário</h1>
 					</CardTitle>
-					<CardDescription className='text-sm text-muted-foreground text-center'>
-						Registre-se e aproveite o mais completo sistema para gerir seu estoque!
-					</CardDescription>
+
 				</CardHeader>
 				<CardContent>
+
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="gap-4">
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 							<FormField
 								control={form.control}
-								name="name"
+								name="cnpj"
 								render={({ field }) => (
-									<FormItem className="mt-4">
-										<FormLabel>Nome</FormLabel>
+									<FormItem>
+										<FormLabel>CNPJ da Empresa</FormLabel>
 										<FormControl>
-											<Input placeholder="Seu nome" {...field} />
+											<Input placeholder="00.000.000/0000-00" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
 
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem className="mt-4">
-										<FormLabel>Email</FormLabel>
-										<FormControl>
-											<Input type="email" placeholder="seu@email.com" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="phone"
-								render={({ field }) => (
-									<FormItem className="mt-4">
-										<FormLabel>Telefone</FormLabel>
-										<FormControl>
-											<Input type="text" placeholder="(00) 0000-0000" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="department"
-								render={({ field }) => (
-									<FormItem className="mt-4">
-										<FormLabel>Departamento</FormLabel>
-										<FormControl>
-											<Input type="text" placeholder="Seu Departamento" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name="password"
-								render={({ field }) => (
-									<FormItem className="mt-4">
-										<FormLabel>Senha</FormLabel>
-										<FormControl>
-											<Input type="password" placeholder="••••••" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							
-							{/* <FormField
-								control={form.control}
-								name="office"
-								render={({ field }) => (
-									<FormItem className="mt-4">
-										<FormLabel>Cargo</FormLabel>
-										<FormControl>
-											<select {...field} className="w-full border rounded px-3 py-2">
-												<option value="adm">Administrador</option>
-												<option value="gestor">Gestor</option>
-											</select>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/> */}
-
-							<Button type="submit" variant='default'
-								disabled={loading}
-
-								className="mt-4 hover:brightness-95 cursor-pointer w-full p-3"
-							>
-								{loading ? <Loader className="animate-spin"/> : 'Criar Conta'}
-							</Button>
+							<CardFooter className="flex items-end justify-end">
+								<Button type="submit" disabled={isPending} className="cursor-pointer">
+									{isPending ? "Validando..." : "Validar CNPJ"}
+								</Button>
+							</CardFooter>
 						</form>
 					</Form>
+
+					{company && (
+						<Dialog>
+							<DialogTrigger asChild>
+								<Button className="mt-6 w-full">Prosseguir com cadastro</Button>
+							</DialogTrigger>
+							<DialogContent>
+								<RegisterUserDialog companyId={company.id} companyName={company.name} />
+							</DialogContent>
+						</Dialog>
+					)}
 				</CardContent>
+
 			</Card>
 		</div>
 	)

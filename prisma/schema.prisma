@@ -54,6 +54,7 @@ model Company {
   serviceProviders ServiceProvider[]
   serviceTypes     ServiceType[]
   serviceLocations ServiceLocation[]
+  AuditLog         AuditLog[]
 }
 
 model User {
@@ -200,6 +201,8 @@ model AuditLog {
   description String
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
+  companyId   String?
+  Company     Company? @relation(fields: [companyId], references: [id])
 
   @@index([userId])
   @@index([entity])
