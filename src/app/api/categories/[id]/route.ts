@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const { session, error: sessionError } = await requireSession()
-				if (sessionError) return sessionError
+		if (sessionError) return sessionError
 
 		const body = await req.json()
 		const companyId = session.user.companyId
@@ -20,7 +20,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 				id: (await params).id
 			},
 			data: {
-				name: body.name, 
+				name: body.name,
 				companyId: companyId
 			}
 		})
@@ -47,18 +47,29 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ cat
 	try {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
+
 		const { categoryId } = await params
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		await prisma.product.updateMany({
-			where: { categoryId },
+			where: {
+				categoryId,
+				companyId: companyId
+			},
 			data: {
-				categoryId: null
+				categoryId: null,
 			}
 		})
 
 		await prisma.category.delete({
 			where: {
-				id: categoryId
+				id: categoryId,
+				companyId: companyId
 			}
 		})
 		await logAction({

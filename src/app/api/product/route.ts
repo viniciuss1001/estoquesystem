@@ -11,6 +11,12 @@ export async function POST(req: NextRequest) {
 
 		const body = await req.json()
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const category = await prisma.category.findUnique({
 			where: {
 				name: body.category
@@ -54,7 +60,7 @@ export async function POST(req: NextRequest) {
 				originWarehouseId: null,
 				destinationWarehouseId: body.warehouse,
 				status: "COMPLETED",
-
+				companyId
 			}
 		})
 
@@ -89,8 +95,14 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
 	try {
 
-		const { error: sessionError } = await requireSession()
+		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const { searchParams } = new URL(req.url)
 
@@ -99,18 +111,12 @@ export async function GET(req: NextRequest) {
 		const usageStatus = searchParams.get("status")
 		const warehouseId = searchParams.get("warehouseId")
 
-		const where: any = {}
+		const where: any = {
+			...(categoryId && { categoryId }),
+			...(supplierId && { supplierId }),
+			...(usageStatus && { usageStatus }),
+			companyId
 
-		if (categoryId) {
-			where.categoryId = categoryId
-		}
-
-		if (supplierId) {
-			where.supplierId = supplierId
-		}
-
-		if (usageStatus) {
-			where.usageStatus = usageStatus
 		}
 
 		const products = await prisma.product.findMany({

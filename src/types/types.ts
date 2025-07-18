@@ -29,6 +29,10 @@ export interface Delivery {
     title: string
     amount: number
   }
+  company: {
+    id: string
+    name: string
+  }
   quantity: number
   expectedAt: string
   status: "PENDING" | "COMPLETED" | "CANCELED" | "LATE"

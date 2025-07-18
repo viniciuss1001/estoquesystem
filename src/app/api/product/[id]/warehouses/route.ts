@@ -6,13 +6,22 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 
 	try {
 
-		const { error: sessionError } = await requireSession()
+		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const { id } = await params
 
 		const warehousesStock = await prisma.warehouseProduct.findMany({
-			where: { productId: id },
+			where: {
+				productId: id,
+				
+			},
 			include: {
 				warehouse: true
 			}

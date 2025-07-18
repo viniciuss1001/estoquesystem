@@ -8,13 +8,22 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
 	const { session, error: sessionError } = await requireSession()
-			if (sessionError) return sessionError
+	if (sessionError) return sessionError
+
+	const companyId = session.user.companyId
+	
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
 
 	const { id } = await params
 
 	try {
 		const delivery = await prisma.delivery.findUnique({
-			where: { id },
+			where: {
+				id,
+				companyId
+			},
 			include: {
 				product: true,
 				supplier: true,
@@ -37,18 +46,23 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-
-	const { session, error: sessionError } = await requireSession()
-	if (sessionError) return sessionError
-
-	const { id } = await params
-
 	try {
+
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
+		const { id } = await params
+
 		const body = await req.json()
 		const { quantity, expectedAt, status, productId, supplierId } = body
 
 		const existingDelivery = await prisma.delivery.findUnique({
-			where: { id },
+			where: { id, companyId },
 			include: {
 				product: true,
 				supplierInvoice: true,
@@ -58,7 +72,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		})
 
 		const updatedDelivery = await prisma.delivery.update({
-			where: { id },
+			where: { id, companyId },
 			data: {
 				quantity,
 				expectedAt: new Date(expectedAt),
@@ -146,7 +160,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
 
-	
 	const session = await getServerSession(authOptions)
 
 	if (!session || session.user.office !== "ADMIN") {

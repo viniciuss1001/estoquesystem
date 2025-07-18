@@ -102,8 +102,8 @@ model Product {
 
   expirationDate DateTime?
   usageStatus    UsageStatus @default(IN_STOCK)
-  Company        Company?    @relation(fields: [companyId], references: [id])
-  companyId      String?
+  company        Company     @relation(fields: [companyId], references: [id])
+  companyId      String
 
   @@unique([companyId, sku])
 }
@@ -149,8 +149,8 @@ model StockMovement {
   destinationWarehouse   WareHouse?     @relation("DestinationWarehouse", fields: [destinationWarehouseId], references: [id])
   originWareHouse        WareHouse?     @relation("OriginWarehouse", fields: [originWarehouseId], references: [id])
   product                Product        @relation(fields: [productId], references: [id])
-  Company                Company?       @relation(fields: [companyId], references: [id])
-  companyId              String?
+  company                Company        @relation(fields: [companyId], references: [id])
+  companyId              String
 }
 
 model Supplier {
@@ -238,8 +238,8 @@ model Delivery {
 
   warehouse       WareHouse        @relation(fields: [warehouseId], references: [id])
   supplierInvoice SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
-  Company         Company?         @relation(fields: [companyId], references: [id])
-  companyId       String?
+  company         Company          @relation(fields: [companyId], references: [id])
+  companyId       String
 }
 
 model PasswordResetToken {
@@ -280,8 +280,8 @@ model Service {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Company   Company? @relation(fields: [companyId], references: [id])
-  companyId String?
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId String
 }
 
 model ServiceProvider {

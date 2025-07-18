@@ -6,15 +6,24 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export async function GET(_: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
 	const { session, error: sessionError } = await requireSession()
-			if (sessionError) return sessionError
+	if (sessionError) return sessionError
+
+	const companyId = session.user.companyId
+
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
 	const { id } = await params
 
 	try {
 		const product = await prisma.product.findUnique({
-			where: { id },
+			where: {
+				id,
+				companyId
+			},
 			include: {
 				category: true,
 				supplier: true,
@@ -38,12 +47,18 @@ export async function GET(_: NextRequest,  { params }: { params: Promise<{ id: s
 }
 
 
-export async function PATCH(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
 	try {
 
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const { id } = await params
 
@@ -77,12 +92,12 @@ export async function PATCH(req: NextRequest,  { params }: { params: Promise<{ i
 			}
 		}
 
-		if(body.minimumStock !== undefined){
+		if (body.minimumStock !== undefined) {
 			updatedData.minimumStock = Number(body.minimumStock)
 		}
 
 		const product = await prisma.product.update({
-			where: { id },
+			where: { id, companyId },
 			data: updatedData
 		})
 
@@ -103,7 +118,7 @@ export async function PATCH(req: NextRequest,  { params }: { params: Promise<{ i
 	}
 }
 
-export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const { id } = await params
 		const session = await getServerSession(authOptions);

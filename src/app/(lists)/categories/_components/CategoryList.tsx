@@ -30,8 +30,9 @@ const CategoryList = () => {
       toast.success("Categoria deletada com sucesso");
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
-    onError: () => {
-      toast.error("Erro ao deletar categoria");
+    onError: (error) => {
+      console.log(error)
+      toast.error("Erro ao deletar categoria")
     },
   })
 

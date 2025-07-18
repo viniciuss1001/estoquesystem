@@ -9,6 +9,12 @@ export async function POST(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const body = await req.json()
 
 		const service = await prisma.service.create({
@@ -23,6 +29,7 @@ export async function POST(req: NextRequest) {
 				attachmentUrl: body.attachmentUrl || null,
 				invoiceId: body.invoiceId || null,
 				createdByUserId: session.user.id,
+				companyId
 			},
 			include: {
 				provider: true,
@@ -61,10 +68,17 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
 	try {
-		const { error: sessionError } = await requireSession();
-		if (sessionError) return sessionError;
+		const { session, error: sessionError } = await requireSession();
+		if (sessionError) return sessionError
 
-		const { searchParams } = new URL(req.url);
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
+		const { searchParams } = new URL(req.url)
+		
 
 		const serviceProviderId = searchParams.get("serviceProviderId")
 		const serviceTypeId = searchParams.get("serviceTypeId")
@@ -73,8 +87,9 @@ export async function GET(req: NextRequest) {
 		const startDate = searchParams.get("startDate")
 		const endDate = searchParams.get("endDate")
 
-		const where: any = {}
-
+		const where: any = {
+			companyId
+		}
 		if (serviceProviderId) where.serviceProviderId = serviceProviderId;
 		if (serviceTypeId) where.serviceTypeId = serviceTypeId;
 		if (serviceLocationId) where.serviceLocationId = serviceLocationId;
@@ -87,30 +102,31 @@ export async function GET(req: NextRequest) {
 			}
 		}
 
+
 		const services = await prisma.service.findMany({
 			where,
 			include: {
 				provider: {
 					select: {
-						id: true, 
+						id: true,
 						name: true
 					}
 				},
 				type: {
 					select: {
-						id: true, 
+						id: true,
 						name: true
 					}
 				},
 				location: {
 					select: {
-						id: true, 
+						id: true,
 						name: true
 					}
 				},
 				invoice: {
 					select: {
-						id: true, 
+						id: true,
 						title: true
 					}
 				},

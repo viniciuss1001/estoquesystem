@@ -5,17 +5,24 @@ import { NextResponse } from "next/server"
 export async function GET() {
 	try {
 
-		const { error: sessionError } = await requireSession()
-				if (sessionError) return sessionError
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const products = await prisma.product.findMany({
 			where: {
 				minimumStock: {
 					gt: 0
-				}
-			}, 
-			select:{
-				id: true, 
+				}, 
+				companyId
+			},
+			select: {
+				id: true,
 				name: true,
 				quantity: true,
 				minimumStock: true
@@ -29,9 +36,9 @@ export async function GET() {
 
 		return NextResponse.json(lowStockProducts)
 
-		
+
 	} catch (error) {
 		console.log(error)
-		return NextResponse.json({error: "Erro ao buscar produtos com estoque baixo."}, {status: 500})
+		return NextResponse.json({ error: "Erro ao buscar produtos com estoque baixo." }, { status: 500 })
 	}
 }

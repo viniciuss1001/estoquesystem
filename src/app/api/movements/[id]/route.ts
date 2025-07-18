@@ -13,10 +13,19 @@ export async function GET(
   const { session, error: sessionError } = await requireSession()
   if (sessionError) return sessionError
 
+  const companyId = session.user.companyId
+  if (!companyId) {
+    return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+  }
+
+
   const { id } = await params
 
   const movement = await prisma.stockMovement.findUnique({
-    where: { id },
+    where: {
+      id,
+      companyId
+    },
     include: {
       originWareHouse: true,
       destinationWarehouse: true,
@@ -42,9 +51,15 @@ export async function PATCH(
     const { session, error: sessionError } = await requireSession()
     if (sessionError) return sessionError
 
-    const { id } = params;
+    const companyId = session.user.companyId
+    if (!companyId) {
+      return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+    }
 
-    const body = await req.json();
+
+    const { id } = params
+
+    const body = await req.json()
 
     const {
       type,
@@ -64,10 +79,10 @@ export async function PATCH(
     });
 
     if (!existingMovement) {
-      return new NextResponse("Movimentação não encontrada.", { status: 404 });
+      return new NextResponse("Movimentação não encontrada.", { status: 404 })
     }
 
-    const productId = existingMovement.productId;
+    const productId = existingMovement.productId
 
     //  revert if is COMPLETED
     if (existingMovement.status === "COMPLETED") {
@@ -162,7 +177,7 @@ export async function PATCH(
       }
     }
     const updatedMovement = await prisma.stockMovement.update({
-      where: { id },
+      where: { id, companyId },
       data: {
         type,
         quantity,
@@ -192,7 +207,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {

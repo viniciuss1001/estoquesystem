@@ -6,6 +6,12 @@ export async function GET(req: NextRequest) {
 	const { session, error: sessionError } = await requireSession()
 	if (sessionError) return sessionError
 
+	const companyId = session.user.companyId
+
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
+
 	const { searchParams } = new URL(req.url)
 	const query = searchParams.get("q")
 
@@ -19,7 +25,7 @@ export async function GET(req: NextRequest) {
 				name: {
 					contains: query,
 					mode: "insensitive"
-				}
+				}, companyId
 			},
 			select: {
 				id: true,
@@ -35,7 +41,8 @@ export async function GET(req: NextRequest) {
 				name: {
 					contains: query,
 					mode: "insensitive"
-				}
+				},
+				companyId
 			},
 			select: {
 				id: true,
@@ -48,7 +55,8 @@ export async function GET(req: NextRequest) {
 				name: {
 					contains: query,
 					mode: "insensitive"
-				}
+				},
+				companyId
 			},
 			select: {
 				id: true,
@@ -61,7 +69,8 @@ export async function GET(req: NextRequest) {
 				name: {
 					contains: query,
 					mode: "insensitive"
-				}
+				},
+				companyId
 			},
 			select: {
 				id: true,
@@ -76,6 +85,7 @@ export async function GET(req: NextRequest) {
 					contains: query,
 					mode: "insensitive",
 				},
+				companyId
 			},
 			select: { id: true, name: true, email: true },
 		}),
@@ -85,7 +95,8 @@ export async function GET(req: NextRequest) {
 				title: {
 					contains: query,
 					mode: "insensitive"
-				}
+				},
+				companyId
 			},
 			select: {
 				id: true,

@@ -1,9 +1,7 @@
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
 import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -12,6 +10,11 @@ export async function POST(req: NextRequest) {
 		if (sessionError) return sessionError
 
 		const body = await req.json()
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const delivery = await prisma.delivery.create({
 			data: {
@@ -26,7 +29,8 @@ export async function POST(req: NextRequest) {
 				warehouse: {
 					connect: { id: body.warehouseId }
 				},
-				supplierInvoice: body.supplierInvoiceId ? { connect: { id: body.supplierInvoiceId }, } : undefined
+				supplierInvoice: body.supplierInvoiceId ? { connect: { id: body.supplierInvoiceId }, } : undefined,
+				company: { connect: { id: companyId } }
 			}
 		})
 
@@ -37,7 +41,7 @@ export async function POST(req: NextRequest) {
 		})
 
 		await notifyByUserRole({
-			title: "Entrega registrada por Gestor", 
+			title: "Entrega registrada por Gestor",
 			message: `${session.user.name} criou uma nova entrega.`,
 			roles: ["ADMIN"]
 		})
@@ -63,10 +67,15 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
 	try {
 
-		const { error: sessionError } = await requireSession()
+		const { session, error: sessionError } = await requireSession()
 
 		if (sessionError) {
 			return sessionError
+		}
+
+		const companyId = session?.user.companyId
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
 		}
 
 		const { searchParams } = new URL(req.url)
@@ -81,6 +90,7 @@ export async function GET(req: NextRequest) {
 			...(supplierId && { supplierId }),
 			...(warehouseId && { warehouseId }),
 			...(status && { status }),
+			companyId
 		}
 
 		const deliveries = await prisma.delivery.findMany({
@@ -111,7 +121,7 @@ export async function GET(req: NextRequest) {
 						id: true,
 						title: true
 					}
-				}
+				},
 			}
 		})
 

@@ -1,15 +1,19 @@
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
 import { notifyByUserRole } from "@/lib/notifications";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const { session, error: sessionError } = await requireSession()
     if (sessionError) return sessionError
+
+    const companyId = session.user.companyId
+
+    if (!companyId) {
+      return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+    }
 
     const data = await req.json();
     const {
@@ -219,7 +223,9 @@ export async function POST(req: NextRequest) {
     // create movement
     const movement = await prisma.stockMovement.create({
       data: {
-        productId,
+        product: {
+          connect: { id: data.productId }
+        },
         quantity,
         type,
         originWarehouseId: type === "IN" ? null : originWarehouseId,
@@ -227,7 +233,10 @@ export async function POST(req: NextRequest) {
         notes,
         status,
         quantityAfter,
-        quantityBefore
+        quantityBefore,
+        company: {
+          connect: { id: companyId }
+        }
       },
     })
 
@@ -266,10 +275,16 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
 
-    const { error: sessionError } = await requireSession()
+    const { session, error: sessionError } = await requireSession()
 
     if (sessionError) {
       return sessionError
+    }
+
+    const companyId = session?.user.companyId
+    
+    if (!companyId) {
+      return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
     }
 
     const { searchParams } = new URL(req.url)
@@ -285,7 +300,8 @@ export async function GET(req: NextRequest) {
       type,
       status,
       originWarehouseId,
-      destinationWarehouseId
+      destinationWarehouseId,
+      companyId
     }
 
     const movements = await prisma.stockMovement.findMany({
