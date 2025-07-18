@@ -147,6 +147,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
   cnpj: 'cnpj',
+  corporateName: 'corporateName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -251,7 +252,8 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   entity: 'entity',
   entityId: 'entityId',
   description: 'description',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  companyId: 'companyId'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {

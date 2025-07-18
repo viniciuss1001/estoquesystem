@@ -2644,6 +2644,7 @@ export namespace Prisma {
     serviceProviders: number
     serviceTypes: number
     serviceLocations: number
+    AuditLog: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2659,6 +2660,7 @@ export namespace Prisma {
     serviceProviders?: boolean | CompanyCountOutputTypeCountServiceProvidersArgs
     serviceTypes?: boolean | CompanyCountOutputTypeCountServiceTypesArgs
     serviceLocations?: boolean | CompanyCountOutputTypeCountServiceLocationsArgs
+    AuditLog?: boolean | CompanyCountOutputTypeCountAuditLogArgs
   }
 
   // Custom InputTypes
@@ -2754,6 +2756,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountServiceLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ServiceLocationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogWhereInput
   }
 
 
@@ -5369,6 +5378,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     cnpj: string | null
+    corporateName: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5377,6 +5387,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     cnpj: string | null
+    corporateName: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5385,6 +5396,7 @@ export namespace Prisma {
     id: number
     name: number
     cnpj: number
+    corporateName: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5395,6 +5407,7 @@ export namespace Prisma {
     id?: true
     name?: true
     cnpj?: true
+    corporateName?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5403,6 +5416,7 @@ export namespace Prisma {
     id?: true
     name?: true
     cnpj?: true
+    corporateName?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5411,6 +5425,7 @@ export namespace Prisma {
     id?: true
     name?: true
     cnpj?: true
+    corporateName?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5492,6 +5507,7 @@ export namespace Prisma {
     id: string
     name: string
     cnpj: string | null
+    corporateName: string | null
     createdAt: Date
     updatedAt: Date
     _count: CompanyCountAggregateOutputType | null
@@ -5517,6 +5533,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cnpj?: boolean
+    corporateName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
@@ -5531,6 +5548,7 @@ export namespace Prisma {
     serviceProviders?: boolean | Company$serviceProvidersArgs<ExtArgs>
     serviceTypes?: boolean | Company$serviceTypesArgs<ExtArgs>
     serviceLocations?: boolean | Company$serviceLocationsArgs<ExtArgs>
+    AuditLog?: boolean | Company$AuditLogArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -5538,6 +5556,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cnpj?: boolean
+    corporateName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -5546,6 +5565,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cnpj?: boolean
+    corporateName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -5554,11 +5574,12 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cnpj?: boolean
+    corporateName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cnpj" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cnpj" | "corporateName" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
     products?: boolean | Company$productsArgs<ExtArgs>
@@ -5572,6 +5593,7 @@ export namespace Prisma {
     serviceProviders?: boolean | Company$serviceProvidersArgs<ExtArgs>
     serviceTypes?: boolean | Company$serviceTypesArgs<ExtArgs>
     serviceLocations?: boolean | Company$serviceLocationsArgs<ExtArgs>
+    AuditLog?: boolean | Company$AuditLogArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5592,11 +5614,13 @@ export namespace Prisma {
       serviceProviders: Prisma.$ServiceProviderPayload<ExtArgs>[]
       serviceTypes: Prisma.$ServiceTypePayload<ExtArgs>[]
       serviceLocations: Prisma.$ServiceLocationPayload<ExtArgs>[]
+      AuditLog: Prisma.$AuditLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       cnpj: string | null
+      corporateName: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["company"]>
@@ -6005,6 +6029,7 @@ export namespace Prisma {
     serviceProviders<T extends Company$serviceProvidersArgs<ExtArgs> = {}>(args?: Subset<T, Company$serviceProvidersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceProviderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serviceTypes<T extends Company$serviceTypesArgs<ExtArgs> = {}>(args?: Subset<T, Company$serviceTypesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     serviceLocations<T extends Company$serviceLocationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$serviceLocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceLocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    AuditLog<T extends Company$AuditLogArgs<ExtArgs> = {}>(args?: Subset<T, Company$AuditLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6037,6 +6062,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Company", 'String'>
     readonly name: FieldRef<"Company", 'String'>
     readonly cnpj: FieldRef<"Company", 'String'>
+    readonly corporateName: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
   }
@@ -6712,6 +6738,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ServiceLocationScalarFieldEnum | ServiceLocationScalarFieldEnum[]
+  }
+
+  /**
+   * Company.AuditLog
+   */
+  export type Company$AuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLog
+     */
+    select?: AuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLog
+     */
+    omit?: AuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogInclude<ExtArgs> | null
+    where?: AuditLogWhereInput
+    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
+    cursor?: AuditLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
   }
 
   /**
@@ -15563,6 +15613,7 @@ export namespace Prisma {
     entityId: string | null
     description: string | null
     createdAt: Date | null
+    companyId: string | null
   }
 
   export type AuditLogMaxAggregateOutputType = {
@@ -15573,6 +15624,7 @@ export namespace Prisma {
     entityId: string | null
     description: string | null
     createdAt: Date | null
+    companyId: string | null
   }
 
   export type AuditLogCountAggregateOutputType = {
@@ -15583,6 +15635,7 @@ export namespace Prisma {
     entityId: number
     description: number
     createdAt: number
+    companyId: number
     _all: number
   }
 
@@ -15595,6 +15648,7 @@ export namespace Prisma {
     entityId?: true
     description?: true
     createdAt?: true
+    companyId?: true
   }
 
   export type AuditLogMaxAggregateInputType = {
@@ -15605,6 +15659,7 @@ export namespace Prisma {
     entityId?: true
     description?: true
     createdAt?: true
+    companyId?: true
   }
 
   export type AuditLogCountAggregateInputType = {
@@ -15615,6 +15670,7 @@ export namespace Prisma {
     entityId?: true
     description?: true
     createdAt?: true
+    companyId?: true
     _all?: true
   }
 
@@ -15698,6 +15754,7 @@ export namespace Prisma {
     entityId: string | null
     description: string
     createdAt: Date
+    companyId: string | null
     _count: AuditLogCountAggregateOutputType | null
     _min: AuditLogMinAggregateOutputType | null
     _max: AuditLogMaxAggregateOutputType | null
@@ -15725,7 +15782,9 @@ export namespace Prisma {
     entityId?: boolean
     description?: boolean
     createdAt?: boolean
+    companyId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Company?: boolean | AuditLog$CompanyArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15736,7 +15795,9 @@ export namespace Prisma {
     entityId?: boolean
     description?: boolean
     createdAt?: boolean
+    companyId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Company?: boolean | AuditLog$CompanyArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15747,7 +15808,9 @@ export namespace Prisma {
     entityId?: boolean
     description?: boolean
     createdAt?: boolean
+    companyId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Company?: boolean | AuditLog$CompanyArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectScalar = {
@@ -15758,23 +15821,28 @@ export namespace Prisma {
     entityId?: boolean
     description?: boolean
     createdAt?: boolean
+    companyId?: boolean
   }
 
-  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "action" | "entity" | "entityId" | "description" | "createdAt", ExtArgs["result"]["auditLog"]>
+  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "action" | "entity" | "entityId" | "description" | "createdAt" | "companyId", ExtArgs["result"]["auditLog"]>
   export type AuditLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Company?: boolean | AuditLog$CompanyArgs<ExtArgs>
   }
   export type AuditLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Company?: boolean | AuditLog$CompanyArgs<ExtArgs>
   }
   export type AuditLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Company?: boolean | AuditLog$CompanyArgs<ExtArgs>
   }
 
   export type $AuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AuditLog"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      Company: Prisma.$CompanyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15784,6 +15852,7 @@ export namespace Prisma {
       entityId: string | null
       description: string
       createdAt: Date
+      companyId: string | null
     }, ExtArgs["result"]["auditLog"]>
     composites: {}
   }
@@ -16179,6 +16248,7 @@ export namespace Prisma {
   export interface Prisma__AuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Company<T extends AuditLog$CompanyArgs<ExtArgs> = {}>(args?: Subset<T, AuditLog$CompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16215,6 +16285,7 @@ export namespace Prisma {
     readonly entityId: FieldRef<"AuditLog", 'String'>
     readonly description: FieldRef<"AuditLog", 'String'>
     readonly createdAt: FieldRef<"AuditLog", 'DateTime'>
+    readonly companyId: FieldRef<"AuditLog", 'String'>
   }
     
 
@@ -16608,6 +16679,25 @@ export namespace Prisma {
      * Limit how many AuditLogs to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AuditLog.Company
+   */
+  export type AuditLog$CompanyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
   }
 
   /**
@@ -25777,6 +25867,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     cnpj: 'cnpj',
+    corporateName: 'corporateName',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -25905,7 +25996,8 @@ export namespace Prisma {
     entity: 'entity',
     entityId: 'entityId',
     description: 'description',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    companyId: 'companyId'
   };
 
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
@@ -26407,6 +26499,7 @@ export namespace Prisma {
     id?: StringFilter<"Company"> | string
     name?: StringFilter<"Company"> | string
     cnpj?: StringNullableFilter<"Company"> | string | null
+    corporateName?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
@@ -26421,12 +26514,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderListRelationFilter
     serviceTypes?: ServiceTypeListRelationFilter
     serviceLocations?: ServiceLocationListRelationFilter
+    AuditLog?: AuditLogListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     cnpj?: SortOrderInput | SortOrder
+    corporateName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
@@ -26441,6 +26536,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderOrderByRelationAggregateInput
     serviceTypes?: ServiceTypeOrderByRelationAggregateInput
     serviceLocations?: ServiceLocationOrderByRelationAggregateInput
+    AuditLog?: AuditLogOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -26450,6 +26546,7 @@ export namespace Prisma {
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     name?: StringFilter<"Company"> | string
+    corporateName?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
@@ -26464,12 +26561,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderListRelationFilter
     serviceTypes?: ServiceTypeListRelationFilter
     serviceLocations?: ServiceLocationListRelationFilter
+    AuditLog?: AuditLogListRelationFilter
   }, "id" | "cnpj">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     cnpj?: SortOrderInput | SortOrder
+    corporateName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
@@ -26484,6 +26583,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Company"> | string
     name?: StringWithAggregatesFilter<"Company"> | string
     cnpj?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    corporateName?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
@@ -27154,7 +27254,9 @@ export namespace Prisma {
     entityId?: StringNullableFilter<"AuditLog"> | string | null
     description?: StringFilter<"AuditLog"> | string
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
+    companyId?: StringNullableFilter<"AuditLog"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
   }
 
   export type AuditLogOrderByWithRelationInput = {
@@ -27165,7 +27267,9 @@ export namespace Prisma {
     entityId?: SortOrderInput | SortOrder
     description?: SortOrder
     createdAt?: SortOrder
+    companyId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
+    Company?: CompanyOrderByWithRelationInput
   }
 
   export type AuditLogWhereUniqueInput = Prisma.AtLeast<{
@@ -27179,7 +27283,9 @@ export namespace Prisma {
     entityId?: StringNullableFilter<"AuditLog"> | string | null
     description?: StringFilter<"AuditLog"> | string
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
+    companyId?: StringNullableFilter<"AuditLog"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
   }, "id">
 
   export type AuditLogOrderByWithAggregationInput = {
@@ -27190,6 +27296,7 @@ export namespace Prisma {
     entityId?: SortOrderInput | SortOrder
     description?: SortOrder
     createdAt?: SortOrder
+    companyId?: SortOrderInput | SortOrder
     _count?: AuditLogCountOrderByAggregateInput
     _max?: AuditLogMaxOrderByAggregateInput
     _min?: AuditLogMinOrderByAggregateInput
@@ -27206,6 +27313,7 @@ export namespace Prisma {
     entityId?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
     description?: StringWithAggregatesFilter<"AuditLog"> | string
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
+    companyId?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
   }
 
   export type CategoryWhereInput = {
@@ -27955,6 +28063,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -27969,12 +28078,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -27989,12 +28100,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -28009,12 +28122,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -28029,12 +28144,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28043,6 +28160,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28051,6 +28169,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28767,6 +28886,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutAuditLogInput
+    Company?: CompanyCreateNestedOneWithoutAuditLogInput
   }
 
   export type AuditLogUncheckedCreateInput = {
@@ -28777,6 +28897,7 @@ export namespace Prisma {
     entityId?: string | null
     description: string
     createdAt?: Date | string
+    companyId?: string | null
   }
 
   export type AuditLogUpdateInput = {
@@ -28787,6 +28908,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAuditLogNestedInput
+    Company?: CompanyUpdateOneWithoutAuditLogNestedInput
   }
 
   export type AuditLogUncheckedUpdateInput = {
@@ -28797,6 +28919,7 @@ export namespace Prisma {
     entityId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AuditLogCreateManyInput = {
@@ -28807,6 +28930,7 @@ export namespace Prisma {
     entityId?: string | null
     description: string
     createdAt?: Date | string
+    companyId?: string | null
   }
 
   export type AuditLogUpdateManyMutationInput = {
@@ -28826,6 +28950,7 @@ export namespace Prisma {
     entityId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryCreateInput = {
@@ -29692,6 +29817,12 @@ export namespace Prisma {
     none?: ServiceLocationWhereInput
   }
 
+  export type AuditLogListRelationFilter = {
+    every?: AuditLogWhereInput
+    some?: AuditLogWhereInput
+    none?: AuditLogWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -29740,10 +29871,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     cnpj?: SortOrder
+    corporateName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29752,6 +29888,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cnpj?: SortOrder
+    corporateName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29760,6 +29897,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     cnpj?: SortOrder
+    corporateName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29775,12 +29913,6 @@ export namespace Prisma {
     every?: AccountWhereInput
     some?: AccountWhereInput
     none?: AccountWhereInput
-  }
-
-  export type AuditLogListRelationFilter = {
-    every?: AuditLogWhereInput
-    some?: AuditLogWhereInput
-    none?: AuditLogWhereInput
   }
 
   export type SessionListRelationFilter = {
@@ -29800,10 +29932,6 @@ export namespace Prisma {
   }
 
   export type AccountOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AuditLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30396,6 +30524,7 @@ export namespace Prisma {
     entityId?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
+    companyId?: SortOrder
   }
 
   export type AuditLogMaxOrderByAggregateInput = {
@@ -30406,6 +30535,7 @@ export namespace Prisma {
     entityId?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
+    companyId?: SortOrder
   }
 
   export type AuditLogMinOrderByAggregateInput = {
@@ -30416,6 +30546,7 @@ export namespace Prisma {
     entityId?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
+    companyId?: SortOrder
   }
 
   export type CategoryCompanyIdNameCompoundUniqueInput = {
@@ -30908,6 +31039,13 @@ export namespace Prisma {
     connect?: ServiceLocationWhereUniqueInput | ServiceLocationWhereUniqueInput[]
   }
 
+  export type AuditLogCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AuditLogCreateWithoutCompanyInput, AuditLogUncheckedCreateWithoutCompanyInput> | AuditLogCreateWithoutCompanyInput[] | AuditLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutCompanyInput | AuditLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: AuditLogCreateManyCompanyInputEnvelope
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -30990,6 +31128,13 @@ export namespace Prisma {
     connectOrCreate?: ServiceLocationCreateOrConnectWithoutCompanyInput | ServiceLocationCreateOrConnectWithoutCompanyInput[]
     createMany?: ServiceLocationCreateManyCompanyInputEnvelope
     connect?: ServiceLocationWhereUniqueInput | ServiceLocationWhereUniqueInput[]
+  }
+
+  export type AuditLogUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AuditLogCreateWithoutCompanyInput, AuditLogUncheckedCreateWithoutCompanyInput> | AuditLogCreateWithoutCompanyInput[] | AuditLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutCompanyInput | AuditLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: AuditLogCreateManyCompanyInputEnvelope
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
   export type UserUpdateManyWithoutCompanyNestedInput = {
@@ -31160,6 +31305,20 @@ export namespace Prisma {
     deleteMany?: ServiceLocationScalarWhereInput | ServiceLocationScalarWhereInput[]
   }
 
+  export type AuditLogUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AuditLogCreateWithoutCompanyInput, AuditLogUncheckedCreateWithoutCompanyInput> | AuditLogCreateWithoutCompanyInput[] | AuditLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutCompanyInput | AuditLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: AuditLogUpsertWithWhereUniqueWithoutCompanyInput | AuditLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AuditLogCreateManyCompanyInputEnvelope
+    set?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    disconnect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    delete?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    update?: AuditLogUpdateWithWhereUniqueWithoutCompanyInput | AuditLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AuditLogUpdateManyWithWhereWithoutCompanyInput | AuditLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -31326,6 +31485,20 @@ export namespace Prisma {
     update?: ServiceLocationUpdateWithWhereUniqueWithoutCompanyInput | ServiceLocationUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ServiceLocationUpdateManyWithWhereWithoutCompanyInput | ServiceLocationUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ServiceLocationScalarWhereInput | ServiceLocationScalarWhereInput[]
+  }
+
+  export type AuditLogUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AuditLogCreateWithoutCompanyInput, AuditLogUncheckedCreateWithoutCompanyInput> | AuditLogCreateWithoutCompanyInput[] | AuditLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutCompanyInput | AuditLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: AuditLogUpsertWithWhereUniqueWithoutCompanyInput | AuditLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AuditLogCreateManyCompanyInputEnvelope
+    set?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    disconnect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    delete?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    update?: AuditLogUpdateWithWhereUniqueWithoutCompanyInput | AuditLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AuditLogUpdateManyWithWhereWithoutCompanyInput | AuditLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -32328,12 +32501,28 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type CompanyCreateNestedOneWithoutAuditLogInput = {
+    create?: XOR<CompanyCreateWithoutAuditLogInput, CompanyUncheckedCreateWithoutAuditLogInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAuditLogInput
+    connect?: CompanyWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutAuditLogNestedInput = {
     create?: XOR<UserCreateWithoutAuditLogInput, UserUncheckedCreateWithoutAuditLogInput>
     connectOrCreate?: UserCreateOrConnectWithoutAuditLogInput
     upsert?: UserUpsertWithoutAuditLogInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogInput, UserUpdateWithoutAuditLogInput>, UserUncheckedUpdateWithoutAuditLogInput>
+  }
+
+  export type CompanyUpdateOneWithoutAuditLogNestedInput = {
+    create?: XOR<CompanyCreateWithoutAuditLogInput, CompanyUncheckedCreateWithoutAuditLogInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAuditLogInput
+    upsert?: CompanyUpsertWithoutAuditLogInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAuditLogInput, CompanyUpdateWithoutAuditLogInput>, CompanyUncheckedUpdateWithoutAuditLogInput>
   }
 
   export type ProductCreateNestedManyWithoutCategoryInput = {
@@ -33849,6 +34038,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AuditLogCreateWithoutCompanyInput = {
+    id?: string
+    action: string
+    entity: string
+    entityId?: string | null
+    description: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAuditLogInput
+  }
+
+  export type AuditLogUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    action: string
+    entity: string
+    entityId?: string | null
+    description: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogCreateOrConnectWithoutCompanyInput = {
+    where: AuditLogWhereUniqueInput
+    create: XOR<AuditLogCreateWithoutCompanyInput, AuditLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AuditLogCreateManyCompanyInputEnvelope = {
+    data: AuditLogCreateManyCompanyInput | AuditLogCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCompanyInput, UserUncheckedUpdateWithoutCompanyInput>
@@ -34232,6 +34451,36 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"ServiceLocation"> | string | null
   }
 
+  export type AuditLogUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AuditLogWhereUniqueInput
+    update: XOR<AuditLogUpdateWithoutCompanyInput, AuditLogUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AuditLogCreateWithoutCompanyInput, AuditLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AuditLogUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AuditLogWhereUniqueInput
+    data: XOR<AuditLogUpdateWithoutCompanyInput, AuditLogUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AuditLogUpdateManyWithWhereWithoutCompanyInput = {
+    where: AuditLogScalarWhereInput
+    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AuditLogScalarWhereInput = {
+    AND?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+    OR?: AuditLogScalarWhereInput[]
+    NOT?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+    id?: StringFilter<"AuditLog"> | string
+    userId?: StringFilter<"AuditLog"> | string
+    action?: StringFilter<"AuditLog"> | string
+    entity?: StringFilter<"AuditLog"> | string
+    entityId?: StringNullableFilter<"AuditLog"> | string | null
+    description?: StringFilter<"AuditLog"> | string
+    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
+    companyId?: StringNullableFilter<"AuditLog"> | string | null
+  }
+
   export type AccountCreateWithoutUserInput = {
     id?: string
     providerType: string
@@ -34273,6 +34522,7 @@ export namespace Prisma {
     entityId?: string | null
     description: string
     createdAt?: Date | string
+    Company?: CompanyCreateNestedOneWithoutAuditLogInput
   }
 
   export type AuditLogUncheckedCreateWithoutUserInput = {
@@ -34282,6 +34532,7 @@ export namespace Prisma {
     entityId?: string | null
     description: string
     createdAt?: Date | string
+    companyId?: string | null
   }
 
   export type AuditLogCreateOrConnectWithoutUserInput = {
@@ -34383,6 +34634,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     products?: ProductCreateNestedManyWithoutCompanyInput
@@ -34396,12 +34648,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
@@ -34415,6 +34669,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -34468,19 +34723,6 @@ export namespace Prisma {
   export type AuditLogUpdateManyWithWhereWithoutUserInput = {
     where: AuditLogScalarWhereInput
     data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type AuditLogScalarWhereInput = {
-    AND?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
-    OR?: AuditLogScalarWhereInput[]
-    NOT?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
-    id?: StringFilter<"AuditLog"> | string
-    userId?: StringFilter<"AuditLog"> | string
-    action?: StringFilter<"AuditLog"> | string
-    entity?: StringFilter<"AuditLog"> | string
-    entityId?: StringNullableFilter<"AuditLog"> | string | null
-    description?: StringFilter<"AuditLog"> | string
-    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -34564,6 +34806,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     products?: ProductUpdateManyWithoutCompanyNestedInput
@@ -34577,12 +34820,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
@@ -34596,6 +34841,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type DeliveryCreateWithoutProductInput = {
@@ -34752,6 +34998,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -34765,12 +35012,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProductsInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -34784,6 +35033,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProductsInput = {
@@ -34931,6 +35181,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -34944,12 +35195,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProductsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -34963,6 +35216,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type StockMovementCreateWithoutDestinationWarehouseInput = {
@@ -35101,6 +35355,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -35114,12 +35369,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWarehousesInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -35133,6 +35390,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWarehousesInput = {
@@ -35219,6 +35477,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -35232,12 +35491,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWarehousesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -35251,6 +35512,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ProductCreateWithoutWarehouseProductInput = {
@@ -35522,6 +35784,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -35535,12 +35798,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutStockMovementsInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -35554,6 +35819,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutStockMovementsInput = {
@@ -35699,6 +35965,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -35712,12 +35979,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutStockMovementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -35731,6 +36000,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type DeliveryCreateWithoutSupplierInput = {
@@ -35863,6 +36133,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -35876,12 +36147,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSuppliersInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -35895,6 +36168,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSuppliersInput = {
@@ -35965,6 +36239,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -35978,12 +36253,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSuppliersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -35997,6 +36274,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SupplierCreateWithoutSupplierInvoiceInput = {
@@ -36147,6 +36425,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -36160,12 +36439,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSupplierInvoicesInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -36179,6 +36460,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSupplierInvoicesInput = {
@@ -36311,6 +36593,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -36324,12 +36607,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSupplierInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -36343,6 +36628,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutAuditLogInput = {
@@ -36390,6 +36676,53 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutAuditLogInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutAuditLogInput, UserUncheckedCreateWithoutAuditLogInput>
+  }
+
+  export type CompanyCreateWithoutAuditLogInput = {
+    id?: string
+    name: string
+    cnpj?: string | null
+    corporateName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    products?: ProductCreateNestedManyWithoutCompanyInput
+    warehouses?: WareHouseCreateNestedManyWithoutCompanyInput
+    stockMovements?: StockMovementCreateNestedManyWithoutCompanyInput
+    deliveries?: DeliveryCreateNestedManyWithoutCompanyInput
+    suppliers?: SupplierCreateNestedManyWithoutCompanyInput
+    supplierInvoices?: SupplierInvoiceCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
+    serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
+    serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAuditLogInput = {
+    id?: string
+    name: string
+    cnpj?: string | null
+    corporateName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    products?: ProductUncheckedCreateNestedManyWithoutCompanyInput
+    warehouses?: WareHouseUncheckedCreateNestedManyWithoutCompanyInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutCompanyInput
+    deliveries?: DeliveryUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: SupplierUncheckedCreateNestedManyWithoutCompanyInput
+    supplierInvoices?: SupplierInvoiceUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
+    serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
+    serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAuditLogInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAuditLogInput, CompanyUncheckedCreateWithoutAuditLogInput>
   }
 
   export type UserUpsertWithoutAuditLogInput = {
@@ -36445,6 +36778,59 @@ export namespace Prisma {
     Service?: ServiceUncheckedUpdateManyWithoutCreatedByUserNestedInput
   }
 
+  export type CompanyUpsertWithoutAuditLogInput = {
+    update: XOR<CompanyUpdateWithoutAuditLogInput, CompanyUncheckedUpdateWithoutAuditLogInput>
+    create: XOR<CompanyCreateWithoutAuditLogInput, CompanyUncheckedCreateWithoutAuditLogInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAuditLogInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAuditLogInput, CompanyUncheckedUpdateWithoutAuditLogInput>
+  }
+
+  export type CompanyUpdateWithoutAuditLogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    products?: ProductUpdateManyWithoutCompanyNestedInput
+    warehouses?: WareHouseUpdateManyWithoutCompanyNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutCompanyNestedInput
+    deliveries?: DeliveryUpdateManyWithoutCompanyNestedInput
+    suppliers?: SupplierUpdateManyWithoutCompanyNestedInput
+    supplierInvoices?: SupplierInvoiceUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
+    serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
+    serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAuditLogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    products?: ProductUncheckedUpdateManyWithoutCompanyNestedInput
+    warehouses?: WareHouseUncheckedUpdateManyWithoutCompanyNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutCompanyNestedInput
+    deliveries?: DeliveryUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: SupplierUncheckedUpdateManyWithoutCompanyNestedInput
+    supplierInvoices?: SupplierInvoiceUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
+    serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type ProductCreateWithoutCategoryInput = {
     id?: string
     name: string
@@ -36497,6 +36883,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -36510,12 +36897,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCategoriesInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -36529,6 +36918,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCategoriesInput = {
@@ -36567,6 +36957,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -36580,12 +36971,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -36599,6 +36992,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ProductCreateWithoutDeliveryInput = {
@@ -36751,6 +37145,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -36764,12 +37159,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDeliveriesInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -36783,6 +37180,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDeliveriesInput = {
@@ -36975,6 +37373,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -36988,12 +37387,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDeliveriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -37007,6 +37408,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutPasswordResetTokenInput = {
@@ -37272,6 +37674,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -37285,12 +37688,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServicesInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -37304,6 +37709,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServicesInput = {
@@ -37515,6 +37921,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -37528,12 +37935,14 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -37547,6 +37956,7 @@ export namespace Prisma {
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceCreateWithoutProviderInput = {
@@ -37637,6 +38047,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -37650,12 +38061,14 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServiceProvidersInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -37669,6 +38082,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServiceProvidersInput = {
@@ -37723,6 +38137,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -37736,12 +38151,14 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServiceProvidersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -37755,6 +38172,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceCreateWithoutTypeInput = {
@@ -37803,6 +38221,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -37816,12 +38235,14 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServiceTypesInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -37835,6 +38256,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceLocations?: ServiceLocationUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServiceTypesInput = {
@@ -37873,6 +38295,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -37886,12 +38309,14 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServiceTypesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -37905,6 +38330,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceLocations?: ServiceLocationUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceCreateWithoutLocationInput = {
@@ -37953,6 +38379,7 @@ export namespace Prisma {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -37966,12 +38393,14 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     serviceProviders?: ServiceProviderCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServiceLocationsInput = {
     id?: string
     name: string
     cnpj?: string | null
+    corporateName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
@@ -37985,6 +38414,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     serviceProviders?: ServiceProviderUncheckedCreateNestedManyWithoutCompanyInput
     serviceTypes?: ServiceTypeUncheckedCreateNestedManyWithoutCompanyInput
+    AuditLog?: AuditLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServiceLocationsInput = {
@@ -38023,6 +38453,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -38036,12 +38467,14 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     serviceProviders?: ServiceProviderUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServiceLocationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     cnpj?: NullableStringFieldUpdateOperationsInput | string | null
+    corporateName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
@@ -38055,6 +38488,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     serviceProviders?: ServiceProviderUncheckedUpdateManyWithoutCompanyNestedInput
     serviceTypes?: ServiceTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    AuditLog?: AuditLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateManyCompanyInput = {
@@ -38198,6 +38632,16 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type AuditLogCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    action: string
+    entity: string
+    entityId?: string | null
+    description: string
+    createdAt?: Date | string
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -38673,6 +39117,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AuditLogUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuditLogNestedInput
+  }
+
+  export type AuditLogUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AccountCreateManyUserInput = {
     id?: string
     providerType: string
@@ -38692,6 +39166,7 @@ export namespace Prisma {
     entityId?: string | null
     description: string
     createdAt?: Date | string
+    companyId?: string | null
   }
 
   export type SessionCreateManyUserInput = {
@@ -38762,6 +39237,7 @@ export namespace Prisma {
     entityId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Company?: CompanyUpdateOneWithoutAuditLogNestedInput
   }
 
   export type AuditLogUncheckedUpdateWithoutUserInput = {
@@ -38771,6 +39247,7 @@ export namespace Prisma {
     entityId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AuditLogUncheckedUpdateManyWithoutUserInput = {
@@ -38780,6 +39257,7 @@ export namespace Prisma {
     entityId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUpdateWithoutUserInput = {

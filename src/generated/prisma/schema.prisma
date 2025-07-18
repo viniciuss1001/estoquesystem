@@ -36,11 +36,12 @@ model Session {
 }
 
 model Company {
-  id        String   @id @default(uuid())
-  name      String
-  cnpj      String?  @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(uuid())
+  name          String
+  cnpj          String?  @unique
+  corporateName String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   users            User[]
   products         Product[]
@@ -54,6 +55,7 @@ model Company {
   serviceProviders ServiceProvider[]
   serviceTypes     ServiceType[]
   serviceLocations ServiceLocation[]
+  AuditLog         AuditLog[]
 }
 
 model User {
@@ -200,6 +202,8 @@ model AuditLog {
   description String
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
+  companyId   String?
+  Company     Company? @relation(fields: [companyId], references: [id])
 
   @@index([userId])
   @@index([entity])

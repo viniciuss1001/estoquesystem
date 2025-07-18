@@ -46,7 +46,7 @@ const RegisterUserDialog = ({ companyId, companyName }: RegisterUserDialogProps)
 
   const { mutate: registerUser, isPending } = useMutation({
     mutationFn: async (data: RegisterFormValues) => {
-      const respose = await api.post("api/register", {
+      const respose = await api.post("/register", {
         ...data,
         companyId
       })
@@ -55,6 +55,7 @@ const RegisterUserDialog = ({ companyId, companyName }: RegisterUserDialogProps)
     },
     onSuccess: () => {
       toast.success("Usuário registrado com sucesso!")
+      router.push("/dashboard")
     },
     onError: () => {
       toast.error("Erro ao registrar usuário.")
@@ -129,7 +130,7 @@ const RegisterUserDialog = ({ companyId, companyName }: RegisterUserDialogProps)
             )}
           />
 
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
             {isPending ? "Registrando..." : "Cadastrar"}
           </Button>
 

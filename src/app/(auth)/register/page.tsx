@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -12,7 +13,6 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import RegisterUserDialog from "./_components/RegisterUserDialog"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface Company {
 	id: string
@@ -39,7 +39,7 @@ const RegisterPage = () => {
 
 	const { mutate: validateCnpj, isPending } = useMutation({
 		mutationFn: async (data: CnpjFormData) => {
-			const response = await api.post("/api/company/validate-cnpj", data)
+			const response = await api.post("company/validate", data)
 			return response.data
 		},
 		onSuccess: (data) => {
@@ -55,7 +55,6 @@ const RegisterPage = () => {
 	const onSubmit = async (data: CnpjFormData) => {
 		validateCnpj(data)
 	}
-	const loading = form.formState.isSubmitting
 
 	return (
 		<div className="w-1/2 mx-auto py-10  flex items-center justify-center">
@@ -85,24 +84,29 @@ const RegisterPage = () => {
 								)}
 							/>
 
-							<CardFooter className="flex items-end justify-end">
-								<Button type="submit" disabled={isPending} className="cursor-pointer">
-									{isPending ? "Validando..." : "Validar CNPJ"}
-								</Button>
+							<CardFooter className="flex items-end justify-end ">
+								{!company && (
+									<Button type="submit" disabled={isPending} className="cursor-pointer">
+										{isPending ? "Validando..." : "Validar CNPJ"}
+									</Button>
+								)}
+
+								{company && (
+									<Dialog>
+										<DialogTrigger asChild>
+											<Button className="mt-6 w-full cursor-pointer">Prosseguir com cadastro</Button>
+										</DialogTrigger>
+										<DialogContent>
+											<RegisterUserDialog companyId={company.id} companyName={company.name} />
+										</DialogContent>
+									</Dialog>
+								)}
+
 							</CardFooter>
 						</form>
 					</Form>
 
-					{company && (
-						<Dialog>
-							<DialogTrigger asChild>
-								<Button className="mt-6 w-full">Prosseguir com cadastro</Button>
-							</DialogTrigger>
-							<DialogContent>
-								<RegisterUserDialog companyId={company.id} companyName={company.name} />
-							</DialogContent>
-						</Dialog>
-					)}
+
 				</CardContent>
 
 			</Card>
