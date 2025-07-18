@@ -10,10 +10,16 @@ export async function POST(req: NextRequest) {
 
 
 		const body = await req.json()
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const category = await prisma.category.create({
 			data: {
-				name: body.name
+				name: body.name,
+				companyId: companyId
 			}
 		})
 		try {
@@ -40,9 +46,20 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
 	try {
+		const { session, error: sessionError } = await requireSession()
+		if (sessionError) return sessionError
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const categories = await prisma.category.findMany({
+			where: {
+				companyId: companyId
+			},
 			orderBy: { name: "desc" },
-			select: {id: true, name: true}
+			select: { id: true, name: true }
 		})
 
 		return NextResponse.json(categories)

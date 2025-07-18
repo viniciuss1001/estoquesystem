@@ -9,13 +9,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 				if (sessionError) return sessionError
 
 		const body = await req.json()
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const category = await prisma.category.update({
 			where: {
 				id: (await params).id
 			},
 			data: {
-				name: body.name
+				name: body.name, 
+				companyId: companyId
 			}
 		})
 

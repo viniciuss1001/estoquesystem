@@ -4,6 +4,7 @@ export interface ThisUser {
   email: string
   office: "Admin" | "Gestor"
   department: string
+  companyId: string
   phone: string
   description: string
   createdAt: Date

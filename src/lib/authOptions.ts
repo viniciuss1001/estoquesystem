@@ -36,6 +36,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           email: user.email,
           office: user.office,
+          companyId: user.companyId
 
         }
       },
@@ -45,9 +46,12 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id
+        // @ts-ignore
+        token.companyId = user.companyId
       }
       return token
     },
+
     async session({ session, token }) {
       if (session?.user && token?.sub) {
         const userInDb = await prisma.user.findUnique({
@@ -60,6 +64,8 @@ export const authOptions: NextAuthOptions = {
             phone: true,
             department: true,
             description: true,
+            companyId: true,
+
             //password: true
           },
         })
