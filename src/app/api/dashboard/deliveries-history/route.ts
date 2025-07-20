@@ -3,8 +3,14 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-	const { error: sessionError } = await requireSession()
+	const { session, error: sessionError } = await requireSession()
 	if (sessionError) return sessionError
+
+	const companyId = session.user.companyId
+
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
 
 	const { searchParams } = new URL(req.url)
 	const days = Number(searchParams.get("days") || 15)
@@ -20,7 +26,8 @@ export async function GET(req: NextRequest) {
 		where: {
 			createdAt: {
 				gte: startDate
-			}
+			},
+			companyId
 		},
 		orderBy: {
 			expectedAt: "asc"

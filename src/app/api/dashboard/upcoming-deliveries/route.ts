@@ -3,22 +3,29 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-	const {error: sessionError} = await requireSession()
-	if(sessionError) return sessionError
+	const { session, error: sessionError } = await requireSession()
+	if (sessionError) return sessionError
+
+	const companyId = session.user.companyId
+
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
 
 	const deliveries = await prisma.delivery.findMany({
 		where: {
 			expectedAt: {
 				gte: new Date()
-			}, 
-			status: "PENDING"
-		}, 
+			},
+			status: "PENDING", 
+			companyId
+		},
 		orderBy: {
 			expectedAt: "asc"
-		}, 
+		},
 		take: 5,
 		include: {
-			product: true, 
+			product: true,
 			supplier: true
 		}
 	})

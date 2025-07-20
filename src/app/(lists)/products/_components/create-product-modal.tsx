@@ -198,7 +198,7 @@ const CreateProductModal = () => {
 											</FormControl>
 											<SelectContent>
 												{categories.map((cat: { id: string; name: string }) => (
-													<SelectItem key={cat.id} value={cat.name}>
+													<SelectItem key={cat.id} value={cat.id}>
 														{cat.name}
 													</SelectItem>
 												))}

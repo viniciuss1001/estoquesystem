@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
 		const category = await prisma.category.findUnique({
 			where: {
-				name: body.category
+				id: body.category
 			}
 		})
 
@@ -31,7 +31,9 @@ export async function POST(req: NextRequest) {
 			quantity: body.quantity,
 			unit: body.unit,
 			usageStatus: body.usageStatus,
-			category: category ? { connect: { name: category.name } } : undefined
+			categoryId: category?.id,
+			companyId
+
 		}
 
 		if (category?.name === "Perecível" && body.expirationDate) {

@@ -3,18 +3,27 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-	const {error: sessionError} = await requireSession()
-	if(sessionError) return sessionError
+	const { session, error: sessionError } = await requireSession()
+	if (sessionError) return sessionError
+
+	const companyId = session.user.companyId
+
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
 
 	const movements = await prisma.stockMovement.findMany({
+		where: {
+			companyId
+		},
 		orderBy: {
-		createdAt: "asc"
-		}, 
+			createdAt: "asc"
+		},
 		take: 5,
 		include: {
-			product: true, 
-			originWareHouse: true, 
-			destinationWarehouse: true, 
+			product: true,
+			originWareHouse: true,
+			destinationWarehouse: true,
 		}
 	})
 

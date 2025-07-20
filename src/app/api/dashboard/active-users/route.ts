@@ -3,8 +3,14 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-	const { error: sessionError } = await requireSession()
+	const { session, error: sessionError } = await requireSession()
 	if (sessionError) return sessionError
+
+	const companyId = session.user.companyId
+
+	if (!companyId) {
+		return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+	}
 
 	const oneWeekAgo = new Date()
 	oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
@@ -14,6 +20,7 @@ export async function GET() {
 			lastLogin: {
 				gte: oneWeekAgo,
 			},
+			companyId
 		},
 		select: {
 			id: true,
