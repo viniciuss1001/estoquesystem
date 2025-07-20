@@ -40,9 +40,15 @@ type OverdueInvoice = {
     amount: number
     dueDate: string
     status: "PENDING" | "PAID" | "CANCELED"
-    supplier: {
+    supplier?: {
+        id: string
         name: string
-    }
+    } | null
+
+    serviceProvider?: {
+        id: string
+        name: string
+    } | null
 }
 interface LowStockProduc {
     id: string
@@ -400,9 +406,9 @@ export function useFilteredSupplierInvoices(filters: InvoiceFilters) {
     })
 }
 
-export function useOpenSupplierInvoices(){
+export function useOpenSupplierInvoices() {
     return useQuery({
-        queryKey: ["openSupplierInvoices"], 
+        queryKey: ["openSupplierInvoices"],
         queryFn: async () => {
             const response = await api.get("/supplier-invoice/need-pay")
             return response.data as SupplierInvoice[]
@@ -482,31 +488,31 @@ export function useService(id: string) {
     })
 }
 
-export function useServiceProviders(){
+export function useServiceProviders() {
     return useQuery({
         queryKey: ["serviceproviders"],
         queryFn: async () => {
-            const response= await api.get("/service-provider")
+            const response = await api.get("/service-provider")
             return response.data as ServiceProvider[]
         }
     })
 }
 
-export function useServiceProvider(id: string){
+export function useServiceProvider(id: string) {
     return useQuery({
-        queryKey: ["serviceProvider", id], 
+        queryKey: ["serviceProvider", id],
         queryFn: async () => {
             const response = await api.get(`/service-provider/${id}`)
 
             return response.data as ServiceProvider
-        }, 
+        },
         enabled: !!id
     })
 }
 
-export function useServiceLocations(){
+export function useServiceLocations() {
     return useQuery({
-        queryKey: ["serviceLocations"], 
+        queryKey: ["serviceLocations"],
         queryFn: async () => {
             const respone = await api.get("/service-location")
             return respone.data as ServiceLocation[]
@@ -514,20 +520,20 @@ export function useServiceLocations(){
     })
 }
 
-export function useServiceLocation(id: string){
+export function useServiceLocation(id: string) {
     return useQuery({
-        queryKey: ["serviceLocation", id], 
+        queryKey: ["serviceLocation", id],
         queryFn: async () => {
             const response = await api.get(`/service-location/${id}`)
             return response.data as ServiceLocation
-        }, 
+        },
         enabled: !!id
     })
 }
 
-export function useServiceTypes(){
+export function useServiceTypes() {
     return useQuery({
-        queryKey: ["servicetypes"], 
+        queryKey: ["servicetypes"],
         queryFn: async () => {
             const response = await api.get("/service-type")
             return response.data as ServiceType[]
@@ -535,9 +541,9 @@ export function useServiceTypes(){
     })
 }
 
-export function useServiceType(id: string){
+export function useServiceType(id: string) {
     return useQuery({
-        queryKey: ["serviceType", id], 
+        queryKey: ["serviceType", id],
         queryFn: async () => {
             const response = await api.get(`/service-type/${id}`)
             return response.data as ServiceType

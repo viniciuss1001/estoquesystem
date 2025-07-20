@@ -16,9 +16,7 @@ const DashboardPage = () => {
   const { data: totalProducts = [] } = useTotalProducts()
   const { data: totalWarehouses } = useTotalWarehouses()
   const { data: activeUsers = [] } = useActiveUsers()
-  const { data: overdueInvoices } = useOverdueInvoices()
-
-  console.log(activeUsers)
+  const { data: overdueInvoices = [] } = useOverdueInvoices()
 
   return (
     <div className="flex flex-col min-h-screen w-full space-y-8 px-6 py-8">

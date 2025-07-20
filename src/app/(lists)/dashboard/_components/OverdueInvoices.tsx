@@ -10,6 +10,7 @@ import { FileWarning, Loader2 } from "lucide-react"
 const OverdueInvoices = () => {
 
 	const { data, isLoading } = useOverdueInvoices()
+	console.log(data)
 
 	return (
 		<Card className="col-span-1 sm:col-span-2 lg:col-span-3 min-w-[350px] w-full h-fit min-h-[200px] transition-all duration-200 hover:shadow-md hover:-translate-y-1 bg-background">
@@ -29,7 +30,7 @@ const OverdueInvoices = () => {
 								<div className="space-y-1">
 									<div className="flex items-center gap-2">
 										<FileWarning className="w-4 h-4 text-destructive" />
-										<span className="font-medium">{invoice.supplier.name}</span>
+										<span className="font-medium">{invoice.supplier?.name || invoice.serviceProvider?.name || "-"}</span>
 										<Badge variant="destructive">Vencido</Badge>
 									</div>
 									<div className="text-sm text-muted-foreground">
