@@ -7,11 +7,18 @@ export async function GET() {
         const { session, error: sessionError } = await requireSession()
         if (sessionError) return sessionError
 
+        const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
         const openInvoices = await prisma.supplierInvoice.findMany({
             where: {
                 status: {
                     in: ["PENDING", "OVERDUE"]
-                }
+                }, 
+                companyId
             },
             select: {
                 id: true,

@@ -9,6 +9,12 @@ export async function POST(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const body = await req.json()
 		const { name, description, location } = body
 
@@ -18,7 +24,7 @@ export async function POST(req: NextRequest) {
 
 		const warehouse = await prisma.wareHouse.create({
 			data: {
-				name, description, location
+				name, description, location, companyId
 			}
 		})
 
@@ -56,13 +62,20 @@ export async function GET(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { searchParams, } = new URL(req.url)
 
 		const location = searchParams.get("location") || undefined
 
 		const warehouses = await prisma.wareHouse.findMany({
 			where: {
-				location: location ? { contains: location, mode: "insensitive" } : undefined
+				location: location ? { contains: location, mode: "insensitive" } : undefined,
+				companyId
 			},
 			orderBy: { createdAt: "desc" },
 			select: {

@@ -8,10 +8,16 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { id } = await params
 
 		const invoice = await prisma.supplierInvoice.findUnique({
-			where: { id },
+			where: { id, companyId },
 			include: {
 				supplier: true,
 				serviceProvider: true,
@@ -36,6 +42,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { id } = await params
 
 		const body = await req.json()
@@ -49,19 +61,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		}
 
 		const updatedInvoice = await prisma.supplierInvoice.update({
-	where: { id },
-	data: {
-		title: body.title,
-		description: body.description,
-		amount: body.amount,
-		dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
-		fileUrl: body.fileUrl || undefined,
-		status: body.status || undefined,
-	
-		supplierId: body.providerType === "SUPPLIER" ? body.supplierId : null,
-		serviceProviderId: body.providerType === "SERVICE_PROVIDER" ? body.supplierId : null,
-	}
-})
+			where: { id, companyId },
+			data: {
+				title: body.title,
+				description: body.description,
+				amount: body.amount,
+				dueDate: body.dueDate ? new Date(body.dueDate) : undefined,
+				fileUrl: body.fileUrl || undefined,
+				status: body.status || undefined,
+
+				supplierId: body.providerType === "SUPPLIER" ? body.supplierId : null,
+				serviceProviderId: body.providerType === "SERVICE_PROVIDER" ? body.supplierId : null,
+			}
+		})
 
 		await logAction({
 			userId: session.user.id,
@@ -84,10 +96,16 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { id } = await params
 
 		const deleteInvoice = await prisma.supplierInvoice.delete({
-			where: { id }
+			where: { id, companyId }
 		})
 
 		await logAction({

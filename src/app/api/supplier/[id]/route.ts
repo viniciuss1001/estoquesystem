@@ -8,10 +8,16 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { id } = await params
 
 		const supplier = await prisma.supplier.findUnique({
-			where: { id: id },
+			where: { id: id, companyId },
 			include: {
 				products: {
 					include: {
@@ -39,6 +45,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const data = await req.json()
 
 		const { name, email, contactPhone, deliveryTime, description, cnpj } = data
@@ -47,7 +59,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const { id } = await params
 
 		const updatedSupplier = await prisma.supplier.update({
-			where: { id: id },
+			where: { id: id, companyId },
 			data: {
 				name, email, contactPhone, cnpj, deliveryTime, description
 			}
@@ -75,10 +87,16 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { id } = await params
 
 		await prisma.supplier.delete({
-			where: { id: id },
+			where: { id: id, companyId },
 
 		})
 

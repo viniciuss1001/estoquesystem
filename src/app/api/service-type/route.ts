@@ -8,13 +8,20 @@ export async function POST(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const body = await req.json()
 
 		const { name } = body
 
 		const newTypeService = await prisma.serviceType.create({
 			data: {
-				name
+				name,
+				companyId
 			}
 		})
 
@@ -44,7 +51,16 @@ export async function GET() {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const types = await prisma.serviceType.findMany({
+			where: {
+				companyId
+			},
 			orderBy: { name: "asc" }
 		})
 

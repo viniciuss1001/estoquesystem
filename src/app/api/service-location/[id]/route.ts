@@ -8,10 +8,16 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const { id } = await params
 
 		const serviceLocation = await prisma.serviceLocation.findUnique({
-			where: { id }
+			where: { id, companyId }
 		})
 
 		if (!serviceLocation) {
@@ -32,13 +38,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const body = await req.json()
 		const { name, address } = body
 
 		const { id } = await params
 
 		const updatedLocaleService = await prisma.serviceLocation.update({
-			where: { id },
+			where: { id, companyId },
 			data: { name, address }
 		})
 
@@ -62,11 +74,16 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
 	try {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const { id } = await params
 
 		await prisma.serviceLocation.delete({
-			where: { id }
+			where: { id, companyId }
 		})
 
 		await logAction({

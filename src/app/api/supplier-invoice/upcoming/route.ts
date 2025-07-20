@@ -8,6 +8,12 @@ export async function GET() {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const now = new Date()
 		const next7Days = new Date()
 		next7Days.setDate(now.getDate() + 7)
@@ -18,7 +24,8 @@ export async function GET() {
 					gte: now,
 					lte: next7Days
 				},
-				status: "PENDING"
+				status: "PENDING", 
+				companyId
 			},
 			select: {
 				id: true,

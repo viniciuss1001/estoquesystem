@@ -20,6 +20,12 @@ export async function POST(req: Request) {
     const { session, error: sessionError } = await requireSession()
     if (sessionError) return sessionError
 
+    const companyId = session.user.companyId
+
+    if (!companyId) {
+      return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+    }
+
     const json = await req.json()
     const parsed = supplierSchema.parse(json)
 
@@ -33,6 +39,7 @@ export async function POST(req: Request) {
         cnpj,
         deliveryTime,
         description: description || "",
+        companyId
       },
     });
 
@@ -82,7 +89,16 @@ export async function GET() {
     const { session, error: sessionError } = await requireSession()
     if (sessionError) return sessionError
 
+    const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
     const suppliers = await prisma.supplier.findMany({
+      where: {
+        companyId
+      },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,

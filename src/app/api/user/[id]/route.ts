@@ -1,3 +1,4 @@
+import { requireSession } from "@/lib/auth";
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import jwt from "jsonwebtoken";
@@ -6,7 +7,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
 	try {
-		const session = await getServerSession(authOptions)
+		const { session, error: sessionError } = await requireSession()
+
+		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		if (!session?.user) {
 			return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 })
@@ -22,7 +31,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 		}
 
 		const user = await prisma.user.findUnique({
-			where: { id: userIdToFetch },
+			where: { id: userIdToFetch, companyId },
 			select: {
 				id: true,
 				name: true,
@@ -41,7 +50,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 			return NextResponse.json({ error: "Usuário não encontrado." }, { status: 404 })
 		}
 
-		return NextResponse.json( user )
+		return NextResponse.json(user)
 	} catch (error) {
 		console.error("[GET USER ERROR]", error)
 		return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 })
@@ -50,10 +59,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
 	try {
-		const session = await getServerSession(authOptions)
+		const { session, error: sessionError } = await requireSession()
 
-		if (!session?.user) {
-			return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 })
+		if (sessionError) return sessionError
+		
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
 		}
 
 		const userIdFromSession = session.user.id
@@ -92,7 +105,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		}
 
 		const updatedUser = await prisma.user.update({
-			where: { id: userIdToUpdate },
+			where: { id: userIdToUpdate, companyId},
 			data: dataToUpdate
 		})
 
@@ -105,7 +118,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 	}
 }
 
-export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ userIdToDelete: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ userIdToDelete: string }> }) {
 	try {
 
 		const token = req.headers.get("authorization")?.replace("Bearer ", "")
@@ -115,7 +128,7 @@ export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ 
 		if (typeof decoded !== "object") return NextResponse.json({ error: "Token inválido" }, { status: 401 })
 
 		const userIdFromToken = (decoded as any).id
-		const {userIdToDelete} = await params
+		const { userIdToDelete } = await params
 
 		// Apenas admin pode deletar (melhor prática)
 		if ((decoded as any).office !== "ADMIN") {

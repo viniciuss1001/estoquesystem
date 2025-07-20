@@ -12,8 +12,14 @@ export async function POST(req: NextRequest) {
 		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
+
 		const body = await req.formData()
-		console.log("dados recebidos", body)
+		// console.log("dados recebidos", body)
 
 		const title = body.get("title") as string
 		const description = body.get("description") as string
@@ -46,7 +52,8 @@ export async function POST(req: NextRequest) {
 			amount,
 			dueDate,
 			fileUrl: fileUrl ?? undefined,
-			status: "PENDING"
+			status: "PENDING",
+			companyId
 		}
 
 		if (providerType === "SUPPLIER") {
@@ -89,8 +96,14 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
 	try {
-		const { error: sessionError } = await requireSession()
+		const { session, error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
+
+		const companyId = session.user.companyId
+
+		if (!companyId) {
+			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
+		}
 
 		const { searchParams } = new URL(req.url)
 
@@ -110,12 +123,14 @@ export async function GET(req: NextRequest) {
 				...(status && { status }),
 				...(dueDateFrom || dueDateTo
 					? {
-							dueDate: {
-								...(dueDateFrom && { gte: new Date(dueDateFrom) }),
-								...(dueDateTo && { lte: new Date(dueDateTo) }),
-							},
-					  }
+						dueDate: {
+							...(dueDateFrom && { gte: new Date(dueDateFrom) }),
+							...(dueDateTo && { lte: new Date(dueDateTo) }),
+						},
+					}
 					: {}),
+					
+				companyId,
 			},
 			orderBy: { dueDate: "asc" },
 			select: {

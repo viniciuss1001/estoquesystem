@@ -77,8 +77,8 @@ model User {
   sessions           Session[]
   PasswordResetToken PasswordResetToken?
   Service            Service[]
-  Company            Company?            @relation(fields: [companyId], references: [id])
-  companyId          String?
+  company            Company            @relation(fields: [companyId], references: [id])
+  companyId          String
 }
 
 model Product {
@@ -119,8 +119,8 @@ model WareHouse {
   stockMovementsOrigin      StockMovement[]    @relation("OriginWarehouse")
   warehouseProduct          WarehouseProduct[]
   Delivery                  Delivery[]
-  Company                   Company?           @relation(fields: [companyId], references: [id])
-  companyId                 String?
+  company                   Company           @relation(fields: [companyId], references: [id])
+  companyId                 String
 }
 
 model WarehouseProduct {
@@ -165,9 +165,9 @@ model Supplier {
   deliveryTime    DateTime?
   delivery        Delivery[]
   products        Product[]
-  SupplierInvoice SupplierInvoice[]
-  Company         Company?          @relation(fields: [companyId], references: [id])
-  companyId       String?
+  supplierInvoice SupplierInvoice[]
+  company         Company          @relation(fields: [companyId], references: [id])
+  companyId       String
 }
 
 model SupplierInvoice {
@@ -189,8 +189,8 @@ model SupplierInvoice {
 
   Delivery  Delivery[]
   Service   Service[]
-  Company   Company?   @relation(fields: [companyId], references: [id])
-  companyId String?
+  company   Company   @relation(fields: [companyId], references: [id])
+  companyId String
 }
 
 model AuditLog {
@@ -202,8 +202,8 @@ model AuditLog {
   description String
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
-  companyId   String?
-  Company     Company? @relation(fields: [companyId], references: [id])
+  companyId   String
+  Company     Company @relation(fields: [companyId], references: [id])
 
   @@index([userId])
   @@index([entity])
@@ -215,8 +215,8 @@ model Category {
   createAt  DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
-  Company   Company?  @relation(fields: [companyId], references: [id])
-  companyId String?
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId String
 
   @@unique([companyId, name])
 }
@@ -295,8 +295,8 @@ model ServiceProvider {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   SupplierInvoice SupplierInvoice[]
-  Company         Company?          @relation(fields: [companyId], references: [id])
-  companyId       String?
+  company         Company          @relation(fields: [companyId], references: [id])
+  companyId       String
 }
 
 model ServiceType {
@@ -305,8 +305,8 @@ model ServiceType {
   services  Service[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Company   Company?  @relation(fields: [companyId], references: [id])
-  companyId String?
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId String
 }
 
 model ServiceLocation {
@@ -316,8 +316,8 @@ model ServiceLocation {
   services  Service[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Company   Company?  @relation(fields: [companyId], references: [id])
-  companyId String?
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId String
 }
 
 enum Office {
