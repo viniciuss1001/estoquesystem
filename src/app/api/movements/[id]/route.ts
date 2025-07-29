@@ -1,8 +1,6 @@
 import { logAction } from "@/lib/audit";
 import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -45,7 +43,7 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { session, error: sessionError } = await requireSession()
@@ -57,7 +55,7 @@ export async function PATCH(
     }
 
 
-    const { id } = params
+    const { id } = await params
 
     const body = await req.json()
 
@@ -208,24 +206,27 @@ export async function PATCH(
 
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { session, error: sessionError } = await requireSession()
     if (sessionError) return sessionError
 
+    const { id } = await params
+
     await prisma.stockMovement.delete({
-      where: { id: params.id },
+      where: { id },
     });
     await logAction({
       userId: session.user.id,
       action: "delete",
       entity: "movement",
-      entityId: params.id,
-      description: `Movimentação Apagada: ${params.id}`,
+      entityId: id,
+      description: `Movimentação Apagada: ${id}`,
     });
 
-    return NextResponse.json({ mensagem: "Produto deletado com sucesso" });
+    return NextResponse.json({ mensagem: "Produto deletado com sucesso" })
+
   } catch (error) {
     console.error(error);
     return NextResponse.json(

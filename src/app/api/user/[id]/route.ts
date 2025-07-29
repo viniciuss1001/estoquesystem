@@ -1,11 +1,9 @@
 import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
 import jwt from "jsonwebtoken";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const { session, error: sessionError } = await requireSession()
 
@@ -21,9 +19,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 			return NextResponse.json({ error: "Acesso não autorizado." }, { status: 401 })
 		}
 
+		const { id } = await params
+
 		const userIdFromSession = session.user.id
 		const userOffice = session.user.office
-		const userIdToFetch = params.id
+		const userIdToFetch = id
 
 		// Só permite o próprio usuário ou um admin acessar os dados
 		if (userIdFromSession !== userIdToFetch && userOffice !== "ADMIN") {
@@ -57,21 +57,23 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 	}
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 	try {
 		const { session, error: sessionError } = await requireSession()
 
 		if (sessionError) return sessionError
-		
+
 		const companyId = session.user.companyId
 
 		if (!companyId) {
 			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
 		}
 
+		const {id} = await params
+
 		const userIdFromSession = session.user.id
 		const userOffice = session.user.office
-		const userIdToUpdate = params.id
+		const userIdToUpdate = id
 
 		if (userIdFromSession !== userIdToUpdate && userOffice !== "ADMIN") {
 			return NextResponse.json({ error: "Acesso negado" }, { status: 403 })
@@ -105,7 +107,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		}
 
 		const updatedUser = await prisma.user.update({
-			where: { id: userIdToUpdate, companyId},
+			where: { id: userIdToUpdate, companyId },
 			data: dataToUpdate
 		})
 
