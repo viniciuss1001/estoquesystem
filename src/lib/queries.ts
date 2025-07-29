@@ -421,7 +421,7 @@ export function useOverdueInvoices() {
         queryKey: ["overdueInvoices"],
         queryFn: async () => {
             const { data } = await api.get("/dashboard/overdue-invoices")
-            return data as OverdueInvoice[]
+            return data as SupplierInvoice[]
         }
     })
 }

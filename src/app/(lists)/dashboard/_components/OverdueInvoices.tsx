@@ -10,7 +10,6 @@ import { FileWarning, Loader2 } from "lucide-react"
 const OverdueInvoices = () => {
 
 	const { data, isLoading } = useOverdueInvoices()
-	console.log(data)
 
 	return (
 		<Card className="col-span-1 sm:col-span-2 lg:col-span-3 min-w-[350px] w-full h-fit min-h-[200px] transition-all duration-200 hover:shadow-md hover:-translate-y-1 bg-background">
