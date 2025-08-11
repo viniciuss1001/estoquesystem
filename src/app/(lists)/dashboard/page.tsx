@@ -13,7 +13,7 @@ import { FileWarning, Package, Users, Warehouse } from "lucide-react"
 
 const DashboardPage = () => {
 
-  const { data: totalProducts = [] } = useTotalProducts()
+  const { data: totalProducts } = useTotalProducts()
   const { data: totalWarehouses } = useTotalWarehouses()
   const { data: activeUsers = [] } = useActiveUsers()
   const { data: overdueInvoices = [] } = useOverdueInvoices()
@@ -53,7 +53,7 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* movments and invoices */}
+      {/* movements and invoices */}
       <div className="flex gap-3 justify-between">
         <div className="w-2/5">
 

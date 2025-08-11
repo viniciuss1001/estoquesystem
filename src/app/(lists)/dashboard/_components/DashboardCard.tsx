@@ -3,7 +3,7 @@ import { LucideIcon } from "lucide-react"
 
 type DashboardCardProps = {
 	title: string
-	value: number | string
+	value?: number | string
 	icon: LucideIcon
 	color?: "default" | "green" | "blue" | "orange" | "red"
 }

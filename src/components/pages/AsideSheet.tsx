@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { useUser } from "@/lib/queries"
 import { CalendarClock, CalendarSearch, User } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { ReactNode, useState } from "react"
@@ -17,6 +18,9 @@ interface AsideSheetProps {
 
 const AsideSheet = ({ children }: AsideSheetProps) => {
 	const { data: session } = useSession()
+	const id = session?.user.id || "-"
+
+	const { data: user } = useUser(id)
 
 	const [open, setOpen] = useState<boolean>(false)
 
@@ -41,7 +45,7 @@ const AsideSheet = ({ children }: AsideSheetProps) => {
 							<span className="flex gap-2 items-center justify-between">
 								<Avatar className="w-15 h-15">
 									<AvatarFallback className="text-xl">
-										{session?.user.name.split(" ").map((n) => n[0]).join("").toUpperCase() ?? "-"}
+										{user?.name.split(" ").map((n) => n[0]).join("").toUpperCase() ?? "-"}
 									</AvatarFallback>
 								</Avatar>
 								<div className="flex flex-col gap-2 items-start ml-2">
@@ -58,7 +62,7 @@ const AsideSheet = ({ children }: AsideSheetProps) => {
 						</Card>
 						<LogoutButton />
 					</div>
-					<Separator  className="mb-2 rounded-full "/>
+					<Separator className="mb-2 rounded-full " />
 					<div className="ml-6 h-16">
 						<p className="text-sm text-muted-foreground pb-1">
 							Painel de Buscas
@@ -66,7 +70,7 @@ const AsideSheet = ({ children }: AsideSheetProps) => {
 						<SearchInput />
 					</div>
 
-					<Separator className="mb-2 rounded-full"/>
+					<Separator className="mb-2 rounded-full" />
 
 					<div className="flex flex-col items-start mb-2 mr-auto p-2 pl-6 gap-2">
 						<h2 className="text-xl font-semibold flex gap-2">

@@ -109,7 +109,7 @@ const ProductsPage = () => {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.sku}</TableCell>
                 <TableCell >{product.quantity}</TableCell>
-                <TableCell>{unitLabels[product?.unit] ?? product.unit}</TableCell>
+                <TableCell>{unitLabels[product.unit] ?? product.unit}</TableCell>
                 <TableCell>R$ {product.price.toFixed(2)}</TableCell>
                 <TableCell>{product.category?.name ?? "-"}</TableCell>
 

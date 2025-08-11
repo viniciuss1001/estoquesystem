@@ -149,7 +149,7 @@ const DeliveryCalendarAside = () => {
 
 									<div className="flex items-center gap-2">
 										<Truck className="w-4 h-4" />
-										<p className="text-sm ">{invoice.supplier.name}</p>
+										<p className="text-sm ">{invoice.supplier?.name || invoice.serviceProvider?.name || "-"}</p>
 									</div>
 
 									<div className="flex items-center gap-2">

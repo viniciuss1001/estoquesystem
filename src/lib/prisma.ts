@@ -4,7 +4,7 @@ import Decimal from "decimal.js"
 
 const prisma = new PrismaClient();
 
-(Decimal.prototype.toJSON as any) = function () {
+(Prisma.Decimal.prototype.toJSON as any) = function (this: Prisma.Decimal) {
 	return parseFloat(this.toString())
 }
 

@@ -80,7 +80,7 @@ export interface Product {
   usageStatus?: "IN_STOCK" | "IN_USE" | "CONSUMED"
   expirationDate?: string | null
   minimumStock: number
-  unit?: "UNIT" | "KILOGRAM" | "LITER" | "SQUARE_METER"
+  unit: "UNIT" | "KILOGRAM" | "LITER" | "SQUARE_METER"
 }
 
 export interface Supplier {

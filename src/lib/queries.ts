@@ -362,11 +362,12 @@ export function useMovementHistory(days: number) {
                 date: string
                 IN: number
                 OUT: number
-                TRASNFER: number
-            }
+                TRANSFER: number
+            }[]
         }
     })
 }
+
 
 export function useMovements() {
     return useQuery({
