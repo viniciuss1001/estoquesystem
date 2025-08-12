@@ -15,7 +15,6 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
 		}
 
-
 		const { id } = await params
 
 		const service = await prisma.service.findUnique({
@@ -67,6 +66,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		const { id } = await params
 		const body = await req.json()
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const updatedData: any = {
 			serviceProviderId: body.serviceProviderId,
 			serviceTypeId: body.serviceTypeId,

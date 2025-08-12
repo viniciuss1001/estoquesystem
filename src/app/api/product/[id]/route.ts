@@ -64,6 +64,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 		const body = await req.json()
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const updatedData: any = {
 			name: body.name,
 			sku: body.sku,
@@ -138,6 +139,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 				description: `Produto Deletado: ${id}`
 			})
 		} catch (error) {
+			console.log(error)
 			return NextResponse.json({ error: "Erro ao criar o log de deleção do produto." })
 		}
 

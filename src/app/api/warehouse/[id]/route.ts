@@ -42,6 +42,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 
 		//unify movementes
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const unifiedMovementes = [
 			...warehouse.stockMovementsOrigin.map((m) => ({
 				id: m.id,

@@ -69,7 +69,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 			return NextResponse.json({ error: "Usuário sem empresa associada." }, { status: 400 })
 		}
 
-		const {id} = await params
+		const { id } = await params
 
 		const userIdFromSession = session.user.id
 		const userOffice = session.user.office
@@ -91,7 +91,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 			passwordHash = await hashPassword(password)
 		}
-
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const dataToUpdate: any = {
 			name,
 			email,
@@ -129,10 +129,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ u
 		const decoded = jwt.verify(token, process.env.JWT_SECRET!)
 		if (typeof decoded !== "object") return NextResponse.json({ error: "Token inválido" }, { status: 401 })
 
-		const userIdFromToken = (decoded as any).id
+		// const userIdFromToken = (decoded as any).id
 		const { userIdToDelete } = await params
 
 		// Apenas admin pode deletar (melhor prática)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		if ((decoded as any).office !== "ADMIN") {
 			return NextResponse.json({ error: "Acesso negado" }, { status: 403 })
 		}

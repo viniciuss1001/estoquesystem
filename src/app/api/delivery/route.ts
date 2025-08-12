@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
 		const supplierId = searchParams.get("supplierId") || undefined
 		const warehouseId = searchParams.get("warehouseId") || undefined
 		const status = searchParams.get("status") as "PENDING" | "COMPLETED" | "CANCELED" | "LATE" | undefined
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const where: any = {
 			...(productId && { productId }),
 			...(supplierId && { supplierId }),

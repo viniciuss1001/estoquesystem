@@ -35,6 +35,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 		return NextResponse.json(supplier)
 
 	} catch (error) {
+		console.log(error)
 		return NextResponse.json({ error: "Erro ao buscar fornecedor." }, { status: 500 });
 	}
 
@@ -76,6 +77,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		return NextResponse.json(updatedSupplier)
 
 	} catch (error) {
+		console.log(error)
 		return NextResponse.json({ error: "Erro ao atualizar fornecedor." }, { status: 500 })
 	}
 }
@@ -111,6 +113,7 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
 		return NextResponse.json({ message: "Fornecedor deletado com sucesso." });
 
 	} catch (error) {
+		console.log(error)
 		return NextResponse.json({ error: "Erro ao deletar fornecedor." }, { status: 500 })
 	}
 }

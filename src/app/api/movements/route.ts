@@ -170,6 +170,7 @@ export async function POST(req: NextRequest) {
             return new NextResponse("Estoque insuficiente no armazém de origem", { status: 400 })
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const detinationStock = await prisma.warehouseProduct.findUnique({
             where: {
               warehouseId_productId: {
@@ -294,7 +295,8 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get("status") || undefined
     const originWarehouseId = searchParams.get("originWarehouseId") || undefined
     const destinationWarehouseId = searchParams.get("destinationWarehouseId") || undefined
-
+    
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {
       productId,
       type,

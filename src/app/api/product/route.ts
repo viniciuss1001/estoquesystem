@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
 			}
 		})
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const productData: any = {
 			name: body.name,
 			sku: body.sku,
@@ -113,6 +114,7 @@ export async function GET(req: NextRequest) {
 		const usageStatus = searchParams.get("status")
 		const warehouseId = searchParams.get("warehouseId")
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const where: any = {
 			...(categoryId && { categoryId }),
 			...(supplierId && { supplierId }),

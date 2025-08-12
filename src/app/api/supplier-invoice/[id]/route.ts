@@ -104,6 +104,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
 
 		const { id } = await params
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const deleteInvoice = await prisma.supplierInvoice.delete({
 			where: { id, companyId }
 		})

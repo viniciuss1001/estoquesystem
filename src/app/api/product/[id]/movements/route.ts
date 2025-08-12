@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
 	try {
-		const { session, error: sessionError } = await requireSession()
+		const { error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
 		const { id } = await params
