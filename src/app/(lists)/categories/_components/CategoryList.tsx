@@ -16,11 +16,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import CategoryEditDialog from "./CategoryEditDialog";
+import { Category } from "@/types/types";
 
 const CategoryList = () => {
   const queryClient = useQueryClient();
 
-  const { data: categories = [], isLoading: categoriesLoading } = useCategories()
+  const { data: categories = [] } = useCategories()
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -62,13 +63,12 @@ const CategoryList = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              categories.map((category: any) => (
+              categories.map((category: Category) => (
                 <TableRow key={category.id}>
                   <TableCell>{category.name}</TableCell>
                   <TableCell className="text-right space-x-2 flex ml-auto gap-2 justify-end items-end">
 
                     <CategoryEditDialog category={category} />
-
 
                     <Button
                       variant="destructive"

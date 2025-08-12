@@ -8,8 +8,9 @@ import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { z } from "zod"
+import  { z } from "zod"
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
   name: z.string().min(2, "Nome Obrigatório."),
   email: z.string().email("Email inválido."),
@@ -20,7 +21,7 @@ const formSchema = z.object({
   phone: z.string().min(8, "Telegone é obigatório"),
   department: z.string().min(1, "Departamento é obrigatório."),
   description: z.string().optional()
-})
+}) 
 
 type RegisterFormValues = z.infer<typeof formSchema>
 

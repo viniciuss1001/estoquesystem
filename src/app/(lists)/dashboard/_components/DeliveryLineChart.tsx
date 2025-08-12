@@ -8,9 +8,7 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YA
 
 const DeliveryLineChart = () => {
 	const [days, setDays] = useState(15)
-	const { data = [], isLoading } = useDeliveryHistory(days)
-
-
+	const { data = [] } = useDeliveryHistory(days)
 
 	return (
 		<Card className="w-1/3 bg-background">

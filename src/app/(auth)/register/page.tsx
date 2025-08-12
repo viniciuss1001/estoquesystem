@@ -7,7 +7,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -20,6 +19,7 @@ interface Company {
 	cnpj: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const cnpjScjema = z.object({
 	cnpj: z.string().min(14, "CNPJ Inválido").max(18)
 })
@@ -27,7 +27,7 @@ const cnpjScjema = z.object({
 type CnpjFormData = z.infer<typeof cnpjScjema>
 
 const RegisterPage = () => {
-	const router = useRouter()
+
 
 	const form = useForm<CnpjFormData>({
 		defaultValues: {

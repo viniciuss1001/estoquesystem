@@ -88,7 +88,7 @@ export default function EditDeliveryModal({ deliveryId }: EditDeliveryModalProps
     } else {
       form.setValue("supplierId", "")
     }
-  }, [watchProductId])
+  }, [watchProductId, form, selectedProduct?.supplier.id])
 
   useEffect(() => {
     if (open && delivery && !formLoaded) {

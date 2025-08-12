@@ -7,15 +7,6 @@ import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Loader2, MoveLeft, MoveRight, Repeat } from "lucide-react"
 
-type StockMovement = {
-	id: string
-	type: "IN" | "OUT" | "TRANSFER"
-	quantity: number
-	createdAt: string
-	product: { name: string }
-	originWareHouse?: { name: string } | null
-	destinationWarehouse?: { name: string } | null
-}
 
 const RecentStockMovement = () => {
 

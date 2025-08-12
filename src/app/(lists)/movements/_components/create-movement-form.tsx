@@ -69,6 +69,7 @@ const CreateMovementForm = () => {
 	const queryClient = useQueryClient()
 
 	const form = useForm<MovementFormType>({
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		resolver: zodResolver(movementSchema) as any,
 		defaultValues: {
 			productId: "",

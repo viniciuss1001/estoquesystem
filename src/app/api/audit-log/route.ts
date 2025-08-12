@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
 					select: { email: true },
 				},
 			},
-		});
+		})
 
-		return NextResponse.json(logs);
+		return NextResponse.json(logs)
 	} catch (error) {
 		console.error("Erro ao buscar audit log:", error);
 		return NextResponse.json({ error: "Erro ao buscar log de auditoria" }, { status: 500 });

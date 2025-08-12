@@ -24,7 +24,9 @@ const DeliveryPage = () => {
 	const validStatuses = ["PENDING", "COMPLETED", "CANCELED", "LATE"] as const
 
 	const rawStatus = searchParams.get("status")
-	const status = validStatuses.includes(rawStatus as any)
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const status = validStatuses.includes(rawStatus as any) 
 		? (rawStatus as typeof validStatuses[number])
 		: undefined
 
@@ -39,15 +41,6 @@ const DeliveryPage = () => {
 		warehouseId,
 		status
 	})
-
-	console.log(deliveries)
-
-	const statusColor = {
-		PENDING: "bg-yellow-100 text-yellow-800",
-		COMPLETED: "bg-green-100 text-green-800",
-		CANCELED: "bg-red-100 text-red-800",
-		LATE: "bg-orange-100 text-orange-800",
-	}
 
 	const deleteDelivery = useMutation({
 		mutationFn: async (id: string) => {

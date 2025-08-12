@@ -3,7 +3,6 @@
 import CreateMovementForm from '@/app/(lists)/movements/_components/create-movement-form'
 import MovementFilterDialog from '@/app/(lists)/movements/_components/MovementFIlterDialog'
 import { Badge } from "@/components/ui/badge"
-import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useFilteredMovements } from '@/lib/queries'
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, Repeat2 } from "lucide-react"
@@ -18,9 +17,11 @@ const MovementsPage = () => {
   const validStatuses = ["PENDING", "COMPLETED", "CANCELED"] as const
 
   const rawType = searchParams.get("type")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const type = validTypes.includes(rawType as any) ? (rawType as typeof validTypes[number]) : undefined
 
   const rawStatus = searchParams.get("status")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const status = validStatuses.includes(rawStatus as any) ? (rawStatus as typeof validStatuses[number]) : undefined
 
 

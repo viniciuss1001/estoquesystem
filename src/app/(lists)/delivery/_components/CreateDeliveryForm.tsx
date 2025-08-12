@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+
 const formSchema = z.object({
 	productId: z.string().min(1, "Produto obrigatório"),
 	supplierId: z.string().min(1, "Fornecedor obrigatório"),
@@ -76,7 +77,7 @@ const CreateDeliveryForm = () => {
 		} else {
 			form.setValue("supplierId", "")
 		}
-	}, [watchProductId])
+	}, [watchProductId, form, selectedProduct?.supplier.id])
 
 	const onSubmit = async (data: FormValues) => {
 		createDelivery.mutate(data)

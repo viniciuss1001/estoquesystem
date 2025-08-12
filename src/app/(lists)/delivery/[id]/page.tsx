@@ -18,7 +18,7 @@ import { useParams } from "next/navigation"
 const DeliveryPage = () => {
   const { id } = useParams()
 
-  const { data: delivery, isLoading, isError } = useDelivery(id as string)
+  const { data: delivery, isLoading } = useDelivery(id as string)
 
   const formatStatus = (status: Delivery["status"]) => {
     switch (status) {

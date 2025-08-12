@@ -21,7 +21,7 @@ const ProductsPage = () => {
   const warehouseId = searchParams.get("warehouseId") || undefined
   const usageStatus = searchParams.get("usageStatus") || undefined
 
-  const { data: products = [], isLoading, isError } = useFilteredProducts({
+  const { data: products = [], isLoading } = useFilteredProducts({
     categoryId, supplierId, warehouseId, usageStatus
   })
 

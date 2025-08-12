@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button"
 import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import jsPDF from "jspdf"
-import { Download } from "lucide-react"
 import autoTable from "jspdf-autotable"
+import { Download } from "lucide-react"
 
 interface Movement {
 	id: string
@@ -108,7 +108,7 @@ const ProductPDFDetails = ({ productId, userName, userRole, productName }: Produ
 			head: [["ID", "Tipo", "Quantidade", "Data"]],
 			body: movementsRows,
 		})
-
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const finalY = (doc as any).lastAutoTable.finalY + 10
 
 		doc.setFontSize(14)

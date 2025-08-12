@@ -26,7 +26,7 @@ import { useParams } from "next/navigation"
 
 const ProductPage = () => {
 	const { id } = useParams()
-	const {data: session} = useSession()
+	const { data: session } = useSession()
 
 	const { data: product, isLoading } = useProduct(id as string)
 
@@ -69,8 +69,8 @@ const ProductPage = () => {
 				</Breadcrumb>
 			</div>
 			<div className="flex p-2 items-center justify-end">
-				<ProductPDFDetails productId={product.id} productName={product.name} 
-				userName={session?.user.name ?? "Usuário"} userRole={session?.user.office ?? "Sem cargo"}
+				<ProductPDFDetails productId={product.id} productName={product.name}
+					userName={session?.user.name ?? "Usuário"} userRole={session?.user.office ?? "Sem cargo"}
 				/>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -96,6 +96,7 @@ const ProductPage = () => {
 							<User2 className="w-4 h-4" /> Fornecedor:</span> {product.supplier?.name ?? "Não informado"}</p>
 						{usage && (
 							<p className="flex gap-2"><span className="font-semibold flex items-center gap-1">Estado:</span>
+							{/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
 								<Badge variant={usage.color as any} className="ml-2 flex items-center gap-1 p-2">
 									{usage.icon} {usage.label}
 								</Badge>

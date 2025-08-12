@@ -10,6 +10,20 @@ export interface ThisUser {
   createdAt: Date
 }
 
+export interface AuditLogBasic {
+  id: string
+  userId: string
+  user?: {
+    email: string
+  }
+  action: string
+  entity: string
+  entityId?: string | null
+  description: string
+  createdAt: Date
+  companyId: string
+}
+
 export interface Delivery {
   id: string
   product: {

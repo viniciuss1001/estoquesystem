@@ -80,7 +80,7 @@ const CreateProductModal = () => {
 		}
 	})
 
-	const { data: suppliers = [], isLoading: supplierLoading } = useSuppliers()
+	const { data: suppliers = [] } = useSuppliers()
 
 	const { data: warehouses = [] } = useWarehouses()
 
@@ -213,8 +213,9 @@ const CreateProductModal = () => {
 								<FormField
 									control={form.control}
 									name="expirationDate"
+									// eslint-disable-next-line @typescript-eslint/no-unused-vars
 									render={({ field }) => (
-										<FormItem>
+										<FormItem >
 											<FormLabel>Data de validade</FormLabel>
 											<input type="date" placeholder="Selecionar data" />
 											<FormMessage />

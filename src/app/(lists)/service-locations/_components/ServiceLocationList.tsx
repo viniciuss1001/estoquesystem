@@ -2,26 +2,27 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import api from "@/lib/axios";
-import { useCategories, useServiceLocations } from "@/lib/queries";
+import { useServiceLocations } from "@/lib/queries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import ServiceLocationEditForm from "./ServiceLocationEditForm";
+import { ServiceLocation } from "@/types/types";
 
 
 const ServiceLocationList = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: serviceLoations = [], isPending } = useServiceLocations()
+	const { data: serviceLoations = [] } = useServiceLocations()
 
 	const deleteMutation = useMutation({
 		mutationFn: async (id: string) => {
@@ -63,7 +64,7 @@ const ServiceLocationList = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              serviceLoations.map((serviceLocation: any) => (
+              serviceLoations.map((serviceLocation: ServiceLocation) => (
                 <TableRow key={serviceLocation.id}>
                   <TableCell>{serviceLocation.name}</TableCell>
 						<TableCell>

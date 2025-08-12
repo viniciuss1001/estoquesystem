@@ -5,34 +5,27 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
-interface Company {
-	id: string
-	name: string
-	cnpj: string
-}
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const companySchema = z.object({
-	cnpj: z.string().min(14, "CNPJ Inválido").max(18), 
-	name: z.string().min(10, "Nome da empresa é obrigatório."), 
+	cnpj: z.string().min(14, "CNPJ Inválido").max(18),
+	name: z.string().min(10, "Nome da empresa é obrigatório."),
 	corporateName: z.string().optional()
 })
 
 type CompanyFormData = z.infer<typeof companySchema>
 
 const RegisterCompanyPage = () => {
-	const router = useRouter()
 
 	const form = useForm<CompanyFormData>({
 		defaultValues: {
-			cnpj: "", 
-			name: "", 
+			cnpj: "",
+			name: "",
 			corporateName: ""
 		}
 	})
@@ -43,13 +36,13 @@ const RegisterCompanyPage = () => {
 			const response = await api.post("/company", data)
 			return response.data
 		},
-		onSuccess: (data) => {
+		onSuccess: () => {
 			toast.success("Empresa criada com sucesso!")
-			
+
 		},
 		onError: () => {
 			toast.error("Erro ao criar empresa.")
-		
+
 		},
 	})
 
@@ -121,7 +114,7 @@ const RegisterCompanyPage = () => {
 						</form>
 					</Form>
 
-					
+
 				</CardContent>
 
 			</Card>

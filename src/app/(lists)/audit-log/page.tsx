@@ -2,19 +2,12 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useQuery } from "@tanstack/react-query"
-
+import { useAuditLog } from "@/lib/queries"
+import { AuditLogBasic } from "@/types/types"
 
 const AuditLogs = () => {
 
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["audit-log"],
-    queryFn: async () => {
-      const res = await fetch("/api/audit-log");
-      return res.json();
-    },
-  });
+  const { data, isLoading } = useAuditLog()
 
   function ActionBadge({ action }: { action: string }) {
     let variant: "default" | "destructive" | "outline" | "secondary" = "default"
@@ -62,7 +55,7 @@ const AuditLogs = () => {
               <TableCell colSpan={5}>Carregando...</TableCell>
             </TableRow>
           ) : (
-            data?.map((log: any) => (
+            data?.map((log: AuditLogBasic) => (
               <TableRow key={log.id}>
                 <TableCell>{new Date(log.createdAt).toLocaleString()}</TableCell>
                 <TableCell>{log.user?.email ?? "Automático"}</TableCell>

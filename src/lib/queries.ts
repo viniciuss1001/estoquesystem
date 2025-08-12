@@ -551,3 +551,13 @@ export function useServiceType(id: string) {
         }
     })
 }
+
+export function useAuditLog () {
+    return useQuery({
+        queryKey: ["audit-log"],
+        queryFn: async () => {
+            const response = await api.get("/audit-log")
+            return response.data as any
+        }
+    })
+}

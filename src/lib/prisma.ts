@@ -1,6 +1,4 @@
 import { PrismaClient, Prisma } from "@/generated/prisma"
-import Decimal from "decimal.js"
-
 
 const prisma = new PrismaClient();
 

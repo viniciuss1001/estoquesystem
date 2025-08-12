@@ -76,7 +76,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 	]
 
 
-	const { data: products, isLoading } = useQuery({
+	const { isLoading } = useQuery({
 		queryKey: ["products", productId],
 		queryFn: async () => {
 			const response = await api.get(`/product/${productId}`)
@@ -109,7 +109,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 		}
 	})
 
-	const { data: suppliers = [], isLoading: supplierLoading } = useQuery({
+	const { data: suppliers = []} = useQuery({
 		queryKey: ["suppliers"],
 		queryFn: async () => {
 			const response = await api.get("/supplier")
@@ -333,6 +333,7 @@ const EditProductModal = ({ productId }: EditProductModalProps) => {
 											<FormField
 												control={form.control}
 												name="expirationDate"
+												// eslint-disable-next-line @typescript-eslint/no-unused-vars
 												render={({ field }) => (
 													<FormItem>
 														<FormLabel>Data de validade</FormLabel>
