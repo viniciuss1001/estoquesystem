@@ -9,9 +9,8 @@ import api from "@/lib/axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
-import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useEffect, useId, useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -37,7 +36,6 @@ interface ThisUserId {
 const EditUserModal = ({ userId }: ThisUserId) => {
 
 	const [open, setOpen] = useState(false)
-	const { data: session } = useSession()
 	const router = useRouter()
 	const queryClient = useQueryClient()
 
@@ -54,7 +52,7 @@ const EditUserModal = ({ userId }: ThisUserId) => {
 		}
 	})
 
-	const { data: user, isLoading } = useQuery({
+	const { data: user } = useQuery({
 		queryKey: ["user", userId],
 		queryFn: async () => {
 			const response = await api.get(`/user/${userId}`)

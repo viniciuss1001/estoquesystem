@@ -4,22 +4,19 @@ import CreateServiceModal from "@/app/(lists)/services/_components/CreateService
 import ServiceFilterModal from "@/app/(lists)/services/_components/ServiceFilterModal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useFilteredServices } from "@/lib/queries"
-import { parse } from "date-fns"
-import { useSession } from "next-auth/react"
+import { FileText } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { EditServiceModal } from "./_components/EditServiceModal"
-import { FileText } from "lucide-react"
 
 
 const ServicesPage = () => {
 	const searchParams = useSearchParams()
-	const { data: session } = useSession()
-
 
 	const validStatuses = ["PENDING", "COMPLETED", "CANCELED"] as const
 
 	const rawStatus = searchParams.get("status")
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const status = validStatuses.includes(rawStatus as any)
 		? (rawStatus as (typeof validStatuses)[number])
 		: undefined
@@ -32,9 +29,6 @@ const ServicesPage = () => {
 	const fromDateParam = searchParams.get("fromDate")
 	const toDateParam = searchParams.get("toDate")
 
-	const fromDate = fromDateParam ? parse(fromDateParam, "yyyy-MM-dd", new Date()) : undefined
-	const toDate = toDateParam ? parse(toDateParam, "yyyy-MM-dd", new Date()) : undefined
-
 	const { data: services = [], isLoading } = useFilteredServices({
 		providerId,
 		serviceType,
@@ -44,12 +38,6 @@ const ServicesPage = () => {
 		fromDate: fromDateParam || undefined,
 		toDate: toDateParam || undefined
 	})
-
-	const statusColor = {
-		PENDING: "bg-yellow-100 text-yellow-800",
-		COMPLETED: "bg-green-100 text-green-800",
-		CANCELED: "bg-red-100 text-red-800",
-	}
 
 	const statusLabels: Record<string, string> = {
 		PENDING: "Pendente",

@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
 	name: z.string().min(2, "Nome Obrigatório."),
 	email: z.string().email("Email inválido."),
@@ -27,7 +28,6 @@ const formSchema = z.object({
 })
 
 type RegisterFormValues = z.infer<typeof formSchema>
-
 
 const CreateUserDialog = () => {
 
@@ -132,6 +132,7 @@ const CreateUserDialog = () => {
 						<FormField
 							control={form.control}
 							name="office"
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>

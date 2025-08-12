@@ -54,6 +54,7 @@ const EditWarehouseProductModal = ({ warehouseId, productId, currentQuantity, on
 		} catch (error) {
 			toast.error("Erro ao atualizar quantidade")
 			setLoading(false)
+			console.log(error)
 		}
 	}
 

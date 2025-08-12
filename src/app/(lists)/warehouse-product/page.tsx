@@ -1,37 +1,13 @@
 "use client"
 
-import CreateWarehouseProductModal from "@/app/(lists)/warehouse-product/_components/CreateWarehouseProductModal"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import api from "@/lib/axios"
 import { useWarehouseProduct } from "@/app/(lists)/warehouse-product/_hooks/queries"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Loader2, Trash } from "lucide-react"
-import { toast } from "sonner"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Loader2 } from "lucide-react"
 
 
 const WarehouseProductsPage = () => {
 
-	const queryClient = useQueryClient()
-
 	const { data: warehouseProducts = [], isLoading } = useWarehouseProduct()
-
-	const deleteMutation = useMutation({
-		mutationFn: async ({ warehouseId, productId }: { warehouseId: string, productId: string }) => {
-			api.delete(`/warehouse-product/${warehouseId}/${productId}`)
-		},
-		onSuccess: () => {
-			toast.success("Produto removido do armazém com sucesso!")
-			queryClient.invalidateQueries({ queryKey: ['warehouseProducts'] })
-		},
-		onError: () => {
-			toast.error("Erro ao deletar produto")
-		}
-	})
-
-	const handleDelete = (warehouseId: string, productId: string) => {
-		deleteMutation.mutate({ warehouseId, productId })
-	}
 
 	if (isLoading) {
 		return (

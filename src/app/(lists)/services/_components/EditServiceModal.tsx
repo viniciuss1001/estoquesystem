@@ -16,7 +16,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import api from "@/lib/axios"
 import { useOpenSupplierInvoices, useService, useServiceLocations, useServiceProviders, useServiceTypes } from "@/lib/queries"
-import { Service } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"

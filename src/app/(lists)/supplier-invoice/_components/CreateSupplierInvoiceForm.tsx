@@ -98,6 +98,7 @@ const CreateSupplierInvoiceForm = () => {
 						<FormField
 							control={form.control}
 							name="supplierId"
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Fornecedor/Prestador de Serviço</FormLabel>

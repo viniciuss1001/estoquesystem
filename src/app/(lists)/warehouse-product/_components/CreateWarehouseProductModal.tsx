@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Select } from "@radix-ui/react-select"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2, Plus } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -23,21 +23,6 @@ const formSchema = z.object({
 })
 
 type FormData = z.infer<typeof formSchema>
-
-interface Props {
-	onCreated: () => void
-}
-
-interface Product {
-	id: string
-	name: string
-}
-
-interface Warehouse {
-	id: string
-	name: string
-}
-
 
 const CreateWarehouseProductModal = () => {
 

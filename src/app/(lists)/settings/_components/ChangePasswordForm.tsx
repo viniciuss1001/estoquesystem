@@ -75,6 +75,7 @@ const ChangePasswordForm = () => {
 						<FormField
 							control={form.control}
 							name="currentPassword"
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Senha atual</FormLabel>
@@ -89,6 +90,7 @@ const ChangePasswordForm = () => {
 						<FormField
 							control={form.control}
 							name="newPassword"
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Nova senha</FormLabel>
@@ -103,6 +105,7 @@ const ChangePasswordForm = () => {
 						<FormField
 							control={form.control}
 							name="confirmPassword"
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Confirmar senha</FormLabel>

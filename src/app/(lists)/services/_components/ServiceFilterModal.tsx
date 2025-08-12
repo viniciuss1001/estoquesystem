@@ -18,7 +18,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 
-import { useServiceLocations, useServiceProviders, useServiceTypes, useSuppliers } from "@/lib/queries"
+import { useServiceLocations, useServiceProviders, useServiceTypes } from "@/lib/queries"
 import { parse } from "date-fns"
 import { Filter } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"

@@ -10,7 +10,6 @@ import {
   FileText,
   Loader2,
 } from "lucide-react"
-import { useSession } from "next-auth/react"
 import { useParams } from "next/navigation"
 
 import EditSupplierInvoiceForm from "@/app/(lists)/supplier-invoice/_components/EditSupplierInvoiceForm"
@@ -45,11 +44,8 @@ const statusMap = {
   },
 }
 
-
-
 const SupplierInvoicePage = () => {
   const { id } = useParams()
-  const { data: session } = useSession()
 
   const { data: invoice, isLoading } = useSupplierInvoice(id as string)
 

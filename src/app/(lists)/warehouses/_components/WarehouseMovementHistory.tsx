@@ -54,6 +54,7 @@ const WarehouseMovementHistory = ({ warehouseId }: WarehouseMovementHistoryProps
           </TableRow>
         </TableHeader>
         <TableBody className="p-2">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
           {data.map((movement: any) => (
             <TableRow key={movement.id} className="pt-2">
               <TableCell>{movement.product?.name || "-"}</TableCell>

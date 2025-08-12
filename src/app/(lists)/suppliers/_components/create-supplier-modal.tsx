@@ -18,11 +18,6 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 
-interface Product {
-	id: string
-	name: string
-}
-
 const formSchema = z.object({
 	name: z.string().min(1, "Nome é obrigatório."),
 	email: z.string().email().min(1, "Email é obrigatório."),
@@ -54,7 +49,7 @@ const CreateSupplierModal = () => {
 	})
 
 	//load products
-	const { data: products = [], isLoading: isLoadingProducts } = useProducts()
+	const { data: products = [] } = useProducts()
 
 	const createSupplier = useMutation({
 		mutationFn: async (data: FormData) => {

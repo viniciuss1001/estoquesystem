@@ -5,10 +5,9 @@ import UserFilterDialog from "@/app/(lists)/users/_components/UserFilterDialog"
 import UserInfoDialog from "@/app/(lists)/users/_components/UserInforDialog"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useFilteredUsers, useUsers } from "@/lib/queries"
+import { useFilteredUsers } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import { useSession } from "next-auth/react"
-import Link from "next/link"
 import { useState } from "react"
 
 

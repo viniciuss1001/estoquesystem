@@ -140,6 +140,7 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 							<FormField
 								control={form.control}
 								name="supplierId"
+								// eslint-disable-next-line @typescript-eslint/no-unused-vars
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Fornecedor/Prestador de Serviço</FormLabel>
@@ -251,7 +252,6 @@ const EditSupplierInvoiceForm = ({ invoiceId }: EditSupplierInvoiceModalProps) =
 									</FormItem>
 								)}
 							/>
-
 
 							<FormField
 								control={form.control}

@@ -8,12 +8,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import ServiceTypeEditDialog from './ServiceTypeEditDialog'
+import { ServiceType } from '@/types/types'
 
 const ServiceTypeList = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: serviceTypes = [], isLoading } = useServiceTypes()
+	const { data: serviceTypes = [] } = useServiceTypes()
 
 	const deleteMutation = useMutation({
 		mutationFn: async (id: string) => {
@@ -52,7 +53,7 @@ const ServiceTypeList = () => {
 								</TableCell>
 							</TableRow>
 						) : (
-							serviceTypes.map((serviceType: any) => (
+							serviceTypes.map((serviceType: ServiceType) => (
 								<TableRow key={serviceType.id}>
 									<TableCell>{serviceType.name}</TableCell>
 									<TableCell className="text-right space-x-2 flex ml-auto gap-2 justify-end items-end">

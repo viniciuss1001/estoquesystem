@@ -12,7 +12,6 @@ import {
 	TableRow,
 } from "@/components/ui/table"
 import { useFilteredSupplierInvoices } from "@/lib/queries"
-import { useQueryClient } from "@tanstack/react-query"
 import { format, isValid, parse } from "date-fns"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
@@ -27,12 +26,12 @@ const statusColor = {
 
 const SupplierInvoicesPage = () => {
 
-	const queryClient = useQueryClient()
 	const searchParams = useSearchParams()
 
 	// verify status
 	const validStatuses = ["PENDING", "PAID", "CANCELED"] as const
 	const rawStatus = searchParams.get("status")
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const status = validStatuses.includes(rawStatus as any)
 		? (rawStatus as typeof validStatuses[number])
 		: undefined

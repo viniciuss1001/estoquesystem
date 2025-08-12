@@ -27,7 +27,9 @@ const UserFilterDialog = ({ onFilter }: UseFilterDialogProps) => {
 				<div className="flex flex-col gap-4">
 					<DialogTitle className="text-xl font-semibold">Filtros de Usuários</DialogTitle>
 
-					<Select value={selectedRole} onValueChange={(v) => setSelectedRole(v as any)}>
+					<Select value={selectedRole} 
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					onValueChange={(v) => setSelectedRole(v as any)}>
 						<SelectTrigger>
 							<SelectValue placeholder="Cargo" />
 						</SelectTrigger>
