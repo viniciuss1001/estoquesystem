@@ -1,13 +1,11 @@
 import { requireSession } from "@/lib/auth";
-import { authOptions } from "@/lib/authOptions";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { session, error: sessionError } = await requireSession()
+    const {  error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
     const { searchParams } = new URL(req.url);

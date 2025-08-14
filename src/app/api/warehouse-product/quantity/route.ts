@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: Request) {
 	try {
-		const { session, error: sessionError } = await requireSession()
+		const {  error: sessionError } = await requireSession()
 		if (sessionError) return sessionError
 
 		const { searchParams } = new URL(req.url)
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: NextRequest) {
 
-	const { session, error: sessionError } = await requireSession()
+	const {  error: sessionError } = await requireSession()
 	if (sessionError) return sessionError
 	const { warehouseId, productId, quantity } = await req.json();
 
