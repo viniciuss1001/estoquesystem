@@ -1,13 +1,14 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import { AlertTriangle, Bell, BellRing, Check, Info, ShieldAlert, Trash2, XCircle } from 'lucide-react'
-import { Button } from '../ui/button'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNotifications } from '@/lib/queries'
 import api from '@/lib/axios'
-import { toast } from 'sonner'
+import { useNotifications } from '@/lib/queries'
 import { cn } from '@/lib/utils'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { AlertTriangle, Bell, Check, Info, ShieldAlert, Trash2, XCircle } from 'lucide-react'
+import { toast } from 'sonner'
+import { Button } from '../ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { Notification } from '@/types/types'
 
 
 const iconsMap = {
@@ -21,9 +22,9 @@ const NotificationComponent = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: notifications = [], isLoading } = useNotifications()
+	const { data: notifications = [] } = useNotifications()
 
-	const unreadCount = notifications.filter((notification: any) => !notification.read).length
+	const unreadCount = notifications.filter((notification: Notification) => !notification.read).length
 
 	const markNotificationsRead = useMutation({
 		mutationFn: async (id: string) => {
@@ -99,8 +100,8 @@ const NotificationComponent = () => {
 					</div>
 				)}
 
-				{notifications.map((notification: any) => (
-					<div className='flex gap-1 items-center justify-between'>
+				{notifications.map((notification: Notification) => (
+					<div className='flex gap-1 items-center justify-between' key={notification.id}>
 						<DropdownMenuItem
 							key={notification.id}
 							className={cn(

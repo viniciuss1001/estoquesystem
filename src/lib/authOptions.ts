@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id
-        // @ts-ignore
+        // @ts-ignore @ts-expect-error
         token.companyId = user.companyId
       }
       return token

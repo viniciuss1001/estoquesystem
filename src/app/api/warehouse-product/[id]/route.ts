@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
   try {
-    const {  error: sessionError } = await requireSession()
-		if (sessionError) return sessionError
+    const { error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
 
     const { searchParams } = new URL(req.url);
     const warehouseId = searchParams.get("warehouseId");
@@ -41,15 +41,15 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { session, error: sessionError } = await requireSession()
-		if (sessionError) return sessionError
+    const { error: sessionError } = await requireSession()
+    if (sessionError) return sessionError
 
     const { searchParams } = new URL(req.url)
 
     const warehouseId = searchParams.get("warehouseId")
-    
+
     const productId = searchParams.get("productId");
-    
+
 
     if (!warehouseId || !productId) {
       return new Response("Parâmetros inválidos", { status: 400 });

@@ -17,6 +17,7 @@ export async function requireSession() {
 	return { session }
 }
 
+//eslint-disable-next-line @typescript-eslint/no-explicit-any 
 export async function requireAdmin(session: any) {
 	if (session.user.office !== "ADMIN") {
 		return { error: new Response("Unauthorized - Isn Admin") }

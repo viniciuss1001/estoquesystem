@@ -35,21 +35,21 @@ export type InvoiceFilters = {
     dueDateTo?: Date
 }
 
-type OverdueInvoice = {
-    id: string
-    amount: number
-    dueDate: string
-    status: "PENDING" | "PAID" | "CANCELED"
-    supplier?: {
-        id: string
-        name: string
-    } | null
+// type OverdueInvoice = {
+//     id: string
+//     amount: number
+//     dueDate: string
+//     status: "PENDING" | "PAID" | "CANCELED"
+//     supplier?: {
+//         id: string
+//         name: string
+//     } | null
 
-    serviceProvider?: {
-        id: string
-        name: string
-    } | null
-}
+//     serviceProvider?: {
+//         id: string
+//         name: string
+//     } | null
+// }
 interface LowStockProduc {
     id: string
     name: string
@@ -557,6 +557,7 @@ export function useAuditLog () {
         queryKey: ["audit-log"],
         queryFn: async () => {
             const response = await api.get("/audit-log")
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return response.data as any
         }
     })

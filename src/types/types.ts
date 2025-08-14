@@ -173,12 +173,13 @@ export interface Category {
 }
 
 export interface Notification {
-  id?: string,
+  id: string,
   title: string
   message: string
   type?: "SYSTEM" | "WARNING" | "INFO" | "ERROR"
   userId: string
-  read?: Boolean
+  createdAt: string
+  read?: boolean
 }
 
 export interface Service {
