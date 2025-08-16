@@ -1,149 +1,15 @@
-"use client"
+import LoaderComponent from '@/components/shared/LoaderComponent'
+import React, { Suspense } from 'react'
+import SupplierInvoicesClientPage from './_components/SupplierInvoiceClientPage'
 
-import CreateSupplierInvoiceForm from "@/app/(lists)/supplier-invoice/_components/CreateSupplierInvoiceForm"
-import SupplierInvoiceFilterModal from "@/app/(lists)/supplier-invoice/_components/SupplierInvoiceFilterModal"
-import { Badge } from "@/components/ui/badge"
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table"
-import { useFilteredSupplierInvoices } from "@/lib/queries"
-import { format, isValid, parse } from "date-fns"
-import { Loader2 } from "lucide-react"
-import Link from "next/link"
-import { useSearchParams } from "next/navigation"
-
-
-const statusColor = {
-	PENDING: "bg-yellow-100 text-yellow-800",
-	PAID: "bg-green-100 text-green-800",
-	CANCELED: "bg-red-100 text-red-800",
-}
-
-const SupplierInvoicesPage = () => {
-
-	const searchParams = useSearchParams()
-
-	// verify status
-	const validStatuses = ["PENDING", "PAID", "CANCELED"] as const
-	const rawStatus = searchParams.get("status")
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const status = validStatuses.includes(rawStatus as any)
-		? (rawStatus as typeof validStatuses[number])
-		: undefined
-
-	// supplier
-	const supplierId = searchParams.get("supplierId") || undefined
-
-	// duedate range
-	const dueDateFromParam = searchParams.get("dueDateFrom")
-	const dueDateToParam = searchParams.get("dueDateTo")
-	const dueDateFrom = dueDateFromParam ? parse(dueDateFromParam, "yyyy-MM-dd", new Date()) : undefined
-	const dueDateTo = dueDateToParam ? parse(dueDateToParam, "yyyy-MM-dd", new Date()) : undefined
-
-	const { data: invoices = [], isLoading } = useFilteredSupplierInvoices({
-		supplierId,
-		status,
-		dueDateFrom,
-		dueDateTo
-	})
-
-	if (isLoading) {
-		return (
-			<div className="flex items-center justify-center w-full h-full">
-				<Loader2 className="w-6 h-6 animate-spin" />
-			</div>
-		)
-	}
-
-
+const page = () => {
 	return (
-		<div className="p-6 w-full h-full">
-			<div className="flex p-2">
-				<div className="flex flex-col">
-
-					<h2 className="text-2xl font-bold mb-2">Boletos de Fornecedores</h2>
-
-					{invoices.length > 0 && (
-						<p className="text-sm text-muted-foreground mb-4 ">Total de  {invoices.length} boleto (s) sendo exibidos.</p>
-					)}
-				</div>
-				<div className="flex ml-auto justify-center items-center">
-					<SupplierInvoiceFilterModal />
-					<CreateSupplierInvoiceForm />
-				</div>
-			</div>
-
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Fornecedor/Prestador</TableHead>
-						<TableHead>Tipo</TableHead>
-						<TableHead>Título</TableHead>
-						<TableHead>Valor</TableHead>
-						<TableHead>Vencimento</TableHead>
-						<TableHead>Status</TableHead>
-						<TableHead>Criado em</TableHead>
-						<TableHead>Detalhes</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{invoices.length === 0 ? (
-						<TableRow>
-							<TableCell colSpan={7} className="text-center">
-								Nenhum boleto registrado.
-							</TableCell>
-						</TableRow>
-					) : (
-						invoices.map((invoice) => (
-
-							<TableRow key={invoice.id}>
-								<TableCell>
-									{invoice.supplier?.name || invoice.serviceProvider?.name || "-"}
-								</TableCell>
-								<TableCell>
-									{invoice.supplier ? "Fornecedor" : invoice.serviceProvider ? "Prestador" : "-"}
-								</TableCell>
-								<TableCell>{invoice.title}</TableCell>
-								<TableCell>
-									{Number(invoice.amount).toLocaleString("pt-BR", {
-										style: "currency",
-										currency: "BRL",
-									})}
-								</TableCell>
-								<TableCell>
-									{invoice.dueDate && isValid(new Date(invoice.dueDate))
-										? format(new Date(invoice.dueDate), "dd/MM/yyyy")
-										: "-"}
-								</TableCell>
-								<TableCell>
-									<Badge className={statusColor[invoice.status]}>
-										{invoice.status === "PENDING"
-											? "Pendente"
-											: invoice.status === "PAID"
-												? "Pago"
-												: "Cancelado"}
-									</Badge>
-								</TableCell>
-								<TableCell>
-									{invoice.createdAt ? format(new Date(invoice.createdAt), "dd/MM/yyyy") : "-"}
-								</TableCell>
-								<TableCell>
-									<Link href={`/supplier-invoice/${invoice.id}`} className="text-blue-600 underline">
-										Detalhes
-									</Link>
-								</TableCell>
-							</TableRow>
-						))
-					)}
-				</TableBody>
-			</Table>
-		</div>
+		<Suspense fallback={
+			<LoaderComponent />
+		}>
+			<SupplierInvoicesClientPage />
+		</Suspense>
 	)
 }
 
-export default SupplierInvoicesPage
+export default page
