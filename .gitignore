@@ -15,6 +15,7 @@
 **/__tests__/
 *.test.ts
 *.test.tsx
+/cypress/** 
 
 # next.js
 /.next/
