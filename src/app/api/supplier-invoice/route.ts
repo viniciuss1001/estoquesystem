@@ -80,6 +80,7 @@ export async function POST(req: NextRequest) {
 		})
 
 		await logAction({
+			companyId: session.user.companyId!,
 			userId: session.user.id,
 			action: "create",
 			entity: "supplierInvoice",

@@ -187,6 +187,7 @@ export async function PATCH(
     })
 
     await logAction({
+      companyId: session.user.companyId!,
       userId: session.user.id,
       action: "update",
       entity: "movement",
@@ -218,6 +219,7 @@ export async function DELETE(
       where: { id },
     });
     await logAction({
+      companyId: session.user.companyId!,
       userId: session.user.id,
       action: "delete",
       entity: "movement",

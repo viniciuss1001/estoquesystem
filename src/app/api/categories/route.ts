@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
 		})
 		try {
 			await logAction({
+				companyId: session.user.companyId!,
 				userId: session.user.id,
 				action: "create",
 				entity: "category",

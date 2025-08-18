@@ -69,6 +69,7 @@ export async function POST(req: Request) {
     })
 
     await logAction({
+      companyId: session.user.companyId!,
       userId: session.user.id,
       action: "create",
       entity: "supplier",

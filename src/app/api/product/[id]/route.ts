@@ -103,6 +103,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		})
 
 		await logAction({
+			companyId: session.user.companyId!,
 			userId: session.user.id,
 			action: "update",
 			entity: "product",
@@ -132,6 +133,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
 		try {
 			await logAction({
+				companyId: session.user.companyId!,
 				userId: session.user.id,
 				action: "delete",
 				entity: "product",

@@ -15670,7 +15670,7 @@ export namespace Prisma {
     createdAt?: boolean
     companyId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Company?: boolean | CompanyDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15683,7 +15683,7 @@ export namespace Prisma {
     createdAt?: boolean
     companyId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Company?: boolean | CompanyDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15696,7 +15696,7 @@ export namespace Prisma {
     createdAt?: boolean
     companyId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Company?: boolean | CompanyDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectScalar = {
@@ -15713,22 +15713,22 @@ export namespace Prisma {
   export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "action" | "entity" | "entityId" | "description" | "createdAt" | "companyId", ExtArgs["result"]["auditLog"]>
   export type AuditLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Company?: boolean | CompanyDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
   export type AuditLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Company?: boolean | CompanyDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
   export type AuditLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Company?: boolean | CompanyDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
 
   export type $AuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AuditLog"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      Company: Prisma.$CompanyPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16134,7 +16134,7 @@ export namespace Prisma {
   export interface Prisma__AuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27009,7 +27009,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
     companyId?: StringFilter<"AuditLog"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }
 
   export type AuditLogOrderByWithRelationInput = {
@@ -27022,7 +27022,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     companyId?: SortOrder
     user?: UserOrderByWithRelationInput
-    Company?: CompanyOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
   }
 
   export type AuditLogWhereUniqueInput = Prisma.AtLeast<{
@@ -27038,7 +27038,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
     companyId?: StringFilter<"AuditLog"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }, "id">
 
   export type AuditLogOrderByWithAggregationInput = {
@@ -28639,7 +28639,7 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutAuditLogInput
-    Company: CompanyCreateNestedOneWithoutAuditLogInput
+    company: CompanyCreateNestedOneWithoutAuditLogInput
   }
 
   export type AuditLogUncheckedCreateInput = {
@@ -28661,7 +28661,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAuditLogNestedInput
-    Company?: CompanyUpdateOneRequiredWithoutAuditLogNestedInput
+    company?: CompanyUpdateOneRequiredWithoutAuditLogNestedInput
   }
 
   export type AuditLogUncheckedUpdateInput = {
@@ -34249,7 +34249,7 @@ export namespace Prisma {
     entityId?: string | null
     description: string
     createdAt?: Date | string
-    Company: CompanyCreateNestedOneWithoutAuditLogInput
+    company: CompanyCreateNestedOneWithoutAuditLogInput
   }
 
   export type AuditLogUncheckedCreateWithoutUserInput = {
@@ -38964,7 +38964,7 @@ export namespace Prisma {
     entityId?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Company?: CompanyUpdateOneRequiredWithoutAuditLogNestedInput
+    company?: CompanyUpdateOneRequiredWithoutAuditLogNestedInput
   }
 
   export type AuditLogUncheckedUpdateWithoutUserInput = {

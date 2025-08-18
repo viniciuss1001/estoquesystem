@@ -52,7 +52,7 @@ const AuditLogs = () => {
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={5}>Carregando...</TableCell>
+              <TableCell colSpan={5} className="items-center flex">Carregando...</TableCell>
             </TableRow>
           ) : (
             data?.map((log: AuditLogBasic) => (

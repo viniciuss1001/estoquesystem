@@ -203,7 +203,7 @@ model AuditLog {
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
   companyId   String
-  Company     Company @relation(fields: [companyId], references: [id])
+  company     Company @relation(fields: [companyId], references: [id])
 
   @@index([userId])
   @@index([entity])
