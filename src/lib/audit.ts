@@ -14,12 +14,11 @@ export async function logAction({
 	userId, action, entity, entityId, description
 }: LogActionParams) {
 	try {
-		const {session} = await requireSession()
-
+		const { session } = await requireSession()
 
 		await prisma.auditLog.create({
 			data: {
-				companyId: session?.user.companyId!,
+				companyId: session?.user.companyId || "",
 				userId,
 				action,
 				entity,
