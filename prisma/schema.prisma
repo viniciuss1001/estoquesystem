@@ -36,26 +36,25 @@ model Session {
 }
 
 model Company {
-  id            String   @id @default(uuid())
-  name          String
-  cnpj          String?  @unique
-  corporateName String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  users            User[]
-  products         Product[]
-  warehouses       WareHouse[]
-  stockMovements   StockMovement[]
-  deliveries       Delivery[]
-  suppliers        Supplier[]
-  supplierInvoices SupplierInvoice[]
+  id               String            @id @default(uuid())
+  name             String
+  cnpj             String?           @unique
+  corporateName    String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  AuditLog         AuditLog[]
   categories       Category[]
+  deliveries       Delivery[]
+  products         Product[]
   services         Service[]
+  serviceLocations ServiceLocation[]
   serviceProviders ServiceProvider[]
   serviceTypes     ServiceType[]
-  serviceLocations ServiceLocation[]
-  AuditLog         AuditLog[]
+  stockMovements   StockMovement[]
+  suppliers        Supplier[]
+  supplierInvoices SupplierInvoice[]
+  users            User[]
+  warehouses       WareHouse[]
 }
 
 model User {
@@ -72,38 +71,36 @@ model User {
   description        String?
   phone              String?
   lastLogin          DateTime?
+  companyId          String
   accounts           Account[]
   AuditLog           AuditLog[]
-  sessions           Session[]
   PasswordResetToken PasswordResetToken?
   Service            Service[]
-  company            Company            @relation(fields: [companyId], references: [id])
-  companyId          String
+  sessions           Session[]
+  company            Company             @relation(fields: [companyId], references: [id])
 }
 
 model Product {
-  id           String   @id @default(uuid())
-  name         String
-  sku          String   @unique
-  quantity     Int
-  price        Float
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  supplierId   String?
-  categoryId   String?
-  minimumStock Int?     @default(0)
-  unit         UnitType @default(UNIT)
-
+  id               String             @id @default(uuid())
+  name             String
+  sku              String             @unique
+  quantity         Int
+  price            Float
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  supplierId       String?
+  categoryId       String?
+  minimumStock     Int?               @default(0)
+  unit             UnitType           @default(UNIT)
+  expirationDate   DateTime?
+  usageStatus      UsageStatus        @default(IN_STOCK)
+  companyId        String
   delivery         Delivery[]
   category         Category?          @relation(fields: [categoryId], references: [id])
+  company          Company            @relation(fields: [companyId], references: [id])
   supplier         Supplier?          @relation(fields: [supplierId], references: [id])
   stockMovements   StockMovement[]
   warehouseProduct WarehouseProduct[]
-
-  expirationDate DateTime?
-  usageStatus    UsageStatus @default(IN_STOCK)
-  company        Company     @relation(fields: [companyId], references: [id])
-  companyId      String
 
   @@unique([companyId, sku])
 }
@@ -115,12 +112,12 @@ model WareHouse {
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @updatedAt
   description               String?
+  companyId                 String
+  Delivery                  Delivery[]
   stockMovementsDestination StockMovement[]    @relation("DestinationWarehouse")
   stockMovementsOrigin      StockMovement[]    @relation("OriginWarehouse")
+  company                   Company            @relation(fields: [companyId], references: [id])
   warehouseProduct          WarehouseProduct[]
-  Delivery                  Delivery[]
-  company                   Company           @relation(fields: [companyId], references: [id])
-  companyId                 String
 }
 
 model WarehouseProduct {
@@ -146,11 +143,11 @@ model StockMovement {
   status                 MovementStatus @default(PENDING)
   quantityAfter          Int?
   quantityBefore         Int?
+  companyId              String
+  company                Company        @relation(fields: [companyId], references: [id])
   destinationWarehouse   WareHouse?     @relation("DestinationWarehouse", fields: [destinationWarehouseId], references: [id])
   originWareHouse        WareHouse?     @relation("OriginWarehouse", fields: [originWarehouseId], references: [id])
   product                Product        @relation(fields: [productId], references: [id])
-  company                Company        @relation(fields: [companyId], references: [id])
-  companyId              String
 }
 
 model Supplier {
@@ -163,34 +160,31 @@ model Supplier {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deliveryTime    DateTime?
+  companyId       String
   delivery        Delivery[]
   products        Product[]
+  company         Company           @relation(fields: [companyId], references: [id])
   supplierInvoice SupplierInvoice[]
-  company         Company          @relation(fields: [companyId], references: [id])
-  companyId       String
 }
 
 model SupplierInvoice {
-  id          String        @id @default(uuid())
-  title       String
-  description String
-  amount      Decimal
-  dueDate     DateTime
-  fileUrl     String?
-  status      InvoiceStatus @default(PENDING)
-
+  id                String           @id @default(uuid())
+  title             String
+  description       String
+  amount            Decimal
+  dueDate           DateTime
+  fileUrl           String?
+  status            InvoiceStatus    @default(PENDING)
   supplierId        String?
-  supplier          Supplier?        @relation(fields: [supplierId], references: [id])
   serviceProviderId String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  companyId         String
+  Delivery          Delivery[]
+  Service           Service[]
+  company           Company          @relation(fields: [companyId], references: [id])
   serviceProvider   ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  Delivery  Delivery[]
-  Service   Service[]
-  company   Company   @relation(fields: [companyId], references: [id])
-  companyId String
+  supplier          Supplier?        @relation(fields: [supplierId], references: [id])
 }
 
 model AuditLog {
@@ -201,9 +195,9 @@ model AuditLog {
   entityId    String?
   description String
   createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
   companyId   String
-  company     Company @relation(fields: [companyId], references: [id])
+  company     Company  @relation(fields: [companyId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([entity])
@@ -214,39 +208,37 @@ model Category {
   name      String    @unique
   createAt  DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  products  Product[]
-  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
+  company   Company   @relation(fields: [companyId], references: [id])
+  products  Product[]
 
   @@unique([companyId, name])
 }
 
 model Delivery {
-  id                String         @id @default(uuid())
+  id                String           @id @default(uuid())
   productId         String
   supplierId        String
   quantity          Int
   expectedAt        DateTime
-  updatedAt         DateTime       @updatedAt
-  status            DeliveryStatus @default(PENDING)
-  createdAt         DateTime       @default(now())
+  updatedAt         DateTime         @updatedAt
+  status            DeliveryStatus   @default(PENDING)
+  createdAt         DateTime         @default(now())
   warehouseId       String
   supplierInvoiceId String?
-
-  product  Product  @relation(fields: [productId], references: [id])
-  supplier Supplier @relation(fields: [supplierId], references: [id])
-
-  warehouse       WareHouse        @relation(fields: [warehouseId], references: [id])
-  supplierInvoice SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
-  company         Company          @relation(fields: [companyId], references: [id])
-  companyId       String
+  companyId         String
+  company           Company          @relation(fields: [companyId], references: [id])
+  product           Product          @relation(fields: [productId], references: [id])
+  supplier          Supplier         @relation(fields: [supplierId], references: [id])
+  supplierInvoice   SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+  warehouse         WareHouse        @relation(fields: [warehouseId], references: [id])
 }
 
 model PasswordResetToken {
   token     String   @id
   userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
   expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Notification {
@@ -260,28 +252,26 @@ model Notification {
 }
 
 model Service {
-  id                String          @id @default(uuid())
-  provider          ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  id                String           @id @default(uuid())
   serviceProviderId String
-  type              ServiceType     @relation(fields: [serviceTypeId], references: [id])
   serviceTypeId     String
-  location          ServiceLocation @relation(fields: [serviceLocationId], references: [id])
   serviceLocationId String
-
-  serviceDate     DateTime
-  cost            Float
-  status          ServiceStatus    @default(PENDING)
-  description     String?
-  attachmentUrl   String?
-  invoice         SupplierInvoice? @relation(fields: [invoiceId], references: [id])
-  invoiceId       String?
-  createdByUser   User             @relation(fields: [createdByUserId], references: [id])
-  createdByUserId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id])
-  companyId String
+  serviceDate       DateTime
+  cost              Float
+  status            ServiceStatus    @default(PENDING)
+  description       String?
+  attachmentUrl     String?
+  invoiceId         String?
+  createdByUserId   String
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  companyId         String
+  company           Company          @relation(fields: [companyId], references: [id])
+  createdByUser     User             @relation(fields: [createdByUserId], references: [id])
+  invoice           SupplierInvoice? @relation(fields: [invoiceId], references: [id])
+  location          ServiceLocation  @relation(fields: [serviceLocationId], references: [id])
+  provider          ServiceProvider  @relation(fields: [serviceProviderId], references: [id])
+  type              ServiceType      @relation(fields: [serviceTypeId], references: [id])
 }
 
 model ServiceProvider {
@@ -291,33 +281,33 @@ model ServiceProvider {
   phone           String?
   cnpj            String?
   description     String?
-  services        Service[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
-  SupplierInvoice SupplierInvoice[]
-  company         Company          @relation(fields: [companyId], references: [id])
   companyId       String
+  services        Service[]
+  company         Company           @relation(fields: [companyId], references: [id])
+  SupplierInvoice SupplierInvoice[]
 }
 
 model ServiceType {
   id        String    @id @default(uuid())
   name      String
-  services  Service[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
+  services  Service[]
+  company   Company   @relation(fields: [companyId], references: [id])
 }
 
 model ServiceLocation {
   id        String    @id @default(uuid())
   name      String
   address   String?
-  services  Service[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
+  services  Service[]
+  company   Company   @relation(fields: [companyId], references: [id])
 }
 
 enum Office {
