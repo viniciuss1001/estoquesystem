@@ -1,12 +1,15 @@
 "use client"
 
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { useMutation } from "@tanstack/react-query"
+import { SlashIcon, UserPlus } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -57,13 +60,52 @@ const RegisterPage = () => {
 	}
 
 	return (
-		<div className="w-1/2 mx-auto py-10  flex items-center justify-center">
-			<Card className="max-w-1/2 w-1/2  border-none">
-				<CardHeader>
-					<CardTitle>
+		<div className="w-1/2 mx-auto py-10 flex flex-col items-center justify-center">
+			<Card className="max-w-1/2 w-1/2 border-none">
+				<div className="flex w-full p-4 items-center justify-left">
 
+					<Breadcrumb>
+						<BreadcrumbList>
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link href={"/"}>
+										Início
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								...
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link href={"/login"}>
+										Entrar
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+							<BreadcrumbSeparator>
+							<SlashIcon />
+							</BreadcrumbSeparator>
+							<BreadcrumbItem>
+								<BreadcrumbPage>
+									Cadastrar Usuário
+								</BreadcrumbPage>
+							</BreadcrumbItem>
+						</BreadcrumbList>
+					</Breadcrumb>
+				</div>
+
+
+				<CardHeader>
+					<CardTitle className="flex gap-2">
+						<UserPlus />
 						<h1 className="text-2xl font-bold mb-6 text-center">Cadastro de Usuário</h1>
 					</CardTitle>
+					<CardDescription className="text-sm">
+						Para cadastrar um usuário, primeiro informe o CNPJ da empresa ao qual trabalha.
+					</CardDescription>
 
 				</CardHeader>
 				<CardContent>
@@ -101,12 +143,12 @@ const RegisterPage = () => {
 										</DialogContent>
 									</Dialog>
 								)}
-
 							</CardFooter>
 						</form>
 					</Form>
-
-
+					<CardDescription className="mt-2">
+						Ainda não tem uma empresa? <Link href={"/register/company"} className="text-sm text-blue-500 hover:underline">Criar</Link>
+					</CardDescription>
 				</CardContent>
 
 			</Card>

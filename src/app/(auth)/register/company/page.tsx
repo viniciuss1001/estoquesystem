@@ -1,10 +1,12 @@
 "use client"
 
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import api from "@/lib/axios"
 import { useMutation } from "@tanstack/react-query"
+import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -53,9 +55,34 @@ const RegisterCompanyPage = () => {
 	return (
 		<div className="w-1/2 mx-auto py-10  flex items-center justify-center">
 			<Card className="max-w-1/2 w-1/2  border-none">
+				<div className="flex w-full p-4 items-center justify-left">
+					<Breadcrumb>
+						<BreadcrumbList>
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link href={"/"}>
+										Início
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								...
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link href={"/register"}>
+										Cadastrar Usuário
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+						</BreadcrumbList>
+					</Breadcrumb>
+				</div>
+
 				<CardHeader>
 					<CardTitle>
-
 						<h1 className="text-2xl font-bold mb-6 text-center">Cadastro de Empresa</h1>
 					</CardTitle>
 

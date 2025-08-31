@@ -1,10 +1,11 @@
 "use client"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader } from 'lucide-react'
+import { Loader, SlashIcon } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -47,6 +48,40 @@ const LoginPage = () => {
 	return (
 		<div className='min-h-screen flex items-center justify-center px-4 w-full'>
 			<Card className='w-full max-w-md shadow-xl rounded-sm'>
+				<div className="flex w-full p-4 items-center justify-left">
+
+					<Breadcrumb>
+						<BreadcrumbList>
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link href={"/"}>
+										Início
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								...
+							</BreadcrumbItem>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								<BreadcrumbLink asChild>
+									<Link href={"/register"}>
+										Registar
+									</Link>
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+							<BreadcrumbSeparator>
+								<SlashIcon />
+							</BreadcrumbSeparator>
+							<BreadcrumbItem>
+								<BreadcrumbPage>
+									Entrar
+								</BreadcrumbPage>
+							</BreadcrumbItem>
+						</BreadcrumbList>
+					</Breadcrumb>
+				</div>
 				<CardHeader>
 					<CardTitle className='text-2xl text-center font-semibold '>
 						Entrar no EstoqueSys
