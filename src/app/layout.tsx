@@ -9,14 +9,14 @@ import ReactQueryProvider from "@/providers/react-query-provider";
 
 const roboto = Roboto({
   subsets: ["latin"],
-});
+})
 
 
 export const metadata: Metadata = {
   title: "Stockly",
   description: "Gerenciamento de Estoque",
   icons: {
-    icon: "/logo2.ico"
+    icon: "@/app/assets/logo2.ico"
   }
 };
 

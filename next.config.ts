@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "standalone",
   distDir: "web-dist",
+  images: {
+    unoptimized: true
+  }
 };
 
 export default nextConfig

@@ -6,7 +6,6 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { Download, Printer } from 'lucide-react'
 
-
 interface ProductListActionsProps {
 	products: Product[]
 	userName: string
@@ -23,7 +22,7 @@ const ProductListActions = ({ products, userName, userNameOffice }: ProductListA
 		const document = new jsPDF()
 
 		// load logo
-		const logoUrl = "/logo-rbg.png"
+		const logoUrl = '@/app/assets/logo-rbg.png'
 		const image = await getImageBase64(logoUrl)
 
 		// header
