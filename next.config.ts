@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   output: "standalone",
-  distDir: ".next",
+  distDir: "web-dist",
 };
 
 export default nextConfig

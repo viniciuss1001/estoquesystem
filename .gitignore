@@ -23,6 +23,7 @@
 # next.js
 /.next/
 /out/
+/web-dist/
 
 # production
 /build

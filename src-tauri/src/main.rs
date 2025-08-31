@@ -21,10 +21,10 @@ fn main() {
 
     tauri::Builder::default()
         // Setup do app: inicia o servidor Next standalone
-        .setup(move |app| {
-            let config = app.config();
+        .setup(move |_app| {
+            // Ajuste aqui para a pasta web-dist
             let child = Command::new("node")
-                .arg(".next/standalone/server.js")
+                .arg("../web-dist/standalone/server.js") // << caminho do server.js
                 .spawn()
                 .expect("Falha ao iniciar o servidor Next");
 
