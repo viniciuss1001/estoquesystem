@@ -31,8 +31,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "longDescription": "",
+      "identifier": "viniciusfrota.engsoft",
+      "longDescription": "stockly",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",

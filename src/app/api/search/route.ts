@@ -24,7 +24,6 @@ export async function GET(req: NextRequest) {
 			where: {
 				name: {
 					contains: query,
-					mode: "insensitive"
 				}, companyId
 			},
 			select: {
@@ -40,7 +39,6 @@ export async function GET(req: NextRequest) {
 			where: {
 				name: {
 					contains: query,
-					mode: "insensitive"
 				},
 				companyId
 			},
@@ -54,7 +52,7 @@ export async function GET(req: NextRequest) {
 			where: {
 				name: {
 					contains: query,
-					mode: "insensitive"
+					
 				},
 				companyId
 			},
@@ -68,7 +66,6 @@ export async function GET(req: NextRequest) {
 			where: {
 				name: {
 					contains: query,
-					mode: "insensitive"
 				},
 				companyId
 			},
@@ -83,7 +80,6 @@ export async function GET(req: NextRequest) {
 			where: {
 				name: {
 					contains: query,
-					mode: "insensitive",
 				},
 				companyId
 			},
@@ -94,7 +90,6 @@ export async function GET(req: NextRequest) {
 			where: {
 				title: {
 					contains: query,
-					mode: "insensitive"
 				},
 				companyId
 			},

@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GlassWaterIcon } from "lucide-react";
 
 export default function HomeTechnologies() {
 	const technologies = [
@@ -28,7 +29,7 @@ export default function HomeTechnologies() {
 							className="border border-none shadow hover:shadow-lg transition flex flex-col items-center justify-center p-4"
 						>
 							<CardHeader className="mb-2">
-								<img src={tech.icon} alt={tech.name} className="w-12 h-12" />
+								<GlassWaterIcon />
 							</CardHeader>
 							<CardContent>
 								<CardTitle className="text-lg font-semibold">{tech.name}</CardTitle>
