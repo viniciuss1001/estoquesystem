@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import logo from '../../../public/logo-rbg.png'
+import logo from '@/app/_components/_images/logo-rbg.png'
 import Image from "next/image"
 
 const HomeNavbar = () => {

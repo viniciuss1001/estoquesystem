@@ -7,12 +7,13 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel"
 
-import warehouse from '../../../public/warehouse.jpg'
-import group from '../../../public/group.jpg'
-import warehousedash from '../../../public/warehouse-dash.jpg'
-import warehousework from '../../../public/warehouse-work.jpg'
-import updateproduct from '../../../public/update-product.jpg'
 import Image from "next/image"
+
+import group from '@/app/_components/_images/group.jpg'
+import updateproduct from '@/app/_components/_images/update-product.jpg'
+import warehousedash from '@/app/_components/_images/warehouse-dash.jpg'
+import warehousework from '@/app/_components/_images/warehouse-work.jpg'
+import warehouse from '@/app/_components/_images/warehouse.jpg'
 
 
 const HomeCarousel = () => {

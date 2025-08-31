@@ -3,14 +3,14 @@ import { GlassWaterIcon } from "lucide-react";
 
 export default function HomeTechnologies() {
 	const technologies = [
-		{ name: "Next.js 14", icon: "/_icons/nextjs.svg" },
-		{ name: "TypeScript", icon: "/_icons/typescript.svg" },
-		{ name: "TailwindCSS + shadcn/ui", icon: "/_icons/tailwindcss.svg" },
-		{ name: "Prisma ORM", icon: "/_icons/prismaorm.svg" },
-		{ name: "PostgreSQL", icon: "/_icons/postgres.svg" },
-		{ name: "SQLite", icon: "/_icons/sqlite.svg" },
-		{ name: "React Query", icon: "/_icons/rquery.svg" },
-		{ name: "Zod + React Hook Form", icon: "/_icons/zod.svg" },
+		{ name: "Next.js 14" },
+		{ name: "TypeScript" },
+		{ name: "TailwindCSS + shadcn/ui" },
+		{ name: "Prisma ORM" },
+		{ name: "PostgreSQL" },
+		{ name: "SQLite" },
+		{ name: "React Query" },
+		{ name: "Zod + React Hook Form" },
 	];
 
 

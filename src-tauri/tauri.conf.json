@@ -4,7 +4,8 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
     "devPath": "http://localhost:3000",
-    "distDir": "../.next/standalone"
+    "distDir": "../.next/standalone/.next"
+
   },
   "package": {
     "productName": "estoquesys",
@@ -14,29 +15,54 @@
     "allowlist": {
       "fs": {
         "all": true
-      },
-      "shell": {
-        "all": true
       }
     },
     "bundle": {
       "active": true,
-      "targets": "all",
-      "identifier": "viniciusfrota.engsoft",
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
+        "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "identifier": "viniciusfrota.engsoft",
+      "longDescription": "stockly",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
     },
     "windows": [
       {
-        "title": "estoquesys",
-        "width": 800,
+        "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "fullscreen": false
+        "title": "estoquesys",
+        "width": 800
       }
     ]
   }

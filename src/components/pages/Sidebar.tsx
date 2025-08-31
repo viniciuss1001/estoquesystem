@@ -28,7 +28,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import logo from '../../../public/logo-rbg.png'
+import logo from '@/components/pages/_images/logo-rbg.png'
 
 const SidebarComponent = () => {
   const { data: session } = useSession()
