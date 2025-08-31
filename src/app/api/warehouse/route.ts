@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
 
 		const warehouses = await prisma.wareHouse.findMany({
 			where: {
-				location: location ? { contains: location, mode: "insensitive" } : undefined,
+				location: location ? { contains: location } : undefined,
 				companyId
 			},
 			orderBy: { createdAt: "desc" },

@@ -52,7 +52,6 @@ export async function GET(req: NextRequest) {
 			where: {
 				name: {
 					contains: query,
-					
 				},
 				companyId
 			},
