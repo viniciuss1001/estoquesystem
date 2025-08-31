@@ -1,25 +1,16 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
- reactStrictMode: true,
-  webpack(config, { isServer }) {
-    config.module.rules = config.module.rules.map((rule: any) => {
-      if (rule.test?.toString().includes("svg")) {
-        return { ...rule, test: /\.(jpg|jpeg|png|gif|webp|ico|bmp|tiff)$/i };
-      }
-      return rule
-    });
-
+  webpack: (config) => {
     config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ["@svgr/webpack"],
+      test: /\.(ts|tsx)$/,
+      exclude: /src-tauri\/target/,
     });
-
-    return config
+    return config;
   },
+  reactStrictMode: true,
   output: "standalone",
-  distDir: ".next"
-}
+  distDir: ".next",
+};
 
 export default nextConfig
