@@ -8,6 +8,7 @@ import {
 import clsx from 'clsx'
 import {
   Archive,
+  ChartBar,
   FileText,
   Home,
   LayoutList,
@@ -25,10 +26,8 @@ import {
   Warehouse
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import logo from '@/components/pages/_images/logo-rbg.png'
 
 const SidebarComponent = () => {
   const { data: session } = useSession()
@@ -95,7 +94,7 @@ const SidebarComponent = () => {
         <div className="flex items-center gap-3 justify-around w-full">
 
           <Link href="/">
-            <Image src={logo} alt="Stockly" width={128} height={64} className="bg-none" />
+            <ChartBar />
           </Link>
           <SidebarTrigger className="size-8 ml-auto flex mb-auto cursor-pointer rounded p-2" />
 

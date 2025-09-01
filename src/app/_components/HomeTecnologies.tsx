@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassWaterIcon } from "lucide-react";
+import { Cpu } from "lucide-react";
 
 export default function HomeTechnologies() {
 	const technologies = [
@@ -29,7 +29,7 @@ export default function HomeTechnologies() {
 							className="border border-none shadow hover:shadow-lg transition flex flex-col items-center justify-center p-4"
 						>
 							<CardHeader className="mb-2">
-								<GlassWaterIcon />
+								<Cpu />
 							</CardHeader>
 							<CardContent>
 								<CardTitle className="text-lg font-semibold">{tech.name}</CardTitle>

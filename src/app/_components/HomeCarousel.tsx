@@ -7,14 +7,6 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel"
 
-import Image from "next/image"
-
-import group from '@/app/_components/_images/group.jpg'
-import updateproduct from '@/app/_components/_images/update-product.jpg'
-import warehousedash from '@/app/_components/_images/warehouse-dash.jpg'
-import warehousework from '@/app/_components/_images/warehouse-work.jpg'
-import warehouse from '@/app/_components/_images/warehouse.jpg'
-
 
 const HomeCarousel = () => {
 	return (
@@ -27,19 +19,19 @@ const HomeCarousel = () => {
 				className="w-full min-h-lg max-w-2xl  items-center justify-center rounded-md ">
 				<CarouselContent className='-ml-4 max-h-[450px] rounded-md'>
 					<CarouselItem className="rounded-lg">
-						<Image src={warehouse} alt="Warehouse" />
+						0
 					</CarouselItem>
 					<CarouselItem className="">
-						<Image src={warehousedash} alt="Warehouse" />
+						1
 					</CarouselItem>
 					<CarouselItem className="">
-						<Image src={group} alt="Warehouse" />
+						2
 					</CarouselItem>
 					<CarouselItem className="">
-						<Image src={warehousework} alt="Warehouse" />
+						3
 					</CarouselItem>
 					<CarouselItem className="">
-						<Image src={updateproduct} alt="Warehouse" />
+						4
 					</CarouselItem>
 				</CarouselContent>
 				<CarouselPrevious />

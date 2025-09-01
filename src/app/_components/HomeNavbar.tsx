@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import logo from '@/app/_components/_images/logo-rbg.png'
-import Image from "next/image"
+
+import { ChartBar } from "lucide-react"
 
 const HomeNavbar = () => {
 	return (
@@ -12,7 +12,7 @@ const HomeNavbar = () => {
 					{/* Logo */}
 					<div className="flex-shrink-0 mt-4">
 						<Link href="/" className="text-2xl font-bold">
-							<Image alt="Stockly" src={logo} width={128} height={40}/>
+							<ChartBar className="w-full h-full" />
 						</Link>
 					</div>
 
