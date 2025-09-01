@@ -1,7 +1,6 @@
 # ===== STAGE 1: Build =====
 FROM node:20-alpine AS builder
 
-# Diretório de trabalho
 WORKDIR /app
 
 # Copia package.json e pnpm-lock.yaml
@@ -22,8 +21,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Instala dependências de runtime necessárias
-RUN apk add --no-cache libc6-compat bash
+# Instala dependências de runtime necessárias + SQLite
+RUN apk add --no-cache libc6-compat bash sqlite sqlite-dev
 
 # Cria pasta para SQLite
 RUN mkdir -p /app/data
