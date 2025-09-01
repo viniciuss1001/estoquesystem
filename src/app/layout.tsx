@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Stockly",
   description: "Gerenciamento de Estoque",
   icons: {
-    icon: "@/app/assets/logo2.ico"
+    icon: "/logo2.ico"
   }
 };
 

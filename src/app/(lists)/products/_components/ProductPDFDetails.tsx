@@ -56,7 +56,7 @@ const ProductPDFDetails = ({ productId, userName, userRole, productName }: Produ
 
 		const doc = new jsPDF()
 
-		const logoUrl = '@/app/assets/logo-rbg.png'
+		const logoUrl = '/logo-rbg.png'
 
 		const getImageBase64 = (url: string): Promise<string> => {
 			return new Promise((resolve, reject) => {

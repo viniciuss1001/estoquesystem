@@ -22,7 +22,7 @@ const ProductListActions = ({ products, userName, userNameOffice }: ProductListA
 		const document = new jsPDF()
 
 		// load logo
-		const logoUrl = '@/app/assets/logo-rbg.png'
+		const logoUrl = '/logo-rbg.png'
 		const image = await getImageBase64(logoUrl)
 
 		// header
