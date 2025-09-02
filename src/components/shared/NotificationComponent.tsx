@@ -1,14 +1,14 @@
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import api from '@/lib/axios'
 import { useNotifications } from '@/lib/queries'
 import { cn } from '@/lib/utils'
+import { Notification } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { AlertTriangle, Bell, Check, Info, ShieldAlert, Trash2, XCircle } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '../ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import { Notification } from '@/types/types'
 
 
 const iconsMap = {

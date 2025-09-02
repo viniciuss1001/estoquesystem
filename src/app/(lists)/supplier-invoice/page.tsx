@@ -1,6 +1,6 @@
 import LoaderComponent from '@/components/shared/LoaderComponent'
 import React, { Suspense } from 'react'
-import SupplierInvoicesClientPage from './_components/SupplierInvoiceClientPage'
+import SupplierInvoicesClientPage from '@/app/(lists)/supplier-invoice/_components/SupplierInvoiceClientPage'
 
 const page = () => {
 	return (

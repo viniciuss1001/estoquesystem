@@ -4,16 +4,16 @@ import {
 	Menubar
 } from "@/components/ui/menubar"
 
+import CreatorGenericModal from "@/components/shared/More-creator-modal"
+import NotificationComponent from "@/components/shared/NotificationComponent"
+import { ModeThemeToggle } from "@/components/shared/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import CreatorGenericModal from "../shared/More-creator-modal"
-import NotificationComponent from "../shared/NotificationComponent"
-import { ModeThemeToggle } from "../shared/theme-toggle"
 
+import AsideSheet from "@/components/pages/AsideSheet"
+import DeliveryCalendarAside from "@/components/pages/DeliveryCalendarAside"
+import LowStockAlert from "@/components/pages/LowStockAlert"
 import { useSession } from "next-auth/react"
-import AsideSheet from "./AsideSheet"
-import DeliveryCalendarAside from "./DeliveryCalendarAside"
-import LowStockAlert from "./LowStockAlert"
 
 const NavbarComponents = () => {
 	const { data: session } = useSession()

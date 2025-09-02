@@ -14,7 +14,7 @@ import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { SupplierInvoiceFormValues, supplierInvoiceSchema } from "../_schema/formSchema"
+import { SupplierInvoiceFormValues, supplierInvoiceSchema } from "@/app/(lists)/supplier-invoice/_schema/formSchema"
 
 const CreateSupplierInvoiceForm = () => {
 

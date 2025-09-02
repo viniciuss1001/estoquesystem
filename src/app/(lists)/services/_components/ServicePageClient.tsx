@@ -7,7 +7,7 @@ import { useFilteredServices } from "@/lib/queries"
 import { FileText } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { EditServiceModal } from "./EditServiceModal"
+import { EditServiceModal } from "@/app/(lists)/services/_components/EditServiceModal"
 
 
 const ServicesPageClient = () => {
