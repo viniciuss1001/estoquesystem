@@ -1,6 +1,6 @@
 import LoaderComponent from '@/components/shared/LoaderComponent'
 import React, { Suspense } from 'react'
-import MovementsClientPage from './_components/MovementClientPage'
+import MovementsClientPage from '@/app/(lists)/movements/_components/MovementClientPage'
 
 const page = () => {
   return (

@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import DeliveryPageClient from "./_components/DeliveryPageClient";
+import { Suspense } from "react"
+import DeliveryPageClient from "@/app/(lists)/delivery/_components/DeliveryPageClient"
 
 const page = () => {
 	return (

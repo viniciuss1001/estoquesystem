@@ -1,11 +1,11 @@
+import { ThemeProvider } from "@/components/shared/theme-provider";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import ReactQueryProvider from "@/providers/react-query-provider";
+import { Providers } from "@/providers/use-session";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import "./globals.css";
 import { Toaster } from "sonner";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { Providers } from "@/providers/use-session";
-import { ThemeProvider } from "@/components/shared/theme-provider";
-import ReactQueryProvider from "@/providers/react-query-provider";
+import "./globals.css";
 
 const roboto = Roboto({
   subsets: ["latin"],

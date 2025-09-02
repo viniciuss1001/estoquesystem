@@ -1,4 +1,5 @@
 "use client"
+import ServiceLocationEditForm from "@/app/(lists)/service-locations/_components/ServiceLocationEditForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,11 +12,10 @@ import {
 } from "@/components/ui/table";
 import api from "@/lib/axios";
 import { useServiceLocations } from "@/lib/queries";
+import { ServiceLocation } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import ServiceLocationEditForm from "./ServiceLocationEditForm";
-import { ServiceLocation } from "@/types/types";
 
 
 const ServiceLocationList = () => {

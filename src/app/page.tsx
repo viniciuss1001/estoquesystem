@@ -1,7 +1,7 @@
-import HomeCarousel from "./_components/HomeCarousel";
-import FeaturesSection from "./_components/HomeFeatures";
-import HomeNavbar from "./_components/HomeNavbar";
-import HomeTechnologies from "./_components/HomeTecnologies";
+import HomeCarousel from "@/app/_components/HomeCarousel";
+import FeaturesSection from "@/app/_components/HomeFeatures";
+import HomeNavbar from "@/app/_components/HomeNavbar";
+import HomeTechnologies from "@/app/_components/HomeTecnologies";
 
 export default function Home() {
   return (

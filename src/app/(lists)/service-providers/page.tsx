@@ -1,11 +1,11 @@
 "use client"
 
+import CreateServiceProviderForm from "@/app/(lists)/service-providers/_components/CreateServiceProviderForm"
+import EditServiceProviderForm from "@/app/(lists)/service-providers/_components/EditServiceProviderForm"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useServiceProviders } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
-import CreateServiceProviderForm from "./_components/CreateServiceProviderForm"
-import EditServiceProviderForm from "./_components/EditServiceProviderForm"
 
 
 const ServiceProvidersPage = () => {

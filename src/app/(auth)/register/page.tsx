@@ -1,5 +1,6 @@
 "use client"
 
+import RegisterUserDialog from "@/app/(auth)/register/_components/RegisterUserDialog"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,7 +15,6 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import RegisterUserDialog from "./_components/RegisterUserDialog"
 
 interface Company {
 	id: string

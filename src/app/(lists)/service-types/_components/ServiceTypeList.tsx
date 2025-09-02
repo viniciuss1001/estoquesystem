@@ -7,7 +7,7 @@ import { useServiceTypes } from '@/lib/queries'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import ServiceTypeEditDialog from './ServiceTypeEditDialog'
+import ServiceTypeEditDialog from '@/app/(lists)/service-types/_components/ServiceTypeEditDialog'
 import { ServiceType } from '@/types/types'
 
 const ServiceTypeList = () => {
