@@ -1,44 +1,42 @@
-# ===== STAGE 1: Build =====
-FROM node:20-alpine AS builder
-
+# Etapa 1: Dependências
+FROM node:20-alpine AS deps
 WORKDIR /app
 
-# Copia package.json e pnpm-lock.yaml
-COPY package.json pnpm-lock.yaml ./
+# Copia package.json e lock
+COPY package*.json ./
 
-# Instala pnpm e dependências
-RUN npm install -g pnpm
-RUN pnpm install
+# Instala dependências de produção e dev (necessário pro build do Next)
+RUN npm install
 
-# Copia todo o código
+# Etapa 2: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Copia node_modules e arquivos da aplicação
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build do Next.js standalone
-RUN pnpm build
+# Gera cliente Prisma
+RUN npx prisma generate
 
-# ===== STAGE 2: Production =====
-FROM node:20-alpine
+# Faz o build do Next
+RUN npm run build
 
+# Etapa 3: Runtime
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Instala dependências de runtime necessárias + SQLite
-RUN apk add --no-cache libc6-compat bash sqlite sqlite-dev
+ENV NODE_ENV=production
+ENV PORT=3000
 
-# Cria pasta para SQLite
-RUN mkdir -p /app/data
-RUN chmod -R 777 /app/data
-
-# Copia build standalone e dependências do builder
-COPY --from=builder /app/web-dist/standalone ./
-COPY --from=builder /app/web-dist/static ./.next/static
+# Copia apenas o necessário pro runtime
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
 
-# Variável de ambiente do Prisma (SQLite)
-ENV DATABASE_URL="file:/app/data/dev.db"
-
-# Expõe porta do Next.js
 EXPOSE 3000
 
-# Comando para rodar o servidor standalone
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
