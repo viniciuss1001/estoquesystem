@@ -8,6 +8,7 @@ import { FileText } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { EditServiceModal } from "@/app/(lists)/services/_components/EditServiceModal"
+import ServiceInfoDialog from "./ServiceInfoDialog";
 
 
 const ServicesPageClient = () => {
@@ -128,9 +129,7 @@ const ServicesPageClient = () => {
 										 <EditServiceModal serviceId={service.id} /> 
 									</TableCell>
 									<TableCell>
-										<Link href={`/services/${service.id}`} className="text-blue-500 underline">
-											Detalhes
-										</Link>
+										<ServiceInfoDialog serviceId={service.id}/>
 									</TableCell>
 								</TableRow>
 							))

@@ -25,7 +25,7 @@ const formSchema = z.object({
 	cnpj: z.string().optional(),
 	deliveryTime: z.coerce.date().optional(),
 	description: z.string().optional(),
-	products: z.array(z.string()).min(1, "Selecione pelo menos um produto"),
+	products: z.array(z.string()).min(1, "Selecione pelo menos um produto").optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -193,7 +193,7 @@ const CreateSupplierModal = () => {
 																	checked={field.value?.includes(product.id)}
 																	onCheckedChange={(checked) => {
 																		if (checked) {
-																			field.onChange([...field.value, product.id])
+																			field.onChange([...field.value!, product.id])
 																		} else {
 																			field.onChange(field.value?.filter((id: string) => id !== product.id))
 																		}
