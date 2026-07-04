@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import api from "@/lib/axios"
 import { WarehouseStock } from "@/types/types"
 import { useQuery } from "@tanstack/react-query"
+import { Loader2 } from "lucide-react";
 
 
 const ProductWarehouseDistribuition = ({ productId }: { productId: string }) => {
@@ -17,10 +18,8 @@ const ProductWarehouseDistribuition = ({ productId }: { productId: string }) => 
 
 	if (isLoading) {
 		return (
-			<div className="space-y-2">
-				<Skeleton className="h-6 w-1/2" />
-				<Skeleton className="h-6 w-full" />
-				<Skeleton className="h-6 w-full" />
+			<div className="flex justify-center items-center p-4">
+				<Loader2 className="animate-spin" />
 			</div>
 		)
 	}

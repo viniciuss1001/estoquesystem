@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import api from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
+import { Loader2 } from "lucide-react";
 
 interface WarehouseProduct {
 	id: string
@@ -33,10 +34,8 @@ const WarehouseProductsList = ({ warehouseId }: Props) => {
 
 	if (isLoading) {
 		return (
-			<div className="space-y-2">
-				{[...Array(4)].map((_, i) => (
-					<Skeleton key={i} className="h-10 w-full" />
-				))}
+			<div className="flex justify-center items-center p-4">
+				<Loader2 className="animate-spin" />
 			</div>
 		)
 	}

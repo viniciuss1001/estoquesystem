@@ -4,6 +4,7 @@ import CreateSupplierModal from "@/app/(lists)/suppliers/_components/create-supp
 import EditSupplierModal from "@/app/(lists)/suppliers/_components/edit-supplier-modal"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useSuppliers } from "@/lib/queries"
+import { formatCNPJ, formatPhone } from "@/utils/formatters";
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 
@@ -57,11 +58,15 @@ const SupplierPage = () => {
 						<TableRow key={supplier.id}>
 							<TableCell>{supplier.name}</TableCell>
 							<TableCell>{supplier.email}</TableCell>
-							<TableCell>{supplier.cnpj}</TableCell>
-							<TableCell>{supplier.contactPhone}</TableCell>
+							<TableCell>
+								{formatCNPJ(supplier.cnpj)}
+							</TableCell>
+							<TableCell>
+								{formatPhone(supplier.contactPhone)}
+							</TableCell>
 							<TableCell>{supplier.description || "-"}</TableCell>
 							<TableCell>
-								{new Date(supplier.createdAt).toLocaleDateString()  ?? "-"}
+								{new Date(supplier.createdAt).toLocaleDateString() ?? "-"}
 							</TableCell>
 							<TableCell>
 								<EditSupplierModal supplierId={supplier.id} />

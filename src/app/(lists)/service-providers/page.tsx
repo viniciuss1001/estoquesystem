@@ -2,6 +2,7 @@
 
 import CreateServiceProviderForm from "@/app/(lists)/service-providers/_components/CreateServiceProviderForm"
 import EditServiceProviderForm from "@/app/(lists)/service-providers/_components/EditServiceProviderForm"
+import { formatCNPJ, formatPhone } from "@/utils/formatters";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useServiceProviders } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
@@ -58,8 +59,12 @@ const ServiceProvidersPage = () => {
 						<TableRow key={serviceProvider.id}>
 							<TableCell>{serviceProvider.name}</TableCell>
 							<TableCell>{serviceProvider.email}</TableCell>
-							<TableCell>{serviceProvider.cnpj}</TableCell>
-							<TableCell>{serviceProvider.phone}</TableCell>
+							<TableCell>
+								{formatCNPJ(serviceProvider.cnpj) || "-"}
+								</TableCell>
+							<TableCell>
+								{formatPhone(serviceProvider.phone) || "-"}
+								</TableCell>
 							<TableCell>{serviceProvider.description || "-"}</TableCell>
 							<TableCell>
 								{new Date(serviceProvider.createdAt).toLocaleDateString()  ?? "-"}
