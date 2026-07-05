@@ -145,7 +145,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 			action: "update",
 			entity: "delivery",
 			entityId: updatedDelivery.id,
-			description: `Entrega alterada para o produto ${body.productId} com quantidade ${body.quantity}`
+			description: `Entrega alterada para o produto ${body.productId.name} com quantidade ${body.quantity}`
 		})
 
 		return NextResponse.json(updatedDelivery)

@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
 		await notifyByUserRole({
 			title: "Nova entrega adicionada",
-			message: `Entrega prevista para ${delivery.expectedAt}`,
+			message: `Entrega do produto prevista para ${delivery.expectedAt}`,
 			roles: ["GESTOR"]
 		})
 

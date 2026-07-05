@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useServiceProviders } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import ServiceProviderDialog from "./_components/ServiceProviderDialog";
 
 
 const ServiceProvidersPage = () => {
@@ -73,9 +74,7 @@ const ServiceProvidersPage = () => {
 								<EditServiceProviderForm serviceProviderId={serviceProvider.id}/>
 							</TableCell>
 							<TableCell>
-								<Link href={`/service-providers/${serviceProvider.id}`}>
-									Detalhes
-								</Link>
+								<ServiceProviderDialog serviceProviderId={serviceProvider.id}/>
 							</TableCell>
 						</TableRow>
 					))}

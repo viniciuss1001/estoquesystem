@@ -13,23 +13,23 @@ interface ServiceInfoDialogProps {
 	serviceId: string
 }
 
-const ServiceInfoDialog = ({serviceId}: ServiceInfoDialogProps) => {
-	const {id: useParamsId} = useParams()
+const ServiceInfoDialog = ({ serviceId }: ServiceInfoDialogProps) => {
+	const { id: useParamsId } = useParams()
 
 	const id = useParamsId || serviceId
 
-	const {data: service, isLoading} = useService(id as string)
+	const { data: service, isLoading } = useService(id as string)
 
 	const [open, setOpen] = useState(false)
 
 
-	if(isLoading) {
+	if (isLoading) {
 		return (
-			<Loader className="animate-spin"/>
+			<Loader className="animate-spin" />
 		)
 	}
 
-	if(!service) {
+	if (!service) {
 		return (
 			<div className="flex items-center justify-center h-64">
 				<p className="text-muted-foreground">Serviço não encontrado.</p>
@@ -94,6 +94,6 @@ const ServiceInfoDialog = ({serviceId}: ServiceInfoDialogProps) => {
 		</Dialog>
 	)
 
-} 
+}
 
 export default ServiceInfoDialog
