@@ -124,7 +124,15 @@ export interface SupplierInvoice {
   dueDate: string
   createdAt: string
   updatedAt?: string
+
+  //archive
   fileUrl?: string | null
+  
+  digitableCode?: string | null
+
+  invoiceNumber?: string | null
+  paymentoProofUrl?: string | null
+  paydAt?: string | null
 
   supplier?: {
     id: string

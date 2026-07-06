@@ -14195,6 +14195,10 @@ export namespace Prisma {
     amount: Decimal | null
     dueDate: Date | null
     fileUrl: string | null
+    digitableLine: string | null
+    invoiceNumber: string | null
+    paymentProofUrl: string | null
+    paidAt: Date | null
     status: $Enums.InvoiceStatus | null
     supplierId: string | null
     serviceProviderId: string | null
@@ -14210,6 +14214,10 @@ export namespace Prisma {
     amount: Decimal | null
     dueDate: Date | null
     fileUrl: string | null
+    digitableLine: string | null
+    invoiceNumber: string | null
+    paymentProofUrl: string | null
+    paidAt: Date | null
     status: $Enums.InvoiceStatus | null
     supplierId: string | null
     serviceProviderId: string | null
@@ -14225,6 +14233,10 @@ export namespace Prisma {
     amount: number
     dueDate: number
     fileUrl: number
+    digitableLine: number
+    invoiceNumber: number
+    paymentProofUrl: number
+    paidAt: number
     status: number
     supplierId: number
     serviceProviderId: number
@@ -14250,6 +14262,10 @@ export namespace Prisma {
     amount?: true
     dueDate?: true
     fileUrl?: true
+    digitableLine?: true
+    invoiceNumber?: true
+    paymentProofUrl?: true
+    paidAt?: true
     status?: true
     supplierId?: true
     serviceProviderId?: true
@@ -14265,6 +14281,10 @@ export namespace Prisma {
     amount?: true
     dueDate?: true
     fileUrl?: true
+    digitableLine?: true
+    invoiceNumber?: true
+    paymentProofUrl?: true
+    paidAt?: true
     status?: true
     supplierId?: true
     serviceProviderId?: true
@@ -14280,6 +14300,10 @@ export namespace Prisma {
     amount?: true
     dueDate?: true
     fileUrl?: true
+    digitableLine?: true
+    invoiceNumber?: true
+    paymentProofUrl?: true
+    paidAt?: true
     status?: true
     supplierId?: true
     serviceProviderId?: true
@@ -14382,6 +14406,10 @@ export namespace Prisma {
     amount: Decimal
     dueDate: Date
     fileUrl: string | null
+    digitableLine: string | null
+    invoiceNumber: string | null
+    paymentProofUrl: string | null
+    paidAt: Date | null
     status: $Enums.InvoiceStatus
     supplierId: string | null
     serviceProviderId: string | null
@@ -14416,6 +14444,10 @@ export namespace Prisma {
     amount?: boolean
     dueDate?: boolean
     fileUrl?: boolean
+    digitableLine?: boolean
+    invoiceNumber?: boolean
+    paymentProofUrl?: boolean
+    paidAt?: boolean
     status?: boolean
     supplierId?: boolean
     serviceProviderId?: boolean
@@ -14437,6 +14469,10 @@ export namespace Prisma {
     amount?: boolean
     dueDate?: boolean
     fileUrl?: boolean
+    digitableLine?: boolean
+    invoiceNumber?: boolean
+    paymentProofUrl?: boolean
+    paidAt?: boolean
     status?: boolean
     supplierId?: boolean
     serviceProviderId?: boolean
@@ -14455,6 +14491,10 @@ export namespace Prisma {
     amount?: boolean
     dueDate?: boolean
     fileUrl?: boolean
+    digitableLine?: boolean
+    invoiceNumber?: boolean
+    paymentProofUrl?: boolean
+    paidAt?: boolean
     status?: boolean
     supplierId?: boolean
     serviceProviderId?: boolean
@@ -14473,6 +14513,10 @@ export namespace Prisma {
     amount?: boolean
     dueDate?: boolean
     fileUrl?: boolean
+    digitableLine?: boolean
+    invoiceNumber?: boolean
+    paymentProofUrl?: boolean
+    paidAt?: boolean
     status?: boolean
     supplierId?: boolean
     serviceProviderId?: boolean
@@ -14481,7 +14525,7 @@ export namespace Prisma {
     companyId?: boolean
   }
 
-  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "amount" | "dueDate" | "fileUrl" | "status" | "supplierId" | "serviceProviderId" | "createdAt" | "updatedAt" | "companyId", ExtArgs["result"]["supplierInvoice"]>
+  export type SupplierInvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "amount" | "dueDate" | "fileUrl" | "digitableLine" | "invoiceNumber" | "paymentProofUrl" | "paidAt" | "status" | "supplierId" | "serviceProviderId" | "createdAt" | "updatedAt" | "companyId", ExtArgs["result"]["supplierInvoice"]>
   export type SupplierInvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Delivery?: boolean | SupplierInvoice$DeliveryArgs<ExtArgs>
     Service?: boolean | SupplierInvoice$ServiceArgs<ExtArgs>
@@ -14517,6 +14561,10 @@ export namespace Prisma {
       amount: Prisma.Decimal
       dueDate: Date
       fileUrl: string | null
+      digitableLine: string | null
+      invoiceNumber: string | null
+      paymentProofUrl: string | null
+      paidAt: Date | null
       status: $Enums.InvoiceStatus
       supplierId: string | null
       serviceProviderId: string | null
@@ -14957,6 +15005,10 @@ export namespace Prisma {
     readonly amount: FieldRef<"SupplierInvoice", 'Decimal'>
     readonly dueDate: FieldRef<"SupplierInvoice", 'DateTime'>
     readonly fileUrl: FieldRef<"SupplierInvoice", 'String'>
+    readonly digitableLine: FieldRef<"SupplierInvoice", 'String'>
+    readonly invoiceNumber: FieldRef<"SupplierInvoice", 'String'>
+    readonly paymentProofUrl: FieldRef<"SupplierInvoice", 'String'>
+    readonly paidAt: FieldRef<"SupplierInvoice", 'DateTime'>
     readonly status: FieldRef<"SupplierInvoice", 'InvoiceStatus'>
     readonly supplierId: FieldRef<"SupplierInvoice", 'String'>
     readonly serviceProviderId: FieldRef<"SupplierInvoice", 'String'>
@@ -25690,6 +25742,10 @@ export namespace Prisma {
     amount: 'amount',
     dueDate: 'dueDate',
     fileUrl: 'fileUrl',
+    digitableLine: 'digitableLine',
+    invoiceNumber: 'invoiceNumber',
+    paymentProofUrl: 'paymentProofUrl',
+    paidAt: 'paidAt',
     status: 'status',
     supplierId: 'supplierId',
     serviceProviderId: 'serviceProviderId',
@@ -26755,6 +26811,10 @@ export namespace Prisma {
     amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    digitableLine?: StringNullableFilter<"SupplierInvoice"> | string | null
+    invoiceNumber?: StringNullableFilter<"SupplierInvoice"> | string | null
+    paymentProofUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    paidAt?: DateTimeNullableFilter<"SupplierInvoice"> | Date | string | null
     status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     supplierId?: StringNullableFilter<"SupplierInvoice"> | string | null
     serviceProviderId?: StringNullableFilter<"SupplierInvoice"> | string | null
@@ -26775,6 +26835,10 @@ export namespace Prisma {
     amount?: SortOrder
     dueDate?: SortOrder
     fileUrl?: SortOrderInput | SortOrder
+    digitableLine?: SortOrderInput | SortOrder
+    invoiceNumber?: SortOrderInput | SortOrder
+    paymentProofUrl?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
     status?: SortOrder
     supplierId?: SortOrderInput | SortOrder
     serviceProviderId?: SortOrderInput | SortOrder
@@ -26798,6 +26862,10 @@ export namespace Prisma {
     amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    digitableLine?: StringNullableFilter<"SupplierInvoice"> | string | null
+    invoiceNumber?: StringNullableFilter<"SupplierInvoice"> | string | null
+    paymentProofUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    paidAt?: DateTimeNullableFilter<"SupplierInvoice"> | Date | string | null
     status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     supplierId?: StringNullableFilter<"SupplierInvoice"> | string | null
     serviceProviderId?: StringNullableFilter<"SupplierInvoice"> | string | null
@@ -26818,6 +26886,10 @@ export namespace Prisma {
     amount?: SortOrder
     dueDate?: SortOrder
     fileUrl?: SortOrderInput | SortOrder
+    digitableLine?: SortOrderInput | SortOrder
+    invoiceNumber?: SortOrderInput | SortOrder
+    paymentProofUrl?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
     status?: SortOrder
     supplierId?: SortOrderInput | SortOrder
     serviceProviderId?: SortOrderInput | SortOrder
@@ -26841,6 +26913,10 @@ export namespace Prisma {
     amount?: DecimalWithAggregatesFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeWithAggregatesFilter<"SupplierInvoice"> | Date | string
     fileUrl?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    digitableLine?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    invoiceNumber?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    paymentProofUrl?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"SupplierInvoice"> | Date | string | null
     status?: EnumInvoiceStatusWithAggregatesFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     supplierId?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
     serviceProviderId?: StringNullableWithAggregatesFilter<"SupplierInvoice"> | string | null
@@ -28381,6 +28457,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28398,6 +28478,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     serviceProviderId?: string | null
@@ -28415,6 +28499,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28432,6 +28520,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28449,6 +28541,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     serviceProviderId?: string | null
@@ -28464,6 +28560,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28476,6 +28576,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30046,6 +30150,10 @@ export namespace Prisma {
     amount?: SortOrder
     dueDate?: SortOrder
     fileUrl?: SortOrder
+    digitableLine?: SortOrder
+    invoiceNumber?: SortOrder
+    paymentProofUrl?: SortOrder
+    paidAt?: SortOrder
     status?: SortOrder
     supplierId?: SortOrder
     serviceProviderId?: SortOrder
@@ -30065,6 +30173,10 @@ export namespace Prisma {
     amount?: SortOrder
     dueDate?: SortOrder
     fileUrl?: SortOrder
+    digitableLine?: SortOrder
+    invoiceNumber?: SortOrder
+    paymentProofUrl?: SortOrder
+    paidAt?: SortOrder
     status?: SortOrder
     supplierId?: SortOrder
     serviceProviderId?: SortOrder
@@ -30080,6 +30192,10 @@ export namespace Prisma {
     amount?: SortOrder
     dueDate?: SortOrder
     fileUrl?: SortOrder
+    digitableLine?: SortOrder
+    invoiceNumber?: SortOrder
+    paymentProofUrl?: SortOrder
+    paidAt?: SortOrder
     status?: SortOrder
     supplierId?: SortOrder
     serviceProviderId?: SortOrder
@@ -33511,6 +33627,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33527,6 +33647,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     serviceProviderId?: string | null
@@ -33971,6 +34095,10 @@ export namespace Prisma {
     amount?: DecimalFilter<"SupplierInvoice"> | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFilter<"SupplierInvoice"> | Date | string
     fileUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    digitableLine?: StringNullableFilter<"SupplierInvoice"> | string | null
+    invoiceNumber?: StringNullableFilter<"SupplierInvoice"> | string | null
+    paymentProofUrl?: StringNullableFilter<"SupplierInvoice"> | string | null
+    paidAt?: DateTimeNullableFilter<"SupplierInvoice"> | Date | string | null
     status?: EnumInvoiceStatusFilter<"SupplierInvoice"> | $Enums.InvoiceStatus
     supplierId?: StringNullableFilter<"SupplierInvoice"> | string | null
     serviceProviderId?: StringNullableFilter<"SupplierInvoice"> | string | null
@@ -35691,6 +35819,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35707,6 +35839,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     serviceProviderId?: string | null
     createdAt?: Date | string
@@ -36673,6 +36809,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36689,6 +36829,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     serviceProviderId?: string | null
@@ -36895,6 +37039,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36911,6 +37059,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37158,6 +37310,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37174,6 +37330,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     serviceProviderId?: string | null
@@ -37387,6 +37547,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37403,6 +37567,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37600,6 +37768,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37616,6 +37788,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     createdAt?: Date | string
@@ -38154,6 +38330,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     serviceProviderId?: string | null
@@ -38557,6 +38737,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38573,6 +38757,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38589,6 +38777,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39225,6 +39417,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     serviceProviderId?: string | null
     createdAt?: Date | string
@@ -39332,6 +39528,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39348,6 +39548,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39364,6 +39568,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     serviceProviderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39580,6 +39788,10 @@ export namespace Prisma {
     amount: Decimal | DecimalJsLike | number | string
     dueDate: Date | string
     fileUrl?: string | null
+    digitableLine?: string | null
+    invoiceNumber?: string | null
+    paymentProofUrl?: string | null
+    paidAt?: Date | string | null
     status?: $Enums.InvoiceStatus
     supplierId?: string | null
     createdAt?: Date | string
@@ -39642,6 +39854,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39658,6 +39874,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39674,6 +39894,10 @@ export namespace Prisma {
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    digitableLine?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
     supplierId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -4,8 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -169,23 +169,43 @@ model Supplier {
 }
 
 model SupplierInvoice {
-  id                String           @id @default(uuid())
-  title             String
-  description       String
-  amount            Decimal
-  dueDate           DateTime
-  fileUrl           String?
-  status            InvoiceStatus    @default(PENDING)
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  amount      Decimal
+  dueDate     DateTime
+
+  //supplierInvoice archive
+  fileUrl String?
+
+  //code of supplierInvouce
+  digitableLine String?
+
+  //number of NFE
+  invoiceNumber String?
+
+  //Arquivo do comprovante de pagamento - não sei essa parte em ingles
+  paymentProofUrl String?
+
+  //date of payment
+  paidAt DateTime?
+
+  status InvoiceStatus @default(PENDING)
+
   supplierId        String?
   serviceProviderId String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  companyId         String
-  Delivery          Delivery[]
-  Service           Service[]
-  company           Company          @relation(fields: [companyId], references: [id])
-  serviceProvider   ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
-  supplier          Supplier?        @relation(fields: [supplierId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  companyId String
+
+  Delivery Delivery[]
+  Service  Service[]
+
+  company         Company          @relation(fields: [companyId], references: [id])
+  serviceProvider ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
+  supplier        Supplier?        @relation(fields: [supplierId], references: [id])
 }
 
 model AuditLog {
