@@ -9,6 +9,7 @@ import { Boxes, PackageCheck, PackageX } from "lucide-react"
 import { useSession } from 'next-auth/react'
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
+import EmptyProductsComponent from "./EmptyProductsComponent";
 
 
 const ProductsClientPage = () => {
@@ -96,43 +97,54 @@ const ProductsClientPage = () => {
 
         <TableBody>
 
-
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={7} className="text-center">
+              <TableCell colSpan={10} className="text-center">
                 Carregando...
               </TableCell>
             </TableRow>
           ) : (
-            products.map((product) => (
-              <TableRow key={product.id} className="">
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.sku}</TableCell>
-                <TableCell >{product.quantity}</TableCell>
-                <TableCell>{unitLabels[product.unit] ?? product.unit}</TableCell>
-                <TableCell>R$ {product.price.toFixed(2)}</TableCell>
-                <TableCell>{product.category?.name ?? "-"}</TableCell>
+            products.length === 0 ? (
+              <TableRow className="bg-none hover:bg-transparent">
+                <TableCell colSpan={10} className="text-center ">
+                  <EmptyProductsComponent />
+                </TableCell>
 
-                <TableCell>{product.supplier?.name ?? "Não informado"}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    {usageStatusMap[product.usageStatus as keyof typeof usageStatusMap]?.icon}
-                    <span>{usageStatusMap[product.usageStatus as keyof typeof usageStatusMap]?.label ?? product.usageStatus}</span>
-                  </div>
-                </TableCell>
-                <TableCell >
-                  <EditProductModal
-                    productId={product.id}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Link href={`/products/${product.id}`} className="text-blue-500 underline">
-                    Detalhes
-                  </Link>
-                </TableCell>
               </TableRow>
-            ))
-          )}
+            ) : (
+              products.map((product) => (
+                <TableRow key={product.id} className="">
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.sku}</TableCell>
+                  <TableCell >{product.quantity}</TableCell>
+                  <TableCell>{unitLabels[product.unit] ?? product.unit}</TableCell>
+                  <TableCell>R$ {product.price.toFixed(2)}</TableCell>
+                  <TableCell>{product.category?.name ?? "-"}</TableCell>
+
+                  <TableCell>{product.supplier?.name ?? "Não informado"}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {usageStatusMap[product.usageStatus as keyof typeof usageStatusMap]?.icon}
+                      <span>{usageStatusMap[product.usageStatus as keyof typeof usageStatusMap]?.label ?? product.usageStatus}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell >
+                    <EditProductModal
+                      productId={product.id}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/products/${product.id}`} className="text-blue-500 underline">
+                      Detalhes
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              )
+              )
+            )
+
+          )
+          }
         </TableBody>
       </Table>
 

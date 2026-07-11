@@ -9,6 +9,7 @@ import { useFilteredWarehouses } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import EmptyWarehousesComponent from "./_components/EmptyWarehousesComponent";
 
 const WarehousePage = () => {
   const [locationFilter, setLocationFilter] = useState<string | undefined>(undefined)
@@ -25,7 +26,7 @@ const WarehousePage = () => {
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-bold">Armazéns</h2>
+          <h2 className="text-2xl font-bold">Armazéns</h2>
           <p className="text-sm text-muted-foreground">
             Total de {warehouses.length} armazén (s) com os filtros aplicados.
           </p>
@@ -61,21 +62,41 @@ const WarehousePage = () => {
           <p>Nenhum armazém cadastrado.</p>
         ) : (
           <TableBody>
-            {warehouses.map((w) => (
-              <TableRow key={w.id}>
-                <TableCell>{w.name}</TableCell>
-                <TableCell>{w.location || "-"}</TableCell>
-                <TableCell>{w.description || "-"}</TableCell>
-                <TableCell className="flex gap-2 justify-end">
-                  <EditWarehouseModal warehouse={w} />
-                </TableCell>
-                <TableCell>
-                  <Link href={`/warehouses/${w.id}`}>
-                    Detalhes
-                  </Link>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center">
+                  Carregando...
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              warehouses.length === 0 ? (
+                <TableRow className="bg-none hover:bg-transparent">
+                  <TableCell colSpan={5} className="text-center">
+
+                    <EmptyWarehousesComponent />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                warehouses.map((w) => (
+                  <TableRow key={w.id}>
+                    <TableCell>{w.name}</TableCell>
+                    <TableCell>{w.location || "-"}</TableCell>
+                    <TableCell>{w.description || "-"}</TableCell>
+                    <TableCell className="flex gap-2 justify-end">
+                      <EditWarehouseModal warehouse={w} />
+                    </TableCell>
+                    <TableCell>
+                      <Link href={`/warehouses/${w.id}`}>
+                        Detalhes
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )
+            )}
+
+
+
           </TableBody>
         )}
       </Table>

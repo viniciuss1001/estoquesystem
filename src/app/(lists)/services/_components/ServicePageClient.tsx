@@ -101,8 +101,7 @@ const ServicesPageClient = () => {
 									</TableCell>
 
 								</TableRow>
-							)
-								: (
+							) : (
 									services.map((service) => (
 										<TableRow key={service.id}>
 											<TableCell>{service.provider.name}</TableCell>

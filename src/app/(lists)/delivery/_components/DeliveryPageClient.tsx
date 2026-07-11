@@ -14,6 +14,7 @@ import { Loader2, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
+import EmptyDeliveryComponent from './EmptyDeliveryComponent';
 
 
 const DeliveryPageClient = () => {
@@ -78,7 +79,9 @@ const DeliveryPageClient = () => {
 			</div>
 
 
-			{deliveries.length === 0 ? (<p>Nenhuma entrega cadastrada.</p>) : (
+			{deliveries.length === 0 ? (
+				<EmptyDeliveryComponent />
+			) : (
 				<Table>
 					<TableHeader>
 						<TableRow>
