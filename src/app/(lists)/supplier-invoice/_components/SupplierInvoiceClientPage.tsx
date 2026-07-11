@@ -49,7 +49,8 @@ const SupplierInvoicesClientPage = () => {
 		supplierId,
 		status,
 		dueDateFrom,
-		dueDateTo
+		dueDateTo, 
+
 	})
 
 	if (isLoading) {

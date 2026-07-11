@@ -4,6 +4,7 @@ import { format } from "date-fns"
 import {
   BadgeCheck,
   Ban,
+  BanknoteArrowUp,
   CalendarDays,
   Clock,
   FileDown,
@@ -20,8 +21,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSupplierInvoice } from "@/lib/queries"
+import { Marker, MarkerContent } from "@/components/ui/marker";
 
 const statusMap = {
   PENDING: {
@@ -108,8 +110,18 @@ const SupplierInvoicePage = () => {
             <p><span className="font-medium text-foreground">Título:</span> {invoice.title}</p>
             <p><span className="font-medium text-foreground">Descrição:</span> {invoice.description || "-"}</p>
             <p>
-              <span className="font-medium text-foreground">Valor:</span>
+              <span className="font-medium text-foreground">Valor: {" "}</span>
               R$ {Number(invoice.amount).toFixed(2)}
+            </p>
+             <p>
+              <span className="font-medium text-foreground">Linha digitável: {" "}</span>
+              
+              {invoice.digitableCode ?? "Sem linha digitada."}
+            </p>
+
+             <p>
+              <span className="font-medium text-foreground">Número da nota fiscal: {" "}</span>
+              N°- {invoice.invoiceNumber ?? "Sem número da NFE"}
             </p>
           </div>
           <div className="flex flex-col gap-3">
@@ -118,6 +130,13 @@ const SupplierInvoicePage = () => {
               <span className="font-medium text-foreground">Vencimento:</span>
               {invoice.dueDate ? format(new Date(invoice.dueDate), "dd/MM/yyyy") : "-"}
             </p>
+
+            <p className="flex items-center gap-2">
+              <BanknoteArrowUp className="w-4 h-4 text-primary" />
+              <span className="font-medium text-foreground">Data de Pagamento:</span>
+              {invoice.paydAt ? format(new Date(invoice.paydAt), "dd/MM/yyyy") : "-"}
+            </p>
+
             <p className="flex items-center gap-2">
               <span className="font-medium text-foreground">Status:</span>
               <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-sm font-medium ${statusInfo.bgColor} ${statusInfo.textColor}`}>
@@ -139,26 +158,39 @@ const SupplierInvoicePage = () => {
                 "Não enviado"
               )}
             </p>
+            <p>
+              <span className="font-medium text-foreground">Comprovante de Pagamento:</span>{" "}
+              {invoice.paymentoProofUrl ? (
+                <a
+                  href={invoice.paymentoProofUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-blue-600 hover:underline"
+                >
+                  <FileDown className="w-4 h-4 mr-1" /> Visualizar PDF
+                </a>
+              ) : (
+                "Não enviado"
+              )}
+            </p>
           </div>
         </CardContent>
-      </Card>
-
-      {/* date */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Datas</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground space-y-2">
-          <p>
-            <span className="font-medium text-foreground">Criado em:</span>{" "}
+        <Marker variant={"separator"}>
+          <MarkerContent> Datas </MarkerContent>
+        </Marker>
+        <CardFooter className="flex justify-between gap-2">
+          <p className="text-sm font-light text-foreground">
+            <span className="font-bold">Criado em:</span>{" "}
             {invoice.createdAt ? format(new Date(invoice.createdAt), "dd/MM/yyyy") : "-"}
           </p>
-          <p>
-            <span className="font-medium text-foreground">Atualizado em:</span>{" "}
+          <p className="text-sm font-light text-foreground">
+            <span className="font-bold">Atualizado em:</span>{" "}
             {invoice.updatedAt ? format(new Date(invoice.updatedAt), "dd/MM/yyyy") : "-"}
           </p>
-        </CardContent>
+
+        </CardFooter>
       </Card>
+
     </div>
   )
 }

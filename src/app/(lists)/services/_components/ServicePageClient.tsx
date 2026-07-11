@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { EditServiceModal } from "@/app/(lists)/services/_components/EditServiceModal"
 import ServiceInfoDialog from "./ServiceInfoDialog";
+import EmptyServiceComponent from "./EmptyServiceComponent";
 
 
 const ServicesPageClient = () => {
@@ -85,13 +86,6 @@ const ServicesPageClient = () => {
 					</TableHeader>
 
 					<TableBody>
-						{services.length === 0 && (
-							<TableRow>
-								<TableCell colSpan={8} className="text-center">
-									Nenhum prestador encontrado.
-								</TableCell>
-							</TableRow>
-						)}
 
 						{isLoading ? (
 							<TableRow>
@@ -100,39 +94,48 @@ const ServicesPageClient = () => {
 								</TableCell>
 							</TableRow>
 						) : (
-							services.map((service) => (
-								<TableRow key={service.id}>
-									<TableCell>{service.provider.name}</TableCell>
-									<TableCell>{service.type.name}</TableCell>
-									<TableCell>{service.location.name ?? "Não informado"}</TableCell>
-									<TableCell>{statusLabels[service.status]}</TableCell>
-									<TableCell>
-										{new Date(service.createdAt).toLocaleDateString()}
-
+							services.length === 0 ? (
+								<TableRow className="bg-none hover:bg-transparent">
+									<TableCell colSpan={9} className="text-center ">
+										<EmptyServiceComponent />
 									</TableCell>
 
-									<TableCell>
-										{service.invoice ? (
-											<Link
-												href={`/supplier-invoice/${service.invoice.id}`}
-												className="hover:text-blue-600  flex text-sm gap-1"
-											>
-												<FileText className="size-4"/>
-												Visualizar boleto 
-											</Link>
-											
-										) : (
-											"-"
-										)}
-									</TableCell>
-									<TableCell>
-										 <EditServiceModal serviceId={service.id} /> 
-									</TableCell>
-									<TableCell>
-										<ServiceInfoDialog serviceId={service.id}/>
-									</TableCell>
 								</TableRow>
-							))
+							)
+								: (
+									services.map((service) => (
+										<TableRow key={service.id}>
+											<TableCell>{service.provider.name}</TableCell>
+											<TableCell>{service.type.name}</TableCell>
+											<TableCell>{service.location.name ?? "Não informado"}</TableCell>
+											<TableCell>{statusLabels[service.status]}</TableCell>
+											<TableCell>
+												{new Date(service.createdAt).toLocaleDateString()}
+
+											</TableCell>
+
+											<TableCell>
+												{service.invoice ? (
+													<Link
+														href={`/supplier-invoice/${service.invoice.id}`}
+														className="hover:text-blue-600  flex text-sm gap-1"
+													>
+														<FileText className="size-4" />
+														Visualizar boleto
+													</Link>
+
+												) : (
+													"-"
+												)}
+											</TableCell>
+											<TableCell>
+												<EditServiceModal serviceId={service.id} />
+											</TableCell>
+											<TableCell>
+												<ServiceInfoDialog serviceId={service.id} />
+											</TableCell>
+										</TableRow>
+									)))
 						)}
 					</TableBody>
 				</Table>

@@ -9,6 +9,7 @@ import clsx from 'clsx'
 import {
   Archive,
   ChartBar,
+  DollarSign,
   FileText,
   Home,
   LayoutList,
@@ -16,7 +17,9 @@ import {
   MapPin,
   Package,
   Package2,
+  Paperclip,
   RefreshCw,
+  ScrollText,
   Settings,
   Tag,
   Timer,
@@ -76,7 +79,10 @@ const SidebarComponent = () => {
     {
       title: "Financeiro",
       items: [
-        { label: "Boletos", icon: FileText, href: "/supplier-invoice" }
+        { label: "Boletos", icon: FileText, href: "/supplier-invoice" },
+        { label: "Pagamentos", icon: DollarSign, href: "/payments" },
+        { label: "Notas Fiscais", icon: Paperclip, href: "/nfe" }
+
       ]
     },
     {
