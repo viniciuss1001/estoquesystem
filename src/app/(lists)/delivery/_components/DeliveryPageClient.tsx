@@ -27,7 +27,7 @@ const DeliveryPageClient = () => {
 	const rawStatus = searchParams.get("status")
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const status = validStatuses.includes(rawStatus as any) 
+	const status = validStatuses.includes(rawStatus as any)
 		? (rawStatus as typeof validStatuses[number])
 		: undefined
 
@@ -60,14 +60,16 @@ const DeliveryPageClient = () => {
 		deleteDelivery.mutate(id)
 	}
 
-	if (isLoading) return <div className='flex items-center justify-center w-full h-full'><Loader2 className='animate-spin' /></div>
+	if (isLoading) return <div className='flex items-center justify-center w-full h-full'>
+		<Loader2 className='animate-spin' />
+	</div>
 
 
 	return (
 		<div className='p-6 '>
 			<div className="flex justify-between items-center mb-4">
 				<div className='flex flex-col gap-2'>
-				<h2 className="text-2xl font-bold">Entregas</h2>
+					<h2 className="text-2xl font-bold">Entregas</h2>
 					<p className='text-sm text-muted-foreground'>
 						Total de {deliveries.length} entrega (s) sendo exibidas.
 					</p>

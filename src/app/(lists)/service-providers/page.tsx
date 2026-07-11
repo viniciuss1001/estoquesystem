@@ -8,6 +8,7 @@ import { useServiceProviders } from "@/lib/queries"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import ServiceProviderDialog from "./_components/ServiceProviderDialog";
+import EmptyServicesProviders from "./_components/EmptyServicesProviders";
 
 
 const ServiceProvidersPage = () => {
@@ -48,36 +49,39 @@ const ServiceProvidersPage = () => {
 				</TableHeader>
 
 				<TableBody>
-					{serviceProviders.length === 0 && (
-						<TableRow>
+					{serviceProviders.length === 0 ? (
+						<TableRow className="hover:bg-transparent">
 							<TableCell colSpan={8} className="text-center">
-								Nenhum prestador encontrado.
+								<EmptyServicesProviders />
 							</TableCell>
 						</TableRow>
-					)}
+					) : (
+						serviceProviders.map((serviceProvider) => (
+							<TableRow key={serviceProvider.id}>
+								<TableCell>{serviceProvider.name}</TableCell>
+								<TableCell>{serviceProvider.email}</TableCell>
+								<TableCell>
+									{formatCNPJ(serviceProvider.cnpj) || "-"}
+								</TableCell>
+								<TableCell>
+									{formatPhone(serviceProvider.phone) || "-"}
+								</TableCell>
+								<TableCell>{serviceProvider.description || "-"}</TableCell>
+								<TableCell>
+									{new Date(serviceProvider.createdAt).toLocaleDateString() ?? "-"}
+								</TableCell>
+								<TableCell>
+									<EditServiceProviderForm serviceProviderId={serviceProvider.id} />
+								</TableCell>
+								<TableCell>
+									<ServiceProviderDialog serviceProviderId={serviceProvider.id} />
+								</TableCell>
+							</TableRow>
+						))
+					)
 
-					{serviceProviders.map((serviceProvider) => (
-						<TableRow key={serviceProvider.id}>
-							<TableCell>{serviceProvider.name}</TableCell>
-							<TableCell>{serviceProvider.email}</TableCell>
-							<TableCell>
-								{formatCNPJ(serviceProvider.cnpj) || "-"}
-								</TableCell>
-							<TableCell>
-								{formatPhone(serviceProvider.phone) || "-"}
-								</TableCell>
-							<TableCell>{serviceProvider.description || "-"}</TableCell>
-							<TableCell>
-								{new Date(serviceProvider.createdAt).toLocaleDateString()  ?? "-"}
-							</TableCell>
-							<TableCell>
-								<EditServiceProviderForm serviceProviderId={serviceProvider.id}/>
-							</TableCell>
-							<TableCell>
-								<ServiceProviderDialog serviceProviderId={serviceProvider.id}/>
-							</TableCell>
-						</TableRow>
-					))}
+					}
+
 				</TableBody>
 			</Table>
 		</div>

@@ -16,6 +16,7 @@ import { format, isValid, parse } from "date-fns"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
+import EmptySupplierInvoiceComponent from "./EmptySupplierInvoiceComponent";
 
 
 const statusColor = {
@@ -94,9 +95,9 @@ const SupplierInvoicesClientPage = () => {
 				</TableHeader>
 				<TableBody>
 					{invoices.length === 0 ? (
-						<TableRow>
-							<TableCell colSpan={7} className="text-center">
-								Nenhum boleto registrado.
+						<TableRow className="hover:bg-transparent">
+							<TableCell colSpan={8} className="text-center">
+								<EmptySupplierInvoiceComponent />
 							</TableCell>
 						</TableRow>
 					) : (
@@ -134,7 +135,7 @@ const SupplierInvoicesClientPage = () => {
 									{invoice.createdAt ? format(new Date(invoice.createdAt), "dd/MM/yyyy") : "-"}
 								</TableCell>
 								<TableCell>
-									<Link href={`/supplier-invoice/${invoice.id}`} className="text-blue-600 underline">
+									<Link href={`/supplier-invoice/${invoice.id}`} className="text-muted-foreground ">
 										Detalhes
 									</Link>
 								</TableCell>

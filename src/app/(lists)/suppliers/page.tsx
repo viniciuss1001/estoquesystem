@@ -7,6 +7,7 @@ import { useSuppliers } from "@/lib/queries"
 import { formatCNPJ, formatPhone } from "@/utils/formatters";
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import EmptySupplierComponent from "./_components/EmptySupplierComponent";
 
 const SupplierPage = () => {
 	const { data: suppliers = [], isLoading } = useSuppliers()
@@ -46,38 +47,40 @@ const SupplierPage = () => {
 				</TableHeader>
 
 				<TableBody>
-					{suppliers.length === 0 && (
-						<TableRow>
-							<TableCell colSpan={6} className="text-center">
-								Nenhum fornecedor encontrado.
+					{suppliers.length === 0 ? (
+						<TableRow className="hover:bg-transparent">
+							<TableCell colSpan={8} className="text-center">
+								<EmptySupplierComponent />
 							</TableCell>
 						</TableRow>
+					) : (
+						suppliers.map((supplier) => (
+							<TableRow key={supplier.id}>
+								<TableCell>{supplier.name}</TableCell>
+								<TableCell>{supplier.email}</TableCell>
+								<TableCell>
+									{formatCNPJ(supplier.cnpj)}
+								</TableCell>
+								<TableCell>
+									{formatPhone(supplier.contactPhone)}
+								</TableCell>
+								<TableCell>{supplier.description || "-"}</TableCell>
+								<TableCell>
+									{new Date(supplier.createdAt).toLocaleDateString() ?? "-"}
+								</TableCell>
+								<TableCell>
+									<EditSupplierModal supplierId={supplier.id} />
+								</TableCell>
+								<TableCell>
+									<Link href={`/suppliers/${supplier.id}`}>
+										Detalhes
+									</Link>
+								</TableCell>
+							</TableRow>
+						))
 					)}
 
-					{suppliers.map((supplier) => (
-						<TableRow key={supplier.id}>
-							<TableCell>{supplier.name}</TableCell>
-							<TableCell>{supplier.email}</TableCell>
-							<TableCell>
-								{formatCNPJ(supplier.cnpj)}
-							</TableCell>
-							<TableCell>
-								{formatPhone(supplier.contactPhone)}
-							</TableCell>
-							<TableCell>{supplier.description || "-"}</TableCell>
-							<TableCell>
-								{new Date(supplier.createdAt).toLocaleDateString() ?? "-"}
-							</TableCell>
-							<TableCell>
-								<EditSupplierModal supplierId={supplier.id} />
-							</TableCell>
-							<TableCell>
-								<Link href={`/suppliers/${supplier.id}`}>
-									Detalhes
-								</Link>
-							</TableCell>
-						</TableRow>
-					))}
+
 				</TableBody>
 			</Table>
 		</div>
