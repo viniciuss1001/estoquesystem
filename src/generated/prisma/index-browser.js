@@ -235,15 +235,82 @@ exports.Prisma.SupplierInvoiceScalarFieldEnum = {
   dueDate: 'dueDate',
   fileUrl: 'fileUrl',
   digitableLine: 'digitableLine',
-  invoiceNumber: 'invoiceNumber',
-  paymentProofUrl: 'paymentProofUrl',
-  paidAt: 'paidAt',
+  invoiceId: 'invoiceId',
   status: 'status',
   supplierId: 'supplierId',
   serviceProviderId: 'serviceProviderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  series: 'series',
+  accessKey: 'accessKey',
+  issueCnpj: 'issueCnpj',
+  issueCorporateName: 'issueCorporateName',
+  freight: 'freight',
+  discount: 'discount',
+  taxes: 'taxes',
+  issueDate: 'issueDate',
+  entryDate: 'entryDate',
+  totalAmount: 'totalAmount',
+  xmlUrl: 'xmlUrl',
+  pdfUrl: 'pdfUrl',
+  observation: 'observation',
+  issuerType: 'issuerType',
+  supplierId: 'supplierId',
+  serviceProviderId: 'serviceProviderId',
+  supplierName: 'supplierName',
+  serviceProviderName: 'serviceProviderName',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvoiceItemScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  productId: 'productId',
+  description: 'description',
+  quantity: 'quantity',
+  productSku: 'productSku',
+  productName: 'productName',
+  unitPrice: 'unitPrice',
+  totalPrice: 'totalPrice',
+  unit: 'unit'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  paymentDate: 'paymentDate',
+  confirmedAt: 'confirmedAt',
+  amount: 'amount',
+  method: 'method',
+  references: 'references',
+  status: 'status',
+  paymentType: 'paymentType',
+  proofUrl: 'proofUrl',
+  transactionNumber: 'transactionNumber',
+  notes: 'notes',
+  supplierInvoiceId: 'supplierInvoiceId',
+  serviceId: 'serviceId',
+  companyId: 'companyId',
+  createdByUserId: 'createdByUserId',
+  paidByUserId: 'paidByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.PaymentAttachmentScalarFieldEnum = {
+  id: 'id',
+  paymentId: 'paymentId',
+  url: 'url',
+  fileName: 'fileName',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AuditLogScalarFieldEnum = {
@@ -276,6 +343,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   createdAt: 'createdAt',
   warehouseId: 'warehouseId',
   supplierInvoiceId: 'supplierInvoiceId',
+  invoiceId: 'invoiceId',
   companyId: 'companyId'
 };
 
@@ -305,7 +373,7 @@ exports.Prisma.ServiceScalarFieldEnum = {
   status: 'status',
   description: 'description',
   attachmentUrl: 'attachmentUrl',
-  invoiceId: 'invoiceId',
+  supplierInvoiceId: 'supplierInvoiceId',
   createdByUserId: 'createdByUserId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -387,6 +455,32 @@ exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
   CANCELED: 'CANCELED'
 };
 
+exports.InvoiceIssuerType = exports.$Enums.InvoiceIssuerType = {
+  SUPPLIER: 'SUPPLIER',
+  SERVICE_PROVIDER: 'SERVICE_PROVIDER'
+};
+
+exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+  PIX: 'PIX',
+  BOLETO: 'BOLETO',
+  TED: 'TED',
+  DOC: 'DOC',
+  CARTAO: 'CARTAO',
+  DINHEIRO: 'DINHEIRO',
+  CHEQUE: 'CHEQUE'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED'
+};
+
+exports.PaymentType = exports.$Enums.PaymentType = {
+  SUPPLIER_INVOICE: 'SUPPLIER_INVOICE',
+  SERVICE: 'SERVICE'
+};
+
 exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
@@ -418,6 +512,10 @@ exports.Prisma.ModelName = {
   StockMovement: 'StockMovement',
   Supplier: 'Supplier',
   SupplierInvoice: 'SupplierInvoice',
+  Invoice: 'Invoice',
+  InvoiceItem: 'InvoiceItem',
+  Payment: 'Payment',
+  PaymentAttachment: 'PaymentAttachment',
   AuditLog: 'AuditLog',
   Category: 'Category',
   Delivery: 'Delivery',

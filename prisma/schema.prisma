@@ -56,47 +56,59 @@ model Company {
   supplierInvoices SupplierInvoice[]
   users            User[]
   warehouses       WareHouse[]
+
+  invoices Invoice[]
+  payments Payment[]
 }
 
 model User {
-  id                 String              @id @default(cuid())
-  name               String
-  email              String              @unique
-  office             Office              @default(GESTOR)
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  emailVerified      DateTime?
-  image              String?
-  password           String
-  department         String?
-  description        String?
-  phone              String?
-  lastLogin          DateTime?
-  companyId          String
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  office        Office    @default(GESTOR)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  emailVerified DateTime?
+  image         String?
+  password      String
+  department    String?
+  description   String?
+  phone         String?
+  lastLogin     DateTime?
+  companyId     String
+
+  payments           Payment[]
   accounts           Account[]
   AuditLog           AuditLog[]
   PasswordResetToken PasswordResetToken?
   Service            Service[]
   sessions           Session[]
-  company            Company             @relation(fields: [companyId], references: [id])
+
+  company         Company   @relation(fields: [companyId], references: [id])
+  createdPayments Payment[] @relation("PaymentCreatedBy")
+
+  paidPayments Payment[] @relation("PaymentPaidBy")
 }
 
 model Product {
-  id               String             @id @default(uuid())
-  name             String
-  sku              String             @unique
-  quantity         Int
-  price            Float
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  supplierId       String?
-  categoryId       String?
-  minimumStock     Int?               @default(0)
-  unit             UnitType           @default(UNIT)
-  expirationDate   DateTime?
-  usageStatus      UsageStatus        @default(IN_STOCK)
-  companyId        String
-  delivery         Delivery[]
+  id             String      @id @default(uuid())
+  name           String
+  sku            String      @unique
+  quantity       Int
+  price          Float
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  supplierId     String?
+  categoryId     String?
+  minimumStock   Int?        @default(0)
+  unit           UnitType    @default(UNIT)
+  expirationDate DateTime?
+  usageStatus    UsageStatus @default(IN_STOCK)
+  companyId      String
+
+  delivery     Delivery[]
+  invoiceItems InvoiceItem[]
+
   category         Category?          @relation(fields: [categoryId], references: [id])
   company          Company            @relation(fields: [companyId], references: [id])
   supplier         Supplier?          @relation(fields: [supplierId], references: [id])
@@ -152,16 +164,18 @@ model StockMovement {
 }
 
 model Supplier {
-  id              String            @id @default(uuid())
-  name            String
-  email           String
-  contactPhone    String
-  description     String?
-  cnpj            String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  deliveryTime    DateTime?
-  companyId       String
+  id           String    @id @default(uuid())
+  name         String
+  email        String
+  contactPhone String
+  description  String?
+  cnpj         String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deliveryTime DateTime?
+  companyId    String
+
+  invoices        Invoice[]
   delivery        Delivery[]
   products        Product[]
   company         Company           @relation(fields: [companyId], references: [id])
@@ -182,13 +196,14 @@ model SupplierInvoice {
   digitableLine String?
 
   //number of NFE
-  invoiceNumber String?
+  invoiceId String?
 
   //Arquivo do comprovante de pagamento - não sei essa parte em ingles
-  paymentProofUrl String?
+  //paymentProofUrl String?
 
   //date of payment
-  paidAt DateTime?
+  //paidAt DateTime?
+  payments Payment[]
 
   status InvoiceStatus @default(PENDING)
 
@@ -206,6 +221,138 @@ model SupplierInvoice {
   company         Company          @relation(fields: [companyId], references: [id])
   serviceProvider ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
   supplier        Supplier?        @relation(fields: [supplierId], references: [id])
+  invoice         Invoice?         @relation(fields: [invoiceId], references: [id])
+}
+
+model Invoice {
+  id String @id @default(uuid())
+
+  number    String
+  series    String?
+  accessKey String? @unique
+
+  issueCnpj          String?
+  issueCorporateName String?
+
+  freight  Decimal?
+  discount Decimal?
+  taxes    Decimal?
+
+  issueDate DateTime
+  entryDate DateTime?
+
+  totalAmount Decimal
+
+  xmlUrl String?
+  pdfUrl String?
+
+  observation String?
+
+  issuerType        InvoiceIssuerType
+  supplierId        String?
+  serviceProviderId String?
+
+  supplierName        String?
+  serviceProviderName String?
+
+  companyId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  supplier        Supplier?        @relation(fields: [supplierId], references: [id])
+  serviceProvider ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
+  company         Company          @relation(fields: [companyId], references: [id])
+
+  items InvoiceItem[]
+
+  deliveries Delivery[]
+
+  supplierInvoices SupplierInvoice[]
+}
+
+model InvoiceItem {
+  id String @id @default(uuid())
+
+  invoiceId String
+  productId String?
+
+  description String?
+
+  quantity Int
+
+  productSku String?
+
+  productName String
+
+  unitPrice Decimal
+
+  totalPrice Decimal
+
+  unit UnitType @default(UNIT)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id String @id @default(uuid())
+
+  paymentDate DateTime
+  confirmedAt DateTime?
+
+  amount Decimal
+
+  method PaymentMethod
+
+  references String?
+
+  status      PaymentStatus @default(COMPLETED)
+  paymentType PaymentType
+
+  proofUrl String?
+
+  transactionNumber String?
+
+  notes String?
+
+  supplierInvoiceId String?
+  serviceId         String?
+
+  companyId       String
+  createdByUserId String
+
+  paidByUserId String?
+
+  attachments PaymentAttachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  supplierInvoice SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+
+  service Service? @relation(fields: [serviceId], references: [id])
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  paidByUser    User?   @relation("PaymentPaidBy", fields: [paidByUserId], references: [id])
+  createdByUser User    @relation("PaymentCreatedBy", fields: [createdByUserId], references: [id])
+  user          User?   @relation(fields: [userId], references: [id])
+  userId        String?
+}
+
+model PaymentAttachment {
+  id String @id @default(uuid())
+
+  paymentId String
+
+  url String
+
+  fileName String
+
+  createdAt DateTime @default(now())
+
+  payment Payment @relation(fields: [paymentId], references: [id])
 }
 
 model AuditLog {
@@ -237,22 +384,26 @@ model Category {
 }
 
 model Delivery {
-  id                String           @id @default(uuid())
-  productId         String
-  supplierId        String
-  quantity          Int
-  expectedAt        DateTime
-  updatedAt         DateTime         @updatedAt
-  status            DeliveryStatus   @default(PENDING)
-  createdAt         DateTime         @default(now())
-  warehouseId       String
+  id          String         @id @default(uuid())
+  productId   String
+  supplierId  String
+  quantity    Int
+  expectedAt  DateTime
+  updatedAt   DateTime       @updatedAt
+  status      DeliveryStatus @default(PENDING)
+  createdAt   DateTime       @default(now())
+  warehouseId String
+
   supplierInvoiceId String?
-  companyId         String
-  company           Company          @relation(fields: [companyId], references: [id])
-  product           Product          @relation(fields: [productId], references: [id])
-  supplier          Supplier         @relation(fields: [supplierId], references: [id])
-  supplierInvoice   SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
-  warehouse         WareHouse        @relation(fields: [warehouseId], references: [id])
+  invoiceId         String?
+
+  companyId       String
+  invoice         Invoice?         @relation(fields: [invoiceId], references: [id])
+  company         Company          @relation(fields: [companyId], references: [id])
+  product         Product          @relation(fields: [productId], references: [id])
+  supplier        Supplier         @relation(fields: [supplierId], references: [id])
+  supplierInvoice SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+  warehouse       WareHouse        @relation(fields: [warehouseId], references: [id])
 }
 
 model PasswordResetToken {
@@ -273,26 +424,32 @@ model Notification {
 }
 
 model Service {
-  id                String           @id @default(uuid())
+  id                String        @id @default(uuid())
   serviceProviderId String
   serviceTypeId     String
   serviceLocationId String
   serviceDate       DateTime
   cost              Float
-  status            ServiceStatus    @default(PENDING)
+  status            ServiceStatus @default(PENDING)
   description       String?
   attachmentUrl     String?
-  invoiceId         String?
-  createdByUserId   String
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  companyId         String
-  company           Company          @relation(fields: [companyId], references: [id])
-  createdByUser     User             @relation(fields: [createdByUserId], references: [id])
-  invoice           SupplierInvoice? @relation(fields: [invoiceId], references: [id])
-  location          ServiceLocation  @relation(fields: [serviceLocationId], references: [id])
-  provider          ServiceProvider  @relation(fields: [serviceProviderId], references: [id])
-  type              ServiceType      @relation(fields: [serviceTypeId], references: [id])
+
+  supplierInvoiceId String?
+
+  payments Payment[]
+
+  createdByUserId String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  companyId       String
+
+  company       Company          @relation(fields: [companyId], references: [id])
+  createdByUser User             @relation(fields: [createdByUserId], references: [id])
+  invoice       SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+  //invoice         SupplierInvoice? @relation(fields: [supplierInvoiceId], references: [id])
+  location      ServiceLocation  @relation(fields: [serviceLocationId], references: [id])
+  provider      ServiceProvider  @relation(fields: [serviceProviderId], references: [id])
+  type          ServiceType      @relation(fields: [serviceTypeId], references: [id])
 }
 
 model ServiceProvider {
@@ -305,6 +462,7 @@ model ServiceProvider {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   companyId       String
+  invoices        Invoice[]
   services        Service[]
   company         Company           @relation(fields: [companyId], references: [id])
   SupplierInvoice SupplierInvoice[]
@@ -386,4 +544,30 @@ enum ServiceStatus {
   PENDING
   COMPLETED
   CANCELED
+}
+
+enum PaymentMethod {
+  PIX
+  BOLETO
+  TED
+  DOC
+  CARTAO
+  DINHEIRO
+  CHEQUE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  CANCELED
+}
+
+enum InvoiceIssuerType {
+  SUPPLIER
+  SERVICE_PROVIDER
+}
+
+enum PaymentType {
+  SUPPLIER_INVOICE
+  SERVICE
 }
